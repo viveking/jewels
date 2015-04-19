@@ -2,13 +2,14 @@ package com.affixus.pojo;
 
 import java.util.Set;
 
-public class Rate extends BasePojo  {
+public class Rate extends BasePojo{
 
 	private static final long serialVersionUID = 1L;
 
 	private String _id;
 	private String name;
 	private String description;
+	private String printerType;
 	private Set<RateList> rateList;
 	
 	public String get_id() {
@@ -35,5 +36,12 @@ public class Rate extends BasePojo  {
 	public void setRateList(Set<RateList> rateList) {
 		this.rateList = rateList;
 	}
+	public String getPrinterType() {
+		return printerType;
+	}
+	public void setPrinterType(String printerType) {
+		this.printerType = printerType;
+	}
+	
 	
 }

@@ -48,9 +48,6 @@
 						<i class="icon-double-angle-right"></i> Rates
 				</a></li>
 				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
-						<i class="icon-double-angle-right"></i> Shop
-				</a></li>
-				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
 						<i class="icon-double-angle-right"></i> User
 				</a></li>
 			</ul>

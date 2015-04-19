@@ -24,6 +24,14 @@ public class Client extends BasePojo {
 	private String invoiceType;
 	private String invoicePercentage;
 	
+	private String invisionHr;
+	private String viper25;
+	private String viper50;
+	private String rubberMould;
+	private Boolean sendInvoiceSms = true;
+	private Boolean autoApproval = false;
+	private Boolean active = true;
+	
 	public String get_id() {
 		return _id;
 	}
@@ -132,6 +140,50 @@ public class Client extends BasePojo {
 	public void setInvoicePercentage(String invoicePercentage) {
 		this.invoicePercentage = invoicePercentage;
 	}
+	public String getInvisionHr() {
+		return invisionHr;
+	}
+	public void setInvisionHr(String inversionHr) {
+		this.invisionHr = inversionHr;
+	}
+	public String getViper25() {
+		return viper25;
+	}
+	public void setViper25(String viper25) {
+		this.viper25 = viper25;
+	}
+	public String getViper50() {
+		return viper50;
+	}
+	public void setViper50(String viper50) {
+		this.viper50 = viper50;
+	}
+	public String getRubberMould() {
+		return rubberMould;
+	}
+	public void setRubberMould(String rubberMould) {
+		this.rubberMould = rubberMould;
+	}
+	public Boolean isSendInvoiceSms() {
+		return sendInvoiceSms;
+	}
+	public void setSendInvoiceSms(Boolean sendInvoiceSms) {
+		this.sendInvoiceSms = sendInvoiceSms;
+	}
+	public Boolean isAutoApproval() {
+		return autoApproval;
+	}
+	public void setAutoApproval(Boolean autoApproval) {
+		this.autoApproval = autoApproval;
+	}
+	public Boolean isActive() {
+		return active;
+	}
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	
 	
 
 }

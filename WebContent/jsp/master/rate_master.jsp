@@ -43,12 +43,16 @@
 					gridview: true,
 					datatype: "json",
 					height: 366,
-					colNames:['id','Name','Description', 'Rate List' ,' '],
+					colNames:['id','Name','Description','Printer Type', 'Rate List' ,''],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},		
 						{name:'name',index:'name', width:100, editrules:{required:true},editable: true},
-						{name:'description',index:'description', width:300, sortable:false,editable:true, edittype:"textarea", editrules:{required:false, edithidden:true},editoptions:{rows:"2",cols:"20"}},
+						{name:'description',index:'description', width:300, sortable:false,editable:true, edittype:"textarea", editrules:{required:false, edithidden:true}},
+						
+						{name:'printerType',index:'printerType', sortable:false,editable: true,hidden:false, edittype:"select",editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"1:Invision HR;2:Viper 25;3:Viper 50;4:Rubber Mould"},formatter:'select'},
+						
 						{name:'rateList',width:165, sortable:false,editable: false,formatter:function(){ return '<a href="action=manage_rateList">Click here</a>';}},
+						
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 
 							formatoptions:{ 
@@ -58,7 +62,7 @@
 							}
 						}
 					],
-			
+					
 					viewrecords : true,
 					rownumbers:true,
 					rowNum:10,

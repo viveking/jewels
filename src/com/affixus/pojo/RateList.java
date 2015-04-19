@@ -1,6 +1,8 @@
 package com.affixus.pojo;
 
-public class RateList {
+import java.io.Serializable;
+
+public class RateList implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

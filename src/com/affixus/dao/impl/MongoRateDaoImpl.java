@@ -46,7 +46,6 @@ public class MongoRateDaoImpl implements RateDao{
 
 	@Override
 	public Boolean create(Rate rate) {
-		// TODO Auto-generated method stub
 		try{
 			
 			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_RATE).toString();

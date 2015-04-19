@@ -49,7 +49,9 @@
 					datatype: "json",
 					height: 366,
 					colNames:['id','Name','Address', 'City', 'Limit','Credit Period','VAT','CST','PAN',
-					          'Mobile 1','Mobile 2','Email 1','Email 2','Voucher Type','Invoice Type','Invoice Percentage',' '],
+					          'Mobile 1','Mobile 2','Email 1','Email 2','Voucher Type','Invoice Type',
+					          'Invoice Percentage','Invision HR','Viper 25','Viper 50','Rubber Mould',
+					          'Auto Approval','Send Invoice SMS','Active',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},		
 						{name:'name',index:'name', width:250, editrules:{required:true},editable: true},
@@ -67,6 +69,18 @@
 						{name:'voucherType',index:'voucherType', sortable:false,editable: true, edittype:"select", editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"}},
 						{name:'invoiceType',index:'invoiceType', sortable:false,editable: true,edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"}},
 						{name:'invoicePercentage',index:'invoicePercentage', sortable:false,editable: true,hidden:true, edittype:"select",formoptions:{rowpos:14, colpos:2},hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"}},
+						
+						{name:'invisionHr',index:'invisionHr', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"}},
+						
+						{name:'viper25',index:'viper25', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"}},
+						{name:'viper50',index:'viper50', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"}},
+						{name:'rubberMould',index:'rubberMould', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"}},
+						
+						{name:'autoApprovel',index:'autoApprovel', sortable:false,editable: true, hidden:true, edittype:"checkbox",editrules:{required:false, edithidden:true},editoptions:{value:"true:false", defaultValue:"true"}},
+						{name:'sendInvoiceSms',index:'sendInvoiceSms', sortable:false,editable: true,hidden:true, edittype:"checkbox",editrules:{required:false, edithidden:true},formoptions:{rowpos:20, colpos:2},editoptions:{value:"true:false", defaultValue:"true"}},
+						{name:'active',index:'active', sortable:false, editable: true, hidden:true, edittype:"checkbox",editrules:{required:false, edithidden:true},editoptions:{value:"true:false", defaultValue:"true"}},
+						
+						
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 
 							formatoptions:{ 
@@ -96,7 +110,7 @@
 						
 						
 					},
-			
+					
 					editurl: "${pageContext.request.contextPath}/clientmaster.action?op=edit",//nothing is saved
 					//caption: "List of areas",
 					scrollOffset: 18,

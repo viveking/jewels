@@ -2,11 +2,8 @@ package com.affixus.services;
 
 import java.util.List;
 
-import com.affixus.dao.ClientDao;
 import com.affixus.dao.RateDao;
-import com.affixus.dao.impl.MongoClientDaoImpl;
 import com.affixus.dao.impl.MongoRateDaoImpl;
-import com.affixus.pojo.Client;
 import com.affixus.pojo.Rate;
 import com.affixus.util.ObjectFactory;
 import com.affixus.util.ObjectFactory.ObjectEnum;

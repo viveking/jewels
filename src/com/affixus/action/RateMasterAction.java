@@ -2,9 +2,7 @@ package com.affixus.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,9 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 
-import com.affixus.pojo.Client;
 import com.affixus.pojo.Rate;
-import com.affixus.services.ClientService;
 import com.affixus.services.RateService;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
@@ -74,7 +70,7 @@ public class RateMasterAction extends HttpServlet {
 		if(operation != null && rateService  != null){
 			String id = request.getParameter(Constants.COLLECTION_KEY);
 			
-			Rate rate=  new Rate();
+			Rate rate =  new Rate();
 			BeanUtils.populate(rate, request.getParameterMap() );
 			
 			Constants.UIOperations opEnum  = UIOperations.valueOf(operation.toUpperCase());

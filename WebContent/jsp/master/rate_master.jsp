@@ -84,7 +84,7 @@
 	                    var myGridNode = jQuery(grid_selector)[0];
 	                    for (var i = 0, idCount = ids.length; i < idCount; i++) {
 	                        var a = $("#"+ids[i]+" a",myGridNode);
-	                        a.html("Show");
+	                        a.html("Add/Edit Rates");
 	                        a.each(function() {
 	                        	var sHref = $( this ).attr('href');
 	                        	$( this ).attr('href',"#?id="+ids[i]+"&"+sHref);
@@ -317,17 +317,15 @@
 				
 				var grid_selector_rateList = "#grid-table-rateList";
 				jQuery(grid_selector_rateList).jqGrid({
-					//direction: "rtl",
-					
 					mtype: "POST",
 					loadonce: true,
 					gridview: true,
 					datatype: "json",
-					colNames:['id','From','TO','Rate','Action'],
+					colNames:['id','From (in gms)','TO (in gms)','Rate (in INR)','Action'],
 					colModel:[
 						{name:'id',index:'id', width:30, sorttype:"int", hidden:true, editrules:{required:false, addhidden:true}, editable: false},
-						{name:'fomVal',index:'fomVal', width:180,editable:true, sorttype:"int"},
-						{name:'toVal',index:'toVal', width:180, editable:true, sorttype:"int"},
+						{name:'from',index:'from', width:180,editable:true, sorttype:"int"},
+						{name:'to',index:'to', width:180, editable:true, sorttype:"int"},
 						{name:'rate',index:'rate', width:100, sortable:false,editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 
@@ -340,23 +338,20 @@
 					],
 			
 					viewrecords : true,
-					
 					pager : "",
 					altRows: false,
-					
 					multiselect: false,
 					//multikey: "ctrlKey",
-			        multiboxonly: true,
+			       /*  multiboxonly: true, */
 			        height: 'auto',
-			        
-					loadComplete : function() {
+			        loadComplete : function() {
 						var table = this;
 						setTimeout(function(){
 							styleCheckbox(table);
 							updatePagerIcons(table);
 							enableTooltips(table);
 						}, 0);
-						alert("loaded");
+						//alert("loaded");
 					},
 					caption: "Rate List",
 					scrollOffset: 18,
@@ -409,7 +404,7 @@
 											"keys" : true,
 											"oneditfunc" : null,
 											"successfunc" : null,
-											"url" : "${pageContext.request.contextPath}/rateListMaster.action?op=add&productId="+prodMasterSelID,
+											"url" : "${pageContext.request.contextPath}/rateListMaster.action?op=add&rateId="+prodMasterSelID,
 										    "extraparam" : {},
 											"aftersavefunc" : function(){
 												jQuery(grid_selector_rateList).setGridParam( {url:"${pageContext.request.contextPath}/rateListMaster.action?op=edit&productId="+prodMasterSelID} );

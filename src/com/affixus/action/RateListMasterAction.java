@@ -13,7 +13,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 
 import com.affixus.pojo.Rate;
-import com.affixus.pojo.RateList;
+import com.affixus.pojo.RateRange;
 import com.affixus.services.RateService;
 import com.affixus.util.Constants;
 import com.affixus.util.Constants.UIOperations;
@@ -79,7 +79,7 @@ public class RateListMasterAction extends HttpServlet {
 			String id = request.getParameter(Constants.COLLECTION_KEY);
 			String rate_id = request.getParameter("rateId");
 			
-			RateList rl = new RateList();
+			RateRange rl = new RateRange();
 			BeanUtils.populate(rl, request.getParameterMap());
 			
 			Constants.UIOperations opEnum = UIOperations.valueOf(operation.toUpperCase());

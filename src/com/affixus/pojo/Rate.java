@@ -10,7 +10,7 @@ public class Rate extends BasePojo{
 	private String name;
 	private String description;
 	private String printerType;
-	private Set<RateList> rateList;
+	private Set<RateRange> rateRangeList;
 	
 	public String get_id() {
 		return _id;
@@ -30,11 +30,11 @@ public class Rate extends BasePojo{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Set<RateList> getRateList() {
-		return rateList;
+	public Set<RateRange> getRateRangeList() {
+		return rateRangeList;
 	}
-	public void setRateList(Set<RateList> rateList) {
-		this.rateList = rateList;
+	public void setRateList(Set<RateRange> rateRangeList) {
+		this.rateRangeList = rateRangeList;
 	}
 	public String getPrinterType() {
 		return printerType;

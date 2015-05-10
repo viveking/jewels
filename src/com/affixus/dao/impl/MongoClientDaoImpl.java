@@ -22,7 +22,7 @@ public class MongoClientDaoImpl implements ClientDao{
 	private static final Logger LOG = Logger.getLogger( MongoClientDaoImpl.class );
 	
 	
-	private String collArea = DBCollectionEnum.MAST_AREA.toString();
+	private String collClient = DBCollectionEnum.MAST_CLIENT.toString();
 	
 	private DB mongoDB = MongoUtil.getDB();
 	
@@ -32,10 +32,10 @@ public class MongoClientDaoImpl implements ClientDao{
 			Date date = new Date();
 			area.setCtime( date );
 			area.setUtime( date );
-			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_AREA).toString();
+			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_CLIENT).toString();
 			area.set_id( _id );
 			
-			DBCollection collection = mongoDB.getCollection( collArea );
+			DBCollection collection = mongoDB.getCollection( collClient );
 			String jsonString = CommonUtil.objectToJson(area);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
@@ -54,7 +54,7 @@ public class MongoClientDaoImpl implements ClientDao{
 			Date date = new Date();
 			area.setUtime( date );
 			
-			DBCollection collection = mongoDB.getCollection( collArea );
+			DBCollection collection = mongoDB.getCollection( collClient );
 			String jsonString = CommonUtil.objectToJson(area);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
@@ -85,7 +85,7 @@ public class MongoClientDaoImpl implements ClientDao{
 	@Override
 	public Client get(String _id) {
 		try{
-			DBCollection collection = mongoDB.getCollection( collArea );
+			DBCollection collection = mongoDB.getCollection( collClient );
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject dbObject = collection.findOne(query);
 			String jsonString = JSON.serialize(dbObject);
@@ -102,7 +102,7 @@ public class MongoClientDaoImpl implements ClientDao{
 	@Override
 	public List<Client> getAll() {
 		try{
-			DBCollection collection = mongoDB.getCollection( collArea );
+			DBCollection collection = mongoDB.getCollection( collClient );
 			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
 			DBCursor dbCursor = collection.find( finalQuery);
 			

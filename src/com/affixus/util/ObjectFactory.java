@@ -17,12 +17,10 @@ public class ObjectFactory {
 		// DAOs
 		CLIENT_DAO(MongoClientDaoImpl.class.getName()),
 		RATE_DAO(MongoRateDaoImpl.class.getName()),
-		//RATE_LIST_DAO(MongoRateListDaoImpl.class.getName()),
-		// Services
 		
+		// Services
 		CLIENT_SERVICE(ClientService.class.getName()),
 		RATE_SERVICE(RateService.class.getName());
-		//RATE_LIST_SERVICE(RateListService.class.getName());
 		//@formatter:on
 
 		private final String className;

@@ -34,10 +34,11 @@
 					Dashboard </span>
 		</a></li>
 		
-		<li><a href="#" class="dropdown-toggle"> <i
+		<li>
+			<a href="#" class="dropdown-toggle"> <i
 				class="icon-list-alt"></i> <span class="menu-text"> Master </span> <b
 				class="arrow icon-angle-down"></b>
-		</a>
+			</a>
 
 			<ul class="submenu">
 				<li><a href="#" data-href="/jsp/master/client_master.jsp">
@@ -52,11 +53,30 @@
 				</a></li>
 			</ul>
 		</li>
-		<li><a href="#" class="dropdown-toggle"> <i
-				class="icon-bar-chart"></i> <span class="menu-text"> Report </span>
-				<b class="arrow icon-angle-down"></b>
-		</a>
-
+		<li>
+			<a href="#" class="dropdown-toggle"> <i
+				class="icon-list-alt"></i> <span class="menu-text"> Order </span> <b
+				class="arrow icon-angle-down"></b>
+			</a>
+			
+			<ul class="submenu">
+				<li><a href="#" data-href="/jsp/order/newOredr.jsp">
+						<i class="icon-double-angle-right"></i> New Order
+				</a></li>
+				
+				<li><a href="#" data-href="/jsp/order/updateOredr.jsp">
+						<i class="icon-double-angle-right"></i> New Order
+				</a></li>
+				
+			</ul>
+			
+		</li>
+		<li>
+			<a href="#" class="dropdown-toggle"> <i
+					class="icon-bar-chart"></i> <span class="menu-text"> Report </span>
+					<b class="arrow icon-angle-down"></b>
+			</a>
+<!-- 
 			<ul class="submenu">
 				<li><a href="report.action?op=REPORT_DATE"> <i
 						class="icon-double-angle-right"></i> Daily Sales
@@ -70,7 +90,7 @@
 						<i class="icon-double-angle-right"></i> Purchase Report
 				</a></li>
 			</ul>
-		</li>
+ -->		</li>
 	</ul>
 	<!-- /.nav-list -->
 

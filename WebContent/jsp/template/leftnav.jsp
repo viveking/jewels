@@ -60,12 +60,12 @@
 			</a>
 			
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/order/newOredr.jsp">
+				<li><a href="#" data-href="/jsp/order/newOrder.jsp">
 						<i class="icon-double-angle-right"></i> New Order
 				</a></li>
 				
-				<li><a href="#" data-href="/jsp/order/updateOredr.jsp">
-						<i class="icon-double-angle-right"></i> New Order
+				<li><a href="#" data-href="/jsp/order/updateOrder.jsp">
+						<i class="icon-double-angle-right"></i> Update Order
 				</a></li>
 				
 			</ul>

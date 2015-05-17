@@ -45,7 +45,8 @@ public class Constants {
 		ADD,
 		EDIT,
 		DELETE, 
-		REPORT_DATE;
+		REPORT_DATE,
+		ALL_CLIENT_ID;
 		// @formatter:on
 	}
 

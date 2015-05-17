@@ -100,7 +100,14 @@ public class ClientMasterAction extends HttpServlet {
 				List<Client> clientList = clientService.getAll();
 				json = CommonUtil.objectToJson(clientList);
 				json = json.replaceAll("_id", "id");
-				break;	
+				break;
+			
+			case ALL_CLIENT_ID :
+				
+				List<String> clientsId = clientService.getAllClientId();
+				json = CommonUtil.objectToJson(clientsId);
+				json = json.replaceAll("_id", "id");
+				break;
 				
 			default:
 				break;

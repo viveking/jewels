@@ -114,7 +114,6 @@ public class MongoClientDaoImpl implements ClientDao{
 				Client area = (Client) CommonUtil.jsonToObject( jsonString, Client.class.getName() );
 				areaList.add(area);
 			}
-			
 			return areaList;
 			
 		}catch( Exception exception ){
@@ -123,4 +122,30 @@ public class MongoClientDaoImpl implements ClientDao{
 		return null;
 	}
 
+	@Override
+	public List<String> getAllClientId() {
+		try{
+			DBCollection collection = mongoDB.getCollection( collClient );
+			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
+			
+			DBObject projection = new BasicDBObject("clientId", 1);
+			
+			DBCursor dbCursor = collection.find(finalQuery,projection);
+			
+			List<String> areaList = new ArrayList<>();
+			
+			while ( dbCursor.hasNext() ) {
+				DBObject dbObject = dbCursor.next();
+				//String jsonString = JSON.serialize(dbObject);
+				//Client area = (Client) CommonUtil.jsonToObject( jsonString, Client.class.getName() );
+				areaList.add( dbObject.get("clientId").toString() );
+			}
+			return areaList;
+			
+		}catch( Exception exception ){
+			LOG.equals(exception);
+		}
+		return null;
+	}
+	
 }

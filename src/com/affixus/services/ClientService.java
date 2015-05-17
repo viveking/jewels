@@ -46,5 +46,7 @@ public class ClientService {
 	public List<Client> getAll() {
 		return clientDao.getAll();
 	}
-	
+	public List<String> getAllClientId() {
+		return clientDao.getAllClientId();
+	}	
 }

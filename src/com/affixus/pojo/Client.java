@@ -6,6 +6,7 @@ public class Client extends BasePojo {
 	private static final long serialVersionUID = 1L;
 
 	private String _id;
+	private String clientId;
 	private String name;
 	private String address;
 	private String city;
@@ -38,6 +39,13 @@ public class Client extends BasePojo {
 	public void set_id(String _id) {
 		this._id = _id;
 	}
+	public String getClientId() {
+		return clientId;
+	}
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
+	
 	public String getName() {
 		return name;
 	}

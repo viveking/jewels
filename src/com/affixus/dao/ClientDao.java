@@ -29,5 +29,7 @@ public interface ClientDao {
 	 */
 	public List<Client> getAll();
 
+	List<String> getAllClientId();
+
 
 }

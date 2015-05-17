@@ -49,10 +49,13 @@
 		<div class="col-md-offset-1 col-xs-10">
 			<!-- PAGE CONTENT BEGINS -->
 
-			<table id="grid-table"></table>
-
-			<div id="grid-pager"></div>
-
+			<table id="passed-grid-table"></table>
+			<button class="btn btn-md btn-success">
+				<i class="icon-ok"></i>
+				Save
+			</button>
+			<table id="failed-grid-table"></table>
+			
 			<script type="text/javascript">
 				var $path_base = "/";//this will be used in gritter alerts containing images
 			</script>
@@ -66,6 +69,29 @@
 <script>
 
 	$(document).ready(function(){
+		clientNameJson={};
+		$.ajax({
+		  	url: '${pageContext.request.contextPath}/clientmaster.action?op=ALL_CLIENT_ID',
+		  	type: 'GET'
+		  })
+		  .done(function(data) {
+		  	console.log("success "+data);
+		  	data = JSON.parse(data);
+		  	for(var k in data) {
+		  	   console.log(k, data[k]);
+		  	 clientNameJson[data[k]] = "";
+		  	}
+		  	
+		  })
+		  .fail(function() {
+		  	console.log("error");
+		  })
+		  .always(function() {
+		  	console.log("complete");
+		  });
+		  
+		
+		
 		$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
 			$(this).prev().focus();
 		});
@@ -93,7 +119,7 @@
 			      var contents = e.target.result;
 			      var arrFiles = contents.split("\r\n");
 		          var lenArrFiles = arrFiles.length;
-		          var arrGridData = [];
+		          var arrGridData = [],arrFailedData = [];
 		          for(var i=0;i<lenArrFiles;i++){
 		        	  var arrPathSplit = arrFiles[i].split("\\");
 		        	  var jsonObj = {};
@@ -102,11 +128,20 @@
 			        	  jsonObj.fileName = arrPathSplit[lenPathSplit - 1];
 			        	  jsonObj.clientOrderName = arrPathSplit[lenPathSplit - 2];
 			        	  jsonObj.clientName = arrPathSplit[lenPathSplit - 3];
-			        	  arrGridData.push(jsonObj);		        		  
+			        	  if(clientNameJson.hasOwnProperty(arrPathSplit[lenPathSplit - 3])){
+			        		  jsonObj.status = "PASS";
+			        		  arrGridData.push(jsonObj);
+			        	  }else{
+			        		  jsonObj.status = "FAIL";
+			        		  arrFailedData.push(jsonObj);
+			        	  }
+			        	 		        		  
 		        	  }
 		          }
-		          console.log(JSON.stringify(arrGridData));
-		          $('#grid-table').jqGrid('setGridParam', {data: arrGridData}).trigger('reloadGrid');
+		          
+		          $('#passed-grid-table').jqGrid('setGridParam', {data: arrGridData}).trigger('reloadGrid');
+
+		          $('#failed-grid-table').jqGrid('setGridParam', {data: arrFailedData}).trigger('reloadGrid');
 		      }
 		      r.readAsText(f);
 		    } else { 
@@ -123,10 +158,10 @@
 	];	
 	
 	jQuery(function($) {
-		var grid_selector = "#grid-table";
-		var pager_selector = "#grid-pager";
-	
-		jQuery(grid_selector).jqGrid({
+		var passed_grid_selector = "#passed-grid-table";
+		var failed_grid_selector = "#failed-grid-table";
+		
+		jQuery(passed_grid_selector).jqGrid({
 			data: grid_data,
 			datatype: "local",
 			height: 320,
@@ -137,22 +172,22 @@
 				{name:'fileName',index:'fileName', width:300, editable: false},
 				{name:'status',index:'status', width:100, editable: false} 
 			], 
-	
+			hiddengrid: false,
 			viewrecords : true,
 			rowNum:-1,
 			//rowList:[10,20,30],
 			altRows: true,
 			rownumbers: true,  
 			multiselect: true,
-	        multiboxonly: true,
+	        //multiboxonly: true,
 			
-			caption: "Order Details",
+			caption: "Passed Order Details",
 	
 			autowidth: true,
 			grouping: true,
 		   	groupingView : {
-		   		groupField : ['clientName', 'clientOrderName'],
-		   		groupColumnShow : [false, false],
+		   		//groupField : ['clientName', 'clientOrderName'],
+		   		//groupColumnShow : [false, false],
 		   		groupText : ['Client: <span style="color:red">{0}</span>', 'Order Name: <b>{0}</b>'],
 		   		groupCollapse : false,
 				//groupOrder: ['asc', 'asc'],
@@ -160,6 +195,43 @@
 		   	}
 	
 		});
+		
+		jQuery(failed_grid_selector).jqGrid({
+			data: grid_data,
+			datatype: "local",
+			height: 320,
+			colNames:['Client','Order Name','Part','Status'],
+			colModel:[
+				{name:'clientName',index:'clientName', width:150,editable: false},
+				{name:'clientOrderName',index:'clientOrderName', width:150, editable: false},
+				{name:'fileName',index:'fileName', width:300, editable: false},
+				{name:'status',index:'status', width:100, editable: false} 
+			], 
+			hiddengrid: false,
+			viewrecords : true,
+			rowNum:-1,
+			//rowList:[10,20,30],
+			altRows: true,
+			rownumbers: true,  
+			//multiselect: true,
+	        //multiboxonly: true,
+			
+			caption: "Failed Order Details",
+	
+			autowidth: true,
+			grouping: true,
+		   	groupingView : {
+		   		//groupField : ['clientName', 'clientOrderName'],
+		   		//groupColumnShow : [false, false],
+		   		groupText : ['Client: <span style="color:red">{0}</span>', 'Order Name: <b>{0}</b>'],
+		   		groupCollapse : false,
+				//groupOrder: ['asc', 'asc'],
+				groupSummary : [false, false]
+		   	}
+	
+		});
+
+	
 	});
 </script>
 

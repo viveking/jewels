@@ -29,7 +29,11 @@ public interface ClientDao {
 	 */
 	public List<Client> getAll();
 
-	List<String> getAllClientId();
+	/**
+	 * Get all client id
+	 * @return List<String>
+	 */
+	public List<String> getAllClientId();
 
 
 }

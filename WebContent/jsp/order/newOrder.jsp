@@ -11,43 +11,161 @@
 	</h1>
 </div><!-- /.page-header -->
 
-<div class="row">
-	<div class="col-xs-12">
-		<!-- PAGE CONTENT BEGINS -->
-		<div class="form-group">
-			<div class="col-xs-12">
-				<label for="form-field-select-1">Select Printer</label>
-	
-				<select class="form-control" id="form-field-select-1">
-					<option selected="selected" value="0">-- Select PriceList Group --</option>
-					<option value="INVISIONHR">INVISIONHR</option>
-					<option value="VIPER25">VIPER25</option>
-					<option value="VIPER50">VIPER50</option>
-					<option value="ZNone">ZNone</option>
-				</select>
-			</div>
-			<label for="id-date-picker-1">Date Picker</label>
-			<div class="col-xs-12">
-				
-				<div class="input-group">
-					<input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy">
-					<span class="input-group-addon">
-						<i class="fa fa-calendar bigger-110"></i>
-					</span>
-				</div>
-			</div>
-			<div class="col-xs-12">
-				<input type="file" id="newOrderInputFile">
+<div class="form-group">
+
+	<div class="row">
+		<div class="col-xs-4">
+		
+			<label for="form-field-select-1">Select Printer</label>
+			
+			<select class="form-control" id="form-field-select-1">
+				<option value="INVISIONHR">INVISIONHR</option>
+				<option value="VIPER25">VIPER25</option>
+				<option value="VIPER50">VIPER50</option>
+				<option value="ZNone">ZNone</option>
+			</select>
+		</div>
+		<div class="col-xs-4">
+		
+			<label for="id-date-picker-1">Order Date</label>
 					
-				<label class="ace-file-input">
-					<span class="ace-file-container" data-title="Choose">
-					<span class="ace-file-name" data-title="No File ...">
-					<i class=" ace-icon fa fa-upload"></i></span></span>
-					<a class="remove" href="#"><i class=" ace-icon fa fa-times"></i></a>
-				</label>
+			<div class="input-group">
+				<input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" />
+				<span class="input-group-addon">
+					<i class="icon-calendar bigger-110"></i>
+				</span>
 			</div>
 		</div>
 		
-		<!-- PAGE CONTENT ENDS -->
-	</div><!-- /.col -->
-</div><!-- /.row -->
+		<div class="col-xs-4">
+		
+			<label for="id-date-picker-1">Upload File</label>
+					
+			<input type="file" id="id-orderFile" />
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-offset-1 col-xs-10">
+			<!-- PAGE CONTENT BEGINS -->
+
+			<table id="grid-table"></table>
+
+			<div id="grid-pager"></div>
+
+			<script type="text/javascript">
+				var $path_base = "/";//this will be used in gritter alerts containing images
+			</script>
+
+			<!-- PAGE CONTENT ENDS -->
+		</div><!-- /.col -->
+	</div><!-- /.row -->
+	
+</div>
+
+<script>
+
+	$(document).ready(function(){
+		$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
+			$(this).prev().focus();
+		});
+		
+		$('#id-orderFile').ace_file_input({
+			no_file:'No File ...',
+			btn_choose:'Choose',
+			btn_change:'Change',
+			droppable:false,
+			onchange:null,
+			thumbnail:false //| true | large
+			//whitelist:'gif|png|jpg|jpeg'
+			//blacklist:'exe|php'
+			//onchange:''
+			//
+		});
+		
+		function readSingleFile(evt) {
+		    //Retrieve the first (and only!) File from the FileList object
+		    var f = evt.target.files[0]; 
+
+		    if (f) {
+		      var r = new FileReader();
+		      r.onload = function(e) { 
+			      var contents = e.target.result;
+			      var arrFiles = contents.split("\r\n");
+		          var lenArrFiles = arrFiles.length;
+		          var arrGridData = [];
+		          for(var i=0;i<lenArrFiles;i++){
+		        	  var arrPathSplit = arrFiles[i].split("\\");
+		        	  var jsonObj = {};
+		        	  var lenPathSplit = arrPathSplit.length;
+		        	  if(arrPathSplit[lenPathSplit - 1].endsWith(".stl;")){
+			        	  jsonObj.fileName = arrPathSplit[lenPathSplit - 1];
+			        	  jsonObj.clientOrderName = arrPathSplit[lenPathSplit - 2];
+			        	  jsonObj.clientName = arrPathSplit[lenPathSplit - 3];
+			        	  arrGridData.push(jsonObj);		        		  
+		        	  }
+		          }
+		          console.log(JSON.stringify(arrGridData));
+		          $('#grid-table').jqGrid('setGridParam', {data: arrGridData}).trigger('reloadGrid');
+		      }
+		      r.readAsText(f);
+		    } else { 
+		      alert("Failed to load file");
+		    }
+		  }
+
+		  document.getElementById('id-orderFile').addEventListener('change', readSingleFile, false);
+
+	});
+
+	var grid_data = 
+	[
+	];	
+	
+	jQuery(function($) {
+		var grid_selector = "#grid-table";
+		var pager_selector = "#grid-pager";
+	
+		jQuery(grid_selector).jqGrid({
+			data: grid_data,
+			datatype: "local",
+			height: 320,
+			colNames:['Client','Order Name','Part','Status'],
+			colModel:[
+				{name:'clientName',index:'clientName', width:150,editable: false},
+				{name:'clientOrderName',index:'clientOrderName', width:150, editable: false},
+				{name:'fileName',index:'fileName', width:300, editable: false},
+				{name:'status',index:'status', width:100, editable: false} 
+			], 
+	
+			viewrecords : true,
+			rowNum:-1,
+			//rowList:[10,20,30],
+			altRows: true,
+			rownumbers: true,  
+			multiselect: true,
+	        multiboxonly: true,
+			
+			caption: "Order Details",
+	
+			autowidth: true,
+			grouping: true,
+		   	groupingView : {
+		   		groupField : ['clientName', 'clientOrderName'],
+		   		groupColumnShow : [false, false],
+		   		groupText : ['Client: <span style="color:red">{0}</span>', 'Order Name: <b>{0}</b>'],
+		   		groupCollapse : false,
+				//groupOrder: ['asc', 'asc'],
+				groupSummary : [false, false]
+		   	}
+	
+		});
+	});
+</script>
+
+<!-- page specific plugin scripts -->
+
+<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/jqGrid/jquery.jqGrid.min.js"></script>
+<script src="assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+

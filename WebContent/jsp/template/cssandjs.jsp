@@ -2,7 +2,8 @@
 <%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/custom/css/munsi.css"/>
  --%>
 		<!-- basic styles -->
-
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jquery-ui-1.10.3.full.min.css" />
+		
 		<link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet" />
 		
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/font-awesome.min.css" />
@@ -12,7 +13,6 @@
 		<![endif]-->
 
 		<!-- page specific plugin styles -->
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jquery-ui-1.10.3.full.min.css" />
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/datepicker.css" />
 		
 		 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/ui.jqgrid.css" />

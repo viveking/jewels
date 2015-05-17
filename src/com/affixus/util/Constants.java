@@ -23,6 +23,7 @@ public class Constants {
 		MAST_CLIENT("mast_client"),
 		MAST_RATE("mast_rate"),
 		MAST_TAX("mast_tax"),
+		TB_ORDER("mast_rate")
 		;
 		// @formatter:on
 

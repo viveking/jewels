@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.affixus.dao.impl.MongoClientDaoImpl;
+import com.affixus.dao.impl.MongoOrderDaoImpl;
 import com.affixus.dao.impl.MongoRateDaoImpl;
 import com.affixus.services.ClientService;
+import com.affixus.services.OrderService;
 import com.affixus.services.RateService;
 
 public class ObjectFactory {
@@ -17,10 +19,12 @@ public class ObjectFactory {
 		// DAOs
 		CLIENT_DAO(MongoClientDaoImpl.class.getName()),
 		RATE_DAO(MongoRateDaoImpl.class.getName()),
+		ORDER_DAO(MongoOrderDaoImpl.class.getName()),
 		
 		// Services
 		CLIENT_SERVICE(ClientService.class.getName()),
-		RATE_SERVICE(RateService.class.getName());
+		RATE_SERVICE(RateService.class.getName()),
+		ORDER_SERVICE(OrderService.class.getName());
 		//@formatter:on
 
 		private final String className;

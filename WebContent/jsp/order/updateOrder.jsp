@@ -49,8 +49,10 @@
 			</select>
 		</div>
 		<div class="col-xs-1">
-			<button class="btn btn-md btn-success">
-					<i class="icon-ok"></i>
+			<label ></label>
+	
+			<button class="btn btn-md btn-primary">
+					<i class="icon-spinner"></i>
 					Get
 			</button>
 		</div>
@@ -60,172 +62,50 @@
 	
 </div>
 
+	<div class="row">
+		<div class="col-xs-12">
+			<table id="update_order_grid_table"></table>
+		</div>
+	</div>
 <script>
 
 	$(document).ready(function(){
-		clientNameJson={};
-		$.ajax({
-		  	url: '${pageContext.request.contextPath}/clientmaster.action?op=ALL_CLIENT_ID',
-		  	type: 'GET'
-		  })
-		  .done(function(data) {
-		  	console.log("success "+data);
-		  	data = JSON.parse(data);
-		  	for(var k in data) {
-		  	   console.log(k, data[k]);
-		  	 clientNameJson[data[k]] = "";
-		  	}
-		  	
-		  })
-		  .fail(function() {
-		  	console.log("error");
-		  })
-		  .always(function() {
-		  	console.log("complete");
-		  });
-		  
-		
 		
 		$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
 			$(this).prev().focus();
 		});
-		
-		$('#id-orderFile').ace_file_input({
-			no_file:'No File ...',
-			btn_choose:'Choose',
-			btn_change:'Change',
-			droppable:false,
-			onchange:null,
-			thumbnail:false //| true | large
-			//whitelist:'gif|png|jpg|jpeg'
-			//blacklist:'exe|php'
-			//onchange:''
-			//
-		});
-		
-		function readSingleFile(evt) {
-		    //Retrieve the first (and only!) File from the FileList object
-		    var f = evt.target.files[0]; 
-
-		    if (f) {
-		      var r = new FileReader();
-		      r.onload = function(e) { 
-			      var contents = e.target.result;
-			      var arrFiles = contents.split("\r\n");
-		          var lenArrFiles = arrFiles.length;
-		          var arrGridData = [],arrFailedData = [];
-		          for(var i=0;i<lenArrFiles;i++){
-		        	  var arrPathSplit = arrFiles[i].split("\\");
-		        	  var jsonObj = {};
-		        	  var lenPathSplit = arrPathSplit.length;
-		        	  if(arrPathSplit[lenPathSplit - 1].endsWith(".stl;")){
-			        	  jsonObj.fileName = arrPathSplit[lenPathSplit - 1];
-			        	  jsonObj.clientOrderName = arrPathSplit[lenPathSplit - 2];
-			        	  jsonObj.clientName = arrPathSplit[lenPathSplit - 3];
-			        	  if(clientNameJson.hasOwnProperty(arrPathSplit[lenPathSplit - 3])){
-			        		  jsonObj.status = "PASS";
-			        		  arrGridData.push(jsonObj);
-			        	  }else{
-			        		  jsonObj.status = "FAIL";
-			        		  arrFailedData.push(jsonObj);
-			        	  }
-			        	 		        		  
-		        	  }
-		          }
-		          
-		          $('#passed-grid-table').jqGrid('setGridParam', {data: arrGridData}).trigger('reloadGrid');
-
-		          $('#failed-grid-table').jqGrid('setGridParam', {data: arrFailedData}).trigger('reloadGrid');
-		      }
-		      r.readAsText(f);
-		    } else { 
-		      alert("Failed to load file");
-		    }
-		  }
-
-		  document.getElementById('id-orderFile').addEventListener('change', readSingleFile, false);
-
-	});
-
-	var grid_data = 
-	[
-	];	
-	
-	jQuery(function($) {
-		var passed_grid_selector = "#passed-grid-table";
-		var failed_grid_selector = "#failed-grid-table";
-		
-		jQuery(passed_grid_selector).jqGrid({
-			data: grid_data,
+			
+		var grid_data =[{"orderNo":1,"orderName":12,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":3,"orderName":35,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9}];
+			
+		var update_order_grid = "#update_order_grid_table";
+		jQuery(update_order_grid).jqGrid({
+			datastr: grid_data,
 			datatype: "local",
-			height: 320,
-			colNames:['Client','Order Name','Part','Status'],
+			height: 280,
+			colNames:['Order No','Order Name','Client Name','Units', 'Part','Weight','Created By','Date of Creation', 'Part Status','Charges'],
 			colModel:[
-				{name:'clientName',index:'clientName', width:150,editable: false},
-				{name:'clientOrderName',index:'clientOrderName', width:150, editable: false},
-				{name:'fileName',index:'fileName', width:300, editable: false},
-				{name:'status',index:'status', width:100, editable: false} 
+				{name:'orderNo',index:'orderNo', width:125,editable: false},
+				{name:'orderName',index:'orderName', width:125, editable: false},
+				{name:'clientName',index:'clientName', width:275, editable: false},
+				{name:'units',index:'units', width:80, editable: false},
+				{name:'part',index:'part', width:80, editable: false},
+				{name:'weight',index:'weight', width:80, editable: false},
+				{name:'createdBy',index:'createdBy', width:100, editable: false},
+				{name:'dateOfCreation',index:'dateOfCreation', width:135, editable: false},
+				{name:'partStatus',index:'partStatus', width:100, editable: false},
+				{name:'charges',index:'charges', width:150, editable: true}
 			], 
-			hiddengrid: false,
 			viewrecords : true,
-			rowNum:-1,
-			//rowList:[10,20,30],
 			altRows: true,
 			rownumbers: true,  
 			multiselect: true,
-	        //multiboxonly: true,
-			
-			caption: "Passed Order Details",
-	
-			autowidth: true,
-			grouping: true,
-		   	groupingView : {
-		   		//groupField : ['clientName', 'clientOrderName'],
-		   		//groupColumnShow : [false, false],
-		   		groupText : ['Client: <span style="color:red">{0}</span>', 'Order Name: <b>{0}</b>'],
-		   		groupCollapse : false,
-				//groupOrder: ['asc', 'asc'],
-				groupSummary : [false, false]
-		   	}
+			caption: "Order Details",
+			autowidth: true
 	
 		});
-		
-		jQuery(failed_grid_selector).jqGrid({
-			data: grid_data,
-			datatype: "local",
-			height: 320,
-			colNames:['Client','Order Name','Part','Status'],
-			colModel:[
-				{name:'clientName',index:'clientName', width:150,editable: false},
-				{name:'clientOrderName',index:'clientOrderName', width:150, editable: false},
-				{name:'fileName',index:'fileName', width:300, editable: false},
-				{name:'status',index:'status', width:100, editable: false} 
-			], 
-			hiddengrid: false,
-			viewrecords : true,
-			rowNum:-1,
-			//rowList:[10,20,30],
-			altRows: true,
-			rownumbers: true,  
-			//multiselect: true,
-	        //multiboxonly: true,
-			
-			caption: "Failed Order Details",
-	
-			autowidth: true,
-			grouping: true,
-		   	groupingView : {
-		   		//groupField : ['clientName', 'clientOrderName'],
-		   		//groupColumnShow : [false, false],
-		   		groupText : ['Client: <span style="color:red">{0}</span>', 'Order Name: <b>{0}</b>'],
-		   		groupCollapse : false,
-				//groupOrder: ['asc', 'asc'],
-				groupSummary : [false, false]
-		   	}
-	
-		});
+		jQuery(update_order_grid).jqGrid('filterToolbar', { defaultSearch: 'cn', stringResult: true });
+		jQuery(update_order_grid).jqGrid('setGridParam', {data: grid_data}).trigger('reloadGrid');
 
-	
 	});
 </script>
 

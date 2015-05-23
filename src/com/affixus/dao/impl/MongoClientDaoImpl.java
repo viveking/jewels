@@ -89,9 +89,9 @@ public class MongoClientDaoImpl implements ClientDao{
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject dbObject = collection.findOne(query);
 			String jsonString = JSON.serialize(dbObject);
-			Client area = (Client) CommonUtil.jsonToObject( jsonString, Client.class.getName() );
+			Client client = (Client) CommonUtil.jsonToObject( jsonString, Client.class.getName() );
 			
-			return area;
+			return client;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -132,15 +132,31 @@ public class MongoClientDaoImpl implements ClientDao{
 			
 			DBCursor dbCursor = collection.find(finalQuery,projection);
 			
-			List<String> areaList = new ArrayList<>();
+			List<String> clientList = new ArrayList<>();
 			
 			while ( dbCursor.hasNext() ) {
 				DBObject dbObject = dbCursor.next();
 				//String jsonString = JSON.serialize(dbObject);
 				//Client area = (Client) CommonUtil.jsonToObject( jsonString, Client.class.getName() );
-				areaList.add( dbObject.get("clientId").toString() );
+				clientList.add( dbObject.get("clientId").toString() );
 			}
-			return areaList;
+			return clientList;
+			
+		}catch( Exception exception ){
+			LOG.equals(exception);
+		}
+		return null;
+	}
+
+	@Override
+	public Client getByClientId(String clientId) {
+		try{
+			DBCollection collection = mongoDB.getCollection( collClient );
+			DBObject query = new BasicDBObject("clientId", clientId);
+			DBObject dbObject = collection.findOne(query);
+			String jsonString = JSON.serialize(dbObject);
+			Client client = (Client) CommonUtil.jsonToObject( jsonString, Client.class.getName() );
+			return client;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);

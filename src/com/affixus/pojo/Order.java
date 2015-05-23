@@ -13,6 +13,8 @@ public class Order extends BasePojo {
 	private Date orderDate;
 	private Set<Part> partList;
 	private String status;
+	private String printer;
+	
 	public String get_id() {
 		return _id;
 	}
@@ -50,5 +52,11 @@ public class Order extends BasePojo {
 		this.status = status;
 	}
 	
+	public String getPrinter() {
+		return printer;
+	}
+	public void setPrinter(String printer) {
+		this.status = printer;
+	}
 	
 }

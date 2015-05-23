@@ -48,5 +48,9 @@ public class ClientService {
 	}
 	public List<String> getAllClientId() {
 		return clientDao.getAllClientId();
+	}
+
+	public Client getByClientId(String clientId) {
+		return clientDao.getByClientId(clientId);
 	}	
 }

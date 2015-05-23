@@ -8,6 +8,7 @@ public class Part implements Serializable {
 	
 	private String name;
 	private String status;
+	
 	public String getName() {
 		return name;
 	}

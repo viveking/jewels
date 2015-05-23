@@ -1,7 +1,10 @@
 package com.affixus.services;
 
+import java.util.Set;
+
 import com.affixus.dao.OrderDao;
 import com.affixus.dao.impl.MongoOrderDaoImpl;
+import com.affixus.pojo.Order;
 import com.affixus.util.ObjectFactory;
 import com.affixus.util.ObjectFactory.ObjectEnum;
 
@@ -21,5 +24,18 @@ public class OrderService {
 			}
 		}
 
+	}
+
+	public Boolean create(Order order) 
+	{
+		return orderDao.create(order);
+	}
+	
+	public Order get(String _Id) 
+	{
+		return orderDao.get(_Id);
+	}
+	public Set<Order> getAll() {
+		return orderDao.getAll();
 	}
 }

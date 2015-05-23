@@ -4,6 +4,7 @@
 <head lang="en">
 
 	<meta charset="utf-8" />
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
 	<title>Balaji CAM Solution</title>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">

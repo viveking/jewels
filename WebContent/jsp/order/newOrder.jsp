@@ -45,12 +45,12 @@
 		</div>
 	</div>
 	
-	<div class="row">
-		<div class="col-md-offset-1 col-xs-10">
+	<div class="row" id="gridContainer">
+		<div class="col-xs-12">
 			<!-- PAGE CONTENT BEGINS -->
 
 			<table id="passed-grid-table"></table>
-			<button class="btn btn-md btn-success">
+			<button class="btn btn-md btn-success" id="idSaveOrder">
 				<i class="icon-ok"></i>
 				Save
 			</button>
@@ -62,6 +62,10 @@
 
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
+	</div><!-- /.row -->
+	<div class="col-md-offset-1 row" id="noGridContainer">
+		<h1>Upload Order List</h1>
+		<p class="lead"> Upload the file which is auto-generated from the exe. </p>
 	</div><!-- /.row -->
 	
 </div>
@@ -95,6 +99,7 @@
 		$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
 			$(this).prev().focus();
 		});
+		$('.date-picker').datepicker('setDate',new Date());
 		
 		$('#id-orderFile').ace_file_input({
 			no_file:'No File ...',
@@ -125,7 +130,7 @@
 		        	  var jsonObj = {};
 		        	  var lenPathSplit = arrPathSplit.length;
 		        	  if(arrPathSplit[lenPathSplit - 1].endsWith(".stl;")){
-			        	  jsonObj.fileName = arrPathSplit[lenPathSplit - 1];
+			        	  jsonObj.fileName = arrPathSplit[lenPathSplit - 1].replace(/;/g,'');
 			        	  jsonObj.clientOrderName = arrPathSplit[lenPathSplit - 2];
 			        	  jsonObj.clientName = arrPathSplit[lenPathSplit - 3];
 			        	  if(clientNameJson.hasOwnProperty(arrPathSplit[lenPathSplit - 3])){
@@ -142,6 +147,9 @@
 		          $('#passed-grid-table').jqGrid('setGridParam', {data: arrGridData}).trigger('reloadGrid');
 
 		          $('#failed-grid-table').jqGrid('setGridParam', {data: arrFailedData}).trigger('reloadGrid');
+		          
+		          $('#noGridContainer').hide();
+		          $('#gridContainer').show();
 		      }
 		      r.readAsText(f);
 		    } else { 
@@ -230,8 +238,43 @@
 		   	}
 	
 		});
+		
+		$('#idSaveOrder').click(function(){
+			var passedGrid = $("#passed-grid-table");
+			var selRows = passedGrid.jqGrid('getGridParam','selarrrow');
+			
+			var selData=[];
+			$.each(selRows,function(inx,val){
+				selData.push(passedGrid.getRowData(val));
+			});
+			
+			var param ={'order':selData,'printer':$('#form-field-select-1').val(),'date':$('#id-date-picker-1').val()};
+			
+			param = JSON.stringify(param);
+			console.log(param);
+			$.ajax({
+			  	url: '${pageContext.request.contextPath}/order.action?op=ADD',
+			  	type: 'POST',
+			  	data: param
+			  })
+			  .done(function(data) {
+			  	console.log("success "+data);
+			  	
+			  })
+			  .fail(function() {
+			  	console.log("error");
+			  })
+			  .always(function() {
+			  	console.log("complete");
+			  });
+		});
+		
+		//hidding the grid Initially.....
 
-	
+        $('#noGridContainer').show();
+        $('#gridContainer').hide();
+        
+
 	});
 </script>
 

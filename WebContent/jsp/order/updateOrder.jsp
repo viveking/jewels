@@ -100,10 +100,12 @@
 			rownumbers: true,  
 			multiselect: true,
 			caption: "Order Details",
-			autowidth: true
+			autowidth: true,
+			cellEdit : true,
+			cellsubmit :"clientArray"
 	
 		});
-		jQuery(update_order_grid).jqGrid('filterToolbar', { defaultSearch: 'cn', stringResult: true });
+		//jQuery(update_order_grid).jqGrid('filterToolbar', { defaultSearch: 'cn', stringResult: true });
 		jQuery(update_order_grid).jqGrid('setGridParam', {data: grid_data}).trigger('reloadGrid');
 
 	});

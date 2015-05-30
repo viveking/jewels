@@ -6,9 +6,11 @@ import java.util.Map;
 import com.affixus.dao.impl.MongoClientDaoImpl;
 import com.affixus.dao.impl.MongoOrderDaoImpl;
 import com.affixus.dao.impl.MongoRateDaoImpl;
+import com.affixus.dao.impl.MongoUserDaoImpl;
 import com.affixus.services.ClientService;
 import com.affixus.services.OrderService;
 import com.affixus.services.RateService;
+import com.affixus.services.UserService;
 
 public class ObjectFactory {
 
@@ -20,11 +22,12 @@ public class ObjectFactory {
 		CLIENT_DAO(MongoClientDaoImpl.class.getName()),
 		RATE_DAO(MongoRateDaoImpl.class.getName()),
 		ORDER_DAO(MongoOrderDaoImpl.class.getName()),
-		
+		USER_DAO(MongoUserDaoImpl.class.getName()),
 		// Services
 		CLIENT_SERVICE(ClientService.class.getName()),
 		RATE_SERVICE(RateService.class.getName()),
-		ORDER_SERVICE(OrderService.class.getName());
+		ORDER_SERVICE(OrderService.class.getName()),
+		USER_SERVICE(UserService.class.getName());
 		//@formatter:on
 
 		private final String className;

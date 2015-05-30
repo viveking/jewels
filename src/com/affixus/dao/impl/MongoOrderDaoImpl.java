@@ -53,7 +53,20 @@ public class MongoOrderDaoImpl implements OrderDao {
 	
 	@Override
 	public Boolean update(Order order) {
-		
+		try{
+			
+			DBCollection collection = mongoDB.getCollection( collOrder );
+			String jsonString = CommonUtil.objectToJson(order);
+			DBObject dbObject = (DBObject) JSON.parse( jsonString );
+			DBObject dbOldObj = new BasicDBObject();
+			dbOldObj.put("_id", order.get_id());
+			
+			collection.update(dbOldObj, dbObject, false, false);
+			
+			return true;
+		}catch( Exception exception ){
+			LOG.equals(exception);
+		}
 		return false;
 	}
 

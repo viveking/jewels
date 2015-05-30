@@ -1,6 +1,5 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <div class="page-header">
 	<h1>
 		Update Order
@@ -17,28 +16,22 @@
 		
 		<div class="col-xs-4">
 		
-			<label for="id-date-picker-1">From Date</label>
-					
-			<div class="input-group">
-				<input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" />
-				<span class="input-group-addon">
-					<i class="icon-calendar bigger-110"></i>
-				</span>
-			</div>
-		</div>
-		<div class="col-xs-4">
-		
-			<label for="id-date-picker-2">To Date</label>
-					
-			<div class="input-group">
-				<input class="form-control date-picker" id="id-date-picker-2" type="text" data-date-format="dd-mm-yyyy" />
-				<span class="input-group-addon">
-					<i class="icon-calendar bigger-110"></i>
-				</span>
+			<label for="idFromToDate">Select Date</label>
+			
+			<div class="row">
+				<div class="col-xs-8 col-sm-11">
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="icon-calendar bigger-110"></i>
+						</span>
+
+						<input class="form-control" type="text" name="date-range-picker" id="idFromToDate" />
+					</div>
+				</div>
 			</div>
 		</div>
 		
-		<div class="col-xs-3">
+		<div class="col-xs-2">
 		
 			<label for="form-field-select-2">Select Operation</label>
 			
@@ -48,15 +41,27 @@
 				<option value="RM">RM</option>
 			</select>
 		</div>
-		<div class="col-xs-1">
-			<label ></label>
-	
-			<button class="btn btn-md btn-primary">
-					<i class="icon-spinner"></i>
-					Get
-			</button>
-		</div>
+		<div class="col-xs-2">
+			<label></label>
+			<div class="row">
+				<button id="btnGetUpdateOrder" class="btn btn-md btn-primary">
+						<i class="icon-spinner"></i>
+						Get Client
+				</button>
+			</div>
 			
+		</div>
+		<div class="col-xs-4">
+			<div>
+			<label for="cmbClientInfo">Client</label>
+			<br/>
+			<select class="width-80 chosen-select" id="cmbClientInfo" data-placeholder="Choose a CLient...">
+				<option value="">&nbsp;</option>
+				<option value="Chaudhary">Chaudhary</option>
+				<option value="Hardik">Hardik</option>
+			</select>
+			</div>
+		</div>
 	</div>
 	
 	
@@ -65,6 +70,26 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<table id="update_order_grid_table"></table>
+		</div>
+	</div>
+	<br/>
+	<div class="row">
+		<div class="col-xs-1">
+	
+			<label for="cmbPartStatus">Part Status</label>
+		</div>
+		<div class="col-xs-3">
+		
+			<select class="form-control" id="cmbPartStatus">
+				<option value="Completed">Completed</option>
+				<option value="Failure">Failure</option>
+			</select>
+		</div>
+		<div class="col-xs-1">
+			<button id="btnSubmitUpdateOrder" class="btn btn-sm btn-success">
+				<i class="icon-save"></i>
+				Save
+			</button>	
 		</div>
 	</div>
 <script>
@@ -107,8 +132,22 @@
 		});
 		//jQuery(update_order_grid).jqGrid('filterToolbar', { defaultSearch: 'cn', stringResult: true });
 		jQuery(update_order_grid).jqGrid('setGridParam', {data: grid_data}).trigger('reloadGrid');
-
+		
+		$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
+			$(this).prev().focus();
+		});
+		$('.date-picker').datepicker('setDate',new Date());
+		
+        $('input[name=date-range-picker]').daterangepicker({
+        	format: 'DD/MM/YYYY',
+        	separator: ' to '
+        	}).prev().on(ace.click_event, function(){
+			$(this).next().focus();
+		});
+        
+		$(".chosen-select").chosen();	 
 	});
+	
 </script>
 
 <!-- page specific plugin scripts -->

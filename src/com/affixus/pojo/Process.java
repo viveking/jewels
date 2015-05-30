@@ -4,6 +4,16 @@ import java.io.Serializable;
 
 public class Process implements Serializable {
 	
+	public Process() {
+		super();
+	}
+	
+	public Process(String name, String amount) {
+		super();
+		this.name = name;
+		this.amount = amount;
+	}
+	
 	private static final long serialVersionUID = 1L;
 	
 	private String name;

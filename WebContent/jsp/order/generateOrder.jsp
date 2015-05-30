@@ -33,7 +33,7 @@
 		<div class="col-xs-2">
 			<label ></label>
 			<div class="row">
-				<button class="btn btn-md btn-primary">
+				<button id="btnGenerateOrderGetCLient" class="btn btn-md btn-primary">
 						<i class="icon-spinner"></i>
 						Get Clients
 				</button>
@@ -128,7 +128,7 @@
         
 	});
 
-	var grid_data = 
+	/*var grid_data = 
 	[ {orderDate:"25-02-2015",clientId:"Monil",orderNo:"123",orderName:"NewOrder Bali",selectCAM:true,selectRM:false,selectCAD:true,selectCAST:false},
 	  {orderDate:"25-02-2015",clientId:"Monil",orderNo:"122",orderName:"NewOrder Bali",selectCAM:true,selectRM:true,selectCAD:true,selectCAST:true},
 	  {orderDate:"25-02-2015",clientId:"Monil",orderNo:"121",orderName:"NewOrder Bali",selectCAM:false,selectRM:false,selectCAD:false,selectCAST:false},
@@ -136,7 +136,8 @@
 	  {orderDate:"25-02-2015",clientId:"Monil",orderNo:"121",orderName:"NewOrder Bali",selectCAM:false,selectRM:false,selectCAD:false,selectCAST:false},
 	  {orderDate:"25-02-2015",clientId:"Monil",orderNo:"120",orderName:"NewOrder Bali",selectCAM:true,selectRM:true,selectCAD:true,selectCAST:true},
 	  {orderDate:"26-02-2015a",clientId:"Monil",orderNo:"1234",orderName:"NewOrder Balia",selectCAM:true,selectRM:false,selectCAD:true,selectCAST:false},{}
-	];	
+	];*/
+	var grid_data = [];
 	
 	jQuery(function($) {
 		var order_grid_selector = "#order-grid-table";

@@ -22,6 +22,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.affixus.pojo.Client;
 import com.affixus.pojo.Order;
 import com.affixus.pojo.Part;
+import com.affixus.pojo.Process;
 import com.affixus.services.ClientService;
 import com.affixus.services.OrderService;
 import com.affixus.util.CommonUtil;
@@ -34,7 +35,7 @@ import com.affixus.util.ObjectFactory.ObjectEnum;
 public class OrderAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(OrderAction.class);
-	private OrderService oredrService = null;
+	private OrderService orderService = null;
 	private ClientService clientService = null;
 	
 	@Override
@@ -42,7 +43,7 @@ public class OrderAction extends HttpServlet {
 		super.init();
 		Object object = ObjectFactory.getInstance(ObjectEnum.ORDER_SERVICE);
 		if (object instanceof OrderService ) {
-			oredrService = (OrderService ) object;
+			orderService = (OrderService ) object;
 		}
 		object = ObjectFactory.getInstance(ObjectEnum.CLIENT_SERVICE);
 		if (object instanceof ClientService ) {
@@ -78,7 +79,7 @@ public class OrderAction extends HttpServlet {
 		String json = "";
 		String operation = request.getParameter(Constants.OPERATION);
 		
-		if(operation == null || oredrService  == null){
+		if(operation == null || orderService  == null){
 			out.write(json);
 			out.close();
 			return;
@@ -132,65 +133,55 @@ public class OrderAction extends HttpServlet {
 					order.setOrderDate( orderDate );
 					order.setPartList( entry.getValue() );
 					
-					Boolean isSaved = oredrService.create( order );
+					Boolean isSaved = orderService.create( order );
 				}
 				
 				break;
 			case EDIT:
-				String strDate = request.getParameter("date");
-				String printer = request.getParameter("printer");
-				Date orderDate = CommonUtil.stringToDate(strDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
-							
 				
-				String jsonOrder = request.getParameter("order");
+				jsonOrder = request.getParameter("order");
 				if( jsonOrder == null || jsonOrder.trim().isEmpty()){
 					break;
 				}
 				
-				ObjectMapper mapper = new ObjectMapper();
-				JsonNode jn = mapper.readTree(jsonOrder);
-				Map<String, Set<Part> > map = new HashMap<>();
+				mapper = new ObjectMapper();
+				jn = mapper.readTree(jsonOrder);
+				Map<String,Order> orderMap = new HashMap<>();
 				
 				for (JsonNode jsonNode : jn) {
-					String clientName = jsonNode.get("clientName").asText();
-					String ordername = jsonNode.get("clientOrderName").asText();
-					String partName = jsonNode.get("fileName").asText();
 					
-					String key = clientName+ ":" + ordername;
+					String orderNo = jsonNode.get("orderNo").asText();
+					String selectCAM = jsonNode.get("selectCAM").asText();
+					String selectRM = jsonNode.get("selectRM").asText();
+					String selectCAD = jsonNode.get("selectCAD").asText();
+					String selectCAST = jsonNode.get("selectCAST").asText();
 					
-					Part part = new Part();
-					part.setName( partName );
+					Order ord = orderService.get(orderNo);
+					Set<Process> processList = ord.getProcessList();
 					
-					if(map.containsKey(key)){
-						Set<Part> partSet = map.get(key);
-						partSet.add(part);
-					}else{
-						Set<Part> partSet = new HashSet<>();
-						partSet.add(part);
-						map.put(key, partSet);
-					}
+					Process process = new Process("CAM",selectCAM);
+					processList.add(process);
+					process = new Process("RM",selectRM);
+					processList.add(process);
+					process = new Process("CAD",selectCAD);
+					processList.add(process);
+					process = new Process("CAST",selectCAST);
+					processList.add(process);
+					
+					ord.setProcessList(processList);
+										
+					orderService.update(ord);
+					
 				}
 				
-				for (Entry<String, Set<Part>> entry : map.entrySet()) {
-					String [] strArr = entry.getKey().split(":");
-					Order order = new Order();
-					order.setOrderName( strArr[1] );
-					Client client = clientService.getByClientId( strArr[0] );
-					order.setClient( client );
-					order.setPrinter(printer);
-					order.setOrderDate( orderDate );
-					order.setPartList( entry.getValue() );
-					
-					Boolean isSaved = oredrService.create( order );
-				}
 				break;
 			case VIEW:
 					String _id = request.getParameter("_id");
-					Order order = oredrService.get(_id);
+					Order order = orderService.get(_id);
 				break;
 			
 			case VIEW_ALL:
-				Set<Order> orderList = oredrService.getAll();
+				Set<Order> orderList = orderService.getAll();
 				break;
 				
 			default:

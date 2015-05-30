@@ -84,6 +84,26 @@
 			</ul>
 			
 		</li>
+<!-- Invoice starts-->
+		<li>
+			<a href="#" class="dropdown-toggle"> <i
+				class="icon-list-alt"></i> <span class="menu-text"> Invoice </span> 
+				<b class="arrow icon-angle-down"></b>
+			</a>
+			
+			<ul class="submenu">
+				<li><a href="#" data-href="/jsp/invoice/invoice.jsp">
+						<i class="icon-double-angle-right"></i> Invoice
+				</a></li>
+				
+				<li><a href="#" data-href="/jsp/invoice/receipts.jsp">
+						<i class="icon-double-angle-right"></i> Receipts
+				</a></li>
+			</ul>
+			
+		</li>
+
+<!-- Invoice ends  -->
 		<li>
 			<a href="#" class="dropdown-toggle"> <i
 					class="icon-bar-chart"></i> <span class="menu-text"> Report </span>

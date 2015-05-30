@@ -72,13 +72,11 @@ public class LoginAction extends HttpServlet {
 		user = userService.login(user);
 		if (user != null && user.isValid()) {
 			//Login
-			System.out.println("no");
 			HttpSession session = request.getSession(true);	    
 			session.setAttribute("user",user); 
 			response.sendRedirect("home.jsp");
 		}
 		else {
-			System.out.println("yes");
 			response.sendRedirect("LoginPage.jsp");
 		}
      }

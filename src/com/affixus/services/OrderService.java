@@ -38,4 +38,8 @@ public class OrderService {
 	public Set<Order> getAll() {
 		return orderDao.getAll();
 	}
+
+	public Boolean update(Order ord) {
+		return orderDao.update(ord);
+	}
 }

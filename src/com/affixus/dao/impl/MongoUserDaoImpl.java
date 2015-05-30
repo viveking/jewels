@@ -41,9 +41,7 @@ public class MongoUserDaoImpl implements UserDAO{
 		}catch( Exception exception ){
 			//loggedinUser.setValid(false);
 			LOG.equals(exception);
-			
 		}
 		return null;
-
 	}
 }

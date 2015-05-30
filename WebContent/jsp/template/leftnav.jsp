@@ -64,13 +64,23 @@
 						<i class="icon-double-angle-right"></i> New Order
 				</a></li>
 				
+				<li><a href="#" data-href="/jsp/order/generateOrder.jsp">
+						<i class="icon-double-angle-right"></i> Order Generation
+				</a></li>
+
 				<li><a href="#" data-href="/jsp/order/updateOrder.jsp">
 						<i class="icon-double-angle-right"></i> Update Order
 				</a></li>
 				
-				<li><a href="#" data-href="/jsp/order/generateOrder.jsp">
+				<li><a href="#" data-href="/jsp/order/platformOptCalc.jsp">
+						<i class="icon-double-angle-right"></i> Platform Output Calculation
+				</a></li>
+				
+<!-- 
+				<li><a href="#" data-href="/jsp/order/order.jsp">
 						<i class="icon-double-angle-right"></i> Order Generation
 				</a></li>
+ -->				
 			</ul>
 			
 		</li>

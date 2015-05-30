@@ -30,6 +30,15 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-xs-2">
+			<label ></label>
+			<div class="row">
+				<button class="btn btn-md btn-primary">
+						<i class="icon-spinner"></i>
+						Get Clients
+				</button>
+			</div>
+		</div>
 		<div class="col-xs-4">
 		
 			<label for="idSelectClient">Select Client</label>
@@ -45,44 +54,6 @@
 				<option value="CT">Connecticut</option>
 				<option value="DE">Delaware</option>
 				<option value="FL">Florida</option>
-				<option value="GA">Georgia</option>
-				<option value="HI">Hawaii</option>
-				<option value="ID">Idaho</option>
-				<option value="IL">Illinois</option>
-				<option value="IN">Indiana</option>
-				<option value="IA">Iowa</option>
-				<option value="KS">Kansas</option>
-				<option value="KY">Kentucky</option>
-				<option value="LA">Louisiana</option>
-				<option value="ME">Maine</option>
-				<option value="MD">Maryland</option>
-				<option value="MA">Massachusetts</option>
-				<option value="MI">Michigan</option>
-				<option value="MN">Minnesota</option>
-				<option value="MS">Mississippi</option>
-				<option value="MO">Missouri</option>
-				<option value="MT">Montana</option>
-				<option value="NE">Nebraska</option>
-				<option value="NV">Nevada</option>
-				<option value="NH">New Hampshire</option>
-				<option value="NJ">New Jersey</option>
-				<option value="NM">New Mexico</option>
-				<option value="NY">New York</option>
-				<option value="NC">North Carolina</option>
-				<option value="ND">North Dakota</option>
-				<option value="OH">Ohio</option>
-				<option value="OK">Oklahoma</option>
-				<option value="OR">Oregon</option>
-				<option value="PA">Pennsylvania</option>
-				<option value="RI">Rhode Island</option>
-				<option value="SC">South Carolina</option>
-				<option value="SD">South Dakota</option>
-				<option value="TN">Tennessee</option>
-				<option value="TX">Texas</option>
-				<option value="UT">Utah</option>
-				<option value="VT">Vermont</option>
-				<option value="VA">Virginia</option>
-				<option value="WA">Washington</option>
 				<option value="WV">West Virginia</option>
 				<option value="WI">Wisconsin</option>
 				<option value="WY">Wyoming</option>
@@ -94,13 +65,13 @@
 		<div class="col-xs-12">
 			<!-- PAGE CONTENT BEGINS -->
 
-			<table id="passed-grid-table"></table>
+			<table id="order-grid-table"></table>
+
 			<button class="btn btn-md btn-success" id="idSaveOrder">
 				<i class="icon-ok"></i>
 				Save
 			</button>
-			<table id="failed-grid-table"></table>
-			
+
 			<script type="text/javascript">
 				var $path_base = "/";//this will be used in gritter alerts containing images
 			</script>
@@ -118,7 +89,7 @@
 <script>
 
 	$(document).ready(function(){
-		clientNameJson={};
+		/* clientNameJson={};
 		$.ajax({
 		  	url: '${pageContext.request.contextPath}/clientmaster.action?op=ALL_CLIENT_ID',
 		  	type: 'GET'
@@ -139,7 +110,7 @@
 		  	console.log("complete");
 		  });
 		  
-		
+		 */
 		$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
 			$(this).prev().focus();
 		});
@@ -158,85 +129,54 @@
 	});
 
 	var grid_data = 
-	[
+	[ {orderDate:"25-02-2015",clientId:"Monil",orderNo:"123",orderName:"NewOrder Bali",selectCAM:true,selectRM:false,selectCAD:true,selectCAST:false},
+	  {orderDate:"25-02-2015",clientId:"Monil",orderNo:"122",orderName:"NewOrder Bali",selectCAM:true,selectRM:true,selectCAD:true,selectCAST:true},
+	  {orderDate:"25-02-2015",clientId:"Monil",orderNo:"121",orderName:"NewOrder Bali",selectCAM:false,selectRM:false,selectCAD:false,selectCAST:false},
+	  {orderDate:"25-02-2015",clientId:"Monil",orderNo:"120",orderName:"NewOrder Bali",selectCAM:true,selectRM:true,selectCAD:true,selectCAST:true},
+	  {orderDate:"25-02-2015",clientId:"Monil",orderNo:"121",orderName:"NewOrder Bali",selectCAM:false,selectRM:false,selectCAD:false,selectCAST:false},
+	  {orderDate:"25-02-2015",clientId:"Monil",orderNo:"120",orderName:"NewOrder Bali",selectCAM:true,selectRM:true,selectCAD:true,selectCAST:true},
+	  {orderDate:"26-02-2015a",clientId:"Monil",orderNo:"1234",orderName:"NewOrder Balia",selectCAM:true,selectRM:false,selectCAD:true,selectCAST:false},{}
 	];	
 	
 	jQuery(function($) {
-		var passed_grid_selector = "#passed-grid-table";
-		var failed_grid_selector = "#failed-grid-table";
+		var order_grid_selector = "#order-grid-table";
 		
-		jQuery(passed_grid_selector).jqGrid({
+		jQuery(order_grid_selector).jqGrid({
 			data: grid_data,
 			datatype: "local",
+			gridview: true,
 			height: 320,
-			colNames:['Client','Order Name','Part','Status'],
+			colNames:['Order Date','Client ID','Order No','Order Name','Select CAM','Select RM','Select CAD','Select CAST'],
 			colModel:[
-				{name:'clientName',index:'clientName', width:150,editable: false},
-				{name:'clientOrderName',index:'clientOrderName', width:150, editable: false},
-				{name:'fileName',index:'fileName', width:300, editable: false},
-				{name:'status',index:'status', width:100, editable: false} 
-			], 
+				{name:'orderDate',index:'orderDate', width:150,editable: false},
+				{name:'clientId',index:'clientId', width:150,editable: false},
+				{name:'orderNo',index:'orderNo', width:150,editable: false},
+				{name:'orderName',index:'orderName', width:150,editable: false},
+				{name:'selectCAM',index:'selectCAM', width: 70, align: "center",
+                    formatter: "checkbox", formatoptions: { disabled: false},
+                    edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "Yes"}},
+				{name:'selectRM',index:'selectRM', width: 70, align: "center",
+                        formatter: "checkbox", formatoptions: { disabled: false},
+                        edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "Yes"} },
+				{name:'selectCAD',index:'selectCAD', width: 70, align: "center",
+                            formatter: "checkbox", formatoptions: { disabled: false},
+                            edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "Yes"}},
+				{name:'selectCAST',index:'selectCAST', width: 70, align: "center",
+                                formatter: "checkbox", formatoptions: { disabled: false},
+                                edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "Yes"} }
+			],
 			hiddengrid: false,
 			viewrecords : true,
 			rowNum:-1,
-			//rowList:[10,20,30],
 			altRows: true,
 			rownumbers: true,  
-			multiselect: true,
-	        //multiboxonly: true,
-			
-			caption: "Passed Order Details",
-	
-			autowidth: true,
-			grouping: true,
-		   	groupingView : {
-		   		//groupField : ['clientName', 'clientOrderName'],
-		   		//groupColumnShow : [false, false],
-		   		groupText : ['Client: <span style="color:red">{0}</span>', 'Order Name: <b>{0}</b>'],
-		   		groupCollapse : false,
-				//groupOrder: ['asc', 'asc'],
-				groupSummary : [false, false]
-		   	}
-	
+			multiselect: false,
+			caption: "Order Details",
+			autowidth: true
 		});
-		
-		jQuery(failed_grid_selector).jqGrid({
-			data: grid_data,
-			datatype: "local",
-			height: 320,
-			colNames:['Client','Order Name','Part','Status'],
-			colModel:[
-				{name:'clientName',index:'clientName', width:150,editable: false},
-				{name:'clientOrderName',index:'clientOrderName', width:150, editable: false},
-				{name:'fileName',index:'fileName', width:300, editable: false},
-				{name:'status',index:'status', width:100, editable: false} 
-			], 
-			hiddengrid: false,
-			viewrecords : true,
-			rowNum:-1,
-			//rowList:[10,20,30],
-			altRows: true,
-			rownumbers: true,  
-			//multiselect: true,
-	        //multiboxonly: true,
-			
-			caption: "Failed Order Details",
-	
-			autowidth: true,
-			grouping: true,
-		   	groupingView : {
-		   		//groupField : ['clientName', 'clientOrderName'],
-		   		//groupColumnShow : [false, false],
-		   		groupText : ['Client: <span style="color:red">{0}</span>', 'Order Name: <b>{0}</b>'],
-		   		groupCollapse : false,
-				//groupOrder: ['asc', 'asc'],
-				groupSummary : [false, false]
-		   	}
-	
-		});
-		
+
 		$('#idSaveOrder').click(function(){
-			var passedGrid = $("#passed-grid-table");
+			var passedGrid = $("#order-grid-table");
 			var selRows = passedGrid.jqGrid('getGridParam','selarrrow');
 			
 			var selData=[];
@@ -267,8 +207,8 @@
 		
 		//hidding the grid Initially.....
 
-        $('#noGridContainer').show();
-        $('#gridContainer').hide();
+       /*  $('#noGridContainer').show();
+        $('#gridContainer').hide(); */
         
 	});
 </script>

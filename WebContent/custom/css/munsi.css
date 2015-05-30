@@ -30,3 +30,7 @@
  .ace-nav>li>a {
 background-color: #FFB752;
 }
+
+.editCls {
+	background-color: #FFFF90 !important;
+}

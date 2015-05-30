@@ -68,6 +68,15 @@
 		<p class="lead"> Upload the file which is auto-generated from the exe. </p>
 	</div><!-- /.row -->
 	
+	<div class="col-md-offset-1 row" id="SuccessContainer">
+		<h1><span class="success">Saved Successfully...</span></h1>
+		<p class="lead"> You can proceed to <a id="navigateOG" class="btn btn-xs btn-success" href="#">
+												<i class="icon-bolt bigger-110"></i>
+												Order Generation
+												<i class="icon-arrow-right icon-on-right"></i>
+											</a>. </p>
+	</div><!-- /.row -->
+	
 </div>
 
 <script>
@@ -182,7 +191,7 @@
 			], 
 			hiddengrid: false,
 			viewrecords : true,
-			rowNum:-1,
+			rowNum:100000,
 			//rowList:[10,20,30],
 			altRows: true,
 			rownumbers: true,  
@@ -191,17 +200,7 @@
 			
 			caption: "Passed Order Details",
 	
-			autowidth: true,
-			grouping: true,
-		   	groupingView : {
-		   		//groupField : ['clientName', 'clientOrderName'],
-		   		//groupColumnShow : [false, false],
-		   		groupText : ['Client: <span style="color:red">{0}</span>', 'Order Name: <b>{0}</b>'],
-		   		groupCollapse : false,
-				//groupOrder: ['asc', 'asc'],
-				groupSummary : [false, false]
-		   	}
-	
+			autowidth: true	
 		});
 		
 		jQuery(failed_grid_selector).jqGrid({
@@ -217,26 +216,11 @@
 			], 
 			hiddengrid: false,
 			viewrecords : true,
-			rowNum:-1,
-			//rowList:[10,20,30],
+			rowNum:100000,
 			altRows: true,
 			rownumbers: true,  
-			//multiselect: true,
-	        //multiboxonly: true,
-			
 			caption: "Failed Order Details",
-	
-			autowidth: true,
-			grouping: true,
-		   	groupingView : {
-		   		//groupField : ['clientName', 'clientOrderName'],
-		   		//groupColumnShow : [false, false],
-		   		groupText : ['Client: <span style="color:red">{0}</span>', 'Order Name: <b>{0}</b>'],
-		   		groupCollapse : false,
-				//groupOrder: ['asc', 'asc'],
-				groupSummary : [false, false]
-		   	}
-	
+			autowidth: true
 		});
 		
 		$('#idSaveOrder').click(function(){
@@ -248,10 +232,10 @@
 				selData.push(passedGrid.getRowData(val));
 			});
 			
-			var param ={'order':selData,'printer':$('#form-field-select-1').val(),'date':$('#id-date-picker-1').val()};
+			var param ={'order':JSON.stringify(selData),'printer':$('#form-field-select-1').val(),'date':$('#id-date-picker-1').val()};
 			
-			param = JSON.stringify(param);
-			console.log(param);
+			//param = JSON.stringify(param);
+			//console.log(param);
 			$.ajax({
 			  	url: '${pageContext.request.contextPath}/order.action?op=ADD',
 			  	type: 'POST',
@@ -259,7 +243,13 @@
 			  })
 			  .done(function(data) {
 			  	console.log("success "+data);
-			  	
+				//Showing Success.....
+
+		        $('#noGridContainer').hide();
+		        $('#gridContainer').hide();
+		        $('#SuccessContainer').show();
+		        $('#navigateOG').addClass("animated tada");
+		        			  	
 			  })
 			  .fail(function() {
 			  	console.log("error");
@@ -273,9 +263,10 @@
 
         $('#noGridContainer').show();
         $('#gridContainer').hide();
+        $('#SuccessContainer').hide();
         
-
 	});
+	
 </script>
 
 <!-- page specific plugin scripts -->

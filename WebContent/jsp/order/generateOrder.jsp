@@ -167,7 +167,7 @@
 			],
 			hiddengrid: false,
 			viewrecords : true,
-			rowNum:-1,
+			rowNum:100000,
 			altRows: true,
 			rownumbers: true,  
 			multiselect: false,

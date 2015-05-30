@@ -1,6 +1,20 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<STYLE>
+        
+	.ui-state-highlight{
+	     border:none!important;
+	     background:none!important;
+	}
+	.selected-row{
+	     border:none!important;
+	     background:none!important;
+	
+	}
+
+</STYLE>
+
 <div class="page-header">
 	<h1>
 		Platform Output Calculation
@@ -81,7 +95,6 @@
 		  .always(function() {
 		  	console.log("complete");
 		  });
-		  
 		
 		
 		$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
@@ -95,11 +108,7 @@
 			btn_change:'Change',
 			droppable:false,
 			onchange:null,
-			thumbnail:false //| true | large
-			//whitelist:'gif|png|jpg|jpeg'
-			//blacklist:'exe|php'
-			//onchange:''
-			//
+			thumbnail:false
 		});
 		
 		function readSingleFile(evt) {
@@ -112,30 +121,29 @@
 			      var contents = e.target.result;
 			      var arrFiles = contents.split("\r\n	File: ");
 		          var lenArrFiles = arrFiles.length;
-		          var arrGridData = [],arrFailedData = [];
+		          var arrGridData = [];
 		          for(var i=0;i<lenArrFiles;i++){
-		        	  /* 
-		        	  var arrPathSplit = arrFiles[i].split("\\");
 		        	  var jsonObj = {};
-		        	  var lenPathSplit = arrPathSplit.length;
-		        	  if(arrPathSplit[lenPathSplit - 1].endsWith(".stl;")){
-			        	  jsonObj.fileName = arrPathSplit[lenPathSplit - 1].replace(/;/g,'');
-			        	  jsonObj.clientOrderName = arrPathSplit[lenPathSplit - 2];
-			        	  jsonObj.clientName = arrPathSplit[lenPathSplit - 3];
-			        	  if(clientNameJson.hasOwnProperty(arrPathSplit[lenPathSplit - 3])){
-			        		  jsonObj.status = "PASS";
-			        		  arrGridData.push(jsonObj);
-			        	  }else{
-			        		  jsonObj.status = "FAIL";
-			        		  arrFailedData.push(jsonObj);
-			        	  }
-			        	 	 
-		        	  }*/
-			        	 console.log(arrFiles[i]);
-		        	  
+			          
+		        	  var arrEachPart = arrFiles[i].split("\r\n");
+		        	  if(arrEachPart[0].toLowerCase().trim().endsWith(".stl")){
+		        		  
+		        		  var arrPathSplit = arrEachPart[0].split("\\");
+		        		  var lenPathSplit = arrPathSplit.length;
+		        		  
+		        		  jsonObj.part = arrPathSplit[lenPathSplit - 1];
+		        		  jsonObj.client = arrPathSplit[lenPathSplit - 2];
+		        		  jsonObj.platform = arrPathSplit[lenPathSplit - 3];
+		        		  jsonObj.partWeight = arrEachPart[5].split(":")[1].trim();
+		        		  jsonObj.supportWeight = arrEachPart[6].split(":")[1].trim();
+		          		  
+		        		  console.log(JSON.stringify(jsonObj));
+			        	  
+		        		  arrGridData.push(jsonObj);
+		        	  }
 		        	  
 		          }
-		          
+		          $("#grid-table").jqGrid("clearGridData");
 		          $('#grid-table').jqGrid('setGridParam', {data: arrGridData}).trigger('reloadGrid');
 
 		          $('#noGridContainer').hide();
@@ -162,34 +170,24 @@
 			data: grid_data,
 			datatype: "local",
 			height: 320,
-			colNames:['Client','Order Name','Part','Status'],
+			colNames:['Client ID','Platform','Part','Weight (KG)','Reference Weight (KG)'],
 			colModel:[
-				{name:'clientName',index:'clientName', width:150,editable: false},
-				{name:'clientOrderName',index:'clientOrderName', width:150, editable: false},
-				{name:'fileName',index:'fileName', width:300, editable: false},
-				{name:'status',index:'status', width:100, editable: false} 
+				{name:'client',index:'client', width:150,editable: false},
+				{name:'platform',index:'platform', width:150, editable: false},
+				{name:'part',index:'part', width:300, editable: false},
+				{name:'partWeight',index:'partWeight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:300, editable: true, classes: 'editCls'},
+				{name:'supportWeight',index:'supportWeight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:300, editable: true, classes: 'editCls'}
 			], 
 			hiddengrid: false,
 			viewrecords : true,
-			rowNum:-1,
-			//rowList:[10,20,30],
+			rowNum:100000,
+			cellEdit:true,
+			cellsubmit:"clientArray",
 			altRows: true,
 			rownumbers: true,  
-			multiselect: true,
-	        //multiboxonly: true,
-			
-			caption: "Passed Order Details",
-	
-			autowidth: true,
-			grouping: true,
-		   	groupingView : {
-		   		//groupField : ['clientName', 'clientOrderName'],
-		   		//groupColumnShow : [false, false],
-		   		groupText : ['Client: <span style="color:red">{0}</span>', 'Order Name: <b>{0}</b>'],
-		   		groupCollapse : false,
-				//groupOrder: ['asc', 'asc'],
-				groupSummary : [false, false]
-		   	}
+			multiselect: false,
+			caption: "Platform Output Details",
+			autowidth: true
 	
 		});
 		

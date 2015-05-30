@@ -107,22 +107,26 @@ public class OrderAction extends HttpServlet {
 					String ordername = jsonNode.get("clientOrderName").asText();
 					String partName = jsonNode.get("fileName").asText();
 					
-					String key = ordername+ ":" + clientName;
+					String key = clientName+ ":" + ordername;
 					
-					Set<Part> parts = map.get(key);
-					if( parts == null){
-						parts = new HashSet<Part>();
-					}
 					Part part = new Part();
 					part.setName( partName );
-					parts.add(part);
+					
+					if(map.containsKey(key)){
+						Set<Part> partSet = map.get(key);
+						partSet.add(part);
+					}else{
+						Set<Part> partSet = new HashSet<>();
+						partSet.add(part);
+						map.put(key, partSet);
+					}
 				}
 				
 				for (Entry<String, Set<Part>> entry : map.entrySet()) {
 					String [] strArr = entry.getKey().split(":");
 					Order order = new Order();
-					order.setOrderName( strArr[0] );
-					Client client = clientService.getByClientId( strArr[1] );
+					order.setOrderName( strArr[1] );
+					Client client = clientService.getByClientId( strArr[0] );
 					order.setClient( client );
 					order.setPrinter(printer);
 					order.setOrderDate( orderDate );
@@ -132,7 +136,54 @@ public class OrderAction extends HttpServlet {
 				}
 				
 				break;
+			case EDIT:
+				String strDate = request.getParameter("date");
+				String printer = request.getParameter("printer");
+				Date orderDate = CommonUtil.stringToDate(strDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+							
 				
+				String jsonOrder = request.getParameter("order");
+				if( jsonOrder == null || jsonOrder.trim().isEmpty()){
+					break;
+				}
+				
+				ObjectMapper mapper = new ObjectMapper();
+				JsonNode jn = mapper.readTree(jsonOrder);
+				Map<String, Set<Part> > map = new HashMap<>();
+				
+				for (JsonNode jsonNode : jn) {
+					String clientName = jsonNode.get("clientName").asText();
+					String ordername = jsonNode.get("clientOrderName").asText();
+					String partName = jsonNode.get("fileName").asText();
+					
+					String key = clientName+ ":" + ordername;
+					
+					Part part = new Part();
+					part.setName( partName );
+					
+					if(map.containsKey(key)){
+						Set<Part> partSet = map.get(key);
+						partSet.add(part);
+					}else{
+						Set<Part> partSet = new HashSet<>();
+						partSet.add(part);
+						map.put(key, partSet);
+					}
+				}
+				
+				for (Entry<String, Set<Part>> entry : map.entrySet()) {
+					String [] strArr = entry.getKey().split(":");
+					Order order = new Order();
+					order.setOrderName( strArr[1] );
+					Client client = clientService.getByClientId( strArr[0] );
+					order.setClient( client );
+					order.setPrinter(printer);
+					order.setOrderDate( orderDate );
+					order.setPartList( entry.getValue() );
+					
+					Boolean isSaved = oredrService.create( order );
+				}
+				break;
 			case VIEW:
 					String _id = request.getParameter("_id");
 					Order order = oredrService.get(_id);

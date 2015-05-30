@@ -14,6 +14,8 @@ public class Order extends BasePojo {
 	private Set<Part> partList;
 	private String status;
 	private String printer;
+	private Set<Process> processList;
+	
 	
 	public String get_id() {
 		return _id;
@@ -39,15 +41,19 @@ public class Order extends BasePojo {
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
+	
 	public Set<Part> getPartList() {
 		return partList;
 	}
+	
 	public void setPartList(Set<Part> partList) {
 		this.partList = partList;
 	}
+	
 	public String getStatus() {
 		return status;
 	}
+	
 	public void setStatus(String status) {
 		this.status = status;
 	}
@@ -55,8 +61,17 @@ public class Order extends BasePojo {
 	public String getPrinter() {
 		return printer;
 	}
+	
 	public void setPrinter(String printer) {
 		this.status = printer;
 	}
+	public Set<Process> getProcessList() {
+		return processList;
+	}
+	public void setProcessList(Set<Process> processList) {
+		this.processList = processList;
+	}
+	
+	
 	
 }

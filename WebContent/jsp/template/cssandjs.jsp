@@ -30,6 +30,8 @@
 		  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/ace-ie.min.css" />
 		<![endif]-->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/daterangepicker.css" />
+		
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/animate.css" />
 		<!-- inline styles related to this page -->
 		
 

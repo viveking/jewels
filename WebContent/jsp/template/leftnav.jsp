@@ -68,6 +68,9 @@
 						<i class="icon-double-angle-right"></i> Update Order
 				</a></li>
 				
+				<li><a href="#" data-href="/jsp/order/generateOrder.jsp">
+						<i class="icon-double-angle-right"></i> Order Generation
+				</a></li>
 			</ul>
 			
 		</li>

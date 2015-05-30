@@ -30,7 +30,7 @@ import com.affixus.util.Constants.UIOperations;
 import com.affixus.util.ObjectFactory;
 import com.affixus.util.ObjectFactory.ObjectEnum;
 
-@WebServlet("order.action")
+@WebServlet("/order.action")
 public class OrderAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(OrderAction.class);

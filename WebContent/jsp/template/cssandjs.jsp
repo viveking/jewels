@@ -4,6 +4,7 @@
 		<!-- basic styles -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jquery-ui-1.10.3.full.min.css" />
 		
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/chosen.css" />
 		<link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet" />
 		
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/font-awesome.min.css" />
@@ -28,9 +29,9 @@
 		<!--[if lte IE 8]>
 		  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/ace-ie.min.css" />
 		<![endif]-->
-
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/daterangepicker.css" />
 		<!-- inline styles related to this page -->
-
+		
 
 <!-- JS Inclusion -->
 		<!-- ace settings handler -->
@@ -66,4 +67,7 @@
 		<script src="${pageContext.request.contextPath}/assets/js/jquery.hotkeys-0.7.9.min.js"></script>
 		
 		<script src="${pageContext.request.contextPath}/custom/js/app.js"></script>
+		<script src="${pageContext.request.contextPath}/assets/js/date-time/moment.min.js"></script>
+		<script src="${pageContext.request.contextPath}/assets/js/date-time/daterangepicker.min.js"></script>
+		<script src="${pageContext.request.contextPath}/assets/js/chosen.jquery.min.js"></script>
 		

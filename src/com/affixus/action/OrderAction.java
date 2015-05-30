@@ -181,6 +181,8 @@ public class OrderAction extends HttpServlet {
 				break;
 			
 			case VIEW_ALL:
+				String fromDate = request.getParameter("fromDate");
+				String toDate = request.getParameter("toDate");
 				Set<Order> orderList = orderService.getAll();
 				break;
 				

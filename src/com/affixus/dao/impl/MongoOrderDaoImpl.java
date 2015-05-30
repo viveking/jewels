@@ -1,5 +1,6 @@
 package com.affixus.dao.impl;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -130,4 +131,35 @@ public class MongoOrderDaoImpl implements OrderDao {
 		}
 		return null;
 	}
+
+	@Override
+	public Set<Order> getAll(Date fromDate, Date toDate) {
+		// TODO Auto-generated method stub
+		try{
+			DBCollection collection = mongoDB.getCollection( collOrder );
+			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
+			finalQuery.put("orderDate", new BasicDBObject("$gte",fromDate).append("$lte", toDate));
+			DBCursor dbCursor = collection.find( finalQuery);
+			
+			Set<Order> orderList = new HashSet<>();
+			
+			while ( dbCursor.hasNext() ) {
+				DBObject dbObject = dbCursor.next();
+				DBObject clientDBO = ((DBRef) dbObject.get(KEY_CLIENT_XID)).fetch();
+				dbObject.put(KEY_CLIENT, clientDBO);
+				dbObject.removeField(KEY_CLIENT_XID);
+				
+				String jsonString = JSON.serialize(dbObject);
+				Order oredr = (Order) CommonUtil.jsonToObject( jsonString, Order.class.getName() );
+				orderList.add(oredr);
+			}
+			return orderList;
+			
+		}
+		catch( Exception exception ){
+			LOG.equals(exception);
+		}
+		return null;
+	}
+	
 }

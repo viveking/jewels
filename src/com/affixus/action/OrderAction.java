@@ -150,29 +150,23 @@ public class OrderAction extends HttpServlet {
 				for (JsonNode jsonNode : jn) {
 					
 					String orderNo = jsonNode.get("_id").asText();
-					String selectCAM = jsonNode.get("selectCAM").asText();
-					String selectRM = jsonNode.get("selectRM").asText();
-					String selectCAD = jsonNode.get("selectCAD").asText();
-					String selectCAST = jsonNode.get("selectCAST").asText();
+					String selectCAM = jsonNode.get("cam.required").asText();
+					String selectRM = jsonNode.get("rm.required").asText();
+					String selectCAD = jsonNode.get("cad.required").asText();
+					String selectCAST = jsonNode.get("cast.required").asText();
 					
-					Order ord = orderService.get(orderNo);
-					Set<Process> processList = ord.getProcessList();
+					Order ord = new Order();
+					ord.set_id(orderNo);
 					
-					if(null == processList){
-						processList = new HashSet<>();
-					}
+					Process process = new Process(Boolean.parseBoolean(selectCAM),0);
+					ord.setCam(process);
+					process = new Process(Boolean.parseBoolean(selectRM),0);
+					ord.setRm(process);
+					process = new Process(Boolean.parseBoolean(selectCAD),0);
+					ord.setCad(process);
+					process = new Process(Boolean.parseBoolean(selectCAST),0);
+					ord.setCast(process);
 					
-					Process process = new Process("CAM",selectCAM);
-					processList.add(process);
-					process = new Process("RM",selectRM);
-					processList.add(process);
-					process = new Process("CAD",selectCAD);
-					processList.add(process);
-					process = new Process("CAST",selectCAST);
-					processList.add(process);
-					
-					ord.setProcessList(processList);
-										
 					orderService.update(ord);
 					
 				}

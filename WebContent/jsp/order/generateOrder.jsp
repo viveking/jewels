@@ -46,6 +46,9 @@
 			<select class="width-80 chosen-select" id="idSelectClient" data-placeholder="Choose a Client...">
 			</select>
 		</div>
+		<div id="alertContainer" style="position: fixed; bottom:10px; right:10px; z-index:1000">
+			
+		</div>
 	</div>
 	
 	<div class="row" id="gridContainer">
@@ -67,8 +70,8 @@
 		</div><!-- /.col -->
 	</div><!-- /.row -->
 	<div class="col-md-offset-1 row" id="noGridContainer">
-		<h1>Upload Order List</h1>
-		<p class="lead"> Upload the file which is auto-generated from the exe. </p>
+		<h1>Select Date and Client</h1>
+		<p class="lead"> You can select order for CAD, CAM, RM, CAST. </p>
 	</div><!-- /.row -->
 	
 </div>
@@ -76,28 +79,7 @@
 <script>
 
 	$(document).ready(function(){
-		/* clientNameJson={};
-		$.ajax({
-		  	url: '${pageContext.request.contextPath}/clientmaster.action?op=ALL_CLIENT_ID',
-		  	type: 'GET'
-		  })
-		  .done(function(data) {
-		  	console.log("success "+data);
-		  	data = JSON.parse(data);
-		  	for(var k in data) {
-		  	   console.log(k, data[k]);
-		  	 clientNameJson[data[k]] = "";
-		  	}
-		  	
-		  })
-		  .fail(function() {
-		  	console.log("error");
-		  })
-		  .always(function() {
-		  	console.log("complete");
-		  });
-		  
-		 */
+		
 		$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
 			$(this).prev().focus();
 		});
@@ -125,7 +107,7 @@
         
 	});
 
-	var grid_data = [];
+	var grid_data = [];//[{orderDateStr:"asas",_id:11,orderName:"asas",cam:{required:true},cad:{required:true},rm:{required:true}}];
 	
 	jQuery(function($) {
 		var order_grid_selector = "#order-grid-table";
@@ -141,16 +123,16 @@
 				{name:'client.clientId',index:'client.clientId', width:150,editable: false},
 				{name:'_id',index:'_id', width:150,editable: false},
 				{name:'orderName',index:'orderName', width:150,editable: false},
-				{name:'selectCAM',index:'selectCAM', width: 70, align: "center",
+				{name:'cam.required',index:'cam.required', width: 70, align: "center",
                     formatter: "checkbox", formatoptions: { disabled: false},
                     edittype: "checkbox", editoptions: {value: "true:false", defaultValue: "true"}},
-				{name:'selectRM',index:'selectRM', width: 70, align: "center",
+				{name:'rm.required',index:'rm.required', width: 70, align: "center",
                         formatter: "checkbox", formatoptions: { disabled: false},
                         edittype: "checkbox", editoptions: {value: "true:false", defaultValue: "false"} },
-				{name:'selectCAD',index:'selectCAD', width: 70, align: "center",
+				{name:'cad.required',index:'cad.required', width: 70, align: "center",
                             formatter: "checkbox", formatoptions: { disabled: false},
                             edittype: "checkbox", editoptions: {value: "true:false", defaultValue: "false"}},
-				{name:'selectCAST',index:'selectCAST', width: 70, align: "center",
+				{name:'cast.required',index:'cast.required', width: 70, align: "center",
                                 formatter: "checkbox", formatoptions: { disabled: false},
                                 edittype: "checkbox", editoptions: {value: "true:false", defaultValue: "false"} }
 			],
@@ -161,9 +143,9 @@
 			rownumbers: true,  
 			multiselect: false,
 			caption: "Order Details",
-			autowidth: true
+			autowidth: true,
+			sortname: '_id', sortorder: 'asc'
 		});
-
 		
 		
 		$('#btnGenerateOrderGetCLient').click(function(){
@@ -191,7 +173,7 @@
 				  	
 				  	$.each(dataFromServer ,function(ind,val){
 				  		var clientId = val.client.clientId;
-				  		
+				  			
 				  		if(!clientMap.hasOwnProperty(clientId)){
 							clientMap[clientId] = [];
 					  		$("#idSelectClient").append("<option value="+val.client.clientId+">"+val.client.clientId+"<option>");
@@ -202,7 +184,11 @@
 				  	$('.chosen-select').chosen().trigger("chosen:updated");
 				  	
 				  	$('#order-grid-table').jqGrid('setGridParam', {data: dataFromServer }).trigger('reloadGrid');
+				  	
 			  	}
+			  	
+			  	$('#noGridContainer').hide();
+		        $('#gridContainer').show(); 
 			  })
 			  .fail(function() {
 			  	console.log("error");
@@ -226,6 +212,18 @@
 			  })
 			  .done(function(data) {
 			  	console.log("success "+data);
+			  	$("#alertContainer").html(' \
+			  			<div class="alert alert-block alert-success" id="alertSaved">\
+						<button type="button" class="close" data-dismiss="alert"> \
+							<i class="icon-remove"></i> \
+						</button> \
+						<p>	<strong> \
+								<i class="icon-ok"></i>\
+								Save Successful... \
+							</strong></p> \
+					</div>');
+			  	
+			  	$("#alertSaved").addClass("animated bounceInRight");
 			  	
 			  })
 			  .fail(function() {
@@ -238,8 +236,8 @@
 		
 		//hidding the grid Initially.....
 
-        $('#noGridContainer').hide();
-        $('#gridContainer').show(); 
+        $('#noGridContainer').show();
+        $('#gridContainer').hide(); 
         
 	});
 </script>

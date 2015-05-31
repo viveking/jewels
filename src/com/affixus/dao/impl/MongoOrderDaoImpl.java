@@ -59,10 +59,12 @@ public class MongoOrderDaoImpl implements OrderDao {
 			DBCollection collection = mongoDB.getCollection( collOrder );
 			String jsonString = CommonUtil.objectToJson(order);
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
-			DBObject dbOldObj = new BasicDBObject();
-			dbOldObj.put("_id", order.get_id());
+			dbObject.removeField("_id");
+			DBObject query = new BasicDBObject("_id", order.get_id());
 			
-			collection.update(dbOldObj, dbObject, false, false);
+			
+			DBObject updateObj = new BasicDBObject("$set", dbObject);
+			collection.update(query, updateObj);
 			
 			return true;
 		}catch( Exception exception ){
@@ -98,6 +100,7 @@ public class MongoOrderDaoImpl implements OrderDao {
 			return order;
 		}
 		catch( Exception exception ){
+			exception.printStackTrace();
 			LOG.equals(exception);
 		}
 		return null;
@@ -124,11 +127,13 @@ public class MongoOrderDaoImpl implements OrderDao {
 				Order oredr = (Order) CommonUtil.jsonToObject( jsonString, Order.class.getName() );
 				orderList.add(oredr);
 			}
+			
 			return orderList;
 			
 		}
 		catch( Exception exception ){
-			LOG.equals(exception);
+			exception.printStackTrace();
+			LOG.error(exception);
 		}
 		return null;
 	}
@@ -159,7 +164,8 @@ public class MongoOrderDaoImpl implements OrderDao {
 			
 		}
 		catch( Exception exception ){
-			LOG.equals(exception);
+			exception.printStackTrace();
+			LOG.error(exception);
 		}
 		return null;
 	}

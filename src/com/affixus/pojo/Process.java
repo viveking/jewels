@@ -8,28 +8,30 @@ public class Process implements Serializable {
 		super();
 	}
 	
-	public Process(String name, String amount) {
+	public Process(boolean required, float amount) {
 		super();
-		this.name = name;
+		this.required = required;
 		this.amount = amount;
 	}
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String name;
-	private String amount;
+	private boolean required;
+	private float amount;
 	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getAmount() {
+	public float getAmount() {
 		return amount;
 	}
-	public void setAmount(String amount) {
+	public void setAmount(float amount) {
 		this.amount = amount;
+	}
+
+	public boolean isRequired() {
+		return required;
+	}
+
+	public void setRequired(boolean required) {
+		this.required = required;
 	}
 
 }

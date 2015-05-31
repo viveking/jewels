@@ -1,5 +1,6 @@
 package com.affixus.services;
 
+import java.util.Date;
 import java.util.Set;
 
 import com.affixus.dao.OrderDao;
@@ -37,6 +38,10 @@ public class OrderService {
 	}
 	public Set<Order> getAll() {
 		return orderDao.getAll();
+	}
+	
+	public Set<Order> getAll(Date from, Date to) {
+		return orderDao.getAll(from,to);
 	}
 
 	public Boolean update(Order ord) {

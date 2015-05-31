@@ -115,6 +115,7 @@ public class MongoOrderDaoImpl implements OrderDao {
 			
 			while ( dbCursor.hasNext() ) {
 				DBObject dbObject = dbCursor.next();
+				dbObject.put("orderDateStr", CommonUtil.longToStringDate((Long)dbObject.get("orderDate"), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
 				DBObject clientDBO = ((DBRef) dbObject.get(KEY_CLIENT_XID)).fetch();
 				dbObject.put(KEY_CLIENT, clientDBO);
 				dbObject.removeField(KEY_CLIENT_XID);
@@ -138,13 +139,14 @@ public class MongoOrderDaoImpl implements OrderDao {
 		try{
 			DBCollection collection = mongoDB.getCollection( collOrder );
 			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
-			finalQuery.put("orderDate", new BasicDBObject("$gte",fromDate).append("$lte", toDate));
+			finalQuery.put("orderDate", new BasicDBObject("$gte",fromDate.getTime()).append("$lte", toDate.getTime()));
 			DBCursor dbCursor = collection.find( finalQuery);
 			
 			Set<Order> orderList = new HashSet<>();
 			
 			while ( dbCursor.hasNext() ) {
 				DBObject dbObject = dbCursor.next();
+				dbObject.put("orderDateStr", CommonUtil.longToStringDate((Long)dbObject.get("orderDate"), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
 				DBObject clientDBO = ((DBRef) dbObject.get(KEY_CLIENT_XID)).fetch();
 				dbObject.put(KEY_CLIENT, clientDBO);
 				dbObject.removeField(KEY_CLIENT_XID);

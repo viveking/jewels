@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -49,8 +50,6 @@ public class OrderAction extends HttpServlet {
 		if (object instanceof ClientService ) {
 			clientService = (ClientService) object;
 		}
-		
-		
 	}
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -150,7 +149,7 @@ public class OrderAction extends HttpServlet {
 				
 				for (JsonNode jsonNode : jn) {
 					
-					String orderNo = jsonNode.get("orderNo").asText();
+					String orderNo = jsonNode.get("_id").asText();
 					String selectCAM = jsonNode.get("selectCAM").asText();
 					String selectRM = jsonNode.get("selectRM").asText();
 					String selectCAD = jsonNode.get("selectCAD").asText();
@@ -158,6 +157,10 @@ public class OrderAction extends HttpServlet {
 					
 					Order ord = orderService.get(orderNo);
 					Set<Process> processList = ord.getProcessList();
+					
+					if(null == processList){
+						processList = new HashSet<>();
+					}
 					
 					Process process = new Process("CAM",selectCAM);
 					processList.add(process);
@@ -181,9 +184,19 @@ public class OrderAction extends HttpServlet {
 				break;
 			
 			case VIEW_ALL:
+				
 				String fromDate = request.getParameter("fromDate");
 				String toDate = request.getParameter("toDate");
-				Set<Order> orderList = orderService.getAll();
+				
+				if(fromDate!= null && null != toDate){
+					Date from = CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+					Date to = CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+					Set<Order> orderList = orderService.getAll(from,to);
+					json=CommonUtil.objectToJson(orderList);
+				}else{
+					Set<Order> orderList = orderService.getAll();
+					json=CommonUtil.objectToJson(orderList);
+				}
 				break;
 				
 			default:

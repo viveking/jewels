@@ -95,6 +95,7 @@ public class CommonUtil {
 		try {
 
 			return mapper.writeValueAsString(object);
+			
 		} catch (JsonGenerationException e) {
 			LOG.error(e);
 		} catch (JsonMappingException e) {
@@ -298,7 +299,6 @@ public class CommonUtil {
 		} catch (Exception e) {
 
 		}
-
 		return strDate;
 	}
 

@@ -43,20 +43,7 @@
 		
 			<label for="idSelectClient">Select Client</label>
 					
-			<select class="width-80 chosen-select" id="form-field-select-3" data-placeholder="Choose a Country...">
-				<option value="">&nbsp;</option>
-				<option value="AL">Alabama</option>
-				<option value="AK">Alaska</option>
-				<option value="AZ">Arizona</option>
-				<option value="AR">Arkansas</option>
-				<option value="CA">California</option>
-				<option value="CO">Colorado</option>
-				<option value="CT">Connecticut</option>
-				<option value="DE">Delaware</option>
-				<option value="FL">Florida</option>
-				<option value="WV">West Virginia</option>
-				<option value="WI">Wisconsin</option>
-				<option value="WY">Wyoming</option>
+			<select class="width-80 chosen-select" id="idSelectClient" data-placeholder="Choose a Client...">
 			</select>
 		</div>
 	</div>
@@ -117,7 +104,7 @@
 		$('.date-picker').datepicker('setDate',new Date());
 		
         $('input[name=date-range-picker]').daterangepicker({
-        	format: 'DD/MM/YYYY',
+        	format: 'DD-MM-YYYY',
         	separator: ' to '
         	}).prev().on(ace.click_event, function(){
 			$(this).next().focus();
@@ -125,18 +112,19 @@
         
         $(".chosen-select").chosen();
         
+        $(".chosen-select").chosen().change(function() {
+        	var clientGridData = clientMap[$(this).val()];
+        	if(!clientGridData){
+			  	$('#order-grid-table').jqGrid('setGridParam', {data: dataFromServer }).trigger('reloadGrid');
+        	}else{
+	        	console.log(clientGridData);
+	        	$("#order-grid-table").jqGrid("clearGridData");
+	        	$('#order-grid-table').jqGrid('setGridParam', {data: clientGridData}).trigger('reloadGrid');        		
+        	}
+        });
         
 	});
 
-	/*var grid_data = 
-	[ {orderDate:"25-02-2015",clientId:"Monil",orderNo:"123",orderName:"NewOrder Bali",selectCAM:true,selectRM:false,selectCAD:true,selectCAST:false},
-	  {orderDate:"25-02-2015",clientId:"Monil",orderNo:"122",orderName:"NewOrder Bali",selectCAM:true,selectRM:true,selectCAD:true,selectCAST:true},
-	  {orderDate:"25-02-2015",clientId:"Monil",orderNo:"121",orderName:"NewOrder Bali",selectCAM:false,selectRM:false,selectCAD:false,selectCAST:false},
-	  {orderDate:"25-02-2015",clientId:"Monil",orderNo:"120",orderName:"NewOrder Bali",selectCAM:true,selectRM:true,selectCAD:true,selectCAST:true},
-	  {orderDate:"25-02-2015",clientId:"Monil",orderNo:"121",orderName:"NewOrder Bali",selectCAM:false,selectRM:false,selectCAD:false,selectCAST:false},
-	  {orderDate:"25-02-2015",clientId:"Monil",orderNo:"120",orderName:"NewOrder Bali",selectCAM:true,selectRM:true,selectCAD:true,selectCAST:true},
-	  {orderDate:"26-02-2015a",clientId:"Monil",orderNo:"1234",orderName:"NewOrder Balia",selectCAM:true,selectRM:false,selectCAD:true,selectCAST:false},{}
-	];*/
 	var grid_data = [];
 	
 	jQuery(function($) {
@@ -149,22 +137,22 @@
 			height: 320,
 			colNames:['Order Date','Client ID','Order No','Order Name','Select CAM','Select RM','Select CAD','Select CAST'],
 			colModel:[
-				{name:'orderDate',index:'orderDate', width:150,editable: false},
-				{name:'clientId',index:'clientId', width:150,editable: false},
-				{name:'orderNo',index:'orderNo', width:150,editable: false},
+				{name:'orderDateStr',index:'orderDateStr', width:150,editable: false},
+				{name:'client.clientId',index:'client.clientId', width:150,editable: false},
+				{name:'_id',index:'_id', width:150,editable: false},
 				{name:'orderName',index:'orderName', width:150,editable: false},
 				{name:'selectCAM',index:'selectCAM', width: 70, align: "center",
                     formatter: "checkbox", formatoptions: { disabled: false},
-                    edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "Yes"}},
+                    edittype: "checkbox", editoptions: {value: "true:false", defaultValue: "true"}},
 				{name:'selectRM',index:'selectRM', width: 70, align: "center",
                         formatter: "checkbox", formatoptions: { disabled: false},
-                        edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "Yes"} },
+                        edittype: "checkbox", editoptions: {value: "true:false", defaultValue: "false"} },
 				{name:'selectCAD',index:'selectCAD', width: 70, align: "center",
                             formatter: "checkbox", formatoptions: { disabled: false},
-                            edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "Yes"}},
+                            edittype: "checkbox", editoptions: {value: "true:false", defaultValue: "false"}},
 				{name:'selectCAST',index:'selectCAST', width: 70, align: "center",
                                 formatter: "checkbox", formatoptions: { disabled: false},
-                                edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "Yes"} }
+                                edittype: "checkbox", editoptions: {value: "true:false", defaultValue: "false"} }
 			],
 			hiddengrid: false,
 			viewrecords : true,
@@ -176,21 +164,63 @@
 			autowidth: true
 		});
 
-		$('#idSaveOrder').click(function(){
-			var passedGrid = $("#order-grid-table");
-			var selRows = passedGrid.jqGrid('getGridParam','selarrrow');
-			
-			var selData=[];
-			$.each(selRows,function(inx,val){
-				selData.push(passedGrid.getRowData(val));
-			});
-			
-			var param ={'order':selData,'printer':$('#form-field-select-1').val(),'date':$('#id-date-picker-1').val()};
-			
-			param = JSON.stringify(param);
+		
+		
+		$('#btnGenerateOrderGetCLient').click(function(){
+			var dateRange = $('#idFromToDate').val();
+			var date = dateRange.split(" to ");
+			clientMap = {};
+			param = {"fromDate":date[0],"toDate":date[1]};
 			console.log(param);
 			$.ajax({
-			  	url: '${pageContext.request.contextPath}/order.action?op=ADD',
+			  	url: '${pageContext.request.contextPath}/order.action?op=VIEW_ALL',
+			  	type: 'POST',
+			  	data: param
+			  })
+			  .done(function(data) {
+			  	console.log("success "+data);
+			  	dataFromServer = [];
+			  	dataFromServer = JSON.parse(data);
+			  	
+			  	if(dataFromServer){
+			  		
+				  	$("#idSelectClient").empty();
+				  	$("#order-grid-table").jqGrid("clearGridData");
+				  	
+				  	$("#idSelectClient").append("<option value='all'>All<option>");
+				  	
+				  	$.each(dataFromServer ,function(ind,val){
+				  		var clientId = val.client.clientId;
+				  		
+				  		if(!clientMap.hasOwnProperty(clientId)){
+							clientMap[clientId] = [];
+					  		$("#idSelectClient").append("<option value="+val.client.clientId+">"+val.client.clientId+"<option>");
+				  		}
+						clientMap[clientId].push(val);
+				  	});
+				  	
+				  	$('.chosen-select').chosen().trigger("chosen:updated");
+				  	
+				  	$('#order-grid-table').jqGrid('setGridParam', {data: dataFromServer }).trigger('reloadGrid');
+			  	}
+			  })
+			  .fail(function() {
+			  	console.log("error");
+			  })
+			  .always(function() {
+			  	console.log("complete");
+			  });
+		});
+		
+		$('#idSaveOrder').click(function(){
+			var passedGrid = $("#order-grid-table");
+			var selData = passedGrid.jqGrid('getRowData');
+			
+			var param ={'order':JSON.stringify(selData)};
+			
+			console.log(param);
+			$.ajax({
+			  	url: '${pageContext.request.contextPath}/order.action?op=EDIT',
 			  	type: 'POST',
 			  	data: param
 			  })
@@ -208,8 +238,8 @@
 		
 		//hidding the grid Initially.....
 
-       /*  $('#noGridContainer').show();
-        $('#gridContainer').hide(); */
+        $('#noGridContainer').hide();
+        $('#gridContainer').show(); 
         
 	});
 </script>

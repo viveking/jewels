@@ -11,6 +11,7 @@ public class Order extends BasePojo {
 	private Client client;
 	private String orderName;
 	private Date orderDate;
+	private String orderDateStr;
 	private Set<Part> partList;
 	private String status;
 	private String printer;
@@ -70,6 +71,12 @@ public class Order extends BasePojo {
 	}
 	public void setProcessList(Set<Process> processList) {
 		this.processList = processList;
+	}
+	public String getOrderDateStr() {
+		return orderDateStr;
+	}
+	public void setOrderDateStr(String orderDateStr) {
+		this.orderDateStr = orderDateStr;
 	}
 	
 	

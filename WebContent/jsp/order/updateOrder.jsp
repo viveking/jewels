@@ -100,24 +100,28 @@
 			$(this).prev().focus();
 		});
 			
-		var grid_data =[{"orderNo":1,"orderName":12,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":3,"orderName":35,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9},{"orderNo":0,"orderName":1,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9}];
-			
+		var grid_data =[];
+		
+		//{"orderNo":1,"orderName":12,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9}
+		
 		var update_order_grid = "#update_order_grid_table";
+		
+		
 		jQuery(update_order_grid).jqGrid({
 			datastr: grid_data,
 			datatype: "local",
 			height: 280,
-			colNames:['Order No','Order Name','Client Name','Units', 'Part','Weight','Created By','Date of Creation', 'Part Status','Charges'],
+			colNames:['Order No','Order Name','Client Name','Created By','Date of Creation', 'Charges'],
 			colModel:[
-				{name:'orderNo',index:'orderNo', width:125,editable: false},
+				{name:'_id',index:'_id', width:125,editable: false},
 				{name:'orderName',index:'orderName', width:125, editable: false},
-				{name:'clientName',index:'clientName', width:275, editable: false},
-				{name:'units',index:'units', width:80, editable: false},
+				{name:'client.name',index:'client.name', width:275, editable: false},
+				/*{name:'units',index:'units', width:80, editable: false},
 				{name:'part',index:'part', width:80, editable: false},
 				{name:'weight',index:'weight', width:80, editable: false},
-				{name:'createdBy',index:'createdBy', width:100, editable: false},
-				{name:'dateOfCreation',index:'dateOfCreation', width:135, editable: false},
-				{name:'partStatus',index:'partStatus', width:100, editable: false},
+				*/{name:'createdBy',index:'createdBy', width:100, editable: false},
+				{name:'orderDateStr',index:'orderDateStr', width:135, editable: false},
+				/*{name:'partStatus',index:'partStatus', width:100, editable: false},*/
 				{name:'charges',index:'charges', width:150, editable: true}
 			], 
 			viewrecords : true,
@@ -130,8 +134,60 @@
 			cellsubmit :"clientArray"
 	
 		});
+		
+
+		$('#btnGetUpdateOrder').click(function(){
+			var dateRange = $('#idFromToDate').val();
+			var date = dateRange.split(" to ");
+			clientMap = {};
+			param = {"fromDate":date[0],"toDate":date[1]};
+			console.log(param);
+			$.ajax({
+			  	url: '${pageContext.request.contextPath}/order.action?op=VIEW_ALL',
+			  	type: 'POST',
+			  	data: param
+			  })
+			  .done(function(data) {
+			  	console.log("success "+data);
+			  	dataFromServer = [];
+			  	dataFromServer = JSON.parse(data);
+			  	
+			  	if(dataFromServer){
+			  		
+				  	$("#cmbClientInfo").empty();
+				  	$(update_order_grid).jqGrid("clearGridData");
+				  	
+				  	$("#cmbClientInfo").append("<option value='all'>All<option>");
+				  	
+				  	$.each(dataFromServer ,function(ind,val){
+				  		var clientId = val.client.clientId;
+				  			
+				  		if(!clientMap.hasOwnProperty(clientId)){
+							clientMap[clientId] = [];
+					  		$("#cmbClientInfo").append("<option value="+val.client.clientId+">"+val.client.clientId+"<option>");
+				  		}
+						clientMap[clientId].push(val);
+				  	});
+				  	
+				  	$('.chosen-select').chosen().trigger("chosen:updated");
+				  	
+				  	$(update_order_grid).jqGrid('setGridParam', {data: dataFromServer }).trigger('reloadGrid');
+				  	
+			  	}
+			  	
+			  	//$('#noGridContainer').hide();
+		        //$('#gridContainer').show(); 
+			  })
+			  .fail(function() {
+			  	console.log("error");
+			  })
+			  .always(function() {
+			  	console.log("complete");
+			  });
+		});
+		
 		//jQuery(update_order_grid).jqGrid('filterToolbar', { defaultSearch: 'cn', stringResult: true });
-		jQuery(update_order_grid).jqGrid('setGridParam', {data: grid_data}).trigger('reloadGrid');
+		//jQuery(update_order_grid).jqGrid('setGridParam', {data: grid_data}).trigger('reloadGrid');
 		
 		$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
 			$(this).prev().focus();

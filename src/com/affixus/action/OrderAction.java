@@ -195,7 +195,7 @@ public class OrderAction extends HttpServlet {
 				
 			default:
 				break;
-		}		
+		}
 		
 		out.write(json);
 		out.close();

@@ -33,9 +33,9 @@
 		
 		<div class="col-xs-2">
 		
-			<label for="form-field-select-2">Select Operation</label>
+			<label for="idProcessType">Select Operation</label>
 			
-			<select class="form-control" id="form-field-select-2">
+			<select class="form-control" id="idProcessType">
 				<option value="cad">CAD</option>
 				<option value="cast">CAST</option>
 				<option value="rm">RM</option>
@@ -57,8 +57,6 @@
 			<br/>
 			<select class="width-80 chosen-select" id="cmbClientInfo" data-placeholder="Choose a CLient...">
 				<option value="">&nbsp;</option>
-				<option value="Chaudhary">Chaudhary</option>
-				<option value="Hardik">Hardik</option>
 			</select>
 			</div>
 		</div>
@@ -91,6 +89,9 @@
 				Save
 			</button>	
 		</div>
+		<div id="alertContainer" style="position: fixed; bottom:10px; right:10px; z-index:1000">
+			
+		</div>
 	</div>
 <script>
 
@@ -102,10 +103,7 @@
 			
 		var grid_data =[];
 		
-		//{"orderNo":1,"orderName":12,"clientName":2,"units":3,"part":4,"weight":5,"createdBy":6,"dateOfCreation":7,"partStatus":8,"charges":9}
-		
 		var update_order_grid = "#update_order_grid_table";
-		
 		
 		jQuery(update_order_grid).jqGrid({
 			datastr: grid_data,
@@ -116,12 +114,8 @@
 				{name:'_id',index:'_id', width:125,editable: false},
 				{name:'orderName',index:'orderName', width:125, editable: false},
 				{name:'client.name',index:'client.name', width:275, editable: false},
-				/*{name:'units',index:'units', width:80, editable: false},
-				{name:'part',index:'part', width:80, editable: false},
-				{name:'weight',index:'weight', width:80, editable: false},
-				*/{name:'createdBy',index:'createdBy', width:100, editable: false},
+				{name:'createdBy',index:'createdBy', width:100, editable: false},
 				{name:'orderDateStr',index:'orderDateStr', width:135, editable: false},
-				/*{name:'partStatus',index:'partStatus', width:100, editable: false},*/
 				{name:'charges',index:'charges', width:150, editable: true}
 			], 
 			viewrecords : true,
@@ -136,10 +130,46 @@
 		});
 		
 
+		$('#btnSubmitUpdateOrder').click(function(){
+			var selData = jQuery(update_order_grid).jqGrid('getRowData');
+			
+			var param ={'order':JSON.stringify(selData),'process':$("#idProcessType").val()};
+			
+			console.log(param);
+			$.ajax({
+			  	url: '${pageContext.request.contextPath}/updateOrder.action?op=EDIT',
+			  	type: 'POST',
+			  	data: param
+			  })
+			  .done(function(data) {
+			  	console.log("success "+data);
+			  	$("#alertContainer").html(' \
+			  			<div class="alert alert-block alert-success" id="alertSaved">\
+						<button type="button" class="close" data-dismiss="alert"> \
+							<i class="icon-remove"></i> \
+						</button> \
+						<p>	<strong> \
+								<i class="icon-ok"></i>\
+								Save Successful... \
+							</strong></p> \
+					</div>');
+			  	
+			  	$("#alertSaved").addClass("animated bounceInRight");
+			  	
+			  })
+			  .fail(function() {
+			  	console.log("error");
+			  })
+			  .always(function() {
+			  	console.log("complete");
+			  });
+		});
+
+		
 		$('#btnGetUpdateOrder').click(function(){
 			var dateRange = $('#idFromToDate').val();
 			var date = dateRange.split(" to ");
-			var operation = $("#form-field-select-2").val();
+			var operation = $("#idProcessType").val();
 			clientMap = {};
 			param = {"fromDate":date[0],"toDate":date[1], "operation": operation};
 			console.log(param);

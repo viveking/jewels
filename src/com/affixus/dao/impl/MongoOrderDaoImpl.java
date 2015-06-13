@@ -185,7 +185,7 @@ public class MongoOrderDaoImpl implements OrderDao {
 			String operationDoc = operation + ".required";
 			finalQuery.put(operationDoc, true);
 			
-			DBCursor dbCursor = collection.find( finalQuery);
+			DBCursor dbCursor = collection.find( finalQuery, new BasicDBObject("partList",0));
 			
 			Set<Order> orderList = new HashSet<>();
 			
@@ -195,6 +195,9 @@ public class MongoOrderDaoImpl implements OrderDao {
 				DBObject clientDBO = ((DBRef) dbObject.get(KEY_CLIENT_XID)).fetch();
 				dbObject.put(KEY_CLIENT, clientDBO);
 				dbObject.removeField(KEY_CLIENT_XID);
+				
+				DBObject dbProcessType = (DBObject)dbObject.get(operation);
+				dbObject.put("t_charges",dbProcessType.get("amount"));
 				
 				String jsonString = JSON.serialize(dbObject);
 				Order oredr = (Order) CommonUtil.jsonToObject( jsonString, Order.class.getName() );

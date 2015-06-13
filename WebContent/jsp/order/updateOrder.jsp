@@ -115,7 +115,7 @@
 				{name:'client.name',index:'client.name', width:275, editable: false},
 				{name:'createdBy',index:'createdBy', width:100, editable: false},
 				{name:'orderDateStr',index:'orderDateStr', width:135, editable: false},
-				{name:'charges',index:'charges', width:150, editable: true}
+				{name:'t_charges',index:'t_charges', width:150, editable: true}
 			], 
 			viewrecords : true,
 			altRows: true,

@@ -3,8 +3,6 @@ package com.affixus.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -18,7 +16,6 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.affixus.pojo.Order;
-import com.affixus.pojo.Part;
 import com.affixus.pojo.Process;
 import com.affixus.services.OrderService;
 import com.affixus.util.CommonUtil;
@@ -114,8 +111,8 @@ public class UpdateOrderAction extends HttpServlet {
 					Order ord = new Order();
 					ord.set_id(orderNo);
 					
-					if(jsonNode.get("charges") != null || !"".equals(jsonNode.get("charges").asText())){
-						Process process = new Process(true,Float.parseFloat(jsonNode.get("charges").asText()));						
+					if(jsonNode.get("t_charges") != null || !"".equals(jsonNode.get("t_charges").asText())){
+						Process process = new Process(true,Float.parseFloat(jsonNode.get("t_charges").asText()));						
 					
 						switch (operationStr) {
 						case "cad":

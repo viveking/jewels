@@ -138,7 +138,8 @@
 		        	  var arrPathSplit = arrFiles[i].split("\\");
 		        	  var jsonObj = {};
 		        	  var lenPathSplit = arrPathSplit.length;
-		        	  if(arrPathSplit[lenPathSplit - 1].endsWith(".stl;")){
+		        	  debugger;
+		        	  if(arrPathSplit[lenPathSplit - 1].indexOf(".stl;") !== -1 ){
 			        	  jsonObj.fileName = arrPathSplit[lenPathSplit - 1].replace(/;/g,'');
 			        	  jsonObj.clientOrderName = arrPathSplit[lenPathSplit - 2];
 			        	  jsonObj.clientName = arrPathSplit[lenPathSplit - 3];

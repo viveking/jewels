@@ -144,7 +144,47 @@ public class MongoOrderDaoImpl implements OrderDao {
 		try{
 			DBCollection collection = mongoDB.getCollection( collOrder );
 			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
-			finalQuery.put("orderDate", new BasicDBObject("$gte",fromDate.getTime()).append("$lte", toDate.getTime()));
+			if(null != fromDate && null != toDate){
+				finalQuery.put("orderDate", new BasicDBObject("$gte",fromDate.getTime()).append("$lte", toDate.getTime()));
+			}
+			DBCursor dbCursor = collection.find( finalQuery);
+			
+			Set<Order> orderList = new HashSet<>();
+			
+			while ( dbCursor.hasNext() ) {
+				DBObject dbObject = dbCursor.next();
+				dbObject.put("orderDateStr", CommonUtil.longToStringDate((Long)dbObject.get("orderDate"), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
+				DBObject clientDBO = ((DBRef) dbObject.get(KEY_CLIENT_XID)).fetch();
+				dbObject.put(KEY_CLIENT, clientDBO);
+				dbObject.removeField(KEY_CLIENT_XID);
+				
+				String jsonString = JSON.serialize(dbObject);
+				Order oredr = (Order) CommonUtil.jsonToObject( jsonString, Order.class.getName() );
+				orderList.add(oredr);
+			}
+			return orderList;
+			
+		}
+		catch( Exception exception ){
+			exception.printStackTrace();
+			LOG.error(exception);
+		}
+		return null;
+	}
+
+	@Override
+	public Set<Order> getAllByOperation(Date fromDate, Date toDate, String operation) {
+		// TODO Auto-generated method stub
+		try{
+			DBCollection collection = mongoDB.getCollection( collOrder );
+			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
+			if(null != fromDate && null != toDate){
+				finalQuery.put("orderDate", new BasicDBObject("$gte",fromDate.getTime()).append("$lte", toDate.getTime()));
+			}
+			
+			String operationDoc = operation + ".required";
+			finalQuery.put(operationDoc, true);
+			
 			DBCursor dbCursor = collection.find( finalQuery);
 			
 			Set<Order> orderList = new HashSet<>();

@@ -24,7 +24,6 @@ public class OrderService {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	public Boolean create(Order order) 
@@ -43,7 +42,11 @@ public class OrderService {
 	public Set<Order> getAll(Date from, Date to) {
 		return orderDao.getAll(from,to);
 	}
-
+	
+	public Set<Order> getAllByOperation(Date from, Date to, String operation) {
+		return orderDao.getAllByOperation(from,to,operation);
+	}
+	
 	public Boolean update(Order ord) {
 		return orderDao.update(ord);
 	}

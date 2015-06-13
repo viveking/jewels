@@ -36,9 +36,9 @@
 			<label for="form-field-select-2">Select Operation</label>
 			
 			<select class="form-control" id="form-field-select-2">
-				<option value="CAD">CAD</option>
-				<option value="CAST">CAST</option>
-				<option value="RM">RM</option>
+				<option value="cad">CAD</option>
+				<option value="cast">CAST</option>
+				<option value="rm">RM</option>
 			</select>
 		</div>
 		<div class="col-xs-2">
@@ -139,11 +139,12 @@
 		$('#btnGetUpdateOrder').click(function(){
 			var dateRange = $('#idFromToDate').val();
 			var date = dateRange.split(" to ");
+			var operation = $("#form-field-select-2").val();
 			clientMap = {};
-			param = {"fromDate":date[0],"toDate":date[1]};
+			param = {"fromDate":date[0],"toDate":date[1], "operation": operation};
 			console.log(param);
 			$.ajax({
-			  	url: '${pageContext.request.contextPath}/order.action?op=VIEW_ALL',
+			  	url: '${pageContext.request.contextPath}/updateOrder.action?op=VIEW_ALL',
 			  	type: 'POST',
 			  	data: param
 			  })

@@ -7,7 +7,7 @@ public class Platform extends BasePojo{
 	private static final long serialVersionUID = 1L;
 	
 	private String _id;
-	private String platformNmber;
+	private String platformNumber;
 	private String printer;
 	private Date orderFromDate;
 	private Date orderToDate;
@@ -21,10 +21,10 @@ public class Platform extends BasePojo{
 		this._id = _id;
 	}
 	public String getPlatformNmber() {
-		return platformNmber;
+		return platformNumber;
 	}
 	public void setPlatformNmber(String platformNmber) {
-		this.platformNmber = platformNmber;
+		this.platformNumber = platformNmber;
 	}
 	public String getPrinter() {
 		return printer;

@@ -114,23 +114,25 @@ public class UpdateOrderAction extends HttpServlet {
 					Order ord = new Order();
 					ord.set_id(orderNo);
 					
-					Process process = new Process(true,Float.parseFloat(jsonNode.get("charges").asText()));
+					if(jsonNode.get("charges") != null || !"".equals(jsonNode.get("charges").asText())){
+						Process process = new Process(true,Float.parseFloat(jsonNode.get("charges").asText()));						
 					
-					switch (operationStr) {
-					case "cad":
-						ord.setCad(process);
-						break;
-					case "cast":
-						ord.setCast(process);
-						break;
-					case "rm":
-						ord.setRm(process);
-						break;
-					default:
-						break;
+						switch (operationStr) {
+						case "cad":
+							ord.setCad(process);
+							break;
+						case "cast":
+							ord.setCast(process);
+							break;
+						case "rm":
+							ord.setRm(process);
+							break;
+						default:
+							break;
+						}
+						
+						orderService.update(ord);
 					}
-					
-					orderService.update(ord);
 					
 				}
 				

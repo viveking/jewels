@@ -56,7 +56,6 @@
 			<label for="cmbClientInfo">Client</label>
 			<br/>
 			<select class="width-80 chosen-select" id="cmbClientInfo" data-placeholder="Choose a CLient...">
-				<option value="">&nbsp;</option>
 			</select>
 			</div>
 		</div>
@@ -71,7 +70,7 @@
 		</div>
 	</div>
 	<br/>
-	<div class="row">
+	<div class="row"><!-- 
 		<div class="col-xs-1">
 	
 			<label for="cmbPartStatus">Part Status</label>
@@ -82,7 +81,7 @@
 				<option value="Completed">Completed</option>
 				<option value="Failure">Failure</option>
 			</select>
-		</div>
+		</div> -->
 		<div class="col-xs-1">
 			<button id="btnSubmitUpdateOrder" class="btn btn-sm btn-success">
 				<i class="icon-save"></i>

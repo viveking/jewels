@@ -3,6 +3,8 @@ package com.affixus.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -12,13 +14,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import com.affixus.pojo.Order;
+import com.affixus.pojo.Part;
+import com.affixus.pojo.Process;
 import com.affixus.services.OrderService;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
 import com.affixus.util.ObjectFactory;
-import com.affixus.util.Constants.UIOperations;
 import com.affixus.util.ObjectFactory.ObjectEnum;
 
 /**
@@ -85,15 +90,56 @@ public class UpdateOrderAction extends HttpServlet {
 		//Constants.UIOperations opEnum  = UIOperations.valueOf(operation.toUpperCase());
 		
 		switch (operation) {
-			case "UPDATE_ORDER":
+			case "EDIT":
+				String jsonOrder = request.getParameter("order");
+				if( jsonOrder == null || jsonOrder.trim().isEmpty()){
+					break;
+				}
 				
+				ObjectMapper mapper = new ObjectMapper();
+				JsonNode jn = mapper.readTree(jsonOrder);
+				//Map<String,Order> orderMap = new HashMap<>();
+				String operationStr = request.getParameter("process");
+				
+				for (JsonNode jsonNode : jn) {
+					
+					String orderNo = jsonNode.get("_id").asText();
+					
+					/*String selectCAM = jsonNode.get("cam.required").asText();
+					String selectRM = jsonNode.get("rm.required").asText();
+					String selectCAD = jsonNode.get("cad.required").asText();
+					String selectCAST = jsonNode.get("cast.required").asText();
+					*/
+					
+					Order ord = new Order();
+					ord.set_id(orderNo);
+					
+					Process process = new Process(true,Float.parseFloat(jsonNode.get("charges").asText()));
+					
+					switch (operationStr) {
+					case "cad":
+						ord.setCad(process);
+						break;
+					case "cast":
+						ord.setCast(process);
+						break;
+					case "rm":
+						ord.setRm(process);
+						break;
+					default:
+						break;
+					}
+					
+					orderService.update(ord);
+					
+				}
 				
 				break;
 			case "VIEW_ALL":
 				
 				String fromDate = request.getParameter("fromDate");
 				String toDate = request.getParameter("toDate");
-				String operationStr = request.getParameter("operation");
+				operationStr = request.getParameter("operation");
 				
 				//if(fromDate!= null && null != toDate){
 					Date from = CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);

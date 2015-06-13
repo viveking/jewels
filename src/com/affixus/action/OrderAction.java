@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.poi.ss.usermodel.DateUtil;
+
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -145,7 +145,7 @@ public class OrderAction extends HttpServlet {
 				
 				mapper = new ObjectMapper();
 				jn = mapper.readTree(jsonOrder);
-				Map<String,Order> orderMap = new HashMap<>();
+				//Map<String,Order> orderMap = new HashMap<>();
 				
 				for (JsonNode jsonNode : jn) {
 					

@@ -3,6 +3,9 @@ package com.affixus.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
+
 import com.affixus.dao.impl.MongoClientDaoImpl;
 import com.affixus.dao.impl.MongoOrderDaoImpl;
 import com.affixus.dao.impl.MongoPlatformDaoImpl;
@@ -54,6 +57,7 @@ public class ObjectFactory {
 				Class<?> clazz = Class.forName(objectEnum.toString());
 				instance = clazz.newInstance();
 				objectFactoryMap.put(objectEnum, instance);
+
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -66,7 +70,7 @@ public class ObjectFactory {
 
 		return instance;
 	}
-
+	
 	/*
 	 * public static void main(String[] args) { BaseDao baseDao =
 	 * DaoFactory.getDaoInstance(DaoEnum.CUSTOMER_DAO); CustomerDao customerDao

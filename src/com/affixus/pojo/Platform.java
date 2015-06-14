@@ -20,11 +20,11 @@ public class Platform extends BasePojo{
 	public void set_id(String _id) {
 		this._id = _id;
 	}
-	public String getPlatformNmber() {
+	public String getPlatformNumber() {
 		return platformNumber;
 	}
-	public void setPlatformNmber(String platformNmber) {
-		this.platformNumber = platformNmber;
+	public void setPlatformNumber(String platformNumber) {
+		this.platformNumber = platformNumber;
 	}
 	public String getPrinter() {
 		return printer;

@@ -48,6 +48,9 @@
 				<li><a href="#" data-href="/jsp/master/rate_master.jsp">
 						<i class="icon-double-angle-right"></i> Rates
 				</a></li>
+				<li><a href="#" data-href="/jsp/master/platform_master.jsp">
+						<i class="icon-double-angle-right"></i> Platform
+				</a></li>
 				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
 						<i class="icon-double-angle-right"></i> User
 				</a></li>
@@ -71,7 +74,6 @@
 				<li><a href="#" data-href="/jsp/order/updateOrder.jsp">
 						<i class="icon-double-angle-right"></i> Update Order
 				</a></li>
-				
 				<li><a href="#" data-href="/jsp/order/platformOptCalc.jsp">
 						<i class="icon-double-angle-right"></i> Platform Output Calculation
 				</a></li>

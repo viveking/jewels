@@ -85,9 +85,11 @@ public class PlatformAction extends HttpServlet {
 		String json = "";
 		String operation = request.getParameter(Constants.OPERATION);
 
+		
 		Platform platform = new Platform();
-		BeanUtils.populate(platform, request.getParameterMap());
-		String id = request.getParameter(Constants.COLLECTION_KEY);
+		
+		//BeanUtils.populate(platform, request.getParameterMap());
+		//String id = request.getParameter(Constants.COLLECTION_KEY);
 
 		if (operation == null || platformService == null) {
 			out.write(json);
@@ -98,19 +100,32 @@ public class PlatformAction extends HttpServlet {
 
 		switch (opEnum) {
 			case ADD:
+				String fromDate = request.getParameter("orderFromDate");
+				String toDate = request.getParameter("orderToDate");
+
+				platform.setPlatformNumber(request.getParameter("platformNumber"));
+				platform.setPrinter(request.getParameter("printer"));
+				platform.setPlatformPreparedBy(request.getParameter("platformPreparedBy"));
+				platform.setPlatformPrintedBy(request.getParameter("platformPrintedBy"));
+				
+				
+				if(fromDate != null)
+					platform.setOrderFromDate(CommonUtil.stringToDate(fromDate, CommonUtil.DATETIME_FORMAT_ddMMyyyyHHmmss_HYPHEN));
+				if(toDate != null)
+					platform.setOrderToDate(CommonUtil.stringToDate(toDate, CommonUtil.DATETIME_FORMAT_ddMMyyyyHHmmss_HYPHEN));
 				platformService.create(platform);
 				break;
 			case EDIT:
-				if (id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
+				/*if (id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
 					platform.set_id(id);
 					platformService.update(platform);
-				}
+				}*/
 				break;
 	
 			case DELETE:
-				if (id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
+				/*if (id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
 					platformService.delete(id);
-				}
+				}*/
 				break;
 			case VIEW_ALL:
 				List<Platform> orderList = platformService.getAll();

@@ -72,4 +72,4 @@
 		<script src="${pageContext.request.contextPath}/assets/js/date-time/moment.min.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/date-time/daterangepicker.min.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/chosen.jquery.min.js"></script>
-		
+		<script src="${pageContext.request.contextPath}/assets/js/moment-with-locales.js"></script>

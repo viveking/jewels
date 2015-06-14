@@ -13,13 +13,13 @@ public class PlatformService {
 	private PlatformDao platformDao;
 	
 	public PlatformService(){
-		Object object = ObjectFactory.getInstance(ObjectEnum.ORDER_DAO);
+		Object object = ObjectFactory.getInstance(ObjectEnum.PLATFORM_DAO);
 		if (object instanceof PlatformDao) {
 			platformDao = (MongoPlatformDaoImpl) object;
 		}
 		else{
 			try {
-				throw new Exception("Problem to initialise MongoAreaDao");
+				throw new Exception("Problem to initialise MongoPlatformDao");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

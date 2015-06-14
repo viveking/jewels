@@ -210,7 +210,6 @@
 			  })
 			  .done(function(data) {
 			  	console.log("success "+data);
-			  	
 			  })
 			  .fail(function() {
 			  	console.log("error");

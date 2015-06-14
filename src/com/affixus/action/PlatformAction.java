@@ -100,8 +100,8 @@ public class PlatformAction extends HttpServlet {
 
 		switch (opEnum) {
 			case ADD:
-				String fromDate = request.getParameter("orderFromDate");
-				String toDate = request.getParameter("orderToDate");
+				String fromDate = request.getParameter("orderFromDateStr");
+				String toDate = request.getParameter("orderToDateStr");
 
 				platform.setPlatformNumber(request.getParameter("platformNumber"));
 				platform.setPrinter(request.getParameter("printer"));

@@ -1,5 +1,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 <div class="page-header">
 	<h1>
 		Update Order
@@ -237,8 +239,7 @@
 </script>
 
 <!-- page specific plugin scripts -->
-
-<script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
-<script src="assets/js/jqGrid/jquery.jqGrid.min.js"></script>
-<script src="assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
 

@@ -35,7 +35,7 @@ public class CommonUtil {
 	public static final String DATE_FORMAT = "dd/MM/yyyy";
 	public static final String DATE_FORMAT_ddMMyyyy_HYPHEN = "dd-MM-yyyy";
 	public static final String DATE_FORMAT_YY_MM_DD = "yyMMdd";
-	public static final String DATETIME_FORMAT_ddMMyyyyHHmmss_HYPHEN = "dd/MM/yyyy hh:mm:ss a";
+	public static final String DATETIME_FORMAT_ddMMyyyyHHmmss_HYPHEN = "dd-MM-yyyy hh:mm:ss a";
 	
 
 	public static final ObjectMapper mapper = new ObjectMapper();

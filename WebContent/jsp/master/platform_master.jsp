@@ -1,7 +1,16 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap-datetimepicker.css" />
+<script src="${pageContext.request.contextPath}/assets/js/moment-with-locales.js"></script>
+
+<script src="${pageContext.request.contextPath}/assets/js/bootstrap-datetimepicker.js"></script>
+
 <style>
+	@font-face {
+	  font-family: 'Glyphicons Halflings';
+	  src: url('${pageContext.request.contextPath}/assets/fonts/glyphicons-halflings-regular.eot');
+	  src: url('${pageContext.request.contextPath}/assets/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('${pageContext.request.contextPath}/assets/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('${pageContext.request.contextPath}/assets/fonts/glyphicons-halflings-regular.woff') format('woff'), url('${pageContext.request.contextPath}/assets/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('${pageContext.request.contextPath}/assets/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+	}
 	.FormGrid .EditTable tr:first-child {display: table-row !important;}
 </style>
 						<div class="page-header">
@@ -44,13 +53,13 @@
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
 						{name:'platformNumber',index:'platformNumber', width:250, editrules:{required:true},editable: true},
 						{name:'printer',index:'printer', width:250, editable: true ,edittype: "select",editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"INVISIONHR:INVISIONHR;VIPER25:VIPER25;VIPER50:VIPER50;ZNone:ZNone"},formatter:'select'},
-						{name:'orderFromDate',index:'orderFromDate', width:150,editable: true,editoptions:{size:20, 
+						{name:'orderFromDateStr',index:'orderFromDateStr', width:150,editable: true,editoptions:{size:20, 
 			                  dataInit:function(el){ 
 			                        //$(el).datepicker({dateFormat:'yy-mm-dd'}); 
 			                	  $(el).datetimepicker({format: 'DD-MM-YYYY h:mm:ss A'});
 			                  } 
 			                }},
-						{name:'orderToDate',index:'orderToDate', width:150,editable: true,editoptions:{size:20, 
+						{name:'orderToDateStr',index:'orderToDateStr', width:150,editable: true,editoptions:{size:20, 
 			                  dataInit:function(el){ 
 			                       // $(el).datepicker({dateFormat:'yy-mm-dd'}); 
 			                	  $(el).datetimepicker({format: 'DD-MM-YYYY h:mm:ss A'});

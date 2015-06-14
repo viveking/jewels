@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <STYLE>
@@ -30,9 +29,9 @@
 	<div class="row">
 		<div class="col-xs-4">
 		
-			<label for="form-field-select-1">Select Printer</label>
+			<label for="idPrinterSelect">Select Printer</label>
 			
-			<select class="form-control" id="form-field-select-1">
+			<select class="form-control" id="idPrinterSelect">
 				<option value="INVISIONHR">INVISIONHR</option>
 				<option value="VIPER25">VIPER25</option>
 				<option value="VIPER50">VIPER50</option>
@@ -200,12 +199,12 @@
 				selData.push(passedGrid.getRowData(val));
 			});
 			
-			var param ={'order':selData,'printer':$('#form-field-select-1').val(),'date':$('#id-date-picker-1').val()};
+			var param ={'order':selData,'printer':$('#idPrinterSelect').val()};
 			
 			param = JSON.stringify(param);
 			console.log(param);
 			$.ajax({
-			  	url: '${pageContext.request.contextPath}/order.action?op=ADD',
+			  	url: '${pageContext.request.contextPath}/platform.action?op=SAVE',
 			  	type: 'POST',
 			  	data: param
 			  })

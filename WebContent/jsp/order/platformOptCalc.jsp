@@ -126,7 +126,7 @@
 		        	  var jsonObj = {};
 			          
 		        	  var arrEachPart = arrFiles[i].split("\r\n");
-		        	  if(arrEachPart[0].toLowerCase().trim().endsWith(".stl")){
+		        	  if(arrEachPart[0].toLowerCase().trim().indexOf(".stl") != -1){
 		        		  
 		        		  var arrPathSplit = arrEachPart[0].split("\\");
 		        		  var lenPathSplit = arrPathSplit.length;

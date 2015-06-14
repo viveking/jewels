@@ -11,6 +11,8 @@ public class Platform extends BasePojo{
 	private String printer;
 	private Date orderFromDate;
 	private Date orderToDate;
+	private String orderToDateStr;
+	private String orderFromDateStr;
 	private String platformPreparedBy;
 	private String platformPrintedBy;
 	
@@ -44,6 +46,19 @@ public class Platform extends BasePojo{
 	public void setOrderToDate(Date orderToDate) {
 		this.orderToDate = orderToDate;
 	}
+	public String getOrderFromDateStr() {
+		return orderFromDateStr;
+	}
+	public void setOrderFromDateStr(String orderFromDateStr) {
+		this.orderFromDateStr = orderFromDateStr;
+	}
+	public String getOrderToDateStr() {
+		return orderToDateStr;
+	}
+	public void setOrderToDateStr(String orderToDateStr) {
+		this.orderToDateStr = orderToDateStr;
+	}
+	
 	public String getPlatformPreparedBy() {
 		return platformPreparedBy;
 	}

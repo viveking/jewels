@@ -192,17 +192,12 @@
 		
 		$('#idSaveOrder').click(function(){
 			var passedGrid = $("#grid-table");
-			var selRows = passedGrid.jqGrid('getGridParam','selarrrow');
+			var selData = passedGrid.jqGrid('getGridParam','data');
 			
-			var selData=[];
-			$.each(selRows,function(inx,val){
-				selData.push(passedGrid.getRowData(val));
-			});
+			var param ={'order':JSON.stringify(selData),'printer':$('#idPrinterSelect').val()};
 			
-			var param ={'order':selData,'printer':$('#idPrinterSelect').val()};
-			
-			param = JSON.stringify(param);
-			console.log(param);
+			//param = JSON.stringify(param);
+			//console.log(param);
 			$.ajax({
 			  	url: '${pageContext.request.contextPath}/platform.action?op=SAVE',
 			  	type: 'POST',

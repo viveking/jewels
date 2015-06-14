@@ -12,8 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import com.affixus.pojo.Client;
+import com.affixus.pojo.Part;
 import com.affixus.pojo.Platform;
 import com.affixus.services.PlatformService;
 import com.affixus.util.CommonUtil;
@@ -131,7 +134,35 @@ public class PlatformAction extends HttpServlet {
 				List<Platform> orderList = platformService.getAll();
 				json = CommonUtil.objectToJson(orderList);
 				break;
-	
+			case SAVE:
+				
+				String jsonPlatform = request.getParameter("order");
+				if( jsonPlatform == null || jsonPlatform.trim().isEmpty()){
+					break;
+				}
+				
+				ObjectMapper mapper = new ObjectMapper();
+				JsonNode jn = mapper.readTree(jsonPlatform);
+				
+				for (JsonNode jsonNode : jn) {
+					
+					String clientId = jsonNode.get("client").asText();
+					//String selectCAM = jsonNode.get("cam.required").asText();
+					String partName = jsonNode.get("part").asText();
+					String platFormNumber = jsonNode.get("platform").asText();
+					String weight = jsonNode.get("partWeight").asText();
+					String refWeight = jsonNode.get("supportWeight").asText();
+					
+					Part part = new Part();
+					part.setName(partName);
+					part.setPlatFormNumber(platFormNumber);
+					part.setWeight(Float.parseFloat(weight));
+					part.setRefWeight(Float.parseFloat(refWeight));
+					
+					platformService.updateParts(clientId, partName, part);
+				}
+				
+				break;
 			default:
 				break;
 		}

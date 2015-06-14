@@ -8,6 +8,9 @@ public class Part implements Serializable {
 	
 	private String name;
 	private String status;
+	private String platFormNumber;
+	private float weight;
+	private float refWeight;
 	
 	public String getName() {
 		return name;
@@ -20,6 +23,25 @@ public class Part implements Serializable {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String getPlatFormNumber() {
+		return platFormNumber;
+	}
+	public void setPlatFormNumber(String platFormNumber) {
+		this.platFormNumber = platFormNumber;
+	}
+	public float getWeight() {
+		return weight;
+	}
+	public void setWeight(float weight) {
+		this.weight = weight;
+	}
+	public float getRefWeight() {
+		return refWeight;
+	}
+	public void setRefWeight(float refWeight) {
+		this.refWeight = refWeight;
 	}
 
 }

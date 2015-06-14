@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.affixus.dao.PlatformDao;
 import com.affixus.dao.impl.MongoPlatformDaoImpl;
+import com.affixus.pojo.Part;
 import com.affixus.pojo.Platform;
 import com.affixus.util.ObjectFactory;
 import com.affixus.util.ObjectFactory.ObjectEnum;
@@ -39,5 +40,7 @@ public class PlatformService {
 	public Boolean update(Platform platform) {
 		return platformDao.update(platform);
 	}
-
+	public Boolean updateParts(String clientId, String partName, Part part) {
+		return platformDao.updateParts(clientId,partName, part);
+	}
 }

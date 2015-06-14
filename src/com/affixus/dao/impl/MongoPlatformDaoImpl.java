@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.affixus.dao.PlatformDao;
+import com.affixus.pojo.Part;
 import com.affixus.pojo.Platform;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants.DBCollectionEnum;
@@ -111,6 +112,56 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
+		}
+		return null;
+	}
+
+	@Override
+	public Boolean updateParts(String clientId, String partName, Part part) {
+		// TODO Auto-generated method stub
+		
+		DBCollection collection = mongoDB.getCollection(DBCollectionEnum.MAST_CLIENT.toString());
+		DBObject clientObj = new BasicDBObject("clientId",clientId);
+		DBCursor dbCursor = collection.find(clientObj);
+		
+		if(dbCursor.hasNext()){
+			
+			clientObj = dbCursor.next();
+			clientId = (String) clientObj.get("_id");
+			
+			DBObject orderQuery = new BasicDBObject("clientXid.$id",clientId).append("partList.name", partName);
+			
+			collection = mongoDB.getCollection(DBCollectionEnum.MAST_PLATFORM.toString());
+			DBObject platformObj = new BasicDBObject("platformNumber",part.getPlatFormNumber());
+			dbCursor = collection.find(platformObj);
+			
+			if(dbCursor.hasNext()){
+			
+				platformObj = dbCursor.next();
+				
+				//Long fromDate  = (Long) platformObj.get("orderFromDate");
+				//Long toDate  =(Long) platformObj.get("orderToDate");
+				//if(fromDate != null && toDate != null){
+				//	orderQuery.put("orderDate", new BasicDBObject("$gte",fromDate).append("$lte",toDate));
+				//}					
+				collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
+				
+				dbCursor = collection.find(orderQuery);
+		
+				if( dbCursor.hasNext() ) {
+					
+					DBObject dbObject = dbCursor.next();
+					String orderId = (String)dbObject.get("_id");
+					//db.emp.update({e5:'1',"addr.name1":"n2"},{'$set':{'addr.$.t2':"n1",'addr.$.vivke':"noob"}});
+					DBObject getQuery = new BasicDBObject();
+					getQuery.put("_id", orderId);
+					getQuery.put("partList.name", part.getName());
+					
+					DBObject updateQuery = new BasicDBObject("$set", new BasicDBObject("partList.$.weight",part.getWeight()).append("partList.$.refWeight",part.getRefWeight()));
+					collection.update(getQuery, updateQuery);
+					
+				}
+			}
 		}
 		return null;
 	}

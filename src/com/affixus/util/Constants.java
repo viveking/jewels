@@ -49,6 +49,7 @@ public class Constants {
 		EDIT,
 		DELETE, 
 		REPORT_DATE,
+		SAVE,
 		ALL_CLIENT_ID;
 		// @formatter:on
 	}

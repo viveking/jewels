@@ -1,9 +1,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap-datetimepicker.css" />
-<script src="${pageContext.request.contextPath}/assets/js/moment-with-locales.js"></script>
-
-<script src="${pageContext.request.contextPath}/assets/js/bootstrap-datetimepicker.js"></script>
 
 <style>
 	@font-face {

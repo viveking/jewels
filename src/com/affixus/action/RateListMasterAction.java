@@ -2,6 +2,7 @@ package com.affixus.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.affixus.pojo.Rate;
 import com.affixus.pojo.RateRange;
 import com.affixus.services.RateService;
+import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
 import com.affixus.util.Constants.UIOperations;
 import com.affixus.util.ObjectFactory;
@@ -87,7 +89,7 @@ public class RateListMasterAction extends HttpServlet {
 			switch (opEnum) {
 			case SAVE:
 				Rate rate = rateService.get(rate_id);
-				Set<RateRange> rateRangeList = rate.getRateRangeList();
+				Set<RateRange> rateRangeList = new HashSet<>();//rate.getRateRangeList();
 				String rateListArrSting = request.getParameter("rateList");
 				
 				ObjectMapper mapper = new ObjectMapper();
@@ -106,34 +108,16 @@ public class RateListMasterAction extends HttpServlet {
 					
 					rateRangeList.add(rl);
 				}
+				rate.setRateList(rateRangeList);
 				
 				rateService.update(rate);
-				break;
-			case EDIT:
-				if (id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
-					rate = rateService.get(rate_id);
-					rateRangeList = rate.getRateRangeList();
-					//rateRangeList.add(rl);
-					//rateService.update(rate);
-				}
-				break;
-
-			case DELETE:
-				if (id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
-					//openStockService.delete(id);
-				}
 				break;
 
 			case VIEW:
 				rate = rateService.get(rate_id);
 				rateRangeList = rate.getRateRangeList();
-				//rateRangeList.add(rl);
-				//rateService.update(rate);
-				break;
-
-			case VIEW_ALL:
-
-				
+				json = CommonUtil.objectToJson(rateRangeList);
+				json = json.replaceAll("_id", "id");
 				break;
 
 			default:

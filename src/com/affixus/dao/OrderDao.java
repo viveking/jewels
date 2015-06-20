@@ -21,4 +21,8 @@ public interface OrderDao {
 	public Set<Order> getAll(Date fromDate, Date toDate);	
 	
 	public Set<Order> getAllByOperation(Date fromDate, Date toDate, String operation);
+	
+	public Set<Order> getOrderInfoByClient(String clientId);
+	
+	public Set<Order> getOrderInfoByPlatform(String platformNumber);
 }

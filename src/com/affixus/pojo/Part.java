@@ -2,12 +2,14 @@ package com.affixus.pojo;
 
 import java.io.Serializable;
 
+import com.affixus.util.Constants;
+
 public class Part implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
-	private String status;
+	private String status = Constants.PartsStatus.INPROGRESS.toString();
 	private String platFormNumber;
 	private float weight;
 	private float refWeight;

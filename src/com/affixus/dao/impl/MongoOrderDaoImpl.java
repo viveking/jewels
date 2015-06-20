@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import com.affixus.dao.OrderDao;
 import com.affixus.pojo.Order;
 import com.affixus.util.CommonUtil;
+import com.affixus.util.Constants;
 import com.affixus.util.Constants.DBCollectionEnum;
 import com.affixus.util.MongoUtil;
 import com.mongodb.BasicDBObject;
@@ -61,7 +62,6 @@ public class MongoOrderDaoImpl implements OrderDao {
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
 			dbObject.removeField("_id");
 			DBObject query = new BasicDBObject("_id", order.get_id());
-			
 			
 			DBObject updateObj = new BasicDBObject("$set", dbObject);
 			collection.update(query, updateObj);
@@ -212,5 +212,62 @@ public class MongoOrderDaoImpl implements OrderDao {
 		}
 		return null;
 	}
-	
+
+	@Override
+	public Set<Order> getOrderInfoByClient(String clientId) {
+		// TODO Auto-generated method stub
+		try{
+			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.MAST_CLIENT.toString());
+			//DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
+			DBObject clientObj = new BasicDBObject("clientId",clientId);
+			DBCursor dbCursor = collection.find(clientObj);
+			
+			if(dbCursor.hasNext()){
+				
+				clientObj = dbCursor.next();
+				clientId = (String) clientObj.get("_id");
+				DBObject orderQuery = new BasicDBObject("clientXid.$id",clientId);
+				orderQuery.put("partList.status", Constants.PartsStatus.INPROGRESS);
+				
+				collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
+				DBCursor dbCursor1 = collection.find(orderQuery);
+				Set<Order> orderList = new HashSet<>();
+				while(dbCursor1.hasNext()){
+					DBObject orderObj = dbCursor1.next();
+					String jsonString = JSON.serialize(orderObj);
+					Order oredr = (Order) CommonUtil.jsonToObject( jsonString, Order.class.getName() );
+					orderList.add(oredr);
+				}				
+				return orderList;
+			}
+		}
+		catch( Exception exception ){
+			exception.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Set<Order> getOrderInfoByPlatform(String platformNumber) {
+		// TODO Auto-generated method stub
+		try{
+			DBObject orderQuery = new BasicDBObject("partList.status", Constants.PartsStatus.INPROGRESS);
+			orderQuery.put("partList.platformNumber", platformNumber);
+			
+			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
+			DBCursor dbCursor1 = collection.find(orderQuery);
+			Set<Order> orderList = new HashSet<>();
+			while(dbCursor1.hasNext()){
+				DBObject orderObj = dbCursor1.next();
+				String jsonString = JSON.serialize(orderObj);
+				Order oredr = (Order) CommonUtil.jsonToObject( jsonString, Order.class.getName() );
+				orderList.add(oredr);
+			}				
+			return orderList;
+		}
+		catch( Exception exception ){
+			exception.printStackTrace();
+		}
+		return null;
+	}
 }

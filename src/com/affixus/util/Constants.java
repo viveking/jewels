@@ -68,6 +68,7 @@ public class Constants {
 		DELETE, 
 		REPORT_DATE,
 		SAVE,
+		ALL_PLATFORM_ID,
 		ALL_CLIENT_ID;
 		// @formatter:on
 	}
@@ -80,6 +81,12 @@ public class Constants {
 		DEBIT,
 		CREDIT;
 		// @formatter:on
+	}
+	
+	public enum PartsStatus{
+		INPROGRESS,
+		COMPLETE,
+		INVOICEGENERATED;
 	}
 
 }

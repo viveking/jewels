@@ -15,6 +15,7 @@ public class Platform extends BasePojo{
 	private String orderFromDateStr;
 	private String platformPreparedBy;
 	private String platformPrintedBy;
+	private String status;
 	
 	public String get_id() {
 		return _id;
@@ -70,5 +71,11 @@ public class Platform extends BasePojo{
 	}
 	public void setPlatformPrintedBy(String platformPrintedBy) {
 		this.platformPrintedBy = platformPrintedBy;
+	}
+	public String getStatus(){
+		return this.status;
+	}
+	public void setStatus(String status){
+		this.status = status;
 	}
 }

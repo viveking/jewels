@@ -43,4 +43,8 @@ public class PlatformService {
 	public Boolean updateParts(String clientId, String partName, Part part) {
 		return platformDao.updateParts(clientId,partName, part);
 	}
+	
+	public List<String> getAllPlatformByStatus(String status){
+		return platformDao.getAllPlatformByStatus(status);
+	}
 }

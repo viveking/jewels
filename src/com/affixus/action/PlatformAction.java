@@ -163,6 +163,11 @@ public class PlatformAction extends HttpServlet {
 				}
 				
 				break;
+			case ALL_PLATFORM_ID:
+				String status = request.getParameter("status");
+				List<String> platformNameList = platformService.getAllPlatformByStatus(status);
+				json = CommonUtil.objectToJson(platformNameList);
+				break;
 			default:
 				break;
 		}

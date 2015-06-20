@@ -1,8 +1,12 @@
 package com.affixus.dao.impl;
 
+import java.util.Set;
+
 import org.apache.log4j.Logger;
+
 import com.affixus.dao.UserDAO;
 import com.affixus.pojo.User;
+import com.affixus.pojo.auth.AccessUser;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.MongoUtil;
 import com.affixus.util.Constants.DBCollectionEnum;
@@ -14,34 +18,57 @@ import com.mongodb.util.JSON;
 
 public class MongoUserDaoImpl implements UserDAO{
 	private static final Logger LOG = Logger.getLogger( MongoUserDaoImpl.class );
-	private String collLogin = DBCollectionEnum.MAST_LOGIN.toString();
+	private String collLogin = DBCollectionEnum.MAST_ACCESS_USER.toString();
 	private DB mongoDB = MongoUtil.getDB();
 	
 	@Override
-	public User login(User user) {
+	public AccessUser auth(String username, String password){
 		// TODO Auto-generated method stub
 		
 		try{
 			DBCollection collection = mongoDB.getCollection( collLogin );
-			DBObject query = new BasicDBObject("userName", user.getUserName()).append("password", user.getPassword());
+			DBObject query = new BasicDBObject("userName", username).append("password", password);
 			DBObject dbObject = collection.findOne(query);
 			System.out.println(query.toString());
 			String jsonString = JSON.serialize(dbObject);
 			System.out.println(jsonString);
 			
-			if(dbObject.equals(null)){
+			if(dbObject == null){
 				return null;
 			}
-			else{
-				User loggedinUser = (User) CommonUtil.jsonToObject( jsonString, User.class.getName() );
-				loggedinUser.setValid(true);
-				return loggedinUser;
-			}
+			
+			AccessUser loggedinUser = (AccessUser) CommonUtil.jsonToObject( jsonString, User.class.getName() );
+			return loggedinUser;
+			
 			
 		}catch( Exception exception ){
 			//loggedinUser.setValid(false);
 			LOG.equals(exception);
 		}
+		return null;
+	}
+
+	@Override
+	public AccessUser getByUsername(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AccessUser get(String _id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean register(AccessUser user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<AccessUser> getAll() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

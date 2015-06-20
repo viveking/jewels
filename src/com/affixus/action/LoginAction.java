@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 
 import com.affixus.dao.UserDAO;
 import com.affixus.pojo.User;
+import com.affixus.pojo.auth.AccessUser;
 import com.affixus.services.OrderService;
 import com.affixus.services.UserService;
 import com.affixus.util.ObjectFactory;
@@ -23,7 +24,7 @@ import com.affixus.util.ObjectFactory.ObjectEnum;
 /**
  * Servlet implementation class LoginAction
  */
-@WebServlet("/login.action")
+@WebServlet("/login")
 public class LoginAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(LoginAction.class);
@@ -65,19 +66,13 @@ public class LoginAction extends HttpServlet {
 	}
 
 	private void doProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		User user = new User();
-		
-		BeanUtils.populate(user, request.getParameterMap() );
-		user = userService.login(user);
-		if (user != null && user.isValid()) {
-			//Login
-			HttpSession session = request.getSession(true);	    
-			session.setAttribute("user",user); 
-			response.sendRedirect("home.jsp");
-		}
-		else {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		AccessUser user = userService.auth(username, password);
+		if (user == null) {
 			response.sendRedirect("LoginPage.jsp");
+			return;
 		}
-     }
+		
+	}
 }

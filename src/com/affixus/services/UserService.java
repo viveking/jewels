@@ -2,7 +2,7 @@ package com.affixus.services;
 
 import com.affixus.dao.UserDAO;
 import com.affixus.dao.impl.MongoUserDaoImpl;
-import com.affixus.pojo.User;
+import com.affixus.pojo.auth.AccessUser;
 import com.affixus.util.ObjectFactory;
 import com.affixus.util.ObjectFactory.ObjectEnum;
 
@@ -23,7 +23,25 @@ public class UserService {
 		}
 	}
 	
-	public User login(User user){
-		return userDAO.login(user);
+	public AccessUser auth(String username, String password){
+		return userDAO.auth(username, password);
+	}
+
+	public AccessUser getByUsername(String username) {
+		return userDAO.getByUsername(username);
+	}
+	
+	public Boolean register(AccessUser user) {
+		return userDAO.register(user);
+	}
+	
+	/**
+	 * Get user by _id (primary key)
+	 * @param _id
+	 * @return
+	 */
+	public AccessUser get(String _id)
+	{
+		return userDAO.get(_id);
 	}
 }

@@ -157,7 +157,9 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 					getQuery.put("_id", orderId);
 					getQuery.put("partList.name", part.getName());
 					
-					DBObject updateQuery = new BasicDBObject("$set", new BasicDBObject("partList.$.weight",part.getWeight()).append("partList.$.refWeight",part.getRefWeight()));
+					DBObject updateQuery = new BasicDBObject("$set", new BasicDBObject("partList.$.weight",
+															part.getWeight()).append("partList.$.refWeight",
+															part.getRefWeight()).append("partList.$.platformNumber", part.getPlatFormNumber()));
 					collection.update(getQuery, updateQuery);
 					
 				}

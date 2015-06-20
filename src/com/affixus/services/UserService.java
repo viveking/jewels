@@ -1,7 +1,10 @@
 package com.affixus.services;
 
+import javax.accessibility.AccessibleRole;
+
 import com.affixus.dao.UserDAO;
 import com.affixus.dao.impl.MongoUserDaoImpl;
+import com.affixus.pojo.auth.AccessRole;
 import com.affixus.pojo.auth.AccessUser;
 import com.affixus.util.ObjectFactory;
 import com.affixus.util.ObjectFactory.ObjectEnum;
@@ -43,5 +46,10 @@ public class UserService {
 	public AccessUser get(String _id)
 	{
 		return userDAO.get(_id);
+	}
+
+	public AccessRole getAccessRole(String _id)
+	{
+		return userDAO.getAccessRole(_id);
 	}
 }

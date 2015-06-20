@@ -2,6 +2,7 @@ package com.affixus.dao;
 
 import java.util.Set;
 
+import com.affixus.pojo.auth.AccessRole;
 import com.affixus.pojo.auth.AccessUser;
 
 public interface UserDAO {
@@ -10,4 +11,5 @@ public interface UserDAO {
 	public AccessUser get(String _id);
 	public Boolean register(AccessUser user);
 	public Set<AccessUser> getAll();
+	public AccessRole getAccessRole(String _id);
 }

@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.affixus.dao.UserDAO;
 import com.affixus.pojo.User;
+import com.affixus.pojo.auth.AccessRole;
 import com.affixus.pojo.auth.AccessUser;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.MongoUtil;
@@ -18,7 +19,8 @@ import com.mongodb.util.JSON;
 
 public class MongoUserDaoImpl implements UserDAO{
 	private static final Logger LOG = Logger.getLogger( MongoUserDaoImpl.class );
-	private String collLogin = DBCollectionEnum.MAST_ACCESS_USER.toString();
+	private String collAccessUser = DBCollectionEnum.ACCESS_USER.toString();
+	private String collAccessRole = DBCollectionEnum.ACCESS_ROLE.toString();
 	private DB mongoDB = MongoUtil.getDB();
 	
 	@Override
@@ -26,7 +28,7 @@ public class MongoUserDaoImpl implements UserDAO{
 		// TODO Auto-generated method stub
 		
 		try{
-			DBCollection collection = mongoDB.getCollection( collLogin );
+			DBCollection collection = mongoDB.getCollection( collAccessUser );
 			DBObject query = new BasicDBObject("userName", username).append("password", password);
 			DBObject dbObject = collection.findOne(query);
 			System.out.println(query.toString());
@@ -68,6 +70,12 @@ public class MongoUserDaoImpl implements UserDAO{
 
 	@Override
 	public Set<AccessUser> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AccessRole getAccessRole(String _id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

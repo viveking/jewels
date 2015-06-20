@@ -41,6 +41,24 @@ public class Constants {
 		}
 	}
 
+	public enum PrinterValue{
+			INVERSIONHR(1),
+			VIPER25(2),
+			VIPER50(3),
+			RUBBERMOULD(4);
+			// @formatter:on
+
+			private final int printerValue;
+
+			PrinterValue(int printerValue) {
+				this.printerValue = printerValue;
+			}
+
+			@Override
+			public String toString() {
+				return printerValue+"";
+			}
+	}
 	public enum UIOperations {
 		// @formatter:off
 		VIEW,

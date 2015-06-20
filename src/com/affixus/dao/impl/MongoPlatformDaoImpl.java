@@ -193,12 +193,12 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 		try {
 			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.MAST_PLATFORM.toString());
 			DBObject queryObj = new BasicDBObject("status", status);
-			DBObject projObj = new BasicDBObject("name", 1);
+			DBObject projObj = new BasicDBObject("platformNumber", 1);
 			DBCursor dbCursor = collection.find(queryObj, projObj);
 			List<String> lstPlatform = new ArrayList<>();
 			while (dbCursor.hasNext()) {
 				DBObject dbObject = dbCursor.next();
-				lstPlatform.add((String) dbObject.get("name"));
+				lstPlatform.add((String) dbObject.get("platformNumber"));
 			}
 			return lstPlatform;
 		} catch (Exception exception) {

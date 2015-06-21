@@ -219,11 +219,11 @@ public class PlatformAction extends HttpServlet {
 				
 				for (JsonNode jsonNode : jn) {
 					
-					String clientId = jsonNode.get("client").get("clientId").asText();
-					String partName = jsonNode.get("partList").get("name").asText();
-					String platFormNumber = jsonNode.get("partList").get("platformNumber").asText();
-					String weight = jsonNode.get("partList").get("weight").asText();
-					String refWeight = jsonNode.get("partList").get("refWeight").asText();
+					String clientId = jsonNode.get("client.clientId").asText();
+					String partName = jsonNode.get("partList.name").asText();
+					String platFormNumber = jsonNode.get("partList.platformNumber").asText();
+					String weight = jsonNode.get("partList.weight").asText();
+					String refWeight = jsonNode.get("partList.refWeight").asText();
 					
 					Part part = new Part();
 					part.setName(partName);

@@ -234,15 +234,23 @@ public class MongoOrderDaoImpl implements OrderDao {
 
 				queryList.add(new BasicDBObject("status",Constants.PartsStatus.INPROGRESS.toString()));
 				queryList.add(new BasicDBObject("clientXid.$id",clientId));
-				queryList.add(new BasicDBObject("partList.status",
-						new BasicDBObject("$not",Constants.PartsStatus.COMPLETE.toString())));
+				//queryList.add(new BasicDBObject("partList.status",ew BasicDBObject("$ne",Constants.PartsStatus.COMPLETE.toString())));
 				
 				DBObject anding = new BasicDBObject("$and",queryList);
 				
 				DBObject match = new BasicDBObject("$match", anding);
 				DBObject unwind = new BasicDBObject("$unwind", "$partList");
+				
+				/*
+				List<BasicDBObject> andingForMatch2 = new ArrayList<>();
+				andingForMatch2.add(new BasicDBObject("partList.status",new BasicDBObject("$ne",Constants.PartsStatus.COMPLETE.toString())));
+				andingForMatch2.add(new BasicDBObject("partList.platformNumber", platformNumber));
+				
+				DBObject match2 = new BasicDBObject("$match",new BasicDBObject("$and",andingForMatch2));
+				*/
+				
 				DBObject match2 = new BasicDBObject("$match",new BasicDBObject("partList.status",
-						new BasicDBObject("$not",Constants.PartsStatus.COMPLETE.toString())));
+						new BasicDBObject("$ne",Constants.PartsStatus.COMPLETE.toString())));
 				
 				collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
 				AggregationOutput aggregationOutput = collection.aggregate(match, unwind,match2);
@@ -280,14 +288,18 @@ public class MongoOrderDaoImpl implements OrderDao {
 			List<BasicDBObject> queryList = new ArrayList<>();
 			queryList.add(new BasicDBObject("status",Constants.PartsStatus.INPROGRESS.toString()));
 			queryList.add(new BasicDBObject("partList.platformNumber", platformNumber));
-			queryList.add(new BasicDBObject("partList.status",
-					new BasicDBObject("$not",Constants.PartsStatus.COMPLETE.toString())));
+			//queryList.add(new BasicDBObject("partList.status",new BasicDBObject("$ne",Constants.PartsStatus.COMPLETE.toString())));
 			
 			DBObject anding = new BasicDBObject("$and",queryList);
 			
 			DBObject match = new BasicDBObject("$match", anding);
 			DBObject unwind = new BasicDBObject("$unwind", "$partList");
-			DBObject match2 = new BasicDBObject("$match",new BasicDBObject("partList.platformNumber", platformNumber));
+			
+			List<BasicDBObject> andingForMatch2 = new ArrayList<>();
+			andingForMatch2.add(new BasicDBObject("partList.status",new BasicDBObject("$ne",Constants.PartsStatus.COMPLETE.toString())));
+			andingForMatch2.add(new BasicDBObject("partList.platformNumber", platformNumber));
+			
+			DBObject match2 = new BasicDBObject("$match",new BasicDBObject("$and",andingForMatch2));
 			
 			AggregationOutput aggregationOutput = collection.aggregate(match, unwind,match2);
 			

@@ -205,7 +205,6 @@
 		$('#idSaveParts').click(function(){
 			var passedGrid = $("#grid-table");
 			var selData = passedGrid.jqGrid('getGridParam','data');
-			debugger;
 			$.each(selData,function(i,val){
 				if(val.hasOwnProperty("partList.weight"))
 					val.partList.weight = val["partList.weight"];

@@ -68,15 +68,41 @@
 				  	console.log("complete");
 				  });
 				
+				$("#idSelectPlatform").on("change",function(){
+						var param = {"sBy":$("#idSelectOption").val(),"value":$("#idSelect").val()};
+						  $.ajax({
+							  	url: '${pageContext.request.contextPath}/order.action?op=VIEW_PENDING_PARTS',
+							  	type: 'POST',
+							  	data: param
+							  })
+							  .done(function(dat) {
+							  	
+							  	if(dat!=""){
+						  			dat = JSON.parse(dat);
+							  	}
+							  	
+					  			$(grid_selector).jqGrid('setGridParam', {data: dat }).trigger('reloadGrid');
+							    
+							  })
+							  .fail(function() {
+							  	console.log("error");
+							  })
+							  .always(function() {
+							  	console.log("complete");
+							  });
+				});
+				
+				
 				var grid_selector = "#grid-table-platform";
 				var pager_selector = "#grid-pager-platform";
+				var grid_data = [];	
 				
 				jQuery(grid_selector).jqGrid({
-					url: "${pageContext.request.contextPath}/platform.action?op=view_all",
+					data: grid_data,
+					datatype: "local",
 					mtype: "POST",
 					loadonce: true,
 					gridview: true,
-					datatype: "json",
 					height: 366,
 					colNames:['id','Order Name','Client Name','Part Name', 'Weight(KG)', 'Prepared By','Order Date','Part Status'],
 					colModel:[

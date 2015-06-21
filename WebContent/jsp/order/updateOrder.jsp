@@ -90,7 +90,7 @@
 				Save
 			</button>	
 		</div>
-		<div id="alertContainer" style="position: fixed; bottom:10px; right:10px; z-index:1000">
+		<div id="alertContainer" style="position: fixed; bottom:10px; right:10px; z-index:9999">
 			
 		</div>
 	</div>

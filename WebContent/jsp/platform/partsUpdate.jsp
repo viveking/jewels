@@ -58,6 +58,10 @@
 				Save
 			</button>
 			
+		<div id="alertContainer" style="position: fixed; bottom:10px; right:10px; z-index:9999">
+			
+		</div>
+		
 			<script type="text/javascript">
 				var $path_base = "/";//this will be used in gritter alerts containing images
 			</script>
@@ -139,6 +143,8 @@
 		  function populateGrid(){
 			  $('#noGridContainer').hide();
 		      $('#gridContainer').show();
+		      $("#grid-table").jqGrid("clearGridData");
+
 		      var param = {"sBy":$("#idSelectOption").val(),"value":$("#idSelect").val()};
 			  $.ajax({
 				  	url: '${pageContext.request.contextPath}/order.action?op=VIEW_PENDING_PARTS',
@@ -176,12 +182,12 @@
 			colNames:['Order Date','Client ID','Platform','Order Name','Part','Weight (KG)','Reference Weight (KG)'],
 			colModel:[
 				{name:'orderDateStr',index:'orderDateStr', width:150,editable: false},
-				{name:'client.clientId',index:'client.clientId', width:150,editable: false},
-				{name:'partList.platformNumber',index:'partList.platformNumber', width:150, editable: false},
-				{name:'orderName',index:'orderName', width:150, editable: false},
-				{name:'partList.name',index:'partList.name', width:300, editable: false},
-				{name:'partList.weight',index:'partList.weight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:300, editable: true, classes: 'editCls'},
-				{name:'partList.refWeight',index:'partList.refWeight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:300, editable: true, classes: 'editCls'}
+				{index:'client',name:'client.clientId', width:150,editable: false},
+				{index:'platform',name:'partList.platformNumber', width:150, editable: false},
+				{index:'orderName',name:'orderName', width:150, editable: false},
+				{index:'part',name:'partList.name', width:300, editable: false},
+				{index:'partWeight',name:'partList.weight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:300, editable: true, classes: 'editCls'},
+				{index:'supportWeight',name:'partList.refWeight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:300, editable: true, classes: 'editCls'}
 			], 
 			hiddengrid: false,
 			viewrecords : true,
@@ -199,16 +205,35 @@
 		$('#idSaveParts').click(function(){
 			var passedGrid = $("#grid-table");
 			var selData = passedGrid.jqGrid('getGridParam','data');
+			debugger;
+			$.each(selData,function(i,val){
+				if(val.hasOwnProperty("partList.weight"))
+					val.partList.weight = val["partList.weight"];
+				if(val.hasOwnProperty("partList.refWeight"))
+					val.partList.refWeight = val["partList.refWeight"];
+			});
 			
-			var param ={'order':JSON.stringify(selData),'printer':$('#idPrinterSelect').val()};
+			var param ={'order':JSON.stringify(selData)};
 			
 			$.ajax({
-			  	url: '${pageContext.request.contextPath}/platform.action?op=SAVE',
+			  	url: '${pageContext.request.contextPath}/platform.action?op=SAVE_PARTS_UPDATE',
 			  	type: 'POST',
 			  	data: param
 			  })
 			  .done(function(data) {
 			  	console.log("success "+data);
+			  	$("#alertContainer").html(' \
+			  			<div class="alert alert-block alert-success" id="alertSaved">\
+						<button type="button" class="close" data-dismiss="alert"> \
+							<i class="icon-remove"></i> \
+						</button> \
+						<p>	<strong> \
+								<i class="icon-ok"></i>\
+								Save Successful... \
+							</strong></p> \
+					</div>');
+			  	
+			  	$("#alertSaved").addClass("animated bounceInRight");
 			  })
 			  .fail(function() {
 			  	console.log("error");
@@ -217,7 +242,6 @@
 			  	console.log("complete");
 			  });
 		});
-		
 		//hidding the grid Initially.....
 
         $('#noGridContainer').show();

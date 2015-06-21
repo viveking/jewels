@@ -60,7 +60,10 @@
 			<script type="text/javascript">
 				var $path_base = "/";//this will be used in gritter alerts containing images
 			</script>
-
+	
+		<div id="alertContainer" style="position: fixed; bottom:10px; right:10px; z-index:9999">
+			
+		</div>
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
 	</div><!-- /.row -->
@@ -205,6 +208,18 @@
 			  })
 			  .done(function(data) {
 			  	console.log("success "+data);
+			  	$("#alertContainer").html(' \
+			  			<div class="alert alert-block alert-success" id="alertSaved">\
+						<button type="button" class="close" data-dismiss="alert"> \
+							<i class="icon-remove"></i> \
+						</button> \
+						<p>	<strong> \
+								<i class="icon-ok"></i>\
+								Save Successful... \
+							</strong></p> \
+					</div>');
+			  	
+			  	$("#alertSaved").addClass("animated bounceInRight");
 			  })
 			  .fail(function() {
 			  	console.log("error");

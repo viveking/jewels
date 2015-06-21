@@ -1,7 +1,9 @@
 package com.affixus.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -12,6 +14,7 @@ import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
 import com.affixus.util.Constants.DBCollectionEnum;
 import com.affixus.util.MongoUtil;
+import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -226,14 +229,29 @@ public class MongoOrderDaoImpl implements OrderDao {
 				
 				clientObj = dbCursor.next();
 				clientId = (String) clientObj.get("_id");
-				DBObject orderQuery = new BasicDBObject("clientXid.$id",clientId);
-				orderQuery.put("partList.status", Constants.PartsStatus.INPROGRESS);
+				//DBObject orderQuery = new BasicDBObject("clientXid.$id",clientId);
+				//orderQuery.put("partList.status", Constants.PartsStatus.INPROGRESS);
 				
-				collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
-				DBCursor dbCursor1 = collection.find(orderQuery);
+				
+				//collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
+				
+				List<BasicDBObject> queryList = new ArrayList<>();
+				
+				queryList.add(new BasicDBObject("clientXid.$id",clientId));
+				queryList.add(new BasicDBObject("partList.status", Constants.PartsStatus.INPROGRESS));
+				
+				DBObject anding = new BasicDBObject("$and",queryList);
+				
+				DBObject match = new BasicDBObject("$match", anding);
+				DBObject unwind = new BasicDBObject("$unwind", "$partList");
+				DBObject match2 = new BasicDBObject("$match2",new BasicDBObject("clientXid.$id",clientId));
+				
+
+				AggregationOutput aggregationOutput = collection.aggregate(match, unwind,match2);
+				
 				Set<Order> orderList = new HashSet<>();
-				while(dbCursor1.hasNext()){
-					DBObject orderObj = dbCursor1.next();
+				for (DBObject orderObj : aggregationOutput.results()) {
+					//DBObject orderObj = dbCursor1.next();
 					String jsonString = JSON.serialize(orderObj);
 					Order oredr = (Order) CommonUtil.jsonToObject( jsonString, Order.class.getName() );
 					orderList.add(oredr);
@@ -251,14 +269,28 @@ public class MongoOrderDaoImpl implements OrderDao {
 	public Set<Order> getOrderInfoByPlatform(String platformNumber) {
 		// TODO Auto-generated method stub
 		try{
-			DBObject orderQuery = new BasicDBObject("partList.status", Constants.PartsStatus.INPROGRESS);
-			orderQuery.put("partList.platformNumber", platformNumber);
-			
 			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
-			DBCursor dbCursor1 = collection.find(orderQuery);
+			
+			//db.order.aggregate({$match:{"partList.platformNumber":"PF_7294"}},
+			//{$unwind:"$partList"},{$match:{"partList.platformNumber":"PF_7294"}})
+			List<BasicDBObject> queryList = new ArrayList<>();
+			
+			queryList.add(new BasicDBObject("partList.platformNumber", platformNumber));
+			queryList.add(new BasicDBObject("partList.status", Constants.PartsStatus.INPROGRESS));
+			
+			DBObject anding = new BasicDBObject("$and",queryList);
+			
+			DBObject match = new BasicDBObject("$match", anding);
+			DBObject unwind = new BasicDBObject("$unwind", "$partList");
+			DBObject match2 = new BasicDBObject("$match2",new BasicDBObject("partList.platformNumber", platformNumber));
+			
+			AggregationOutput aggregationOutput = collection.aggregate(match, unwind,match2);
+			
 			Set<Order> orderList = new HashSet<>();
-			while(dbCursor1.hasNext()){
-				DBObject orderObj = dbCursor1.next();
+			for (DBObject orderObj : aggregationOutput.results()) {
+			//DBCursor dbCursor1 = collection.find(orderQuery);
+			//while(dbCursor1.hasNext()){
+				//DBObject orderObj = dbCursor1.next();
 				String jsonString = JSON.serialize(orderObj);
 				Order oredr = (Order) CommonUtil.jsonToObject( jsonString, Order.class.getName() );
 				orderList.add(oredr);
@@ -269,5 +301,13 @@ public class MongoOrderDaoImpl implements OrderDao {
 			exception.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static void main(String[] args) {
+		MongoOrderDaoImpl m = new MongoOrderDaoImpl();
+		Set<Order>  s = m.getOrderInfoByPlatform("PF_7294");
+		for(Order pp : s){
+			System.out.println(CommonUtil.objectToJson(pp));
+		}
 	}
 }

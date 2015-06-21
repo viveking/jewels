@@ -3,11 +3,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap-datetimepicker.css" />
 
 <style>
-	@font-face {
-	  font-family: 'Glyphicons Halflings';
-	  src: url('${pageContext.request.contextPath}/assets/fonts/glyphicons-halflings-regular.eot');
-	  src: url('${pageContext.request.contextPath}/assets/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('${pageContext.request.contextPath}/assets/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('${pageContext.request.contextPath}/assets/fonts/glyphicons-halflings-regular.woff') format('woff'), url('${pageContext.request.contextPath}/assets/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('${pageContext.request.contextPath}/assets/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
-	}
 	.FormGrid .EditTable tr:first-child {display: table-row !important;}
 </style>
 	<div class="page-header">
@@ -22,7 +17,7 @@
 	<div class="form-group">
 		<div class="row">
 			<div class="col-xs-4">
-				
+				<label>Select Platform</label>
 				<select class="width-80 chosen-select" id="idSelectPlatform" data-placeholder="Choose Platform">
 				</select>
 			</div>
@@ -48,6 +43,31 @@
 			jQuery(function($) {
 				$(".chosen-select").chosen();
 
+				var platformList = {};
+
+				$.ajax({
+				  	url: '${pageContext.request.contextPath}/platform.action?op=ALL_PLATFORM_ID',
+				  	type: 'GET',
+				  	async: false
+				  })
+				  .done(function(data) {
+				  	console.log("success "+data);
+				  	platformList = JSON.parse(data);
+				  	//setTimeout(function(){
+				  		//alert("Called Timeout");
+					  	$.each(platformList ,function(ind,val){
+					  		$("#idSelectPlatform").append("<option value="+val+">"+val+"<option>");
+					  	});
+					  	$('.chosen-select').chosen().trigger("chosen:updated");
+				  	//}, 3000);
+				  })
+				  .fail(function() {
+				  	console.log("error");
+				  })
+				  .always(function() {
+				  	console.log("complete");
+				  });
+				
 				var grid_selector = "#grid-table-platform";
 				var pager_selector = "#grid-pager-platform";
 				

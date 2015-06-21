@@ -229,12 +229,6 @@ public class MongoOrderDaoImpl implements OrderDao {
 				
 				clientObj = dbCursor.next();
 				clientId = (String) clientObj.get("_id");
-				//DBObject orderQuery = new BasicDBObject("clientXid.$id",clientId);
-				//orderQuery.put("partList.status", Constants.PartsStatus.INPROGRESS);
-				
-				
-				//collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
-				
 				List<BasicDBObject> queryList = new ArrayList<>();
 				
 
@@ -246,9 +240,9 @@ public class MongoOrderDaoImpl implements OrderDao {
 				
 				DBObject match = new BasicDBObject("$match", anding);
 				DBObject unwind = new BasicDBObject("$unwind", "$partList");
-				DBObject match2 = new BasicDBObject("$match2",new BasicDBObject("clientXid.$id",clientId));
+				DBObject match2 = new BasicDBObject("$match",new BasicDBObject("partList.status",Constants.PartsStatus.INPROGRESS.toString()));
 				
-
+				collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
 				AggregationOutput aggregationOutput = collection.aggregate(match, unwind,match2);
 				
 				Set<String> orderList = new HashSet<>();

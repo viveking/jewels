@@ -202,9 +202,16 @@ public class OrderAction extends HttpServlet {
 					outputSet = orderService.getOrderInfoByPlatform(value);
 				}
 				json="[";
+				boolean fst = true;
 				for(String pp : outputSet){
-					json+=pp;
+					if(fst){
+						json+=pp;
+						fst=false;
+					}else{
+						json+=","+pp;
+					}
 				}
+				
 				json+="]";
 				
 				break;

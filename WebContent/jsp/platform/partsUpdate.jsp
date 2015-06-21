@@ -139,15 +139,17 @@
 		  function populateGrid(){
 			  $('#noGridContainer').hide();
 		      $('#gridContainer').show();
-				
+		      var param = {"sBy":$("#idSelectOption").val(),"value":$("#idSelect").val()};
 			  $.ajax({
 				  	url: '${pageContext.request.contextPath}/order.action?op=VIEW_PENDING_PARTS',
-				  	type: 'GET',
-				  	async: false
+				  	type: 'POST',
+				  	data: param
 				  })
 				  .done(function(dat) {
-				  	console.log("success "+dat);
-				  	dat = JSON.parse(dat);
+				  	
+				  	if(dat!=""){
+			  			dat = JSON.parse(dat);
+				  	}
 				  	
 		  			$(passed_grid_selector).jqGrid('setGridParam', {data: dat }).trigger('reloadGrid');
 				    
@@ -174,7 +176,7 @@
 			colNames:['Order Date','Client ID','Platform','Order Name','Part','Weight (KG)','Reference Weight (KG)'],
 			colModel:[
 				{name:'orderDateStr',index:'orderDateStr', width:150,editable: false},
-				{name:'client.name',index:'client.name', width:150,editable: false},
+				{name:'client.clientId',index:'client.clientId', width:150,editable: false},
 				{name:'partList.platformNumber',index:'partList.platformNumber', width:150, editable: false},
 				{name:'orderName',index:'orderName', width:150, editable: false},
 				{name:'partList.name',index:'partList.name', width:300, editable: false},

@@ -69,7 +69,8 @@ public class Constants {
 		REPORT_DATE,
 		SAVE,
 		ALL_PLATFORM_ID,
-		ALL_CLIENT_ID;
+		ALL_CLIENT_ID, 
+		VIEW_PENDING_PARTS;
 		// @formatter:on
 	}
 

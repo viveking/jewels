@@ -217,7 +217,7 @@ public class MongoOrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public Set<Order> getOrderInfoByClient(String clientId) {
+	public Set<String> getOrderInfoByClient(String clientId) {
 		// TODO Auto-generated method stub
 		try{
 			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.MAST_CLIENT.toString());
@@ -237,8 +237,10 @@ public class MongoOrderDaoImpl implements OrderDao {
 				
 				List<BasicDBObject> queryList = new ArrayList<>();
 				
+
+				queryList.add(new BasicDBObject("status",Constants.PartsStatus.INPROGRESS.toString()));
 				queryList.add(new BasicDBObject("clientXid.$id",clientId));
-				queryList.add(new BasicDBObject("partList.status", Constants.PartsStatus.INPROGRESS));
+				queryList.add(new BasicDBObject("partList.status",Constants.PartsStatus.INPROGRESS.toString()));
 				
 				DBObject anding = new BasicDBObject("$and",queryList);
 				
@@ -249,12 +251,18 @@ public class MongoOrderDaoImpl implements OrderDao {
 
 				AggregationOutput aggregationOutput = collection.aggregate(match, unwind,match2);
 				
-				Set<Order> orderList = new HashSet<>();
+				Set<String> orderList = new HashSet<>();
 				for (DBObject orderObj : aggregationOutput.results()) {
 					//DBObject orderObj = dbCursor1.next();
+					DBObject clientDBO = ((DBRef) orderObj.get(KEY_CLIENT_XID)).fetch();
+					
+					orderObj.put("orderDateStr", CommonUtil.longToStringDate((Long)orderObj.get("orderDate"), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
+					orderObj.put(KEY_CLIENT, clientDBO);
+					orderObj.removeField(KEY_CLIENT_XID);
+					
 					String jsonString = JSON.serialize(orderObj);
-					Order oredr = (Order) CommonUtil.jsonToObject( jsonString, Order.class.getName() );
-					orderList.add(oredr);
+					//Order oredr = (Order) CommonUtil.jsonToObject( jsonString, Order.class.getName() );
+					orderList.add(jsonString);
 				}				
 				return orderList;
 			}
@@ -266,7 +274,7 @@ public class MongoOrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public Set<Order> getOrderInfoByPlatform(String platformNumber) {
+	public Set<String> getOrderInfoByPlatform(String platformNumber) {
 		// TODO Auto-generated method stub
 		try{
 			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
@@ -274,26 +282,27 @@ public class MongoOrderDaoImpl implements OrderDao {
 			//db.order.aggregate({$match:{"partList.platformNumber":"PF_7294"}},
 			//{$unwind:"$partList"},{$match:{"partList.platformNumber":"PF_7294"}})
 			List<BasicDBObject> queryList = new ArrayList<>();
-			
+			queryList.add(new BasicDBObject("status",Constants.PartsStatus.INPROGRESS.toString()));
 			queryList.add(new BasicDBObject("partList.platformNumber", platformNumber));
-			queryList.add(new BasicDBObject("partList.status", Constants.PartsStatus.INPROGRESS));
+			queryList.add(new BasicDBObject("partList.status",Constants.PartsStatus.INPROGRESS.toString()));
 			
 			DBObject anding = new BasicDBObject("$and",queryList);
 			
 			DBObject match = new BasicDBObject("$match", anding);
 			DBObject unwind = new BasicDBObject("$unwind", "$partList");
-			DBObject match2 = new BasicDBObject("$match2",new BasicDBObject("partList.platformNumber", platformNumber));
+			DBObject match2 = new BasicDBObject("$match",new BasicDBObject("partList.platformNumber", platformNumber));
 			
 			AggregationOutput aggregationOutput = collection.aggregate(match, unwind,match2);
 			
-			Set<Order> orderList = new HashSet<>();
+			Set<String> orderList = new HashSet<>();
 			for (DBObject orderObj : aggregationOutput.results()) {
-			//DBCursor dbCursor1 = collection.find(orderQuery);
-			//while(dbCursor1.hasNext()){
-				//DBObject orderObj = dbCursor1.next();
+				DBObject clientDBO = ((DBRef) orderObj.get(KEY_CLIENT_XID)).fetch();
+				
+				orderObj.put("orderDateStr", CommonUtil.longToStringDate((Long)orderObj.get("orderDate"), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
+				orderObj.put(KEY_CLIENT, clientDBO);
+				orderObj.removeField(KEY_CLIENT_XID);
 				String jsonString = JSON.serialize(orderObj);
-				Order oredr = (Order) CommonUtil.jsonToObject( jsonString, Order.class.getName() );
-				orderList.add(oredr);
+				orderList.add(jsonString);
 			}				
 			return orderList;
 		}
@@ -305,9 +314,9 @@ public class MongoOrderDaoImpl implements OrderDao {
 	
 	public static void main(String[] args) {
 		MongoOrderDaoImpl m = new MongoOrderDaoImpl();
-		Set<Order>  s = m.getOrderInfoByPlatform("PF_7294");
-		for(Order pp : s){
-			System.out.println(CommonUtil.objectToJson(pp));
-		}
+		Set<String>  s = m.getOrderInfoByPlatform("PF_7294");
+		//for(String pp : s){
+			System.out.println(CommonUtil.objectToJson(s));
+		//}
 	}
 }

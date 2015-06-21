@@ -141,7 +141,7 @@
 		      $('#gridContainer').show();
 				
 			  $.ajax({
-				  	url: '${pageContext.request.contextPath}/platform.action?op=ALL_CLIENT_ID',
+				  	url: '${pageContext.request.contextPath}/order.action?op=VIEW_PENDING_PARTS',
 				  	type: 'GET',
 				  	async: false
 				  })

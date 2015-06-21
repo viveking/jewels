@@ -234,13 +234,15 @@ public class MongoOrderDaoImpl implements OrderDao {
 
 				queryList.add(new BasicDBObject("status",Constants.PartsStatus.INPROGRESS.toString()));
 				queryList.add(new BasicDBObject("clientXid.$id",clientId));
-				queryList.add(new BasicDBObject("partList.status",Constants.PartsStatus.INPROGRESS.toString()));
+				queryList.add(new BasicDBObject("partList.status",
+						new BasicDBObject("$not",Constants.PartsStatus.COMPLETE.toString())));
 				
 				DBObject anding = new BasicDBObject("$and",queryList);
 				
 				DBObject match = new BasicDBObject("$match", anding);
 				DBObject unwind = new BasicDBObject("$unwind", "$partList");
-				DBObject match2 = new BasicDBObject("$match",new BasicDBObject("partList.status",Constants.PartsStatus.INPROGRESS.toString()));
+				DBObject match2 = new BasicDBObject("$match",new BasicDBObject("partList.status",
+						new BasicDBObject("$not",Constants.PartsStatus.COMPLETE.toString())));
 				
 				collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
 				AggregationOutput aggregationOutput = collection.aggregate(match, unwind,match2);
@@ -278,7 +280,8 @@ public class MongoOrderDaoImpl implements OrderDao {
 			List<BasicDBObject> queryList = new ArrayList<>();
 			queryList.add(new BasicDBObject("status",Constants.PartsStatus.INPROGRESS.toString()));
 			queryList.add(new BasicDBObject("partList.platformNumber", platformNumber));
-			queryList.add(new BasicDBObject("partList.status",Constants.PartsStatus.INPROGRESS.toString()));
+			queryList.add(new BasicDBObject("partList.status",
+					new BasicDBObject("$not",Constants.PartsStatus.COMPLETE.toString())));
 			
 			DBObject anding = new BasicDBObject("$and",queryList);
 			

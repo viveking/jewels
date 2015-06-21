@@ -199,6 +199,44 @@ public class PlatformAction extends HttpServlet {
 				List<String> platformNameList = platformService.getAllPlatformByStatus(status);
 				json = CommonUtil.objectToJson(platformNameList);
 				break;
+			case SAVE_STATUS_UPDATE:
+
+				jsonPlatform = request.getParameter("order");
+				String statusString = request.getParameter("status");
+				String partStatus="";
+				
+				if(statusString.equalsIgnoreCase("Completed"))
+					partStatus = Constants.PartsStatus.COMPLETE.toString();
+				else if(statusString.equalsIgnoreCase("Failed"))
+					partStatus = Constants.PartsStatus.FAILED.toString();
+				
+				if( jsonPlatform == null || jsonPlatform.trim().isEmpty()){
+					break;
+				}
+				
+				mapper = new ObjectMapper();
+				jn = mapper.readTree(jsonPlatform);
+				
+				for (JsonNode jsonNode : jn) {
+					
+					String clientId = jsonNode.get("client").get("clientId").asText();
+					String partName = jsonNode.get("partList").get("name").asText();
+					String platFormNumber = jsonNode.get("partList").get("platformNumber").asText();
+					String weight = jsonNode.get("partList").get("weight").asText();
+					String refWeight = jsonNode.get("partList").get("refWeight").asText();
+					
+					Part part = new Part();
+					part.setName(partName);
+					part.setPlatFormNumber(platFormNumber);
+					part.setWeight(Float.parseFloat(weight));
+					part.setRefWeight(Float.parseFloat(refWeight));
+					if(!partStatus.isEmpty())
+						part.setStatus(partStatus);
+					
+					platformService.updateParts(clientId, partName, part);
+				}
+				
+				break;
 			default:
 				break;
 		}

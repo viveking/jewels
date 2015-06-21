@@ -70,7 +70,7 @@ public class Constants {
 		SAVE,
 		ALL_PLATFORM_ID,
 		ALL_CLIENT_ID, 
-		VIEW_PENDING_PARTS, SAVE_PARTS_UPDATE;
+		VIEW_PENDING_PARTS, SAVE_PARTS_UPDATE, SAVE_STATUS_UPDATE;
 		// @formatter:on
 	}
 
@@ -87,7 +87,8 @@ public class Constants {
 	public enum PartsStatus{
 		INPROGRESS,
 		COMPLETE,
-		INVOICEGENERATED;
+		INVOICEGENERATED, 
+		FAILED;
 	}
 
 }

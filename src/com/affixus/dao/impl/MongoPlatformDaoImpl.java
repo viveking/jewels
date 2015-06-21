@@ -149,15 +149,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 				if (dbCursor1.hasNext()) {
 
 					platformObj = dbCursor1.next();
-
-					// Long fromDate = (Long) platformObj.get("orderFromDate");
-					// Long toDate =(Long) platformObj.get("orderToDate");
-					// if(fromDate != null && toDate != null){
-					// orderQuery.put("orderDate", new
-					// BasicDBObject("$gte",fromDate).append("$lte",toDate));
-					// }
-					collection = mongoDB.getCollection(DBCollectionEnum.ORDER
-							.toString());
+					collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
 
 					DBCursor dbCursor2 = collection.find(orderQuery);
 
@@ -168,14 +160,16 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 						DBObject getQuery = new BasicDBObject();
 						getQuery.put("_id", orderId);
 						getQuery.put("partList.name", part.getName());
-
-						DBObject updateQuery = new BasicDBObject("$set",
-								new BasicDBObject("partList.$.weight",
-										part.getWeight()).append(
-										"partList.$.refWeight",
-										part.getRefWeight()).append(
-										"partList.$.platformNumber",
-										part.getPlatFormNumber()));
+						DBObject setQuery = new BasicDBObject();
+						
+						//if(part.getWeight() != null && part.getWeight().isEmpty())
+						setQuery.put("partList.$.weight", part.getWeight());
+						setQuery.put("partList.$.refWeight", part.getRefWeight());
+						setQuery.put("partList.$.platformNumber", part.getPlatFormNumber());
+						setQuery.put("partList.$.status", part.getStatus());
+						
+						DBObject updateQuery = new BasicDBObject("$set",setQuery);
+						
 						collection.update(getQuery, updateQuery);
 
 					}

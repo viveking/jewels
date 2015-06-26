@@ -11,8 +11,8 @@ public class Part implements Serializable {
 	private String name;
 	private String status = Constants.PartsStatus.INPROGRESS.toString();
 	private String platFormNumber;
-	private Float weight;
-	private Float refWeight;
+	private float weight;
+	private float refWeight;
 	
 	public String getName() {
 		return name;

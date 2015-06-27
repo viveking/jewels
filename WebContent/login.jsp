@@ -69,11 +69,11 @@
 
 											<div class="space-6"></div>
 
-											<form action="login.action" method="post" >
+											<form action="login" method="post" >
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" name="userName" class="form-control" placeholder="Username" />
+															<input type="text" name="username" class="form-control" placeholder="Username" />
 															<i class="icon-user"></i>
 														</span>
 													</label>

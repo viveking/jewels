@@ -49,17 +49,17 @@ public class MongoClientDaoImpl implements ClientDao{
 	}
 	
 	@Override
-	public Boolean update(Client area) {
+	public Boolean update(Client client) {
 		try{
 			Date date = new Date();
-			area.setUtime( date );
+			client.setUtime( date );
 			
 			DBCollection collection = mongoDB.getCollection( collClient );
-			String jsonString = CommonUtil.objectToJson(area);
+			String jsonString = CommonUtil.objectToJson(client);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
 			dbObject.removeField("_id");
-			DBObject query = new BasicDBObject("_id", area.get_id());
+			DBObject query = new BasicDBObject("_id", client.get_id());
 			
 			DBObject updateObj = new BasicDBObject("$set", dbObject);
 			
@@ -106,15 +106,15 @@ public class MongoClientDaoImpl implements ClientDao{
 			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
 			DBCursor dbCursor = collection.find( finalQuery);
 			
-			List<Client> areaList = new ArrayList<>();
+			List<Client> clientList = new ArrayList<>();
 			
 			while ( dbCursor.hasNext() ) {
 				DBObject dbObject = dbCursor.next();
 				String jsonString = JSON.serialize(dbObject);
-				Client area = (Client) CommonUtil.jsonToObject( jsonString, Client.class.getName() );
-				areaList.add(area);
+				Client client = (Client) CommonUtil.jsonToObject( jsonString, Client.class.getName() );
+				clientList.add(client);
 			}
-			return areaList;
+			return clientList;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);

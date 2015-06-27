@@ -1,11 +1,12 @@
 package com.affixus.services;
 
-import javax.accessibility.AccessibleRole;
+import java.util.List;
 
 import com.affixus.dao.UserDAO;
 import com.affixus.dao.impl.MongoUserDaoImpl;
-import com.affixus.pojo.auth.AccessRole;
-import com.affixus.pojo.auth.AccessUser;
+import com.affixus.pojo.Client;
+import com.affixus.pojo.auth.Role;
+import com.affixus.pojo.auth.User;
 import com.affixus.util.ObjectFactory;
 import com.affixus.util.ObjectFactory.ObjectEnum;
 
@@ -26,16 +27,16 @@ public class UserService {
 		}
 	}
 	
-	public AccessUser auth(String username, String password){
+	public User auth(String username, String password){
 		return userDAO.auth(username, password);
 	}
 
-	public AccessUser getByUsername(String username) {
+	public User getByUsername(String username) {
 		return userDAO.getByUsername(username);
 	}
 	
-	public Boolean register(AccessUser user) {
-		return userDAO.register(user);
+	public Boolean add(User user) {
+		return userDAO.add(user);
 	}
 	
 	/**
@@ -43,13 +44,12 @@ public class UserService {
 	 * @param _id
 	 * @return
 	 */
-	public AccessUser get(String _id)
+	public User get(String _id)
 	{
 		return userDAO.get(_id);
 	}
 
-	public AccessRole getAccessRole(String _id)
-	{
-		return userDAO.getAccessRole(_id);
+	public List<User> getAll() {
+		return userDAO.getAll();
 	}
 }

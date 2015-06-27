@@ -1,82 +1,164 @@
 package com.affixus.dao.impl;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import com.affixus.dao.UserDAO;
-import com.affixus.pojo.User;
-import com.affixus.pojo.auth.AccessRole;
-import com.affixus.pojo.auth.AccessUser;
+import com.affixus.pojo.auth.User;
 import com.affixus.util.CommonUtil;
-import com.affixus.util.MongoUtil;
 import com.affixus.util.Constants.DBCollectionEnum;
+import com.affixus.util.MongoUtil;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.DBRef;
 import com.mongodb.util.JSON;
 
 public class MongoUserDaoImpl implements UserDAO{
 	private static final Logger LOG = Logger.getLogger( MongoUserDaoImpl.class );
-	private String collAccessUser = DBCollectionEnum.ACCESS_USER.toString();
-	private String collAccessRole = DBCollectionEnum.ACCESS_ROLE.toString();
+	private String collUser = DBCollectionEnum.MAST_USER.toString();
+	private String collRole = DBCollectionEnum.MAST_ROLE.toString();
+	public static final String KEY_ROLE_XID = "roleXid";
+	public static final String KEY_ROLE = "role";
+	
 	private DB mongoDB = MongoUtil.getDB();
 	
 	@Override
-	public AccessUser auth(String username, String password){
-		// TODO Auto-generated method stub
-		
+	public User auth(String username, String password){
 		try{
-			DBCollection collection = mongoDB.getCollection( collAccessUser );
-			DBObject query = new BasicDBObject("userName", username).append("password", password);
+			DBCollection collection = mongoDB.getCollection( collUser );
+			DBObject query = new BasicDBObject("username", username).append("password", password);
 			DBObject dbObject = collection.findOne(query);
-			System.out.println(query.toString());
-			String jsonString = JSON.serialize(dbObject);
-			System.out.println(jsonString);
 			
 			if(dbObject == null){
 				return null;
 			}
 			
-			AccessUser loggedinUser = (AccessUser) CommonUtil.jsonToObject( jsonString, User.class.getName() );
-			return loggedinUser;
+			DBObject roleDBO = ((DBRef) dbObject.get(KEY_ROLE_XID)).fetch();
+			dbObject.put(KEY_ROLE, roleDBO);
+			dbObject.removeField(KEY_ROLE_XID);
+			
+			String jsonString = JSON.serialize(dbObject);
+			User user = (User) CommonUtil.jsonToObject( jsonString, User.class.getName() );
+			return user;
 			
 			
 		}catch( Exception exception ){
-			//loggedinUser.setValid(false);
 			LOG.equals(exception);
 		}
 		return null;
 	}
 
 	@Override
-	public AccessUser getByUsername(String username) {
-		// TODO Auto-generated method stub
+	public User getByUsername(String username) {
+		try{
+			DBCollection collection = mongoDB.getCollection( collUser );
+			DBObject query = new BasicDBObject("username", username);
+			DBObject dbObject = collection.findOne(query);
+			
+			if(dbObject == null){
+				return null;
+			}
+			
+			DBObject roleDBO = ((DBRef) dbObject.get(KEY_ROLE_XID)).fetch();
+			dbObject.put(KEY_ROLE, roleDBO);
+			dbObject.removeField(KEY_ROLE_XID);
+			
+			String jsonString = JSON.serialize(dbObject);
+			User user = (User) CommonUtil.jsonToObject( jsonString, User.class.getName() );
+			return user;
+			
+			
+		}catch( Exception exception ){
+			LOG.equals(exception);
+		}
 		return null;
 	}
 
 	@Override
-	public AccessUser get(String _id) {
-		// TODO Auto-generated method stub
+	public User get(String _id) {
+		try{
+			DBCollection collection = mongoDB.getCollection( collUser );
+			DBObject query = new BasicDBObject("_id", _id);
+			DBObject dbObject = collection.findOne(query);
+			
+			if(dbObject == null){
+				return null;
+			}
+			
+			DBObject roleDBO = ((DBRef) dbObject.get(KEY_ROLE_XID)).fetch();
+			dbObject.put(KEY_ROLE, roleDBO);
+			dbObject.removeField(KEY_ROLE_XID);
+			
+			String jsonString = JSON.serialize(dbObject);
+			User loggedinUser = (User) CommonUtil.jsonToObject( jsonString, User.class.getName() );
+			return loggedinUser;
+			
+			
+		}catch( Exception exception ){
+			LOG.equals(exception);
+		}
 		return null;
 	}
 
 	@Override
-	public Boolean register(AccessUser user) {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean add(User user) {
+		try{
+			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_USER).toString();
+			user.set_id( _id );
+			DBCollection collection = mongoDB.getCollection( collUser );
+			String jsonString = CommonUtil.objectToJson(user);
+			DBObject dbObject = (DBObject) JSON.parse( jsonString );
+			DBRef roleRef = new DBRef( mongoDB, collRole, user.getRole().get_id() );
+			dbObject.put( KEY_ROLE_XID, roleRef );
+			dbObject.removeField( KEY_ROLE);
+			collection.insert(dbObject );
+			
+			return true;
+		}catch( Exception exception ){
+			LOG.equals(exception);
+		}
+		return false;
 	}
 
 	@Override
-	public Set<AccessUser> getAll() {
-		// TODO Auto-generated method stub
+	public List<User> getAll() {
+		try{
+			DBCollection collection = mongoDB.getCollection( collUser );
+			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
+			DBCursor dbCursor = collection.find( finalQuery);
+			
+			if(dbCursor == null){
+				return null;
+			}
+			
+			List<User> userList = new ArrayList<>();
+			
+			while ( dbCursor.hasNext() ) {
+				DBObject dbObject = dbCursor.next();
+				DBObject roleDBO = ((DBRef) dbObject.get(KEY_ROLE_XID)).fetch();
+				dbObject.put(KEY_ROLE, roleDBO);
+				dbObject.removeField(KEY_ROLE_XID);
+				
+				String jsonString = JSON.serialize(dbObject);
+				User user = (User) CommonUtil.jsonToObject( jsonString, User.class.getName() );
+				
+				userList.add(user);
+				
+			}
+			return userList;
+		}
+		catch( Exception exception ){
+			LOG.equals(exception);
+		}
 		return null;
 	}
 
-	@Override
-	public AccessRole getAccessRole(String _id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+	
 }
+

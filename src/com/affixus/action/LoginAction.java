@@ -1,7 +1,6 @@
 package com.affixus.action;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,16 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 
-import com.affixus.dao.UserDAO;
-import com.affixus.pojo.User;
-import com.affixus.pojo.auth.AccessUser;
-import com.affixus.services.OrderService;
+import com.affixus.pojo.auth.User;
 import com.affixus.services.UserService;
 import com.affixus.util.ObjectFactory;
 import com.affixus.util.ObjectFactory.ObjectEnum;
+import com.affixus.util.web.PortalUtil;
 
 /**
  * Servlet implementation class LoginAction
@@ -66,13 +62,18 @@ public class LoginAction extends HttpServlet {
 	}
 
 	private void doProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		AccessUser user = userService.auth(username, password);
-		if (user == null) {
-			response.sendRedirect("LoginPage.jsp");
+		User user = userService.auth(username, password);
+		if ( user == null ) {
+			session.setAttribute("SERVER_MESSAGE", "Invalid credentials - authentication failed!");
+			response.sendRedirect("login.jsp");
 			return;
 		}
 		
+		PortalUtil.setLoggedUserInSession(request, user);
+		response.sendRedirect("hometmp.jsp");
+		return;
 	}
 }

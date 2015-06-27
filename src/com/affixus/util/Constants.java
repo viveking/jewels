@@ -24,8 +24,8 @@ public class Constants {
 		MAST_RATE("mast_rate"),
 		MAST_TAX("mast_tax"),
 		ORDER("order"),
-		ACCESS_USER("access_user"),
-		ACCESS_ROLE("access_role"),
+		MAST_USER("mast_user"),
+		MAST_ROLE("mast_role"),
 		MAST_PLATFORM("mast_platform")
 		;
 		// @formatter:on

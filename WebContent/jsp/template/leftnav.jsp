@@ -1,6 +1,5 @@
 <div class="sidebar sidebar-fixed" id="sidebar">
 
-
 	<div class="sidebar-shortcuts" id="sidebar-shortcuts">
 		<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
 			<button class="btn btn-success">
@@ -48,8 +47,11 @@
 				<li><a href="#" data-href="/jsp/master/rate_master.jsp">
 						<i class="icon-double-angle-right"></i> Rates
 				</a></li>
-				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
+				<li><a href="#" data-href="/jsp/master/user_master.jsp">
 						<i class="icon-double-angle-right"></i> User
+				</a></li>
+				<li><a href="#" data-href="/jsp/master/role_master.jsp">
+						<i class="icon-double-angle-right"></i> Role
 				</a></li>
 			</ul>
 		</li>

@@ -1,7 +1,9 @@
 package com.affixus.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -9,8 +11,10 @@ import org.apache.log4j.Logger;
 import com.affixus.dao.OrderDao;
 import com.affixus.pojo.Order;
 import com.affixus.util.CommonUtil;
+import com.affixus.util.Constants;
 import com.affixus.util.Constants.DBCollectionEnum;
 import com.affixus.util.MongoUtil;
+import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -61,7 +65,6 @@ public class MongoOrderDaoImpl implements OrderDao {
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
 			dbObject.removeField("_id");
 			DBObject query = new BasicDBObject("_id", order.get_id());
-			
 			
 			DBObject updateObj = new BasicDBObject("$set", dbObject);
 			collection.update(query, updateObj);
@@ -212,5 +215,117 @@ public class MongoOrderDaoImpl implements OrderDao {
 		}
 		return null;
 	}
+
+	@Override
+	public Set<String> getOrderInfoByClient(String clientId) {
+		// TODO Auto-generated method stub
+		try{
+			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.MAST_CLIENT.toString());
+			//DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
+			DBObject clientObj = new BasicDBObject("clientId",clientId);
+			DBCursor dbCursor = collection.find(clientObj);
+			
+			if(dbCursor.hasNext()){
+				
+				clientObj = dbCursor.next();
+				clientId = (String) clientObj.get("_id");
+				List<BasicDBObject> queryList = new ArrayList<>();
+				
+
+				queryList.add(new BasicDBObject("status",Constants.PartsStatus.INPROGRESS.toString()));
+				queryList.add(new BasicDBObject("clientXid.$id",clientId));
+				//queryList.add(new BasicDBObject("partList.status",ew BasicDBObject("$ne",Constants.PartsStatus.COMPLETE.toString())));
+				
+				DBObject anding = new BasicDBObject("$and",queryList);
+				
+				DBObject match = new BasicDBObject("$match", anding);
+				DBObject unwind = new BasicDBObject("$unwind", "$partList");
+				
+				/*
+				List<BasicDBObject> andingForMatch2 = new ArrayList<>();
+				andingForMatch2.add(new BasicDBObject("partList.status",new BasicDBObject("$ne",Constants.PartsStatus.COMPLETE.toString())));
+				andingForMatch2.add(new BasicDBObject("partList.platformNumber", platformNumber));
+				
+				DBObject match2 = new BasicDBObject("$match",new BasicDBObject("$and",andingForMatch2));
+				*/
+				
+				DBObject match2 = new BasicDBObject("$match",new BasicDBObject("partList.status",
+						new BasicDBObject("$ne",Constants.PartsStatus.COMPLETE.toString())));
+				
+				collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
+				AggregationOutput aggregationOutput = collection.aggregate(match, unwind,match2);
+				
+				Set<String> orderList = new HashSet<>();
+				for (DBObject orderObj : aggregationOutput.results()) {
+					//DBObject orderObj = dbCursor1.next();
+					DBObject clientDBO = ((DBRef) orderObj.get(KEY_CLIENT_XID)).fetch();
+					
+					orderObj.put("orderDateStr", CommonUtil.longToStringDate((Long)orderObj.get("orderDate"), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
+					orderObj.put(KEY_CLIENT, clientDBO);
+					orderObj.removeField(KEY_CLIENT_XID);
+					
+					String jsonString = JSON.serialize(orderObj);
+					//Order oredr = (Order) CommonUtil.jsonToObject( jsonString, Order.class.getName() );
+					orderList.add(jsonString);
+				}				
+				return orderList;
+			}
+		}
+		catch( Exception exception ){
+			exception.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Set<String> getOrderInfoByPlatform(String platformNumber) {
+		// TODO Auto-generated method stub
+		try{
+			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
+			
+			//db.order.aggregate({$match:{"partList.platformNumber":"PF_7294"}},
+			//{$unwind:"$partList"},{$match:{"partList.platformNumber":"PF_7294"}})
+			List<BasicDBObject> queryList = new ArrayList<>();
+			queryList.add(new BasicDBObject("status",Constants.PartsStatus.INPROGRESS.toString()));
+			queryList.add(new BasicDBObject("partList.platformNumber", platformNumber));
+			//queryList.add(new BasicDBObject("partList.status",new BasicDBObject("$ne",Constants.PartsStatus.COMPLETE.toString())));
+			
+			DBObject anding = new BasicDBObject("$and",queryList);
+			
+			DBObject match = new BasicDBObject("$match", anding);
+			DBObject unwind = new BasicDBObject("$unwind", "$partList");
+			
+			List<BasicDBObject> andingForMatch2 = new ArrayList<>();
+			andingForMatch2.add(new BasicDBObject("partList.status",new BasicDBObject("$ne",Constants.PartsStatus.COMPLETE.toString())));
+			andingForMatch2.add(new BasicDBObject("partList.platformNumber", platformNumber));
+			
+			DBObject match2 = new BasicDBObject("$match",new BasicDBObject("$and",andingForMatch2));
+			
+			AggregationOutput aggregationOutput = collection.aggregate(match, unwind,match2);
+			
+			Set<String> orderList = new HashSet<>();
+			for (DBObject orderObj : aggregationOutput.results()) {
+				DBObject clientDBO = ((DBRef) orderObj.get(KEY_CLIENT_XID)).fetch();
+				
+				orderObj.put("orderDateStr", CommonUtil.longToStringDate((Long)orderObj.get("orderDate"), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
+				orderObj.put(KEY_CLIENT, clientDBO);
+				orderObj.removeField(KEY_CLIENT_XID);
+				String jsonString = JSON.serialize(orderObj);
+				orderList.add(jsonString);
+			}				
+			return orderList;
+		}
+		catch( Exception exception ){
+			exception.printStackTrace();
+		}
+		return null;
+	}
 	
+	public static void main(String[] args) {
+		MongoOrderDaoImpl m = new MongoOrderDaoImpl();
+		Set<String>  s = m.getOrderInfoByPlatform("PF_7294");
+		//for(String pp : s){
+			System.out.println(CommonUtil.objectToJson(s));
+		//}
+	}
 }

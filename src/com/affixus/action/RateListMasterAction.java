@@ -2,6 +2,8 @@ package com.affixus.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,12 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import com.affixus.pojo.Rate;
 import com.affixus.pojo.RateRange;
 import com.affixus.services.RateService;
+import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
 import com.affixus.util.Constants.UIOperations;
 import com.affixus.util.ObjectFactory;
@@ -79,35 +83,41 @@ public class RateListMasterAction extends HttpServlet {
 			String id = request.getParameter(Constants.COLLECTION_KEY);
 			String rate_id = request.getParameter("rateId");
 			
-			RateRange rl = new RateRange();
-			BeanUtils.populate(rl, request.getParameterMap());
+			//BeanUtils.populate(rl, request.getParameterMap());
 			
 			Constants.UIOperations opEnum = UIOperations.valueOf(operation.toUpperCase());
 			switch (opEnum) {
-			case ADD:
+			case SAVE:
 				Rate rate = rateService.get(rate_id);
+				Set<RateRange> rateRangeList = new HashSet<>();//rate.getRateRangeList();
+				String rateListArrSting = request.getParameter("rateList");
 				
+				ObjectMapper mapper = new ObjectMapper();
+				JsonNode jn = mapper.readTree(rateListArrSting);
 				
-				break;
-			case EDIT:
-				if (id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
+				for (JsonNode jsonNode : jn) {
 					
+					String from = jsonNode.get("from").asText();
+					String to = jsonNode.get("to").asText();
+					String rateValue = jsonNode.get("rate").asText();
+					
+					RateRange rl = new RateRange();
+					rl.setFrom(from);
+					rl.setTo(to);
+					rl.setRate(rateValue);
+					
+					rateRangeList.add(rl);
 				}
-				break;
-
-			case DELETE:
-				if (id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
-					//openStockService.delete(id);
-				}
+				rate.setRateList(rateRangeList);
+				
+				rateService.update(rate);
 				break;
 
 			case VIEW:
-				
-				break;
-
-			case VIEW_ALL:
-
-				
+				rate = rateService.get(rate_id);
+				rateRangeList = rate.getRateRangeList();
+				json = CommonUtil.objectToJson(rateRangeList);
+				json = json.replaceAll("_id", "id");
 				break;
 
 			default:

@@ -16,4 +16,6 @@ public interface PlatformDao {
 	public List<Platform> getAll();
 	
 	public Boolean updateParts(String clientId, String partName, Part part);
+	
+	public List<String> getAllPlatformByStatus(String status);
 }

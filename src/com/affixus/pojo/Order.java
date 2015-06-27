@@ -3,6 +3,8 @@ package com.affixus.pojo;
 import java.util.Date;
 import java.util.Set;
 
+import com.affixus.util.Constants;
+
 public class Order extends BasePojo {
 
 	private static final long serialVersionUID = 1L;
@@ -13,7 +15,7 @@ public class Order extends BasePojo {
 	private Date orderDate;
 	private String orderDateStr;
 	private Set<Part> partList;
-	private String status;
+	private String status = Constants.PartsStatus.INPROGRESS.toString();
 	private String printer;
 	private Process cad;
 	private Process cam;

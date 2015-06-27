@@ -100,10 +100,13 @@ public class CommonUtil {
 			return mapper.writeValueAsString(object);
 			
 		} catch (JsonGenerationException e) {
+			e.printStackTrace();
 			LOG.error(e);
 		} catch (JsonMappingException e) {
+			e.printStackTrace();
 			LOG.error(e);
 		} catch (IOException e) {
+			e.printStackTrace();
 			LOG.error(e);
 		}
 

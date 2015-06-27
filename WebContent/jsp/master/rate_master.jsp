@@ -24,10 +24,11 @@
 								</div>
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
+							<div id="alertContainer" style="position: fixed; bottom:10px; right:10px; z-index:1000">
+				
+							</div>
 						</div><!-- /.row -->
-		
-	<script type="text/javascript">
-			
+		<script type="text/javascript">	
 			
 			jQuery(function($) {
 				var grid_selector = "#grid-table_rate";
@@ -223,8 +224,6 @@
 					}
 				);
 			
-			
-				
 				function style_edit_form(form) {
 					//enable datepicker on "sdate" field and switches for "stock" field
 					form.find('input[name=sdate]').datepicker({format:'dd-mm-yyyy' , autoclose:true})
@@ -315,7 +314,22 @@
 
 				//---------  RateList JQGrid------
 				
-				var grid_selector_rateList = "#grid-table-rateList";
+				var grid_selector_rateList = "#grid-table-rateList",lastSel,
+			    cancelEditing = function(myGrid) {
+			        var lrid;
+			        if (typeof lastSel !== "undefined") {
+			            // cancel editing of the previous selected row if it was in editing state.
+			            // jqGrid hold intern savedRow array inside of jqGrid object,
+			            // so it is safe to call restoreRow method with any id parameter
+			            // if jqGrid not in editing state
+			            myGrid.jqGrid('restoreRow',lastSel);
+
+			            // now we need to restore the icons in the formatter:"actions"
+			            lrid = $.jgrid.jqID(lastSel);
+			            $("tr#" + lrid + " div.ui-inline-edit, " + "tr#" + lrid + " div.ui-inline-del").show();
+			            $("tr#" + lrid + " div.ui-inline-save, " + "tr#" + lrid + " div.ui-inline-cancel").hide();
+			        }
+			    };
 				jQuery(grid_selector_rateList).jqGrid({
 					mtype: "POST",
 					loadonce: true,
@@ -332,7 +346,12 @@
 							formatoptions:{ 
 								keys:true,
 								delOptions:{top:45 , url: "${pageContext.request.contextPath}/rateListMaster.action?op=delete", left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true, beforeShowForm:beforeDeleteCallback},
-								editformbutton:true, editOptions:{top:45, left:((($(window).width() - 600) / 2) + $(window).scrollLeft()), width:600, recreateForm: true, closeOnEscape:true, beforeShowForm:beforeEditCallback}
+								onEdit: function (id) {
+				                    if (typeof (lastSel) !== "undefined" && id !== lastSel) {
+				                        cancelEditing(grid_selector_rateList);
+				                    }
+				                    lastSel = id;
+				                }
 							}
 						}
 					],
@@ -351,7 +370,6 @@
 							updatePagerIcons(table);
 							enableTooltips(table);
 						}, 0);
-						//alert("loaded");
 					},
 					caption: "Rate List",
 					scrollOffset: 18,
@@ -385,7 +403,7 @@
 
 						    var rateRowData = jQuery(grid_selector).jqGrid('getRowData',row.split('&')[0]);
 						    prodMasterSelID = rateRowData.id;
-						    jQuery(grid_selector_rateList).setGridParam( {editurl: "${pageContext.request.contextPath}/rateListMaster.action?op=edit&productId="+prodMasterSelID, datatype:"json", url:"${pageContext.request.contextPath}/rateListMaster.action?op=view&productId="+rateRowData.id} );
+						    jQuery(grid_selector_rateList).setGridParam( { datatype:"json", url:"${pageContext.request.contextPath}/rateListMaster.action?op=view&rateId="+rateRowData.id} );
 						    jQuery(grid_selector_rateList).jqGrid('setCaption', "Rate List for "+rateRowData.name);
 
 						    jQuery(grid_selector_rateList).jqGrid("clearGridData");
@@ -396,19 +414,16 @@
 								html: "<i class='icon-plus bigger-110'></i>&nbsp; Add",
 								"class" : "btn btn-primary btn-xs pull-left",
 								click: function() {
-									var datarow = {id:"",quantity:"",batchNumber:"",expDate:"",mfgDate:""};
 						            var newId = $.jgrid.randId();
+									var datarow = {id:newId,quantity:"",batchNumber:"",expDate:"",mfgDate:""};
 
 								    jQuery(grid_selector_rateList).jqGrid('addRowData', newId , datarow, "last");
 									var editparameters = {
 											"keys" : true,
 											"oneditfunc" : null,
 											"successfunc" : null,
-											"url" : "${pageContext.request.contextPath}/rateListMaster.action?op=add&rateId="+prodMasterSelID,
+											"url" : "#",
 										    "extraparam" : {},
-											"aftersavefunc" : function(){
-												jQuery(grid_selector_rateList).setGridParam( {url:"${pageContext.request.contextPath}/rateListMaster.action?op=edit&productId="+prodMasterSelID} );
-											},
 											"errorfunc": null,
 											"afterrestorefunc" : null,
 											"restoreAfterError" : true,
@@ -422,6 +437,51 @@
 								"class" : "btn btn-xs pull-right",
 								click: function() {
 									$( this).dialog( "close" );
+								}
+							},{
+								html: "<i class='icon-save bigger-110'></i>&nbsp; Save",
+								"class" : "btn btn-success btn-xs pull-right",
+								click: function() {
+									debugger;
+									var $this = $(grid_selector_rateList), rows = $(grid_selector_rateList).jqGrid('getRowData'), l = rows.length, i, row;
+								    for (i = 0; i < l; i++) {
+								        row = rows[i];
+								        $this.saveRow(row.id, true, 'clientArray');
+								    }
+									
+									var passedGrid = $(grid_selector_rateList);
+									var selData = passedGrid.jqGrid('getRowData');
+									
+									var param ={'rateList':JSON.stringify(selData),'rateId':prodMasterSelID};
+									
+									console.log(param);
+									$.ajax({
+									  	url: '${pageContext.request.contextPath}/rateListMaster.action?op=save',
+									  	type: 'POST',
+									  	data: param
+									  })
+									  .done(function(data) {
+									  	console.log("success "+data);
+									  	$("#alertContainer").html(' \
+									  			<div class="alert alert-block alert-success" id="alertSaved">\
+												<button type="button" class="close" data-dismiss="alert"> \
+													<i class="icon-remove"></i> \
+												</button> \
+												<p>	<strong> \
+														<i class="icon-ok"></i>\
+														Save Successful... \
+													</strong></p> \
+											</div>');
+									  	
+									  	$("#alertSaved").addClass("animated bounceInRight");
+									  	
+									  })
+									  .fail(function() {
+									  	console.log("error");
+									  })
+									  .always(function() {
+									  	console.log("complete");
+									  });
 								}
 							}
 							

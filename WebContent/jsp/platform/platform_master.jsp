@@ -48,15 +48,15 @@
 					colNames:['id','Platform Number','Printer','From Date', 'To Date', 'Prepared By','Printed By'],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
-						{name:'platformNumber',index:'platformNumber', width:250, editrules:{required:true},editable: true},
-						{name:'printer',index:'printer', width:250, editable: true ,edittype: "select",editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"INVISIONHR:INVISIONHR;VIPER25:VIPER25;VIPER50:VIPER50;ZNone:ZNone"},formatter:'select'},
-						{name:'orderFromDateStr',index:'orderFromDateStr', width:150,editable: true,editoptions:{size:20, 
+						{name:'platformNumber',index:'platformNumber', width:100, editrules:{required:true},editable: true},
+						{name:'printer',index:'printer', width:100, editable: true ,edittype: "select",editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"INVISIONHR:INVISIONHR;VIPER25:VIPER25;VIPER50:VIPER50;ZNone:ZNone"},formatter:'select'},
+						{name:'orderFromDateStr',index:'orderFromDateStr', width:250,editable: true,editoptions:{size:20, 
 			                  dataInit:function(el){ 
 			                        //$(el).datepicker({dateFormat:'yy-mm-dd'}); 
 			                	  $(el).datetimepicker({format: 'DD-MM-YYYY h:mm:ss A'});
 			                  } 
 			                }},
-						{name:'orderToDateStr',index:'orderToDateStr', width:150,editable: true,editoptions:{size:20, 
+						{name:'orderToDateStr',index:'orderToDateStr', width:250,editable: true,editoptions:{size:20, 
 			                  dataInit:function(el){ 
 			                       // $(el).datepicker({dateFormat:'yy-mm-dd'}); 
 			                	  $(el).datetimepicker({format: 'DD-MM-YYYY h:mm:ss A'});

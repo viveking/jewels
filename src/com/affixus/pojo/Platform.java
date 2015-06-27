@@ -2,6 +2,8 @@ package com.affixus.pojo;
 
 import java.util.Date;
 
+import com.affixus.util.Constants;
+
 public class Platform extends BasePojo{
 
 	private static final long serialVersionUID = 1L;
@@ -15,6 +17,7 @@ public class Platform extends BasePojo{
 	private String orderFromDateStr;
 	private String platformPreparedBy;
 	private String platformPrintedBy;
+	private String status = Constants.PartsStatus.INPROGRESS.toString();
 	
 	public String get_id() {
 		return _id;
@@ -70,5 +73,11 @@ public class Platform extends BasePojo{
 	}
 	public void setPlatformPrintedBy(String platformPrintedBy) {
 		this.platformPrintedBy = platformPrintedBy;
+	}
+	public String getStatus(){
+		return this.status;
+	}
+	public void setStatus(String status){
+		this.status = status;
 	}
 }

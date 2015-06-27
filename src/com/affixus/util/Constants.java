@@ -42,6 +42,24 @@ public class Constants {
 		}
 	}
 
+	public enum PrinterValue{
+			INVERSIONHR(1),
+			VIPER25(2),
+			VIPER50(3),
+			RUBBERMOULD(4);
+			// @formatter:on
+
+			private final int printerValue;
+
+			PrinterValue(int printerValue) {
+				this.printerValue = printerValue;
+			}
+
+			@Override
+			public String toString() {
+				return printerValue+"";
+			}
+	}
 	public enum UIOperations {
 		// @formatter:off
 		VIEW,
@@ -51,7 +69,9 @@ public class Constants {
 		DELETE, 
 		REPORT_DATE,
 		SAVE,
-		ALL_CLIENT_ID;
+		ALL_PLATFORM_ID,
+		ALL_CLIENT_ID, 
+		VIEW_PENDING_PARTS, SAVE_PARTS_UPDATE, SAVE_STATUS_UPDATE;
 		// @formatter:on
 	}
 
@@ -63,6 +83,13 @@ public class Constants {
 		DEBIT,
 		CREDIT;
 		// @formatter:on
+	}
+	
+	public enum PartsStatus{
+		INPROGRESS,
+		COMPLETE,
+		INVOICEGENERATED, 
+		FAILED;
 	}
 
 }

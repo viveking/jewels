@@ -1,4 +1,6 @@
 
+<%@page import="com.affixus.util.MongoAttributeList"%>
+<%@page import="com.affixus.util.Constants"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 						<div class="page-header">
@@ -34,12 +36,24 @@
 				var grid_selector = "#grid-table_area";
 				var pager_selector = "#grid-pager_area";
 
-				var dataType = [{"id":"","name":"","address":"","city":"",
-					"limit":"","creditPeriod":"","vatNo":"","cstNo":"",
-					"panNo":"","mobileNo1":"","mobileNo2":"","email1":"",
-					"email2":"","voucherType":"","invoiceType":"",
-					"invoicePercentage":""}];
+				var PT_inversionHrData = <%= MongoAttributeList.getRateListByPrinter("1")%>;
+				var PT_viber25 = <%= MongoAttributeList.getRateListByPrinter("2")%>;
+				var PT_viber50 = <%= MongoAttributeList.getRateListByPrinter("3")%>;
+				var PT_rubberMould = <%= MongoAttributeList.getRateListByPrinter("4")%>;
 				
+				var invType = {"0":"Select Inv. Type","1":"CST Invoice","2":"Estimate Sales","3":"Tax Invoice"};
+				var percent = {"CST0%":"CST @ 0%","CST1%":"CST @ 1%","CST2%":"CST @ 2%","CST4%":"CST @ 4%","ES0%":"Estimate Sales @ 0%","ES1%":"Estimate Sales @ 1%","TI0%":"Tax Invoice @ 0%","TI1%":"Tax Invoice @ 1%","TI12.5%":"Tax Invoice @ 12.5%"};
+				var cstPercent = {"CST0%":"CST @ 0%","CST1%":"CST @ 1%","CST2%":"CST @ 2%","CST4%":"CST @ 4%"};
+				var estSalesPercent = {"ES0%":"Estimate Sales @ 0%","ES1%":"Estimate Sales @ 1%"};
+				var tiPercent = {"TI0%":"Tax Invoice @ 0%","TI1%":"Tax Invoice @ 1%","TI12.5%":"Tax Invoice @ 12.5%"};
+				
+				var invTypePercent = {"0":{},"1":cstPercent,"2":estSalesPercent,"3":tiPercent};
+				
+				var resetPercentValues = function () {
+                    // set 'value' property of the editoptions to initial state
+                    jQuery(grid_selector).jqGrid('setColProp', 'invoicePercentage', { editoptions: { value: percent} });
+                };
+
 				jQuery(grid_selector).jqGrid({
 					url: "${pageContext.request.contextPath}/clientmaster.action?op=view_all",
 					mtype: "POST",
@@ -66,20 +80,65 @@
 						{name:'mobileNo2',index:'mobileNo2', sortable:false,editable: true,hidden:true, formoptions:{rowpos:10, colpos:2}, editrules:{required:false, edithidden:true},editoptions:{size:"20",maxlength:"30"}},						
 						{name:'email1',index:'email1', sortable:false,editable: true,hidden:true, editrules:{required:false, edithidden:true},editoptions:{size:"20",maxlength:"30"}},
 						{name:'email2',index:'email2', sortable:false,editable: true,hidden:true, formoptions:{rowpos:12, colpos:2},editrules:{required:false, edithidden:true},editoptions:{size:"20",maxlength:"30"}},
-						{name:'voucherType',index:'voucherType', sortable:false,editable: true, edittype:"select", editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"},formatter:'select'},
-						{name:'invoiceType',index:'invoiceType', sortable:false,editable: true,edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"},formatter:'select'},
-						{name:'invoicePercentage',index:'invoicePercentage', sortable:false,editable: true,hidden:true, edittype:"select",formoptions:{rowpos:14, colpos:2},hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"},formatter:'select'},
+						{name:'voucherType',index:'voucherType', sortable:false,editable: true, edittype:"select", editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"Invoice:Invoice;DC:DC"},formatter:'select'},
+						//{name:'invoiceType',index:'invoiceType', sortable:false,editable: true,edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"},formatter:'select'},
+						{
+							name:'invoiceType',index:'invoiceType',width: 100, editable: true,
+	                        formatter: 'select', edittype: 'select',
+	                        editoptions: {
+	                            value: invType,
+	                            dataInit: function (elem) {
+	                                var v = $(elem).val();
+	                                // to have short list of options which corresponds to the country
+	                                // from the row we have to change temporary the column property
+	                                jQuery(grid_selector).jqGrid('setColProp', 'invoicePercentage', { editoptions: { value: invTypePercent[v]} });
+	                            },
+	                            dataEvents: [
+	                                {
+	                                    type: 'change',
+	                                    fn: function (e) {
+	                                        // build 'State' options based on the selected 'Country' value
+	                                        var v = $(e.target).val(),
+	                                            sc = invTypePercent[v],
+	                                            newOptions = '',
+	                                            stateId,
+	                                            form,
+	                                            row;
+	                                        for (stateId in sc) {
+	                                            if (sc.hasOwnProperty(stateId)) {
+	                                                newOptions += '<option role="option" value="' + stateId + '">' +
+	                                                    percent[stateId] + '</option>';
+	                                            }
+	                                        }
+	
+	                                        resetPercentValues();
+	
+	                                        // populate the subset of contries
+	                                        if ($(e.target).is('.FormElement')) {
+	                                            // form editing
+	                                            form = $(e.target).closest('form.FormGrid');
+	                                            $("select#invoicePercentage.FormElement", form[0]).html(newOptions);
+	                                        } else {
+	                                            // inline editing
+	                                            row = $(e.target).closest('tr.jqgrow');
+	                                            $("select#" + $.jgrid.jqID(row.attr('id')) + "_invoicePercentage", row[0]).html(newOptions);
+	                                        }
+	                                    }
+	                                }
+	                            ]
+	                        }
+	                    },
+						{name:'invoicePercentage',index:'invoicePercentage', sortable:false,editable: true,hidden:true, edittype:"select",formoptions:{rowpos:15, colpos:2},hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:percent},formatter:'select'},
 						
-						{name:'invisionHr',index:'invisionHr', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"},formatter:'select'},
+						{name:'invisionHr',index:'invisionHr', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_inversionHrData},formatter:'select'},
 						
-						{name:'viper25',index:'viper25', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"},formatter:'select'},
-						{name:'viper50',index:'viper50', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"},formatter:'select'},
-						{name:'rubberMould',index:'rubberMould', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"},formatter:'select'},
+						{name:'viper25',index:'viper25', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_viber25},formatter:'select'},
+						{name:'viper50',index:'viper50', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_viber50},formatter:'select'},
+						{name:'rubberMould',index:'rubberMould', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_rubberMould},formatter:'select'},
 						
 						{name:'autoApproval',index:'autoApproval', sortable:false,editable: true, hidden:true, edittype:"checkbox",editrules:{required:false, edithidden:true},editoptions:{value:"true:false", defaultValue:"true"}},
 						{name:'sendInvoiceSms',index:'sendInvoiceSms', sortable:false,editable: true,hidden:true, edittype:"checkbox",editrules:{required:false, edithidden:true},formoptions:{rowpos:20, colpos:2},editoptions:{value:"true:false", defaultValue:"true"}},
 						{name:'active',index:'active', sortable:false, editable: true, hidden:true, edittype:"checkbox",editrules:{required:false, edithidden:true},editoptions:{value:"true:false", defaultValue:"true"}},
-						
 						
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 

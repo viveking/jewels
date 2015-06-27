@@ -50,4 +50,13 @@ public class OrderService {
 	public Boolean update(Order ord) {
 		return orderDao.update(ord);
 	}
+
+	public Set<String> getOrderInfoByClient(String clientId) {
+		return orderDao.getOrderInfoByClient(clientId);	
+	}
+	
+	public Set<String> getOrderInfoByPlatform(String platformNumber) {
+		return orderDao.getOrderInfoByPlatform(platformNumber);	
+	}
+	
 }

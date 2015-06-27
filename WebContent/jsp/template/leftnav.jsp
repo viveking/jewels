@@ -48,9 +48,6 @@
 				<li><a href="#" data-href="/jsp/master/rate_master.jsp">
 						<i class="icon-double-angle-right"></i> Rates
 				</a></li>
-				<li><a href="#" data-href="/jsp/master/platform_master.jsp">
-						<i class="icon-double-angle-right"></i> Platform
-				</a></li>
 				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
 						<i class="icon-double-angle-right"></i> User
 				</a></li>
@@ -73,16 +70,35 @@
 
 				<li><a href="#" data-href="/jsp/order/updateOrder.jsp">
 						<i class="icon-double-angle-right"></i> Update Order
-				</a></li>
-				<li><a href="#" data-href="/jsp/order/platformOptCalc.jsp">
-						<i class="icon-double-angle-right"></i> Platform Output Calculation
-				</a></li>
-				
+				</a></li>				
 <!-- 
 				<li><a href="#" data-href="/jsp/order/order.jsp">
 						<i class="icon-double-angle-right"></i> Order Generation
 				</a></li>
  -->				
+			</ul>
+			
+		</li>
+		<li>
+			<a href="#" class="dropdown-toggle"> <i
+				class="icon-list-alt"></i> <span class="menu-text"> Platform </span> <b
+				class="arrow icon-angle-down"></b>
+			</a>
+			
+			<ul class="submenu">
+				<li><a href="#" data-href="/jsp/platform/platform_master.jsp">
+						<i class="icon-double-angle-right"></i>Create Platform
+				</a></li>
+				<li><a href="#" data-href="/jsp/platform/platformOptCalc.jsp">
+						<i class="icon-double-angle-right"></i> Platform Output Calculation
+				</a></li>
+				<li><a href="#" data-href="/jsp/platform/partsUpdate.jsp">
+						<i class="icon-double-angle-right"></i> Parts Update
+				</a></li>
+				<li><a href="#" data-href="/jsp/platform/platform_status_update.jsp">
+						<i class="icon-double-angle-right"></i> Platform Status Update
+				</a></li>
+				
 			</ul>
 			
 		</li>

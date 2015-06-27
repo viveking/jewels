@@ -21,9 +21,9 @@ public class MongoRateDaoImpl implements RateDao{
 	private static final Logger LOG = Logger.getLogger( MongoRateDaoImpl.class );
 	private DB mongoDB = MongoUtil.getDB();
 	private String rateMaster = DBCollectionEnum.MAST_RATE.toString();
+
 	@Override
 	public Boolean update(Rate rate) {
-		// TODO Auto-generated method stub
 		try{
 			
 			DBCollection collection = mongoDB.getCollection( rateMaster );
@@ -47,7 +47,7 @@ public class MongoRateDaoImpl implements RateDao{
 	@Override
 	public Boolean create(Rate rate) {
 		try{
-			
+
 			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_RATE).toString();
 			rate.set_id( _id );
 			
@@ -66,15 +66,14 @@ public class MongoRateDaoImpl implements RateDao{
 
 	@Override
 	public Boolean delete(String _id) {
-		// TODO Auto-generated method stub
 		Rate rate = new Rate();
 		rate.set_id(_id);
+		rate.setDeleted(true);
 		return update(rate);
 	}
 
 	@Override
 	public Rate get(String _id) {
-		// TODO Auto-generated method stub
 		try{
 			DBCollection collection = mongoDB.getCollection( rateMaster );
 			DBObject query = new BasicDBObject("_id", _id);
@@ -92,7 +91,6 @@ public class MongoRateDaoImpl implements RateDao{
 
 	@Override
 	public List<Rate> getAll() {
-		// TODO Auto-generated method stub
 		try{
 			DBCollection collection = mongoDB.getCollection( rateMaster );
 			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();

@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -192,7 +191,30 @@ public class OrderAction extends HttpServlet {
 					json=CommonUtil.objectToJson(orderList);
 				}
 				break;
+			case VIEW_PENDING_PARTS:
 				
+				String sBy= request.getParameter("sBy");//Search By
+				String value = request.getParameter("value");
+				Set<String> outputSet = null;
+				if(sBy != null && sBy.equalsIgnoreCase("client")){
+					outputSet = orderService.getOrderInfoByClient(value);
+				}else{
+					outputSet = orderService.getOrderInfoByPlatform(value);
+				}
+				json="[";
+				boolean fst = true;
+				for(String pp : outputSet){
+					if(fst){
+						json+=pp;
+						fst=false;
+					}else{
+						json+=","+pp;
+					}
+				}
+				
+				json+="]";
+				
+				break;
 			default:
 				break;
 		}

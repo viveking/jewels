@@ -58,11 +58,11 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
 			if(null != from && null != to){
 				finalQuery.put("orderDate", new BasicDBObject("$gte",from.getTime()).append("$lte", to.getTime()));
-				finalQuery.put("status", Constants.PartsStatus.COMPLETE.toString());
 			}
+			finalQuery.put("status", Constants.PartsStatus.COMPLETE.toString());
 			DBCursor dbCursor = collection.find( finalQuery);
 			
-			List<Order> clientList = new ArrayList<>();
+			List<Order> ordertList = new ArrayList<>();
 			
 			while ( dbCursor.hasNext() ) {
 				DBObject dbObject = dbCursor.next();
@@ -71,11 +71,11 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 				dbObject.put(KEY_CLIENT, clientDBO);
 				dbObject.removeField(KEY_CLIENT_XID);
 				
-				String jsonString = JSON.serialize(clientDBO);
+				String jsonString = JSON.serialize(dbObject);
 				Order order = (Order) CommonUtil.jsonToObject( jsonString, Order.class.getName() );
-				clientList.add(order);
+				ordertList.add(order);
 			}
-			return clientList;
+			return ordertList;
 			
 		}
 		catch( Exception exception ){

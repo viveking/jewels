@@ -83,13 +83,14 @@ public class GenerateInvoiceAction extends HttpServlet {
 
 				String fromDate = request.getParameter("fromDate");
 				String toDate = request.getParameter("toDate");
-				
+				Date from=null,to=null;
 				if(fromDate!= null && null != toDate){
-					Date from = CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
-					Date to = CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
-					List<Order> orderList = invoiceService.getAllInfo(from, to);
-					json=CommonUtil.objectToJson(orderList);
+					from = CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+					to = CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
 				}
+				List<Order> orderList = invoiceService.getAllInfo(from, to);
+				json=CommonUtil.objectToJson(orderList);
+				
 				break;
 				/*
 			case "GET_ALL_INFO_BY_CLIENT":

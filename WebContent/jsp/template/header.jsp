@@ -5,7 +5,7 @@
 
 	<meta charset="utf-8" />
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
-	<title>Balaji CAM Solution</title>
+	<title>Jyoti Solutions</title>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="description" content="overview &amp; stats" />

@@ -2,7 +2,9 @@ package com.affixus.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,12 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.affixus.pojo.Client;
 import com.affixus.pojo.Part;
 import com.affixus.pojo.Platform;
 import com.affixus.services.PlatformService;
@@ -173,6 +173,7 @@ public class PlatformAction extends HttpServlet {
 				
 				mapper = new ObjectMapper();
 				jn = mapper.readTree(jsonPlatform);
+				Set<String> orderIdList = new HashSet<>();
 				
 				for (JsonNode jsonNode : jn) {
 					
@@ -182,7 +183,10 @@ public class PlatformAction extends HttpServlet {
 					String weight = jsonNode.get("partList").get("weight").asText();
 					String refWeight = jsonNode.get("partList").get("refWeight").asText();
 					String status = jsonNode.get("partList").get("status").asText();
+					String orderId = jsonNode.get("_id").asText();
 					
+					orderIdList.add(orderId);
+
 					Part part = new Part();
 					part.setName(partName);
 					part.setPlatFormNumber(platFormNumber);
@@ -192,6 +196,8 @@ public class PlatformAction extends HttpServlet {
 					
 					platformService.updateParts(clientId, partName, part);
 				}
+				
+				platformService.updateCAMAmountByNewWeights(orderIdList);
 				
 				break;
 			case ALL_PLATFORM_ID:

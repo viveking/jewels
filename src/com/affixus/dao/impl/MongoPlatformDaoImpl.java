@@ -3,6 +3,7 @@ package com.affixus.dao.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -10,21 +11,25 @@ import com.affixus.dao.PlatformDao;
 import com.affixus.pojo.Part;
 import com.affixus.pojo.Platform;
 import com.affixus.util.CommonUtil;
+import com.affixus.util.Constants;
 import com.affixus.util.Constants.DBCollectionEnum;
 import com.affixus.util.MongoUtil;
+import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.DBRef;
 import com.mongodb.util.JSON;
 
 public class MongoPlatformDaoImpl implements PlatformDao {
 
-	private static final Logger LOG = Logger
-			.getLogger(MongoClientDaoImpl.class);
+	private static final Logger LOG = Logger.getLogger(MongoClientDaoImpl.class);
 	private String collPlatform = DBCollectionEnum.MAST_PLATFORM.toString();
 	private DB mongoDB = MongoUtil.getDB();
+	public static final String KEY_CLIENT_XID = "clientXid";
+	public static final String KEY_CLIENT = "client";
 
 	@Override
 	public Boolean create(Platform platform) {
@@ -35,8 +40,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 			Date date = new Date();
 			platform.setCtime(date);
 			platform.setUtime(date);
-			String _id = MongoUtil
-					.getNextSequence(DBCollectionEnum.MAST_CLIENT).toString();
+			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_CLIENT).toString();
 			platform.set_id(_id);
 
 			DBCollection collection = mongoDB.getCollection(collPlatform);
@@ -126,8 +130,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 	public Boolean updateParts(String clientId, String partName, Part part) {
 		// TODO Auto-generated method stub
 		try {
-			DBCollection collection = mongoDB
-					.getCollection(DBCollectionEnum.MAST_CLIENT.toString());
+			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.MAST_CLIENT.toString());
 			DBObject clientObj = new BasicDBObject("clientId", clientId);
 			DBCursor dbCursor = collection.find(clientObj);
 
@@ -136,8 +139,10 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 				clientObj = dbCursor.next();
 				clientId = (String) clientObj.get("_id");
 
-				DBObject orderQuery = new BasicDBObject("clientXid.$id",clientId).append("partList.name", partName);
-
+				DBObject orderQuery = new BasicDBObject("clientXid.$id",clientId);
+				orderQuery.put("partList.name", partName);
+				orderQuery.put("status",Constants.PartsStatus.INPROGRESS.toString());
+				
 				collection = mongoDB.getCollection(DBCollectionEnum.MAST_PLATFORM.toString());
 				DBObject platformObj = new BasicDBObject("platformNumber",part.getPlatFormNumber());
 				DBCursor dbCursor1 = collection.find(platformObj);
@@ -158,18 +163,9 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 						getQuery.put("partList.name", part.getName());
 						DBObject setQuery = new BasicDBObject();
 						
-						//Float fWeight = new Float(part.getWeight());
-						//if(fWeight != null){
-							setQuery.put("partList.$.weight", part.getWeight());
-						//}
-						
-						//Float frefWeight = new Float(part.getWeight());
-						//if(frefWeight != null){
-							setQuery.put("partList.$.refWeight", part.getRefWeight());
-						//}
-						
+						setQuery.put("partList.$.weight", part.getWeight());
+						setQuery.put("partList.$.refWeight", part.getRefWeight());
 						setQuery.put("partList.$.platformNumber", part.getPlatFormNumber());
-						
 						setQuery.put("partList.$.status", part.getStatus());
 						
 						DBObject updateQuery = new BasicDBObject("$set",setQuery);
@@ -184,7 +180,8 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 		}
 		return null;
 	}
-
+	
+	
 	@Override
 	public List<String> getAllPlatformByStatus(String status) {
 		// TODO Auto-generated method stub
@@ -205,4 +202,48 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 		return null;
 	}
 
+	@Override
+	public Boolean updateCAMAmountByNewWeights(Set<String> orderIdList) {
+		
+		DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
+		
+		DBObject unwindQuery = new BasicDBObject("$unwind", "$partList");
+		List<String> addArray = new ArrayList<>();
+		addArray.add("$partList.weight");
+		addArray.add("$partList.refWeight");
+		
+		DBObject sumQuery = new BasicDBObject("$sum", new BasicDBObject("$add", addArray));
+		DBObject groupQuery = new BasicDBObject("_id", null);
+		groupQuery.put("weight",sumQuery);
+		
+		DBObject group = new BasicDBObject("$group",groupQuery);
+		
+		for(String orderId : orderIdList){
+			DBObject orderObject = collection.findOne(new BasicDBObject("_id",orderId));
+			DBObject clientDBO = ((DBRef) orderObject.get(KEY_CLIENT_XID)).fetch();
+			
+			DBObject matchQuery = new BasicDBObject("$match", new BasicDBObject("_id",orderId));
+
+			AggregationOutput aggregationOutput = collection.aggregate(matchQuery, unwindQuery, group);
+			for (DBObject orderObj : aggregationOutput.results()) {
+				
+				float weight = (float)orderObj.get("weight");
+				float amount = computeAmountByNewWeight(clientDBO);
+			}
+			
+			/*db.order.aggregate({$match:{'_id':'49'}},{$unwind:'$partList'},
+					{'$group':{_id:null,
+					    weight:{$sum:{$add:['$partList.weight','$partList.refWeight']}}}})
+				*/
+			
+		}
+		return null;
+	}
+	private float computeAmountByNewWeight(DBObject clienDBO){
+		float amount = 0;
+		//calculate amount based on the client
+		
+		
+		return amount;
+	}
 }

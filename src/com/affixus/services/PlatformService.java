@@ -1,6 +1,7 @@
 package com.affixus.services;
 
 import java.util.List;
+import java.util.Set;
 
 import com.affixus.dao.PlatformDao;
 import com.affixus.dao.impl.MongoPlatformDaoImpl;
@@ -42,6 +43,11 @@ public class PlatformService {
 	}
 	public Boolean updateParts(String clientId, String partName, Part part) {
 		return platformDao.updateParts(clientId,partName, part);
+		//return platformDao.updateCAMAmountByNewWeights(clientId);
+	}
+	
+	public Boolean updateCAMAmountByNewWeights(Set<String> orderIdList){
+		return platformDao.updateCAMAmountByNewWeights(orderIdList);
 	}
 	
 	public List<String> getAllPlatformByStatus(String status){

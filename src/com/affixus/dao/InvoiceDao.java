@@ -15,6 +15,6 @@ public interface InvoiceDao {
 	
 	public Invoice get(String _id);
 	
-	public List<Order> getAllClientInfo(Date from, Date to);
+	public List<Order> getAllInfo(Date from, Date to);
 
 }

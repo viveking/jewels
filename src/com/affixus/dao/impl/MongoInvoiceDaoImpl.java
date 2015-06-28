@@ -7,7 +7,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.affixus.dao.InvoiceDao;
-import com.affixus.pojo.Client;
 import com.affixus.pojo.Invoice;
 import com.affixus.pojo.Order;
 import com.affixus.util.CommonUtil;
@@ -28,10 +27,8 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 	
 	private DB mongoDB = MongoUtil.getDB();
 	private String collOrder = DBCollectionEnum.ORDER.toString();
-	private String collClient = DBCollectionEnum.MAST_CLIENT.toString();
 	public static final String KEY_CLIENT_XID = "clientXid";
 	public static final String KEY_CLIENT = "client";
-
 
 	@Override
 	public boolean generateInvoice(List<Order> orderDetails) {
@@ -54,7 +51,7 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 	}
 
 	@Override
-	public List<Order> getAllClientInfo(Date from, Date to) {
+	public List<Order> getAllInfo(Date from, Date to) {
 		// TODO Auto-generated method stub
 		try{
 			DBCollection collection = mongoDB.getCollection( collOrder );

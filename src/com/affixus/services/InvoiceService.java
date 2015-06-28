@@ -38,8 +38,8 @@ public class InvoiceService {
 		return invoiceDao.getAllInfoByClient(from, to, clientId);
 	}
 
-	public List<Order> getAllClientInfo(Date from, Date to) {
-		return invoiceDao.getAllClientInfo(from, to);
+	public List<Order> getAllInfo(Date from, Date to) {
+		return invoiceDao.getAllInfo(from, to);
 	}
 
 }

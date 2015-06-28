@@ -179,8 +179,9 @@
 			data: grid_data,
 			datatype: "local",
 			height: 320,
-			colNames:['Order Date','Client ID','Platform','Order Name','Part','Weight (KG)','Reference Weight (KG)'],
+			colNames:['Order No','Order Date','Client ID','Platform','Order Name','Part','Weight (KG)','Reference Weight (KG)'],
 			colModel:[
+				{name:'_id',index:'_id', width:150,editable: false,hidden:true},
 				{name:'orderDateStr',index:'orderDateStr', width:150,editable: false},
 				{index:'client',name:'client.clientId', width:150,editable: false},
 				{index:'platform',name:'partList.platformNumber', width:150, editable: false},

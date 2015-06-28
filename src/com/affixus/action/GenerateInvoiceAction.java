@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.affixus.pojo.Client;
 import com.affixus.pojo.Order;
 import com.affixus.services.InvoiceService;
 import com.affixus.util.CommonUtil;

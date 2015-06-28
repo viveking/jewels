@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.affixus.dao.InvoiceDao;
 import com.affixus.dao.impl.MongoInvoiceDaoImpl;
-import com.affixus.pojo.Client;
 import com.affixus.pojo.Invoice;
 import com.affixus.pojo.Order;
 import com.affixus.util.ObjectFactory;

@@ -3,7 +3,6 @@ package com.affixus.dao;
 import java.util.Date;
 import java.util.List;
 
-import com.affixus.pojo.Client;
 import com.affixus.pojo.Invoice;
 import com.affixus.pojo.Order;
 

@@ -57,17 +57,46 @@
 
 			<table id="order-grid-table"></table>
 
-			<button class="btn btn-md btn-success" id="idSaveOrder">
-				<i class="icon-ok"></i>
-				Save
-			</button>
-
+			
 			<script type="text/javascript">
 				var $path_base = "/";//this will be used in gritter alerts containing images
 			</script>
 
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
+		<div  class="row">
+			<div class="col-xs-2">
+				<label for="taxInvoiceOptionList">Invoice Tax</label>
+	
+				<select class="form-control" id="taxInvoiceOptionList">
+					<!-- Get this from client Info -->
+					<option value="WY">Wyoming</option>
+				</select>
+			</div>
+			<div class="col-xs-2">
+				<label for="idDiscount">Discount</label>
+				<input type="number" id="idDiscount">
+			</div>	
+			<div class="col-xs-2">
+				<label for="idCourier">Courier Charger</label>
+				<input type="number" id="idCourier">
+			</div>	
+			<div class="col-xs-2">
+				<label for="idOtherCharges">Other Charges</label>
+				<input type="number" id="idOtherCharges">
+			</div>
+			<div class="col-xs-2">
+				<label for="idGatePassCharges">Gate Pass Charges</label>
+				<input type="number" id="idGatePassCharges">
+			</div>
+			<div class="col-xs-2">
+				<label></label>
+				<button class="btn btn-md btn-success" id="idSaveOrder">
+					<i class="icon-ok"></i>
+					Generate Invoice
+				</button>
+			</div>
+		</div>
 	</div><!-- /.row -->
 	<div class="col-md-offset-1 row" id="noGridContainer">
 		<h1>Select Date and Client</h1>

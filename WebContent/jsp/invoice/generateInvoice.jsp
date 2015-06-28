@@ -35,7 +35,7 @@
 			<div class="row">
 				<button id="btnGenerateOrderGetCLient" class="btn btn-md btn-primary">
 						<i class="icon-spinner"></i>
-						Get Clients
+						Get Order
 				</button>
 			</div>
 		</div>
@@ -64,13 +64,16 @@
 
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
-		<div  class="row">
+		<div  class="col-xs-12">
 			<div class="col-xs-2">
 				<label for="taxInvoiceOptionList">Invoice Tax</label>
 	
 				<select class="form-control" id="taxInvoiceOptionList">
 					<!-- Get this from client Info -->
-					<option value="WY">Wyoming</option>
+					<option value="TI0%">Tax Invoice @ 0%</option>
+					<option value="TI1%">Tax Invoice @ 1%</option>
+					<option value="TI12.5%">Tax Invoice @ 12.5%</option>
+					
 				</select>
 			</div>
 			<div class="col-xs-2">
@@ -89,8 +92,8 @@
 				<label for="idGatePassCharges">Gate Pass Charges</label>
 				<input type="number" id="idGatePassCharges">
 			</div>
-			<div class="col-xs-2">
-				<label></label>
+			<div class="col-xs-2" style="padding:0px">
+				<label> </label>
 				<button class="btn btn-md btn-success" id="idSaveOrder">
 					<i class="icon-ok"></i>
 					Generate Invoice
@@ -146,24 +149,16 @@
 			datatype: "local",
 			gridview: true,
 			height: 320,
-			colNames:['Order Date','Client ID','Order No','Order Name','Select CAM','Select RM','Select CAD','Select CAST'],
+			colNames:['Order Name','Order No','Client Id','CAM Gms','CAM Charges','CAD Charges','RM Charges','Cast Charges'],
 			colModel:[
-				{name:'orderDateStr',index:'orderDateStr', width:150,editable: false},
-				{name:'client.clientId',index:'client.clientId', width:150,editable: false},
-				{name:'_id',index:'_id', width:150,editable: false},
 				{name:'orderName',index:'orderName', width:150,editable: false},
-				{name:'cam.required',index:'cam.required', width: 70, align: "center",
-                    formatter: "checkbox", formatoptions: { disabled: false},
-                    edittype: "checkbox", editoptions: {value: "true:false", defaultValue: "true"}},
-				{name:'rm.required',index:'rm.required', width: 70, align: "center",
-                        formatter: "checkbox", formatoptions: { disabled: false},
-                        edittype: "checkbox", editoptions: {value: "true:false", defaultValue: "false"} },
-				{name:'cad.required',index:'cad.required', width: 70, align: "center",
-                            formatter: "checkbox", formatoptions: { disabled: false},
-                            edittype: "checkbox", editoptions: {value: "true:false", defaultValue: "false"}},
-				{name:'cast.required',index:'cast.required', width: 70, align: "center",
-                                formatter: "checkbox", formatoptions: { disabled: false},
-                                edittype: "checkbox", editoptions: {value: "true:false", defaultValue: "false"} }
+				{name:'_id',index:'_id', width:150,editable: false},
+				{name:'client.clientId',index:'client.clientId', width:150,editable: false},
+				{name:'camGms',index:'camGms', width:70,editable: false},
+				{name:'cam.amount',index:'cam.amount', width:70,editable: false},
+				{name:'cad.amount',index:'cad.amount', width: 70,editable: false},
+				{name:'rm.amount',index:'rm.amount', width: 70,editable: false },
+				{name:'cast.amount',index:'cast.amount', width: 70,editable: false }
 			],
 			hiddengrid: false,
 			viewrecords : true,
@@ -171,9 +166,10 @@
 			altRows: true,
 			rownumbers: true,  
 			multiselect: false,
-			caption: "Order Details",
+			caption: "Order List",
 			autowidth: true,
-			sortname: '_id', sortorder: 'asc'
+			sortname: '_id', 
+			sortorder: 'asc'
 		});
 		
 		

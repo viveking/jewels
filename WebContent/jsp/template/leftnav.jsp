@@ -112,8 +112,12 @@
 			</a>
 			
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/invoice/invoice.jsp">
-						<i class="icon-double-angle-right"></i> Invoice
+				<li><a href="#" data-href="/jsp/invoice/generateInvoice.jsp">
+						<i class="icon-double-angle-right"></i>Generate Invoice
+				</a></li>
+				
+				<li><a href="#" data-href="/jsp/invoice/printInvoice.jsp">
+						<i class="icon-double-angle-right"></i>Print Invoice
 				</a></li>
 				
 				<li><a href="#" data-href="/jsp/invoice/receipts.jsp">

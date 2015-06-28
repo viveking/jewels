@@ -136,14 +136,10 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 				clientObj = dbCursor.next();
 				clientId = (String) clientObj.get("_id");
 
-				DBObject orderQuery = new BasicDBObject("clientXid.$id",
-						clientId).append("partList.name", partName);
+				DBObject orderQuery = new BasicDBObject("clientXid.$id",clientId).append("partList.name", partName);
 
-				collection = mongoDB
-						.getCollection(DBCollectionEnum.MAST_PLATFORM
-								.toString());
-				DBObject platformObj = new BasicDBObject("platformNumber",
-						part.getPlatFormNumber());
+				collection = mongoDB.getCollection(DBCollectionEnum.MAST_PLATFORM.toString());
+				DBObject platformObj = new BasicDBObject("platformNumber",part.getPlatFormNumber());
 				DBCursor dbCursor1 = collection.find(platformObj);
 
 				if (dbCursor1.hasNext()) {
@@ -162,10 +158,18 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 						getQuery.put("partList.name", part.getName());
 						DBObject setQuery = new BasicDBObject();
 						
-						//if(part.getWeight() != null && part.getWeight().isEmpty())
-						setQuery.put("partList.$.weight", part.getWeight());
-						setQuery.put("partList.$.refWeight", part.getRefWeight());
+						//Float fWeight = new Float(part.getWeight());
+						//if(fWeight != null){
+							setQuery.put("partList.$.weight", part.getWeight());
+						//}
+						
+						//Float frefWeight = new Float(part.getWeight());
+						//if(frefWeight != null){
+							setQuery.put("partList.$.refWeight", part.getRefWeight());
+						//}
+						
 						setQuery.put("partList.$.platformNumber", part.getPlatFormNumber());
+						
 						setQuery.put("partList.$.status", part.getStatus());
 						
 						DBObject updateQuery = new BasicDBObject("$set",setQuery);

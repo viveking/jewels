@@ -1,5 +1,6 @@
 package com.affixus.pojo;
 
+import java.util.List;
 import java.util.Set;
 
 public class Rate extends BasePojo{
@@ -10,7 +11,7 @@ public class Rate extends BasePojo{
 	private String name;
 	private String description;
 	private String printerType;
-	private Set<RateRange> rateRangeList;
+	private List<RateRange> rateRangeList;
 	
 	public String get_id() {
 		return _id;
@@ -30,10 +31,10 @@ public class Rate extends BasePojo{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Set<RateRange> getRateRangeList() {
+	public List<RateRange> getRateRangeList() {
 		return rateRangeList;
 	}
-	public void setRateList(Set<RateRange> rateRangeList) {
+	public void setRateList(List<RateRange> rateRangeList) {
 		this.rateRangeList = rateRangeList;
 	}
 	public String getPrinterType() {

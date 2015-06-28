@@ -2,7 +2,9 @@ package com.affixus.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -89,7 +91,7 @@ public class RateListMasterAction extends HttpServlet {
 			switch (opEnum) {
 			case SAVE:
 				Rate rate = rateService.get(rate_id);
-				Set<RateRange> rateRangeList = new HashSet<>();//rate.getRateRangeList();
+				List<RateRange> rateRangeList = new ArrayList<>();//rate.getRateRangeList();
 				String rateListArrSting = request.getParameter("rateList");
 				
 				ObjectMapper mapper = new ObjectMapper();

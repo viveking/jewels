@@ -10,6 +10,8 @@ import org.apache.log4j.Logger;
 import com.affixus.dao.PlatformDao;
 import com.affixus.pojo.Part;
 import com.affixus.pojo.Platform;
+import com.affixus.pojo.Rate;
+import com.affixus.pojo.RateRange;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
 import com.affixus.util.Constants.DBCollectionEnum;
@@ -221,6 +223,20 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 		for(String orderId : orderIdList){
 			DBObject orderObject = collection.findOne(new BasicDBObject("_id",orderId));
 			DBObject clientDBO = ((DBRef) orderObject.get(KEY_CLIENT_XID)).fetch();
+			String printer = (String)orderObject.get("printer");
+			String rateListName = "";
+			
+			/*if("invisionHr".equalsIgnoreCase(printer)){
+				rateListName = clientDBO.get("invisionHr");
+			} else if("viper25".equalsIgnoreCase(printer)){
+				rateListName = "";
+			}else if("viper25".equalsIgnoreCase(printer)){
+				rateListName = "";
+			} else if("rubberMould".equalsIgnoreCase(printer)){
+				rateListName = "";
+			}*/
+			
+			rateListName =(String) clientDBO.get(printer);
 			
 			DBObject matchQuery = new BasicDBObject("$match", new BasicDBObject("_id",orderId));
 
@@ -228,22 +244,24 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 			for (DBObject orderObj : aggregationOutput.results()) {
 				
 				float weight = (float)orderObj.get("weight");
-				float amount = computeAmountByNewWeight(clientDBO);
+				float amount = computeAmountByNewWeight(weight,rateListName);
+				
 			}
-			
-			/*db.order.aggregate({$match:{'_id':'49'}},{$unwind:'$partList'},
-					{'$group':{_id:null,
-					    weight:{$sum:{$add:['$partList.weight','$partList.refWeight']}}}})
-				*/
 			
 		}
 		return null;
 	}
-	private float computeAmountByNewWeight(DBObject clienDBO){
+	private float computeAmountByNewWeight(float weight,String rateListName){
+		
 		float amount = 0;
 		//calculate amount based on the client
+		DBCollection collection = mongoDB.getCollection(DBCollectionEnum.MAST_RATE.toString());
+		DBObject rateObj = collection.findOne(new BasicDBObject("name",rateListName));
+		String jsonString = JSON.serialize(rateObj);
+		Rate rate = (Rate) CommonUtil.jsonToObject(jsonString, Rate.class);
 		
-		
+		List<RateRange> rateRange = rate.getRateRangeList();
+		amount = rate.getPrice(weight);
 		return amount;
 	}
 }

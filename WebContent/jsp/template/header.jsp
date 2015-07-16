@@ -138,7 +138,7 @@ function printMsg(message)
 					<a href="#" class="navbar-brand">
 						
 							<b class="icon-barchart" style="color:red"></b>
-						<small class='munsi_logo'>Balaji_CAM_Solution</small>
+						<small class='munsi_logo'>Jyoti Solutions</small>
 						
 					</a><!-- /.brand -->
 				</div><!-- /.navbar-header -->

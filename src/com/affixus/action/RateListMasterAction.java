@@ -3,9 +3,7 @@ package com.affixus.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -82,7 +80,7 @@ public class RateListMasterAction extends HttpServlet {
 		String operation = request.getParameter(Constants.OPERATION);
 
 		if (operation != null) {
-			String id = request.getParameter(Constants.COLLECTION_KEY);
+			//String id = request.getParameter(Constants.COLLECTION_KEY);
 			String rate_id = request.getParameter("rateId");
 			
 			//BeanUtils.populate(rl, request.getParameterMap());
@@ -106,7 +104,7 @@ public class RateListMasterAction extends HttpServlet {
 					RateRange rl = new RateRange();
 					rl.setFrom(from);
 					rl.setTo(to);
-					rl.setRate(rateValue);
+					rl.setRate(Float.parseFloat(rateValue));
 					
 					rateRangeList.add(rl);
 				}

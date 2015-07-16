@@ -8,7 +8,7 @@ public class RateRange implements Serializable {
 
 	private String from;
 	private String to;
-	private String rate;
+	private float rate;
 	
 	public String getFrom() {
 		return from;
@@ -22,11 +22,24 @@ public class RateRange implements Serializable {
 	public void setTo(String to) {
 		this.to = to;
 	}
-	public String getRate() {
+	public float getRate() {
 		return rate;
 	}
-	public void setRate(String rate) {
+	public void setRate(float rate) {
 		this.rate = rate;
+	}
+	
+	public boolean isToValueInfinite(){
+		
+		boolean flag;
+		try{
+			Float f = Float.parseFloat(this.getTo());
+			flag = false;
+		}
+		catch(Exception e){
+			flag = true;
+		}
+		return flag;
 	}
 	
 	@Override

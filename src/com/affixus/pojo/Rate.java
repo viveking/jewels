@@ -1,7 +1,6 @@
 package com.affixus.pojo;
 
 import java.util.List;
-import java.util.Set;
 
 public class Rate extends BasePojo{
 
@@ -42,6 +41,17 @@ public class Rate extends BasePojo{
 	}
 	public void setPrinterType(String printerType) {
 		this.printerType = printerType;
+	}
+	public float getPrice(float weight) {
+		float price = 0;
+		for(RateRange rateList : getRateRangeList()){
+			if(rateList.isToValueInfinite()){
+				price = weight * rateList.getRate();
+			} else if(weight >= Float.parseFloat(rateList.getFrom()) && weight <= Float.parseFloat(rateList.getTo())){
+				price = rateList.getRate();
+			}
+		}
+		return price;
 	}
 	
 	

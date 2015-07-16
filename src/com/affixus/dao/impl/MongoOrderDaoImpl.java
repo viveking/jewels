@@ -321,11 +321,4 @@ public class MongoOrderDaoImpl implements OrderDao {
 		return null;
 	}
 	
-	public static void main(String[] args) {
-		MongoOrderDaoImpl m = new MongoOrderDaoImpl();
-		Set<String>  s = m.getOrderInfoByPlatform("PF_7294");
-		//for(String pp : s){
-			System.out.println(CommonUtil.objectToJson(s));
-		//}
-	}
 }

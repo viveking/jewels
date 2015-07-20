@@ -11,7 +11,6 @@ import com.affixus.dao.PlatformDao;
 import com.affixus.pojo.Part;
 import com.affixus.pojo.Platform;
 import com.affixus.pojo.Rate;
-import com.affixus.pojo.RateRange;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
 import com.affixus.util.Constants.DBCollectionEnum;
@@ -260,7 +259,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 		String jsonString = JSON.serialize(rateObj);
 		Rate rate = (Rate) CommonUtil.jsonToObject(jsonString, Rate.class);
 		
-		List<RateRange> rateRange = rate.getRateRangeList();
+		//List<RateRange> rateRange = rate.getRateRangeList();
 		amount = rate.getPrice(weight);
 		return amount;
 	}

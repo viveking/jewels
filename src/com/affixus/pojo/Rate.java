@@ -53,6 +53,4 @@ public class Rate extends BasePojo{
 		}
 		return price;
 	}
-	
-	
 }

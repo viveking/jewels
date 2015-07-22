@@ -85,7 +85,7 @@
 		var platformList = {};
 
 		$.ajax({
-		  	url: '${pageContext.request.contextPath}/platform.action?op=ALL_PLATFORM_ID',
+		  	url: '${pageContext.request.contextPath}/platform.action?op=ALL_PLATFORM_ID&status=INPROGRESS',
 		  	type: 'GET',
 		  	async: false
 		  })

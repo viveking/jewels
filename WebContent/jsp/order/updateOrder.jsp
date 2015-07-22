@@ -2,6 +2,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
+<style>
+	.ui-state-highlight{
+	     border:none!important;
+	     background:none!important;
+	}
+	.selected-row{
+	     border:none!important;
+	     background:none!important;
+	}
+</style>
+
 <div class="page-header">
 	<h1>
 		Update Order
@@ -117,7 +128,7 @@
 				{name:'client.name',index:'client.name', width:275, editable: false},
 				{name:'createdBy',index:'createdBy', width:100, editable: false},
 				{name:'orderDateStr',index:'orderDateStr', width:135, editable: false},
-				{name:'t_charges',index:'t_charges', width:150, editable: true}
+				{name:'t_charges',index:'t_charges', width:150, editable: true, classes: 'editCls'}
 			], 
 			viewrecords : true,
 			altRows: true,

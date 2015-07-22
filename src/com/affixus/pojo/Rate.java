@@ -42,12 +42,12 @@ public class Rate extends BasePojo{
 	public void setPrinterType(String printerType) {
 		this.printerType = printerType;
 	}
-	public float getPrice(float weight) {
-		float price = 0;
+	public double getPrice(double weight) {
+		double price = 0;
 		for(RateRange rateList : getRateRangeList()){
 			if(rateList.isToValueInfinite()){
 				price = weight * rateList.getRate();
-			} else if(weight >= Float.parseFloat(rateList.getFrom()) && weight <= Float.parseFloat(rateList.getTo())){
+			} else if(weight >= Float.parseFloat(rateList.getFrom()) && weight <= Double.parseDouble(rateList.getTo())){
 				price = rateList.getRate();
 			}
 		}

@@ -11,8 +11,8 @@ public class Part implements Serializable {
 	private String name;
 	private String status = Constants.PartsStatus.INPROGRESS.toString();
 	private String platFormNumber;
-	private float weight;
-	private float refWeight;
+	private double weight;
+	private double refWeight;
 	
 	public String getName() {
 		return name;
@@ -33,16 +33,16 @@ public class Part implements Serializable {
 	public void setPlatFormNumber(String platFormNumber) {
 		this.platFormNumber = platFormNumber;
 	}
-	public float getWeight() {
+	public double getWeight() {
 		return weight;
 	}
-	public void setWeight(float weight) {
+	public void setWeight(double weight) {
 		this.weight = weight;
 	}
-	public float getRefWeight() {
+	public double getRefWeight() {
 		return refWeight;
 	}
-	public void setRefWeight(float refWeight) {
+	public void setRefWeight(double refWeight) {
 		this.refWeight = refWeight;
 	}
 

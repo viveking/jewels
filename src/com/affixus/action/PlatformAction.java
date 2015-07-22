@@ -151,14 +151,15 @@ public class PlatformAction extends HttpServlet {
 					String partName = jsonNode.get("part").asText();
 					String platFormNumber = jsonNode.get("platform").asText();
 					String weight = jsonNode.get("partWeight").asText();
-					String refWeight = jsonNode.get("supportWeight").asText();
+					//String refWeight = jsonNode.get("supportWeight").asText();
+					String status = jsonNode.get("partStatus").asText();
 					
 					Part part = new Part();
 					part.setName(partName);
 					part.setPlatFormNumber(platFormNumber);
 					part.setWeight(Float.parseFloat(weight));
-					part.setRefWeight(Float.parseFloat(refWeight));
-					part.setStatus(Constants.PartsStatus.INPROGRESS.toString());
+					//part.setRefWeight(Float.parseFloat(refWeight));
+					part.setStatus(status);
 					
 					platformService.updateParts(clientId, partName, part);
 				}
@@ -181,7 +182,7 @@ public class PlatformAction extends HttpServlet {
 					String partName = jsonNode.get("partList").get("name").asText();
 					String platFormNumber = jsonNode.get("partList").get("platformNumber").asText();
 					String weight = jsonNode.get("partList").get("weight").asText();
-					String refWeight = jsonNode.get("partList").get("refWeight").asText();
+					//String refWeight = jsonNode.get("partList").get("refWeight").asText();
 					String status = jsonNode.get("partList").get("status").asText();
 					String orderId = jsonNode.get("_id").asText();
 					
@@ -191,7 +192,7 @@ public class PlatformAction extends HttpServlet {
 					part.setName(partName);
 					part.setPlatFormNumber(platFormNumber);
 					part.setWeight(Float.parseFloat(weight));
-					part.setRefWeight(Float.parseFloat(refWeight));
+					//part.setRefWeight(Float.parseFloat(refWeight));
 					part.setStatus(status);
 					
 					platformService.updateParts(clientId, partName, part);
@@ -212,7 +213,7 @@ public class PlatformAction extends HttpServlet {
 				String partStatus="";
 				
 				if(statusString.equalsIgnoreCase("Completed"))
-					partStatus = Constants.PartsStatus.COMPLETE.toString();
+					partStatus = Constants.PartsStatus.COMPLETED.toString();
 				else if(statusString.equalsIgnoreCase("Failed"))
 					partStatus = Constants.PartsStatus.FAILED.toString();
 				
@@ -229,13 +230,13 @@ public class PlatformAction extends HttpServlet {
 					String partName = jsonNode.get("partList.name").asText();
 					String platFormNumber = jsonNode.get("partList.platformNumber").asText();
 					String weight = jsonNode.get("partList.weight").asText();
-					String refWeight = jsonNode.get("partList.refWeight").asText();
+					//String refWeight = jsonNode.get("partList.refWeight").asText();
 					
 					Part part = new Part();
 					part.setName(partName);
 					part.setPlatFormNumber(platFormNumber);
-					part.setWeight(Float.parseFloat(weight));
-					part.setRefWeight(Float.parseFloat(refWeight));
+					part.setWeight(Double.parseDouble(weight));
+					//part.setRefWeight(Float.parseFloat(refWeight));
 					if(!partStatus.isEmpty())
 						part.setStatus(partStatus);
 					

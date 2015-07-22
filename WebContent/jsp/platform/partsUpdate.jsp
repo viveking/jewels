@@ -179,7 +179,7 @@
 			data: grid_data,
 			datatype: "local",
 			height: 320,
-			colNames:['Order No','Order Date','Client ID','Platform','Order Name','Part','Weight (KG)','Reference Weight (KG)'],
+			colNames:['Order No','Order Date','Client ID','Platform','Order Name','Part','Weight (KG)','Status'],
 			colModel:[
 				{name:'_id',index:'_id', width:150,editable: false,hidden:true},
 				{name:'orderDateStr',index:'orderDateStr', width:150,editable: false},
@@ -188,7 +188,7 @@
 				{index:'orderName',name:'orderName', width:150, editable: false},
 				{index:'part',name:'partList.name', width:300, editable: false},
 				{index:'partWeight',name:'partList.weight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:300, editable: true, classes: 'editCls'},
-				{index:'supportWeight',name:'partList.refWeight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:300, editable: true, classes: 'editCls'}
+				{index:'partStatus',name:'partList.status', width:200, editable: true, edittype:"select", editrules:{required:true, edithidden:true},editoptions:{ value:{"INPROGRESS":"INPROGRESS","COMPLETED":"COMPLETED"}},formatter:'select', classes: 'editCls'}
 			], 
 			hiddengrid: false,
 			viewrecords : true,
@@ -209,8 +209,10 @@
 			$.each(selData,function(i,val){
 				if(val.hasOwnProperty("partList.weight"))
 					val.partList.weight = val["partList.weight"];
-				if(val.hasOwnProperty("partList.refWeight"))
-					val.partList.refWeight = val["partList.refWeight"];
+				if(val.hasOwnProperty("partList.status"))
+					val.partList.status = val["partList.status"];
+				/* if(val.hasOwnProperty("partList.refWeight"))
+					val.partList.refWeight = val["partList.refWeight"]; */
 			});
 			
 			var param ={'order':JSON.stringify(selData)};

@@ -1,7 +1,7 @@
 <div class="sidebar sidebar-fixed" id="sidebar">
 
 	<div class="sidebar-shortcuts" id="sidebar-shortcuts">
-		<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+		<!-- <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
 			<button class="btn btn-success">
 				<i class="icon-signal"></i>
 			</button>
@@ -17,7 +17,7 @@
 			<button class="btn btn-danger">
 				<i class="icon-cogs"></i>
 			</button>
-		</div>
+		</div> -->
 
 		<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
 			<span class="btn btn-success"></span> <span class="btn btn-info"></span>
@@ -97,9 +97,9 @@
 				<li><a href="#" data-href="/jsp/platform/partsUpdate.jsp">
 						<i class="icon-double-angle-right"></i> Parts Update
 				</a></li>
-				<li><a href="#" data-href="/jsp/platform/platform_status_update.jsp">
+				<!-- <li><a href="#" data-href="/jsp/platform/platform_status_update.jsp">
 						<i class="icon-double-angle-right"></i> Platform Status Update
-				</a></li>
+				</a></li> -->
 				
 			</ul>
 			

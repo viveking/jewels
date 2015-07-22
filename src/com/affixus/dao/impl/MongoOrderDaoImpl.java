@@ -143,7 +143,6 @@ public class MongoOrderDaoImpl implements OrderDao {
 
 	@Override
 	public Set<Order> getAll(Date fromDate, Date toDate) {
-		// TODO Auto-generated method stub
 		try{
 			DBCollection collection = mongoDB.getCollection( collOrder );
 			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
@@ -177,7 +176,6 @@ public class MongoOrderDaoImpl implements OrderDao {
 
 	@Override
 	public Set<Order> getAllByOperation(Date fromDate, Date toDate, String operation) {
-		// TODO Auto-generated method stub
 		try{
 			DBCollection collection = mongoDB.getCollection( collOrder );
 			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
@@ -218,7 +216,6 @@ public class MongoOrderDaoImpl implements OrderDao {
 
 	@Override
 	public Set<String> getOrderInfoByClient(String clientId) {
-		// TODO Auto-generated method stub
 		try{
 			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.MAST_CLIENT.toString());
 			//DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
@@ -249,8 +246,11 @@ public class MongoOrderDaoImpl implements OrderDao {
 				DBObject match2 = new BasicDBObject("$match",new BasicDBObject("$and",andingForMatch2));
 				*/
 				
-				DBObject match2 = new BasicDBObject("$match",new BasicDBObject("partList.status",
-						new BasicDBObject("$ne",Constants.PartsStatus.COMPLETE.toString())));
+				/*DBObject match2 = new BasicDBObject("$match",new BasicDBObject("partList.status",
+						new BasicDBObject("$ne",Constants.PartsStatus.COMPLETED.toString())));*/
+				
+				DBObject match2 = new BasicDBObject("$match",new BasicDBObject("partList.status",Constants.PartsStatus.INPROGRESS.toString()));
+				
 				
 				collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
 				AggregationOutput aggregationOutput = collection.aggregate(match, unwind,match2);
@@ -279,7 +279,6 @@ public class MongoOrderDaoImpl implements OrderDao {
 
 	@Override
 	public Set<String> getOrderInfoByPlatform(String platformNumber) {
-		// TODO Auto-generated method stub
 		try{
 			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
 			
@@ -296,7 +295,8 @@ public class MongoOrderDaoImpl implements OrderDao {
 			DBObject unwind = new BasicDBObject("$unwind", "$partList");
 			
 			List<BasicDBObject> andingForMatch2 = new ArrayList<>();
-			andingForMatch2.add(new BasicDBObject("partList.status",new BasicDBObject("$ne",Constants.PartsStatus.COMPLETE.toString())));
+			//andingForMatch2.add(new BasicDBObject("partList.status",new BasicDBObject("$ne",Constants.PartsStatus.COMPLETED.toString())));
+			andingForMatch2.add(new BasicDBObject("partList.status",Constants.PartsStatus.INPROGRESS.toString()));
 			andingForMatch2.add(new BasicDBObject("partList.platformNumber", platformNumber));
 			
 			DBObject match2 = new BasicDBObject("$match",new BasicDBObject("$and",andingForMatch2));

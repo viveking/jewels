@@ -22,6 +22,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
+import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 
 public class MongoPlatformDaoImpl implements PlatformDao {
@@ -106,12 +107,8 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 			while (dbCursor.hasNext()) {
 				DBObject dbObject = dbCursor.next();
 
-				dbObject.put("orderFromDateStr", CommonUtil.longToStringDate(
-						(Long) dbObject.get("orderFromDate"),
-						CommonUtil.DATETIME_FORMAT_ddMMyyyyHHmmss_HYPHEN));
-				dbObject.put("orderToDateStr", CommonUtil.longToStringDate(
-						(Long) dbObject.get("orderToDate"),
-						CommonUtil.DATETIME_FORMAT_ddMMyyyyHHmmss_HYPHEN));
+				dbObject.put("orderFromDateStr", CommonUtil.longToStringDate((Long) dbObject.get("orderFromDate"),CommonUtil.DATETIME_FORMAT_ddMMyyyyHHmmss_HYPHEN));
+				dbObject.put("orderToDateStr", CommonUtil.longToStringDate((Long) dbObject.get("orderToDate"),CommonUtil.DATETIME_FORMAT_ddMMyyyyHHmmss_HYPHEN));
 
 				String jsonString = JSON.serialize(dbObject);
 
@@ -162,18 +159,51 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 						DBObject getQuery = new BasicDBObject();
 						getQuery.put("_id", orderId);
 						getQuery.put("partList.name", part.getName());
-						DBObject setQuery = new BasicDBObject();
 						
+						DBObject setQuery = new BasicDBObject();
 						setQuery.put("partList.$.weight", part.getWeight());
-						setQuery.put("partList.$.refWeight", part.getRefWeight());
+						//setQuery.put("partList.$.refWeight", part.getRefWeight());
 						setQuery.put("partList.$.platformNumber", part.getPlatFormNumber());
 						setQuery.put("partList.$.status", part.getStatus());
 						
 						DBObject updateQuery = new BasicDBObject("$set",setQuery);
 						
-						collection.update(getQuery, updateQuery);
+						//DBObject orderWithUpdatedPartInfo = collection.findAndModify(getQuery, null,null,false,updateQuery,true,false);
+						collection.update(getQuery,updateQuery);
 
+						
+						//Check for Order Complete.
+						getQuery = new BasicDBObject();
+						getQuery.put("_id", orderId);
+						getQuery.put("partList.status",Constants.PartsStatus.INPROGRESS.toString());
+						
+						DBCursor findResult = collection.find(getQuery);
+						if(!findResult.hasNext()){
+							setQuery = new BasicDBObject();
+							setQuery.put("status", Constants.PartsStatus.COMPLETED.toString());
+							updateQuery = new BasicDBObject("$set",setQuery);
+							
+							collection.update(new BasicDBObject("_id", orderId), updateQuery);
+						}
+						
+						//Check for Platform Parts Complete.
+						getQuery = new BasicDBObject();
+						getQuery.put("partList.platformNumber", part.getPlatFormNumber());
+						getQuery.put("partList.status",Constants.PartsStatus.INPROGRESS.toString());
+						
+						findResult = collection.find(getQuery);
+						
+						if(!findResult.hasNext()){
+							setQuery = new BasicDBObject();
+							setQuery.put("status", Constants.PartsStatus.COMPLETED.toString());
+							updateQuery = new BasicDBObject("$set",setQuery);
+							
+							collection = mongoDB.getCollection(DBCollectionEnum.MAST_PLATFORM.toString());
+							collection.update(new BasicDBObject("_id", platformObj.get("_id")), updateQuery);
+						}
 					}
+					
+					
 				}
 			}
 		} catch (Exception exception) {
@@ -211,7 +241,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 		DBObject unwindQuery = new BasicDBObject("$unwind", "$partList");
 		List<String> addArray = new ArrayList<>();
 		addArray.add("$partList.weight");
-		addArray.add("$partList.refWeight");
+		//addArray.add("$partList.refWeight");
 		
 		DBObject sumQuery = new BasicDBObject("$sum", new BasicDBObject("$add", addArray));
 		DBObject groupQuery = new BasicDBObject("_id", null);
@@ -242,17 +272,17 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 			AggregationOutput aggregationOutput = collection.aggregate(matchQuery, unwindQuery, group);
 			for (DBObject orderObj : aggregationOutput.results()) {
 				
-				float weight = (float)orderObj.get("weight");
-				float amount = computeAmountByNewWeight(weight,rateListName);
+				double weight = (float)orderObj.get("weight");
+				double amount = computeAmountByNewWeight(weight,rateListName);
 				
 			}
 			
 		}
 		return null;
 	}
-	private float computeAmountByNewWeight(float weight,String rateListName){
+	private double computeAmountByNewWeight(double weight,String rateListName){
 		
-		float amount = 0;
+		double amount = 0;
 		//calculate amount based on the client
 		DBCollection collection = mongoDB.getCollection(DBCollectionEnum.MAST_RATE.toString());
 		DBObject rateObj = collection.findOne(new BasicDBObject("name",rateListName));

@@ -138,6 +138,7 @@
 		        		  jsonObj.platform = arrPathSplit[lenPathSplit - 3];
 		        		  jsonObj.partWeight = arrEachPart[5].split(":")[1].trim();
 		        		  jsonObj.supportWeight = arrEachPart[6].split(":")[1].trim();
+		          		  jsonObj.partStatus = "COMPLETED";
 		          		  
 		        		  console.log(JSON.stringify(jsonObj));
 			        	  
@@ -172,13 +173,14 @@
 			data: grid_data,
 			datatype: "local",
 			height: 320,
-			colNames:['Client ID','Platform','Part','Weight (KG)','Reference Weight (KG)'],
+			colNames:['Client ID','Platform','Part','Weight (KG)','Status'],
 			colModel:[
 				{name:'client',index:'client', width:150,editable: false},
 				{name:'platform',index:'platform', width:150, editable: false},
 				{name:'part',index:'part', width:300, editable: false},
-				{name:'partWeight',index:'partWeight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:300, editable: true, classes: 'editCls'},
-				{name:'supportWeight',index:'supportWeight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:300, editable: true, classes: 'editCls'}
+				{name:'partWeight',index:'partWeight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:200, editable: true, classes: 'editCls'},
+				{name:'partStatus',index:'partStatus', width:200, editable: true, edittype:"select", editrules:{required:true, edithidden:true},editoptions:{ value:{"INPROGRESS":"INPROGRESS","COMPLETED":"COMPLETED"}},formatter:'select', classes: 'editCls'}
+				/* {name:'supportWeight',index:'supportWeight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:300, editable: true, classes: 'editCls'} */
 			], 
 			hiddengrid: false,
 			viewrecords : true,

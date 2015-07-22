@@ -87,7 +87,7 @@ public class Constants {
 	
 	public enum PartsStatus{
 		INPROGRESS,
-		COMPLETE,
+		COMPLETED,
 		INVOICEGENERATED, 
 		FAILED;
 	}

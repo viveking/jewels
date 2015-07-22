@@ -8,7 +8,7 @@ public class RateRange implements Serializable {
 
 	private String from;
 	private String to;
-	private float rate;
+	private double rate;
 	
 	public String getFrom() {
 		return from;
@@ -22,7 +22,7 @@ public class RateRange implements Serializable {
 	public void setTo(String to) {
 		this.to = to;
 	}
-	public float getRate() {
+	public double getRate() {
 		return rate;
 	}
 	public void setRate(float rate) {

@@ -59,7 +59,7 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 			if(null != from && null != to){
 				finalQuery.put("orderDate", new BasicDBObject("$gte",from.getTime()).append("$lte", to.getTime()));
 			}
-			finalQuery.put("status", Constants.PartsStatus.COMPLETE.toString());
+			finalQuery.put("status", Constants.PartsStatus.COMPLETED.toString());
 			DBCursor dbCursor = collection.find( finalQuery);
 			
 			List<Order> ordertList = new ArrayList<>();

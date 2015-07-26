@@ -21,7 +21,6 @@ import com.affixus.pojo.Invoice;
 import com.affixus.pojo.Order;
 import com.affixus.services.ClientService;
 import com.affixus.services.InvoiceService;
-import com.affixus.services.OrderService;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
 import com.affixus.util.ObjectFactory;
@@ -76,6 +75,7 @@ public class GenerateInvoiceAction extends HttpServlet {
 		try{
 			doProcess(request,response);
 		}catch(Exception e){
+			e.printStackTrace();
 			LOG.error(e);
 		}
 	}
@@ -90,7 +90,9 @@ public class GenerateInvoiceAction extends HttpServlet {
 		}
 		//Constants.UIOperations opEnum  = UIOperations.valueOf(operation.toUpperCase());
 		switch (operation) {
-			
+			case "GET":
+				
+				break;
 			case "GET_ALL_INFO":
 
 				String fromDate = request.getParameter("fromDate");
@@ -128,7 +130,7 @@ public class GenerateInvoiceAction extends HttpServlet {
 				
 				Client client = clientService.getByClientId(clientNo);
 				Date date = new Date();
-				String invoiceCreationDateStr = CommonUtil.longToStringDate(date.getTime(), CommonUtil.DATE_FORMAT_YY_MM_DD);		
+				String invoiceCreationDateStr = CommonUtil.longToStringDate(date.getTime(), CommonUtil.DATE_FORMAT);		
 				
 				invoice.setClient(client);
 				invoice.setDiscount(discount);
@@ -140,7 +142,7 @@ public class GenerateInvoiceAction extends HttpServlet {
 				invoice.setInvoiceCreationDateStr(invoiceCreationDateStr);
 				
 				for (JsonNode jsonNode : jn) {
-					String orderNo = jsonNode.get("orderNo").asText();
+					String orderNo = jsonNode.get("_id").asText();
 					orderIdList.add(orderNo);
 				}
 				invoice.setOrderIdList(orderIdList);

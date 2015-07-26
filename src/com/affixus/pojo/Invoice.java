@@ -9,6 +9,7 @@ public class Invoice extends BasePojo{
 	private String _id;
 	private Client client;
 	private List<String> orderIdList;
+	private List<Order> orderList;
 	private String invoiceNumber;
 	private double discount;
 	private double courierCharges;
@@ -36,6 +37,12 @@ public class Invoice extends BasePojo{
 	}
 	public void setOrderIdList(List<String> orderIdList) {
 		this.orderIdList = orderIdList;
+	}
+	public List<Order> getOrderList() {
+		return orderList;
+	}
+	public void setOrderList(List<Order> orderList) {
+		this.orderList = orderList;
 	}
 	public String getInvoiceNumber() {
 		return invoiceNumber;
@@ -80,7 +87,7 @@ public class Invoice extends BasePojo{
 		this.invoiceCreationDateStr = invoiceCreationDateStr;
 	}
 	public String generateInvoiceNumber(){
-		return INVOICE_STRING + this.get_id() +" | " +this.getInvoiceCreationDateStr();
+		return INVOICE_STRING + this.getInvoiceCreationDateStr() + " " + this.get_id();
 	}
 	public String getInvoiceTaxOption() {
 		return invoiceTaxOption;

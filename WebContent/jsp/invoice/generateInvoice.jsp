@@ -194,7 +194,7 @@
 				  	$("#idSelectClient").empty();
 				  	$("#order-grid-table").jqGrid("clearGridData");
 				  	
-				  	$("#idSelectClient").append("<option value='all'>All<option>");
+				  	//$("#idSelectClient").append("<option value='all'>All<option>");
 				  	
 				  	$.each(dataFromServer ,function(ind,val){
 				  		var clientId = val.client.clientId;
@@ -216,7 +216,7 @@
 		        $('#gridContainer').show(); 
 			  })
 			  .fail(function() {
-			  	console.log("error");
+			  	console.log("error]");
 			  })
 			  .always(function() {
 			  	console.log("complete");
@@ -227,7 +227,15 @@
 			var passedGrid = $("#order-grid-table");
 			var selData = passedGrid.jqGrid('getRowData');
 			
-			var param ={'order':JSON.stringify(selData)};
+			var param ={
+						'order':JSON.stringify(selData),
+						'clientName': $("#idSelectClient").val(),
+						'discount': $("#idDiscount").val(),
+						'courierCharges': $("#idCourier").val(),
+						'otherCharges':$("#idOtherCharges").val(),
+						'gatePassCharges': $("#idGatePassCharges").val(),
+						'invoiceTaxOption': $("#taxInvoiceOptionList").val()
+					};
 			
 			console.log(param);
 			$.ajax({

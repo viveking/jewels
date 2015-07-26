@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.affixus.dao.InvoiceDao;
+import com.affixus.dao.OrderDao;
 import com.affixus.pojo.Invoice;
 import com.affixus.pojo.Order;
 import com.affixus.util.CommonUtil;
@@ -77,6 +78,7 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 	public Invoice get(String _id) {
 		// TODO Auto-generated method stub
 		try{
+			OrderDao Order = (OrderDao) new MongoInvoiceDaoImpl();
 			
 			DBCollection collection = mongoDB.getCollection(collInvoice);
 			DBObject query = new BasicDBObject("_id", _id);
@@ -89,6 +91,14 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 			
 			String jsonString = JSON.serialize(dbObject);
 			Invoice invoice = (Invoice) CommonUtil.jsonToObject( jsonString, Invoice.class.getName() );
+			
+			List<Order> orderList = new ArrayList<Order>();
+			for(String orderId : invoice.getOrderIdList()){
+				Order order = Order.get(orderId);
+				orderList.add(order);
+			}
+			invoice.setOrderList(orderList);
+			
 			return invoice;
 		}
 		catch( Exception exception ){

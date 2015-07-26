@@ -124,6 +124,7 @@ public class GenerateInvoiceAction extends HttpServlet {
 				double courierCharges = Double.parseDouble(request.getParameter("courierCharges"));
 				double otherCharges = Double.parseDouble(request.getParameter("otherCharges"));
 				double gatePassCharges = Double.parseDouble(request.getParameter("gatePassCharges"));
+				String invoiceTaxOption = request.getParameter("invoiceTaxOption");
 				
 				Client client = clientService.getByClientId(clientNo);
 				Date date = new Date();
@@ -134,7 +135,8 @@ public class GenerateInvoiceAction extends HttpServlet {
 				invoice.setOtherCharges(otherCharges);
 				invoice.setGatePass(gatePassCharges);
 				invoice.setInvoiceCreationDate(date);
-							
+				invoice.setInvoiceTaxOption(invoiceTaxOption);
+				
 				for (JsonNode jsonNode : jn) {
 					String orderNo = jsonNode.get("orderNo").asText();
 					orderIdList.add(orderNo);

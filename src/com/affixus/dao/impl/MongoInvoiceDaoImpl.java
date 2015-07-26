@@ -13,7 +13,6 @@ import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
 import com.affixus.util.Constants.DBCollectionEnum;
 import com.affixus.util.MongoUtil;
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -88,6 +87,7 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject dbObject = collection.findOne(query);
 			
+			dbObject.put("invoiceCreationDateStr", CommonUtil.longToStringDate((Long)dbObject.get("invoiceCreationDate"), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));		
 			DBObject clientDBO = ((DBRef) dbObject.get(KEY_CLIENT_XID)).fetch();
 			dbObject.put(KEY_CLIENT, clientDBO);
 			dbObject.removeField(KEY_CLIENT_XID);

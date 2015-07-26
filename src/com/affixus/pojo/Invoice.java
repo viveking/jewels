@@ -1,5 +1,6 @@
 package com.affixus.pojo;
 
+import java.util.Date;
 import java.util.List;
 
 public class Invoice extends BasePojo{
@@ -7,12 +8,16 @@ public class Invoice extends BasePojo{
 	private static final long serialVersionUID = 1L;
 	private String _id;
 	private Client client;
-	private List<Order> orders;
+	private List<String> orderIdList;
 	private String invoiceNumber;
 	private double discount;
 	private double courierCharges;
 	private double otherCharges;
-	private double gatePass;
+	private double gatePassCharges;
+	private Date invoiceCreationDate;
+	private String invoiceCreationDateStr;
+	private String invoiceTaxOption;
+	private final String INVOICE_STRING = "INV_";
 	
 	public String get_id() {
 		return _id;
@@ -26,11 +31,11 @@ public class Invoice extends BasePojo{
 	public void setClient(Client client) {
 		this.client = client;
 	}
-	public List<Order> getOrders() {
-		return orders;
+	public List<String> getOrderIdList() {
+		return orderIdList;
 	}
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
+	public void setOrderIdList(List<String> orderIdList) {
+		this.orderIdList = orderIdList;
 	}
 	public String getInvoiceNumber() {
 		return invoiceNumber;
@@ -57,10 +62,30 @@ public class Invoice extends BasePojo{
 		this.otherCharges = otherCharges;
 	}
 	public double getGatePass() {
-		return gatePass;
+		return gatePassCharges;
 	}
 	public void setGatePass(double gatePass) {
-		this.gatePass = gatePass;
+		this.gatePassCharges = gatePass;
 	}
-	
+	public Date getInvoiceCreationDate() {
+		return invoiceCreationDate;
+	}
+	public void setInvoiceCreationDate(Date invoiceCreationDate) {
+		this.invoiceCreationDate = invoiceCreationDate;
+	}
+	public String getInvoiceCreationDateStr() {
+		return invoiceCreationDateStr;
+	}
+	public void setInvoiceCreationDateStr(String invoiceCreationDateStr) {
+		this.invoiceCreationDateStr = invoiceCreationDateStr;
+	}
+	public String generateInvoiceNumber(){
+		return INVOICE_STRING + this.get_id() + this.getInvoiceCreationDateStr();
+	}
+	public String getInvoiceTaxOption() {
+		return invoiceTaxOption;
+	}
+	public void setInvoiceTaxOption(String invoiceTaxOption) {
+		this.invoiceTaxOption = invoiceTaxOption;
+	}
 }

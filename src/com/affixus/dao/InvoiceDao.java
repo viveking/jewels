@@ -8,9 +8,7 @@ import com.affixus.pojo.Order;
 
 public interface InvoiceDao {
 	
-	public List<Order> getAllInfoByClient(Date from, Date to, String clientId);	
-	
-	public boolean generateInvoice(List<Order> orderDetails);
+	public boolean create(Invoice invoice);
 	
 	public Invoice get(String _id);
 	

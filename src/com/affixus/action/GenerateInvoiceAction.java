@@ -2,6 +2,7 @@ package com.affixus.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,9 +13,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 
+import com.affixus.pojo.Client;
+import com.affixus.pojo.Invoice;
 import com.affixus.pojo.Order;
+import com.affixus.services.ClientService;
 import com.affixus.services.InvoiceService;
+import com.affixus.services.OrderService;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
 import com.affixus.util.ObjectFactory;
@@ -27,7 +34,8 @@ import com.affixus.util.ObjectFactory.ObjectEnum;
 public class GenerateInvoiceAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(OrderAction.class);
-	private InvoiceService invoiceService;
+	private InvoiceService invoiceService = null;
+	private ClientService clientService = null;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -42,6 +50,10 @@ public class GenerateInvoiceAction extends HttpServlet {
 		Object object = ObjectFactory.getInstance(ObjectEnum.INVOICE_SERVICE);
 		if (object instanceof InvoiceService ) {
 			invoiceService = (InvoiceService ) object;
+		}
+		object = ObjectFactory.getInstance(ObjectEnum.CLIENT_SERVICE);
+		if (object instanceof ClientService ) {
+			clientService = (ClientService) object;
 		}
     }
 	/**
@@ -92,24 +104,44 @@ public class GenerateInvoiceAction extends HttpServlet {
 				json=CommonUtil.objectToJson(orderList);
 				
 				break;
-				/*
-			case "GET_ALL_INFO_BY_CLIENT":
-				fromDate = request.getParameter("fromDate");
-				toDate = request.getParameter("toDate");
-				
-				String clientId = request.getParameter("clientId");
-					
-				if(fromDate!= null && null != toDate){
-					Date from = CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
-					Date to = CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
-					List<Order> orderList = invoiceService.getAllInfoByClient(from, to, clientId);
-					json=CommonUtil.objectToJson(orderList);
-				}
-				break;*/
 				
 			case "GENERATE":
 				
-				//generateInvoice(List<Order> orderDetails);
+				String jsonOrder = request.getParameter("order");
+				if( jsonOrder == null || jsonOrder.trim().isEmpty()){
+					break;
+				}
+				
+				ObjectMapper mapper = new ObjectMapper();
+				JsonNode jn = mapper.readTree(jsonOrder);
+				mapper = new ObjectMapper();
+				jn = mapper.readTree(jsonOrder);
+				List<String> orderIdList = new ArrayList<>();
+				
+				Invoice invoice = new Invoice();
+				String clientNo = request.getParameter("clientName");
+				double discount = Double.parseDouble(request.getParameter("discount"));
+				double courierCharges = Double.parseDouble(request.getParameter("courierCharges"));
+				double otherCharges = Double.parseDouble(request.getParameter("otherCharges"));
+				double gatePassCharges = Double.parseDouble(request.getParameter("gatePassCharges"));
+				
+				Client client = clientService.getByClientId(clientNo);
+				Date date = new Date();
+						
+				invoice.setClient(client);
+				invoice.setDiscount(discount);
+				invoice.setCourierCharges(courierCharges);
+				invoice.setOtherCharges(otherCharges);
+				invoice.setGatePass(gatePassCharges);
+				invoice.setInvoiceCreationDate(date);
+							
+				for (JsonNode jsonNode : jn) {
+					String orderNo = jsonNode.get("orderNo").asText();
+					orderIdList.add(orderNo);
+				}
+				invoice.setOrderIdList(orderIdList);
+				
+				invoiceService.create(invoice);
 				
 				break;
 			default:

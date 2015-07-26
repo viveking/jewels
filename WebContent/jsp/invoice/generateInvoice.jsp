@@ -231,7 +231,7 @@
 			
 			console.log(param);
 			$.ajax({
-			  	url: '${pageContext.request.contextPath}/order.action?op=EDIT',
+			  	url: '${pageContext.request.contextPath}/generateinvoice.action?op=GENERATE',
 			  	type: 'POST',
 			  	data: param
 			  })

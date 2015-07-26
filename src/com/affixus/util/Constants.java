@@ -26,7 +26,8 @@ public class Constants {
 		ORDER("order"),
 		MAST_USER("mast_user"),
 		MAST_ROLE("mast_role"),
-		MAST_PLATFORM("mast_platform")
+		MAST_PLATFORM("mast_platform"),
+		INVOICE("invoice")
 		;
 		// @formatter:on
 

@@ -25,17 +25,14 @@ public class InvoiceService {
 		}
 	}
 	
-	public boolean generateInvoice(List<Order> orderDetails) {
-		return invoiceDao.generateInvoice(orderDetails);
+	public boolean create(Invoice invoice) {
+		return invoiceDao.create(invoice);
 	}
 
 	public Invoice get(String _id) {
 		return invoiceDao.get(_id);
 	}
 
-	public List<Order> getAllInfoByClient(Date from, Date to, String clientId) {
-		return invoiceDao.getAllInfoByClient(from, to, clientId);
-	}
 
 	public List<Order> getAllInfo(Date from, Date to) {
 		return invoiceDao.getAllInfo(from, to);

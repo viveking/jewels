@@ -77,7 +77,7 @@
 				<li><a href="#" data-href="/jsp/order/incompleteOrder.jsp">
 						<i class="icon-double-angle-right"></i> Incomplete Order
 				</a></li>
- 			
+ 				
 			</ul>
 			
 		</li>

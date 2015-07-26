@@ -9,10 +9,10 @@ public class Invoice extends BasePojo{
 	private Client client;
 	private List<Order> orders;
 	private String invoiceNumber;
-	private float discount;
-	private float courierCharges;
-	private float otherCharges;
-	private float gatePass;
+	private double discount;
+	private double courierCharges;
+	private double otherCharges;
+	private double gatePass;
 	
 	public String get_id() {
 		return _id;
@@ -38,28 +38,28 @@ public class Invoice extends BasePojo{
 	public void setInvoiceNumber(String invoiceNumber) {
 		this.invoiceNumber = invoiceNumber;
 	}
-	public float getDiscount() {
+	public double getDiscount() {
 		return discount;
 	}
-	public void setDiscount(float discount) {
+	public void setDiscount(double discount) {
 		this.discount = discount;
 	}
-	public float getCourierCharges() {
+	public double getCourierCharges() {
 		return courierCharges;
 	}
-	public void setCourierCharges(float courierCharges) {
+	public void setCourierCharges(double courierCharges) {
 		this.courierCharges = courierCharges;
 	}
-	public float getOtherCharges() {
+	public double getOtherCharges() {
 		return otherCharges;
 	}
-	public void setOtherCharges(float otherCharges) {
+	public void setOtherCharges(double otherCharges) {
 		this.otherCharges = otherCharges;
 	}
-	public float getGatePass() {
+	public double getGatePass() {
 		return gatePass;
 	}
-	public void setGatePass(float gatePass) {
+	public void setGatePass(double gatePass) {
 		this.gatePass = gatePass;
 	}
 	

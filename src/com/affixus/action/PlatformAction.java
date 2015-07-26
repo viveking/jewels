@@ -143,7 +143,6 @@ public class PlatformAction extends HttpServlet {
 				
 				ObjectMapper mapper = new ObjectMapper();
 				JsonNode jn = mapper.readTree(jsonPlatform);
-				
 				for (JsonNode jsonNode : jn) {
 					
 					String clientId = jsonNode.get("client").asText();
@@ -157,13 +156,13 @@ public class PlatformAction extends HttpServlet {
 					Part part = new Part();
 					part.setName(partName);
 					part.setPlatFormNumber(platFormNumber);
-					part.setWeight(Float.parseFloat(weight));
+					part.setWeight(Double.parseDouble(weight));
 					//part.setRefWeight(Float.parseFloat(refWeight));
 					part.setStatus(status);
 					
 					platformService.updateParts(clientId, partName, part);
 				}
-				
+				//platformService.updateCAMAmountByNewWeights(orderIdList);
 				break;
 			case SAVE_PARTS_UPDATE:
 				
@@ -206,7 +205,7 @@ public class PlatformAction extends HttpServlet {
 				List<String> platformNameList = platformService.getAllPlatformByStatus(status);
 				json = CommonUtil.objectToJson(platformNameList);
 				break;
-			case SAVE_STATUS_UPDATE:
+			/*case SAVE_STATUS_UPDATE:
 
 				jsonPlatform = request.getParameter("order");
 				String statusString = request.getParameter("status");
@@ -242,8 +241,8 @@ public class PlatformAction extends HttpServlet {
 					
 					platformService.updateParts(clientId, partName, part);
 				}
-				
-				break;
+
+				break;*/
 			default:
 				break;
 		}

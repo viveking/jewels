@@ -3,6 +3,7 @@
 <%@page import="com.affixus.util.Constants"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
 						<div class="page-header">
 							<h1>
 								Create Client
@@ -31,15 +32,16 @@
 		
 	<script type="text/javascript">
 			
-			
 			jQuery(function($) {
 				var grid_selector = "#grid-table_area";
 				var pager_selector = "#grid-pager_area";
-
-				var PT_inversionHrData = <%= MongoAttributeList.getRateListByPrinter("1")%>;
-				var PT_viber25 = <%= MongoAttributeList.getRateListByPrinter("2")%>;
-				var PT_viber50 = <%= MongoAttributeList.getRateListByPrinter("3")%>;
-				var PT_rubberMould = <%= MongoAttributeList.getRateListByPrinter("4")%>;
+				
+				
+				var PT_inversionHrData = <%= MongoAttributeList.getRateListByPrinter("invisionHR")%>;
+				var PT_viber25 = <%= MongoAttributeList.getRateListByPrinter("viper25")%>;
+				var PT_viber50 = <%= MongoAttributeList.getRateListByPrinter("viper50")%>;
+				var PT_ZNone = <%= MongoAttributeList.getRateListByPrinter("zNONE")%>;
+				var PT_rubberMould = <%= MongoAttributeList.getRateListByPrinter("rubberMOULD")%>;
 				
 				var invType = {"0":"Select Inv. Type","1":"CST Invoice","2":"Estimate Sales","3":"Tax Invoice"};
 				var percent = {"CST0%":"CST @ 0%","CST1%":"CST @ 1%","CST2%":"CST @ 2%","CST4%":"CST @ 4%","ES0%":"Estimate Sales @ 0%","ES1%":"Estimate Sales @ 1%","TI0%":"Tax Invoice @ 0%","TI1%":"Tax Invoice @ 1%","TI12.5%":"Tax Invoice @ 12.5%"};
@@ -63,7 +65,7 @@
 					height: 366,
 					colNames:['id','ClientId','Name','Address', 'City', 'Limit','Credit Period','VAT','CST','PAN',
 					          'Mobile 1','Mobile 2','Email 1','Email 2','Voucher Type','Invoice Type',
-					          'Invoice Percentage','Invision HR','Viper 25','Viper 50','Rubber Mould',
+					          'Invoice Percentage','Invision HR','Rubber Mould','Viper 25','Viper 50','ZNone',
 					          'Auto Approval','Send Invoice SMS','Active',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
@@ -130,15 +132,15 @@
 	                    },
 						{name:'invoicePercentage',index:'invoicePercentage', sortable:false,editable: true,hidden:true, edittype:"select",formoptions:{rowpos:15, colpos:2},hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:percent},formatter:'select'},
 						
-						{name:'invisionHr',index:'invisionHr', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_inversionHrData},formatter:'select'},
-						
-						{name:'viper25',index:'viper25', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_viber25},formatter:'select'},
+						{name:'invisionHR',index:'invisionHr', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_inversionHrData},formatter:'select'},
+						{name:'rubberMOULD',index:'rubberMould', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_rubberMould},formatter:'select'},
+						{name:'viper25',index:'viper25', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_viber25},formoptions:{rowpos:18, colpos:2},formatter:'select'},
 						{name:'viper50',index:'viper50', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_viber50},formatter:'select'},
-						{name:'rubberMould',index:'rubberMould', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_rubberMould},formatter:'select'},
+						{name:'ZNONE',index:'ZNone', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_ZNone},formoptions:{rowpos:20, colpos:2},formatter:'select'},
 						
 						{name:'autoApproval',index:'autoApproval', sortable:false,editable: true, hidden:true, edittype:"checkbox",editrules:{required:false, edithidden:true},editoptions:{value:"true:false", defaultValue:"true"}},
-						{name:'sendInvoiceSms',index:'sendInvoiceSms', sortable:false,editable: true,hidden:true, edittype:"checkbox",editrules:{required:false, edithidden:true},formoptions:{rowpos:20, colpos:2},editoptions:{value:"true:false", defaultValue:"true"}},
-						{name:'active',index:'active', sortable:false, editable: true, hidden:true, edittype:"checkbox",editrules:{required:false, edithidden:true},editoptions:{value:"true:false", defaultValue:"true"}},
+						{name:'sendInvoiceSms',index:'sendInvoiceSms', sortable:false,editable: true,hidden:true, edittype:"checkbox",editrules:{required:false, edithidden:true},editoptions:{value:"true:false", defaultValue:"true"}},
+						{name:'active',index:'active', sortable:false, editable: true, hidden:true, edittype:"checkbox",editrules:{required:false, edithidden:true},formoptions:{rowpos:22, colpos:2},editoptions:{value:"true:false", defaultValue:"true"}},
 						
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 

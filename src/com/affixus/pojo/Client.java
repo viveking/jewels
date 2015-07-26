@@ -25,10 +25,12 @@ public class Client extends BasePojo {
 	private String invoiceType;
 	private String invoicePercentage;
 	
-	private String invisionHr;
+	private String invisionHR;
 	private String viper25;
 	private String viper50;
-	private String rubberMould;
+	private String zNONE;
+	private String rubberMOULD;
+	
 	private Boolean sendInvoiceSms = true;
 	private Boolean autoApproval = false;
 	private Boolean active = true;
@@ -142,17 +144,11 @@ public class Client extends BasePojo {
 	public void setInvoiceType(String invoiceType) {
 		this.invoiceType = invoiceType;
 	}
-	public String getInvoicePercentage() {
-		return invoicePercentage;
+	public String getInvisionHR() {
+		return invisionHR;
 	}
-	public void setInvoicePercentage(String invoicePercentage) {
-		this.invoicePercentage = invoicePercentage;
-	}
-	public String getInvisionHr() {
-		return invisionHr;
-	}
-	public void setInvisionHr(String inversionHr) {
-		this.invisionHr = inversionHr;
+	public void setInvisionHR(String invisionHR) {
+		this.invisionHR = invisionHR;
 	}
 	public String getViper25() {
 		return viper25;
@@ -166,11 +162,23 @@ public class Client extends BasePojo {
 	public void setViper50(String viper50) {
 		this.viper50 = viper50;
 	}
-	public String getRubberMould() {
-		return rubberMould;
+	public String getzNONE() {
+		return zNONE;
 	}
-	public void setRubberMould(String rubberMould) {
-		this.rubberMould = rubberMould;
+	public void setzNONE(String zNONE) {
+		this.zNONE = zNONE;
+	}
+	public String getRubberMOULD() {
+		return rubberMOULD;
+	}
+	public void setRubberMOULD(String rubberMOULD) {
+		this.rubberMOULD = rubberMOULD;
+	}
+	public String getInvoicePercentage() {
+		return invoicePercentage;
+	}
+	public void setInvoicePercentage(String invoicePercentage) {
+		this.invoicePercentage = invoicePercentage;
 	}
 	public Boolean isSendInvoiceSms() {
 		return sendInvoiceSms;
@@ -190,6 +198,7 @@ public class Client extends BasePojo {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
+	
 
 	
 	

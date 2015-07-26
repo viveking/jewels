@@ -2,6 +2,7 @@ package com.affixus.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,7 +23,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
-import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 
 public class MongoPlatformDaoImpl implements PlatformDao {
@@ -137,16 +137,16 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 				clientObj = dbCursor.next();
 				clientId = (String) clientObj.get("_id");
 
-				DBObject orderQuery = new BasicDBObject("clientXid.$id",clientId);
-				orderQuery.put("partList.name", partName);
-				orderQuery.put("status",Constants.PartsStatus.INPROGRESS.toString());
-				
 				collection = mongoDB.getCollection(DBCollectionEnum.MAST_PLATFORM.toString());
 				DBObject platformObj = new BasicDBObject("platformNumber",part.getPlatFormNumber());
 				DBCursor dbCursor1 = collection.find(platformObj);
 
 				if (dbCursor1.hasNext()) {
 
+					DBObject orderQuery = new BasicDBObject("clientXid.$id",clientId);
+					orderQuery.put("partList.name", partName);
+					orderQuery.put("status",Constants.PartsStatus.INPROGRESS.toString());
+					
 					platformObj = dbCursor1.next();
 					collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
 
@@ -201,8 +201,11 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 							collection = mongoDB.getCollection(DBCollectionEnum.MAST_PLATFORM.toString());
 							collection.update(new BasicDBObject("_id", platformObj.get("_id")), updateQuery);
 						}
+						
+						Set<String> orderIdList = new HashSet<String>();
+						orderIdList.add(orderId);
+						updateCAMAmountByNewWeights(orderIdList);
 					}
-					
 					
 				}
 			}
@@ -255,16 +258,6 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 			String printer = (String)orderObject.get("printer");
 			String rateListName = "";
 			
-			/*if("invisionHr".equalsIgnoreCase(printer)){
-				rateListName = clientDBO.get("invisionHr");
-			} else if("viper25".equalsIgnoreCase(printer)){
-				rateListName = "";
-			}else if("viper25".equalsIgnoreCase(printer)){
-				rateListName = "";
-			} else if("rubberMould".equalsIgnoreCase(printer)){
-				rateListName = "";
-			}*/
-			
 			rateListName =(String) clientDBO.get(printer);
 			
 			DBObject matchQuery = new BasicDBObject("$match", new BasicDBObject("_id",orderId));
@@ -272,8 +265,14 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 			AggregationOutput aggregationOutput = collection.aggregate(matchQuery, unwindQuery, group);
 			for (DBObject orderObj : aggregationOutput.results()) {
 				
-				double weight = (float)orderObj.get("weight");
+				double weight = (double)orderObj.get("weight");
 				double amount = computeAmountByNewWeight(weight,rateListName);
+				
+				DBObject setQuery = new BasicDBObject();
+				setQuery.put("camGrams", weight);
+				setQuery.put("cam.amount", amount);
+				DBObject updateQuery = new BasicDBObject("$set",setQuery);
+				collection.update(new BasicDBObject("_id",orderId), updateQuery);
 				
 			}
 			
@@ -285,7 +284,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 		double amount = 0;
 		//calculate amount based on the client
 		DBCollection collection = mongoDB.getCollection(DBCollectionEnum.MAST_RATE.toString());
-		DBObject rateObj = collection.findOne(new BasicDBObject("name",rateListName));
+		DBObject rateObj = collection.findOne(new BasicDBObject("_id",rateListName));
 		String jsonString = JSON.serialize(rateObj);
 		Rate rate = (Rate) CommonUtil.jsonToObject(jsonString, Rate.class);
 		

@@ -1,5 +1,8 @@
-
+<%@page import="com.affixus.util.Config"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	pageContext.setAttribute("printerList", Config.printerNames, PageContext.PAGE_SCOPE);
+%>
 
 						<div class="page-header">
 							<h1>
@@ -33,7 +36,13 @@
 			jQuery(function($) {
 				var grid_selector = "#grid-table_rate";
 				var pager_selector = "#grid-pager_rate";
-
+				var arr1=[];
+				<c:forEach var="entry" items="${printerList}">
+						arr1.push("${entry.key}:${entry.value}");
+				</c:forEach>
+				
+				var printerValue = arr1.join(";");
+				
 				//var dataType = [{"id":"1","name":"Wma","description":"assasa","rateList":"","action":""}];
 				
 				jQuery(grid_selector).jqGrid({
@@ -50,7 +59,7 @@
 						{name:'name',index:'name', width:100, editrules:{required:true},editable: true},
 						{name:'description',index:'description', width:300, sortable:false,editable:true, edittype:"textarea", editrules:{required:false, edithidden:true}},
 						
-						{name:'printerType',index:'printerType', sortable:false,editable: true,hidden:false, edittype:"select",editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"1:Invision HR;2:Viper 25;3:Viper 50;4:Rubber Mould"},formatter:'select'},
+						{name:'printerType',index:'printerType', sortable:false,editable: true,hidden:false, edittype:"select",editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:printerValue},formatter:'select'},
 						
 						{name:'rateList',width:165, sortable:false,editable: false,formatter:function(){ return '<a href="action=manage_rateList">Click here</a>';}},
 						

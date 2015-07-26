@@ -154,7 +154,7 @@
 				{name:'orderName',index:'orderName', width:150,editable: false},
 				{name:'_id',index:'_id', width:150,editable: false},
 				{name:'client.clientId',index:'client.clientId', width:150,editable: false},
-				{name:'camGms',index:'camGms', width:70,editable: false},
+				{name:'camGrams',index:'camGrams', width:70,editable: false},
 				{name:'cam.amount',index:'cam.amount', width:70,editable: false},
 				{name:'cad.amount',index:'cad.amount', width: 70,editable: false},
 				{name:'rm.amount',index:'rm.amount', width: 70,editable: false },

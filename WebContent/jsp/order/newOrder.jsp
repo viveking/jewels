@@ -1,6 +1,8 @@
-
+<%@page import="com.affixus.util.Config"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%
+	pageContext.setAttribute("printerList", Config.printerNames, PageContext.PAGE_SCOPE);
+%>
 <div class="page-header">
 	<h1>
 		New Order
@@ -19,10 +21,9 @@
 			<label for="form-field-select-1">Select Printer</label>
 			
 			<select class="form-control" id="form-field-select-1">
-				<option value="INVISIONHR">INVISIONHR</option>
-				<option value="VIPER25">VIPER25</option>
-				<option value="VIPER50">VIPER50</option>
-				<option value="ZNone">ZNone</option>
+				<c:forEach var="entry" items="${printerList}">
+					<option value=<c:out value="${entry.key}"/>><c:out value="${entry.value}"/></option>
+				</c:forEach>
 			</select>
 		</div>
 		<div class="col-xs-4">

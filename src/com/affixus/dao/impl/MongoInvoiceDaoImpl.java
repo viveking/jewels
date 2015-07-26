@@ -46,29 +46,24 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 			
 			invoice.setInvoiceNumber(invoice.generateInvoiceNumber());
 			
-			//DBCollection collection = mongoDB.getCollection( collOrder );
+			DBCollection collection = mongoDB.getCollection( collOrder );
 			String jsonString = CommonUtil.objectToJson(invoice);
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
 			
-			/*
-			BasicDBList orderList = (BasicDBList) dbObject.get("orders");
-			BasicDBObject[] orderArr = orderList.toArray(new BasicDBObject[0]);
-			
-			BasicDBList orderListN = new BasicDBList();
-			for(DBObject orderObject : orderArr){
+			List<String> orderIdList = invoice.getOrderIdList();
+			for(String orderId : orderIdList){
+				BasicDBObject queryObj = new BasicDBObject("_id",orderId);
+				BasicDBObject setQuery = new BasicDBObject("status", Constants.PartsStatus.INVOICEGENERATED.toString());
+				DBObject updateQuery = new BasicDBObject("$set",setQuery);
 				
-				collection.update(new BasicDBObject("_id",orderObject.get("_id")), );
-				
-				DBRef orderRef = new DBRef( mongoDB, collOrder, orderObject.get("_id") );				
-				orderListN.add( new BasicDBObject(KEY_ORDER_XID, orderRef) );
+				collection.update(queryObj, updateQuery);
 			}
-			dbObject.removeField(KEY_ORDER);
-			*/
+			
 			DBRef clientRef = new DBRef( mongoDB, collClient, invoice.getClient().get_id() );
 			dbObject.put( KEY_CLIENT_XID, clientRef );
 			dbObject.removeField( KEY_CLIENT );
 			
-			DBCollection collection = mongoDB.getCollection( collInvoice );
+			collection = mongoDB.getCollection( collInvoice );
 			collection.insert(dbObject );
 			
 			return true;
@@ -87,7 +82,7 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject dbObject = collection.findOne(query);
 			
-			dbObject.put("invoiceCreationDateStr", CommonUtil.longToStringDate((Long)dbObject.get("invoiceCreationDate"), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));		
+			//dbObject.put("invoiceCreationDateStr", CommonUtil.longToStringDate((Long)dbObject.get("invoiceCreationDate"), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));		
 			DBObject clientDBO = ((DBRef) dbObject.get(KEY_CLIENT_XID)).fetch();
 			dbObject.put(KEY_CLIENT, clientDBO);
 			dbObject.removeField(KEY_CLIENT_XID);

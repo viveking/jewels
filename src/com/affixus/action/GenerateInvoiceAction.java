@@ -128,7 +128,8 @@ public class GenerateInvoiceAction extends HttpServlet {
 				
 				Client client = clientService.getByClientId(clientNo);
 				Date date = new Date();
-						
+				String invoiceCreationDateStr = CommonUtil.longToStringDate(date.getTime(), CommonUtil.DATE_FORMAT_YY_MM_DD);		
+				
 				invoice.setClient(client);
 				invoice.setDiscount(discount);
 				invoice.setCourierCharges(courierCharges);
@@ -136,6 +137,7 @@ public class GenerateInvoiceAction extends HttpServlet {
 				invoice.setGatePass(gatePassCharges);
 				invoice.setInvoiceCreationDate(date);
 				invoice.setInvoiceTaxOption(invoiceTaxOption);
+				invoice.setInvoiceCreationDateStr(invoiceCreationDateStr);
 				
 				for (JsonNode jsonNode : jn) {
 					String orderNo = jsonNode.get("orderNo").asText();

@@ -17,7 +17,7 @@ public class Invoice extends BasePojo{
 	private Date invoiceCreationDate;
 	private String invoiceCreationDateStr;
 	private String invoiceTaxOption;
-	private final String INVOICE_STRING = "INV_";
+	private final String INVOICE_STRING = "TI_";
 	
 	public String get_id() {
 		return _id;
@@ -80,7 +80,7 @@ public class Invoice extends BasePojo{
 		this.invoiceCreationDateStr = invoiceCreationDateStr;
 	}
 	public String generateInvoiceNumber(){
-		return INVOICE_STRING + this.get_id() + this.getInvoiceCreationDateStr();
+		return INVOICE_STRING + this.get_id() +" | " +this.getInvoiceCreationDateStr();
 	}
 	public String getInvoiceTaxOption() {
 		return invoiceTaxOption;

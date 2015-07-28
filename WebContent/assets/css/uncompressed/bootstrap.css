@@ -263,6 +263,12 @@ table {
   h3 {
     page-break-after: avoid;
   }
+  .sidebar{
+  	display: none;
+  }
+  .page-header{
+  	display: none;
+  }
   .navbar {
     display: none;
   }

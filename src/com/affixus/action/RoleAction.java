@@ -75,7 +75,7 @@ public class RoleAction extends HttpServlet {
 		Constants.UIOperations opEnum  = UIOperations.valueOf(operation.toUpperCase());
 		switch (opEnum) {
 		case ADD:
-			String id = request.getParameter("id");
+			//String id = request.getParameter("id");
 			String name = request.getParameter("name");
 			
 			Role role = new Role();

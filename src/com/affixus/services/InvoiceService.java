@@ -1,10 +1,12 @@
 package com.affixus.services;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import com.affixus.dao.InvoiceDao;
 import com.affixus.dao.impl.MongoInvoiceDaoImpl;
+import com.affixus.pojo.Client;
 import com.affixus.pojo.Invoice;
 import com.affixus.pojo.Order;
 import com.affixus.util.ObjectFactory;
@@ -37,5 +39,12 @@ public class InvoiceService {
 	public List<Order> getAllInfo(Date from, Date to) {
 		return invoiceDao.getAllInfo(from, to);
 	}
-
+	
+	public List<Client> getClients(Date from, Date to) {
+		return invoiceDao.getClients(from, to);
+	}
+	
+	public HashMap<String,String> getListOfInvoicesByClientName(String clientId, Date from, Date to) {
+		return invoiceDao.getListOfInvoicesByClientName(clientId, from, to);
+	}
 }

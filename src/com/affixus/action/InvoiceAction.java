@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -29,8 +30,8 @@ import com.affixus.util.ObjectFactory.ObjectEnum;
 /**
  * Servlet implementation class GenerateInvoice
  */
-@WebServlet("/generateinvoice.action")
-public class GenerateInvoiceAction extends HttpServlet {
+@WebServlet("/invoice.action")
+public class InvoiceAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(OrderAction.class);
 	private InvoiceService invoiceService = null;
@@ -38,7 +39,7 @@ public class GenerateInvoiceAction extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GenerateInvoiceAction() {
+    public InvoiceAction() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -148,6 +149,34 @@ public class GenerateInvoiceAction extends HttpServlet {
 				invoice.setOrderIdList(orderIdList);
 				
 				invoiceService.create(invoice);
+				
+				break;
+			case "GET_CLIENTS":
+				
+				fromDate = request.getParameter("fromDate");
+				toDate = request.getParameter("toDate");
+				from=null;to=null;
+				if(fromDate!= null && null != toDate){
+					from = CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+					to = CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+				}
+				
+				List<Client> clientList = invoiceService.getClients(from, to);
+				json=CommonUtil.objectToJson(clientList);
+				
+				break;
+			case "LIST_OF_INVOICES_BY_CLIENT_NAME":
+				String clientId = request.getParameter("clientId");
+				fromDate = request.getParameter("fromDate");
+				toDate = request.getParameter("toDate");
+				from=null;to=null;
+				if(fromDate!= null && null != toDate){
+					from = CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+					to = CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+				}
+				
+				HashMap<String,String> invoiceMap = invoiceService.getListOfInvoicesByClientName(clientId, from, to);
+				json=CommonUtil.objectToJson(invoiceMap);
 				
 				break;
 			default:

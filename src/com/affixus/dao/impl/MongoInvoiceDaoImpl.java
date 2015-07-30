@@ -2,12 +2,14 @@ package com.affixus.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import com.affixus.dao.InvoiceDao;
 import com.affixus.dao.OrderDao;
+import com.affixus.pojo.Client;
 import com.affixus.pojo.Invoice;
 import com.affixus.pojo.Order;
 import com.affixus.util.CommonUtil;
@@ -140,6 +142,75 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 			exception.printStackTrace();
 			LOG.error(exception);
 		}
+		return null;
+	}
+
+	@Override
+	public List<Client> getClients(Date from, Date to) {
+		// TODO Auto-generated method stub
+		try{
+			DBCollection collection = mongoDB.getCollection( collInvoice );
+			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
+			if(null != from && null != to){
+				finalQuery.put("invoiceCreationDate", new BasicDBObject("$gte",from.getTime()).append("$lte", to.getTime()));
+			}
+			//finalQuery.put("status", Constants.PartsStatus.INVOICEGENERATED.toString());
+			DBCursor dbCursor = collection.find( finalQuery);
+			
+			List<Client> clientList = new ArrayList<>();
+			
+			while ( dbCursor.hasNext() ) {
+				DBObject dbObject = dbCursor.next();
+				//dbObject.put("orderDateStr", CommonUtil.longToStringDate((Long)dbObject.get("orderDate"), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
+				DBObject clientDBO = ((DBRef) dbObject.get(KEY_CLIENT_XID)).fetch();
+				String jsonString = JSON.serialize(clientDBO);
+				Client client = (Client) CommonUtil.jsonToObject( jsonString, Client.class.getName() );
+				clientList.add(client);
+			}
+			return clientList;
+			
+		}
+		catch( Exception exception ){
+			exception.printStackTrace();
+			LOG.error(exception);
+		}
+		return null;
+	}
+
+	@Override
+	public HashMap<String,String> getListOfInvoicesByClientName(String clientId, Date from, Date to) {
+		// TODO Auto-generated method stub
+		//queryList.add(new BasicDBObject("clientXid.$id",clientId));
+		try{
+			DBCollection collection = mongoDB.getCollection(collInvoice );
+			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
+			if(null != from && null != to){
+				finalQuery.put("orderDate", new BasicDBObject("$gte",from.getTime()).append("$lte", to.getTime()));
+			}
+			finalQuery.put("status", Constants.PartsStatus.INVOICEGENERATED.toString());
+			finalQuery.put("clientXid.$id",clientId);
+			
+			DBCursor dbCursor = collection.find( finalQuery);
+			
+			HashMap<String,String> invoiceMap = new HashMap<String,String>();
+			
+			while ( dbCursor.hasNext() ) {
+				DBObject dbObject = dbCursor.next();
+				//dbObject.put("orderDateStr", CommonUtil.longToStringDate((Long)dbObject.get("orderDate"), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
+				//DBObject clientDBO = ((DBRef) dbObject.get(KEY_CLIENT_XID)).fetch();
+				//String jsonString = JSON.serialize(clientDBO);
+				//Client client = (Client) CommonUtil.jsonToObject( jsonString, Client.class.getName() );
+				//clientList.add(client);
+				invoiceMap.put((String)dbObject.get("_id"), (String)dbObject.get("invoiceNumber"));
+			}
+			return invoiceMap;
+			
+		}
+		catch( Exception exception ){
+			exception.printStackTrace();
+			LOG.error(exception);
+		}
+		
 		return null;
 	}
 

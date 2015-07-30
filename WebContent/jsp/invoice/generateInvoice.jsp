@@ -180,7 +180,7 @@
 			param = {"fromDate":date[0],"toDate":date[1]};
 			console.log(param);
 			$.ajax({
-			  	url: '${pageContext.request.contextPath}/generateinvoice.action?op=GET_ALL_INFO',
+			  	url: '${pageContext.request.contextPath}/invoice.action?op=GET_ALL_INFO',
 			  	type: 'POST',
 			  	data: param
 			  })
@@ -239,7 +239,7 @@
 			
 			console.log(param);
 			$.ajax({
-			  	url: '${pageContext.request.contextPath}/generateinvoice.action?op=GENERATE',
+			  	url: '${pageContext.request.contextPath}/invoice.action?op=GENERATE',
 			  	type: 'POST',
 			  	data: param
 			  })

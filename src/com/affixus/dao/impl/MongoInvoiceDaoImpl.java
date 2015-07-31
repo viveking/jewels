@@ -80,7 +80,7 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 	public Invoice get(String _id) {
 		// TODO Auto-generated method stub
 		try{
-			OrderDao Order = (OrderDao) new MongoInvoiceDaoImpl();
+			OrderDao Order = (OrderDao) new MongoOrderDaoImpl();
 			
 			DBCollection collection = mongoDB.getCollection(collInvoice);
 			DBObject query = new BasicDBObject("_id", _id);
@@ -187,7 +187,7 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 			if(null != from && null != to){
 				finalQuery.put("orderDate", new BasicDBObject("$gte",from.getTime()).append("$lte", to.getTime()));
 			}
-			finalQuery.put("status", Constants.PartsStatus.INVOICEGENERATED.toString());
+			//finalQuery.put("status", Constants.PartsStatus.INVOICEGENERATED.toString());
 			finalQuery.put("clientXid.$id",clientId);
 			
 			DBCursor dbCursor = collection.find( finalQuery);

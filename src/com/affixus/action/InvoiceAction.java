@@ -92,7 +92,9 @@ public class InvoiceAction extends HttpServlet {
 		//Constants.UIOperations opEnum  = UIOperations.valueOf(operation.toUpperCase());
 		switch (operation) {
 			case "GET":
-				
+				String invoiceId = request.getParameter("_id");
+				Invoice inv = invoiceService.get(invoiceId);
+				json=CommonUtil.objectToJson(inv);
 				break;
 			case "GET_ALL_INFO":
 

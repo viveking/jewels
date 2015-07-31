@@ -14,7 +14,7 @@
 		</small>
 	</h1>
 </div><!-- /.page-header -->
-<div class="row">
+<div class="row hidden-print">
 		<div class="col-xs-3">
 		
 			<label for="idFromToDate">Select Date</label>
@@ -129,10 +129,10 @@
 			<div class="col-xs-2" style="border-right: 1px solid black;">
 				0.62
 			</div>
-			<div class="col-xs-1" style="border-right: 1px solid black;">
+			<div class="col-xs-1" style="border-right: 1px solid black; text-align: right;">
 				186.00
 			</div>
-			<div class="col-xs-1">
+			<div class="col-xs-1" style="text-align: right;">
 				480.00
 			</div></small>
 		</div>
@@ -157,7 +157,7 @@
 				CourierCharges:<br/>
 				TotalAmount:<br/>
 			</div>
-			<div class="col-xs-1">
+			<div class="col-xs-1" style="text-align: right;">
 				1032.00<br/>
 				0.00<br/>
 				1032.00<br/>
@@ -177,7 +177,7 @@
 			<div class="col-xs-3" style="outline: 1px solid black;">
 				Grand Total:
 			</div>
-			<div class="col-xs-1">
+			<div class="col-xs-1" style="text-align: right;">
 				1042.00
 			</div>
 			</small>
@@ -213,6 +213,75 @@
 	
 	    $(".chosen-select").chosen();    
 
+	    $("#idSelectClient").chosen().change(function() {
+	    	var dateRange = $('#idFromToDate').val();
+			var date = dateRange.split(" to ");
+			clientMap = {};
+			param = {"fromDate":date[0],"toDate":date[1],"clientId":$('#idSelectClient').val()};
+			console.log(param);
+			$.ajax({
+			  	url: '${pageContext.request.contextPath}/invoice.action?op=LIST_OF_INVOICES_BY_CLIENT_NAME',
+			  	type: 'POST',
+			  	data: param
+			  })
+			  .done(function(data) {
+			  	console.log("success "+data);
+			  	dataFromServer = [];
+			  	dataFromServer = JSON.parse(data);
+			  	
+			  	if(dataFromServer){
+			  		
+				  	$("#idSelectInvoice").empty();
+				  	
+				  	//$.each(dataFromServer ,function(val){
+				  		$("#idSelectInvoice").append("<option value=''></option>");
+				  		
+				  		for(var key in dataFromServer) {
+				  			$("#idSelectInvoice").append("<option value="+key+">"+dataFromServer[key]+"<option>");
+				  		}
+				 // 	});
+				  	
+				  	$('.chosen-select').chosen().trigger("chosen:updated");
+				  	
+			  	}
+			  	
+			  })
+			  .fail(function() {
+			  	console.log("error]");
+			  })
+			  .always(function() {
+			  	console.log("complete");
+			  });
+        });
+	    
+	    $("#idSelectInvoice").chosen().change(function() {
+	    	
+			param = {"_id":$('#idSelectInvoice').val()};
+			console.log(param);
+			$.ajax({
+			  	url: '${pageContext.request.contextPath}/invoice.action?op=GET',
+			  	type: 'POST',
+			  	data: param
+			  })
+			  .done(function(data) {
+			  	console.log("success "+data);
+			  	dataFromServer = [];
+			  	dataFromServer = JSON.parse(data);
+			  	
+			  	if(dataFromServer){
+			  		
+				  
+			  	}
+			  	
+			  })
+			  .fail(function() {
+			  	console.log("error]");
+			  })
+			  .always(function() {
+			  	console.log("complete");
+			  });
+        });
+	    
 	    $('#btnGetCLient').click(function(){
 			var dateRange = $('#idFromToDate').val();
 			var date = dateRange.split(" to ");
@@ -232,7 +301,9 @@
 			  	if(dataFromServer){
 			  		
 				  	$("#idSelectClient").empty();
+				  	$("#idSelectInvoice").empty();
 				  	
+			  		$("#idSelectClient").append("<option value=''></option>");
 				  	$.each(dataFromServer ,function(ind,val){
 				  		$("#idSelectClient").append("<option value="+val._id+">"+val.name+"<option>");
 				  	});

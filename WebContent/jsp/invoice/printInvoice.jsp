@@ -56,7 +56,7 @@
 		<div id="alertContainer" style="position: fixed; bottom:10px; right:10px; z-index:1000">
 		</div>
 	</div>
-	<div class="row" style="margin-top: 10px;">
+	<div class="row invoiceContainer" style="margin-top: 10px;">
 		
 		<div class="col-xs-12 text-center" style="border: 1px solid black">
 			<b>TAX INVOICE</b>
@@ -98,7 +98,7 @@
 			<div class="col-xs-1" style="border-right: 1px solid black;">
 				CAST
 			</div>
-			<div class="col-xs-1" style="border-right: 1px solid black;">
+			<div class="col-xs-2" style="border-right: 1px solid black;">
 				Weight(Kg)
 			</div>
 			<div class="col-xs-1" style="border-right: 1px solid black;">
@@ -113,38 +113,6 @@
 		<div id="idorders">
 			
 		</div>
-		<!-- <div class="col-xs-12" style="border: 1px solid black; border-top:0px;"><small>
-				<div class="col-xs-1" style="border-right: 1px solid black;">
-					1
-				</div>
-				<div class="col-xs-2" style="border-right: 1px solid black;">
-					OR1234
-				</div>
-				<div class="col-xs-2" style="border-right: 1px solid black;">
-					DC1234
-				</div>
-				<div class="col-xs-1" style="border-right: 1px solid black;">
-					a
-				</div>
-				<div class="col-xs-1" style="border-right: 1px solid black;">
-					a
-				</div>
-				<div class="col-xs-1" style="border-right: 1px solid black;">
-					a
-				</div>
-				<div class="col-xs-1" style="border-right: 1px solid black;">
-					a
-				</div>
-				<div class="col-xs-1" style="border-right: 1px solid black;">
-					0.62
-				</div>
-				<div class="col-xs-1" style="border-right: 1px solid black; text-align: right;">
-					186.00
-				</div>
-				<div class="col-xs-1" style="text-align: right;">
-					480.00
-				</div></small>
-			</div> -->
 		<!--TODO: For loop ENDS to populate orders... -->
 		
 		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;"><small>
@@ -212,6 +180,12 @@
 			</small>
 		</div>
 	</div>	
+	
+	<div class="col-md-offset-1 row noInvoiceContainer">
+		<h1>Invoice to Print</h1>
+		<p class="lead"> Please choose the invoice to print using the given filters. </p>
+	</div><!-- /.row -->
+	
 	<script>
 	    $('input[name=date-range-picker]').daterangepicker({
 	    	format: 'DD-MM-YYYY',
@@ -308,13 +282,15 @@
 							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ valOrd['rm']['amount'] +" </div> \
 							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ valOrd['cad']['amount'] +" </div> \
 							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ valOrd['cast']['amount'] +" </div> \
-							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ valOrd['camGrams'] +" </div> \
+							<div class='col-xs-2' style='border-right: 1px solid black;'> "+ valOrd['camGrams'] +" </div> \
 							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ valOrd['_id'] +" </div> \
 							<div class='col-xs-1' style='text-align: right;'> "+ valOrd['_id'] +" </div> </small> </div> ";
 			  		});
 
 			  		$("#idorders").html(ordHtml);
-							
+					
+			  		$(".noInvoiceContainer").hide();
+			  		$(".invoiceContainer").show();
 			  	}
 			  	
 			  })
@@ -365,4 +341,6 @@
 			  });
 		});
 		    
+	    $(".noInvoiceContainer").show();
+  		$(".invoiceContainer").hide();
 	</script>

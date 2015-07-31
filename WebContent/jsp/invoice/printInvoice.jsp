@@ -65,25 +65,17 @@
 		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;">
 		
 			<div class="col-xs-4" style="border-right: 1px solid black;">
-				<p><small>
-					Jyoti Solutions,<br/>
-					Plot No 43, Road No. 14, MIDC,<br/>
-					Andheri(E),<br/>
-					MUMBAI - 93<br/>
-					Ph. 022-12345665/66<br/>
-					Email. <a href="mailto:info@jyotisolutions.in">info@jyotisolutions.in</a>
-					</small>
-				</p>
+				<span id="idaddress"></span>
 			</div>
 			<div class="col-xs-4" style="border-right: 1px solid black; height: 124px">
 				<p>
-					Inv No:<br/>
-					Inv Date:
+					Inv No: <span id="idinvoiceNumber"></span><br/>
+					Inv Date: <span id="idinvoiceCreationDateStr"></span>
 				</p>
 			</div>
 			<div class="col-xs-4 text-center" >
-				<p><big>Vivek Singh</big><br/>
-				Kharghar</p>
+				<p><big><span id="idclientname"></span></big><br/>
+				<span id="idclientaddress"></span></p>
 			</div>
 		</div>
 		
@@ -91,16 +83,22 @@
 			<div class="col-xs-1" style="border-right: 1px solid black;">
 				Sr.No.
 			</div>
-			<div class="col-xs-2" style="border-right: 1px solid black;">
+			<div class="col-xs-3" style="border-right: 1px solid black;">
 				Order No
 			</div>
-			<div class="col-xs-2" style="border-right: 1px solid black;">
-				DC No
+			<div class="col-xs-1" style="border-right: 1px solid black;">
+				CAM
 			</div>
-			<div class="col-xs-3" style="border-right: 1px solid black;">
-				Process
+			<div class="col-xs-1" style="border-right: 1px solid black;">
+				RM
 			</div>
-			<div class="col-xs-2" style="border-right: 1px solid black;">
+			<div class="col-xs-1" style="border-right: 1px solid black;">
+				CAD
+			</div>
+			<div class="col-xs-1" style="border-right: 1px solid black;">
+				CAST
+			</div>
+			<div class="col-xs-1" style="border-right: 1px solid black;">
 				Weight(Kg)
 			</div>
 			<div class="col-xs-1" style="border-right: 1px solid black;">
@@ -112,60 +110,71 @@
 		</div>
 		
 		<!--TODO: For loop to populate orders... -->
-	
-		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;"><small>
-			<div class="col-xs-1" style="border-right: 1px solid black;">
-				1
-			</div>
-			<div class="col-xs-2" style="border-right: 1px solid black;">
-				OR1234
-			</div>
-			<div class="col-xs-2" style="border-right: 1px solid black;">
-				DC1234
-			</div>
-			<div class="col-xs-3" style="border-right: 1px solid black;">
-				CASTING
-			</div>
-			<div class="col-xs-2" style="border-right: 1px solid black;">
-				0.62
-			</div>
-			<div class="col-xs-1" style="border-right: 1px solid black; text-align: right;">
-				186.00
-			</div>
-			<div class="col-xs-1" style="text-align: right;">
-				480.00
-			</div></small>
+		<div id="idorders">
+			
 		</div>
-		
+		<!-- <div class="col-xs-12" style="border: 1px solid black; border-top:0px;"><small>
+				<div class="col-xs-1" style="border-right: 1px solid black;">
+					1
+				</div>
+				<div class="col-xs-2" style="border-right: 1px solid black;">
+					OR1234
+				</div>
+				<div class="col-xs-2" style="border-right: 1px solid black;">
+					DC1234
+				</div>
+				<div class="col-xs-1" style="border-right: 1px solid black;">
+					a
+				</div>
+				<div class="col-xs-1" style="border-right: 1px solid black;">
+					a
+				</div>
+				<div class="col-xs-1" style="border-right: 1px solid black;">
+					a
+				</div>
+				<div class="col-xs-1" style="border-right: 1px solid black;">
+					a
+				</div>
+				<div class="col-xs-1" style="border-right: 1px solid black;">
+					0.62
+				</div>
+				<div class="col-xs-1" style="border-right: 1px solid black; text-align: right;">
+					186.00
+				</div>
+				<div class="col-xs-1" style="text-align: right;">
+					480.00
+				</div></small>
+			</div> -->
 		<!--TODO: For loop ENDS to populate orders... -->
 		
 		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;"><small>
 			<div class="col-xs-8">
 				<big>Amt (in words): One thousand and Forty-Two</big><br/>
-				<br/>
-				VAT TIN: 2123123123123123<br/>
-				CST No: 23423423123123<br/>
+				
+				VAT TIN: <span id="idvattin"></span><br/>
+				CST No: <span id="idcstno"></span><br/><br class="hidden-print"/>
+				<span id="iddisclaimer" style="font-size: 85%"></span>
 				
 			</div>
 			<div class="col-xs-3" style="outline: 1px solid black;">
 				Gross:<br/>
 				Discount:<br/>
-				Amount:<br/>
-				Tax @ 1%:<br/>
-				Amount:<br/>
+				<span id="idinvoiceTaxOption"></span>:<br/>
 				StampCharges:<br/>
-				CourierCharges:<br/>
-				TotalAmount:<br/>
+				Courier Charges:<br/>
+				Gate Pass Charges:<br/>
+				Other Charges:<br/>
+				Total Amount:<br/>
 			</div>
 			<div class="col-xs-1" style="text-align: right;">
-				1032.00<br/>
+				<span id="idgross">1032.00</span><br/>
+				<span id="iddiscount">0.00</span><br/>
+				<span id="idtaxAmount">0.00</span><br/>
 				0.00<br/>
-				1032.00<br/>
-				10.32<br/>
-				1042.32<br/>
-				0.00<br/>
-				0.00<br/>
-				1042.00<br/>
+				<span id="idcourierCharges">0.00</span><br/>
+				<span id="idgatePass">0.00</span><br/>
+				<span id="idotherCharges">0.00</span><br/>
+				<span id="idgrandTotal1">0.00</span><br/>
 			</div>
 			</small>
 		</div>
@@ -178,7 +187,7 @@
 				Grand Total:
 			</div>
 			<div class="col-xs-1" style="text-align: right;">
-				1042.00
+				<span id="idgrandTotal">1042.00</span>
 			</div>
 			</small>
 		</div>
@@ -189,7 +198,7 @@
 				Created By: <b>Vivek Singh</b> 
 			</div>
 			<div class="col-xs-4">
-				For Jyoti Solutions
+				For <span id="idswName"></span>
 			</div>
 			</small>
 		</div>
@@ -270,7 +279,42 @@
 			  	
 			  	if(dataFromServer){
 			  		
-				  
+			  		$("#idswName").html(dataFromServer["swName"]);
+			  		$("#idvattin").html(dataFromServer["vattin"]);
+			  		$("#idcstno").html(dataFromServer["cstno"]);
+			  		$("#idaddress").html(dataFromServer["address"]);
+			  		$("#iddisclaimer").html(dataFromServer["disclaimer"]);
+			  		$("#idgross").html(dataFromServer["gross"]);
+			  		$("#idinvoiceTaxOption").html(dataFromServer["invoice"]["invoiceTaxOption"]);
+			  		$("#idtaxAmount").html(dataFromServer["taxAmount"]);
+			  		$("#idgrandTotal").html(dataFromServer["grandTotal"]);
+			  		$("#idclientname").html(dataFromServer["invoice"]["client"]["name"]);
+			  		$("#idclientaddress").html(dataFromServer["invoice"]["client"]["address"]);
+			  		
+			  		$("#idinvoiceNumber").html(dataFromServer["invoice"]["invoiceNumber"]);
+			  		$("#idinvoiceCreationDateStr").html(dataFromServer["invoice"]["invoiceCreationDateStr"]);
+			  		
+			  		$("#idgatePass").html(dataFromServer["invoice"]["gatePass"]);
+			  		$("#iddiscount").html(dataFromServer["invoice"]["discount"]);
+			  		$("#idcourierCharges").html(dataFromServer["invoice"]["courierCharges"]);
+			  		$("#idotherCharges").html(dataFromServer["invoice"]["otherCharges"]);
+			  		
+			  		var ordHtml='';
+			  		$.each(dataFromServer["invoice"]["orderList"],function(ind,valOrd){
+			  			ordHtml+="<div class='col-xs-12' style='border: 1px solid black; border-top:0px;'><small> \
+							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ (ind+1) +" </div> \
+							<div class='col-xs-3' style='border-right: 1px solid black;'> "+ valOrd['_id'] +" </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ valOrd['cam']['amount'] + " </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ valOrd['rm']['amount'] +" </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ valOrd['cad']['amount'] +" </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ valOrd['cast']['amount'] +" </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ valOrd['camGrams'] +" </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ valOrd['_id'] +" </div> \
+							<div class='col-xs-1' style='text-align: right;'> "+ valOrd['_id'] +" </div> </small> </div> ";
+			  		});
+
+			  		$("#idorders").html(ordHtml);
+							
 			  	}
 			  	
 			  })

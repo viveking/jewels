@@ -20,6 +20,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.affixus.pojo.Client;
 import com.affixus.pojo.Invoice;
 import com.affixus.pojo.Order;
+import com.affixus.pojo.PrintInvoice;
 import com.affixus.services.ClientService;
 import com.affixus.services.InvoiceService;
 import com.affixus.util.CommonUtil;
@@ -94,7 +95,10 @@ public class InvoiceAction extends HttpServlet {
 			case "GET":
 				String invoiceId = request.getParameter("_id");
 				Invoice inv = invoiceService.get(invoiceId);
-				json=CommonUtil.objectToJson(inv);
+				PrintInvoice printInvoice = new PrintInvoice();
+				printInvoice.setInvoice(inv);
+				
+				json=CommonUtil.objectToJson(printInvoice);
 				break;
 			case "GET_ALL_INFO":
 

@@ -138,7 +138,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 				clientId = (String) clientObj.get("_id");
 
 				collection = mongoDB.getCollection(DBCollectionEnum.MAST_PLATFORM.toString());
-				DBObject platformObj = new BasicDBObject("platformNumber",part.getPlatFormNumber());
+				DBObject platformObj = new BasicDBObject("platformNumber",part.getPlatformNumber());
 				DBCursor dbCursor1 = collection.find(platformObj);
 
 				if (dbCursor1.hasNext()) {
@@ -163,7 +163,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 						DBObject setQuery = new BasicDBObject();
 						setQuery.put("partList.$.weight", part.getWeight());
 						//setQuery.put("partList.$.refWeight", part.getRefWeight());
-						setQuery.put("partList.$.platformNumber", part.getPlatFormNumber());
+						setQuery.put("partList.$.platformNumber", part.getPlatformNumber());
 						setQuery.put("partList.$.status", part.getStatus());
 						
 						DBObject updateQuery = new BasicDBObject("$set",setQuery);
@@ -188,7 +188,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 						
 						//Check for Platform Parts Complete.
 						getQuery = new BasicDBObject();
-						getQuery.put("partList.platformNumber", part.getPlatFormNumber());
+						getQuery.put("partList.platformNumber", part.getPlatformNumber());
 						getQuery.put("partList.status",Constants.PartsStatus.INPROGRESS.toString());
 						
 						findResult = collection.find(getQuery);

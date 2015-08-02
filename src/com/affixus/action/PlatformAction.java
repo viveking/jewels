@@ -148,14 +148,14 @@ public class PlatformAction extends HttpServlet {
 					String clientId = jsonNode.get("client").asText();
 					//String selectCAM = jsonNode.get("cam.required").asText();
 					String partName = jsonNode.get("part").asText();
-					String platFormNumber = jsonNode.get("platform").asText();
+					String platformNumber = jsonNode.get("platform").asText();
 					String weight = jsonNode.get("partWeight").asText();
 					//String refWeight = jsonNode.get("supportWeight").asText();
 					String status = jsonNode.get("partStatus").asText();
 					
 					Part part = new Part();
 					part.setName(partName);
-					part.setPlatFormNumber(platFormNumber);
+					part.setPlatformNumber(platformNumber);
 					part.setWeight(Double.parseDouble(weight));
 					//part.setRefWeight(Float.parseFloat(refWeight));
 					part.setStatus(status);
@@ -179,7 +179,7 @@ public class PlatformAction extends HttpServlet {
 					
 					String clientId = jsonNode.get("client").get("clientId").asText();
 					String partName = jsonNode.get("partList").get("name").asText();
-					String platFormNumber = jsonNode.get("partList").get("platformNumber").asText();
+					String platformNumber = jsonNode.get("partList").get("platformNumber").asText();
 					String weight = jsonNode.get("partList").get("weight").asText();
 					//String refWeight = jsonNode.get("partList").get("refWeight").asText();
 					String status = jsonNode.get("partList").get("status").asText();
@@ -189,7 +189,7 @@ public class PlatformAction extends HttpServlet {
 
 					Part part = new Part();
 					part.setName(partName);
-					part.setPlatFormNumber(platFormNumber);
+					part.setPlatformNumber(platformNumber);
 					part.setWeight(Float.parseFloat(weight));
 					//part.setRefWeight(Float.parseFloat(refWeight));
 					part.setStatus(status);
@@ -227,13 +227,13 @@ public class PlatformAction extends HttpServlet {
 					
 					String clientId = jsonNode.get("client.clientId").asText();
 					String partName = jsonNode.get("partList.name").asText();
-					String platFormNumber = jsonNode.get("partList.platformNumber").asText();
+					String platformNumber = jsonNode.get("partList.platformNumber").asText();
 					String weight = jsonNode.get("partList.weight").asText();
 					//String refWeight = jsonNode.get("partList.refWeight").asText();
 					
 					Part part = new Part();
 					part.setName(partName);
-					part.setPlatFormNumber(platFormNumber);
+					part.setPlatFormNumber(platformNumber);
 					part.setWeight(Double.parseDouble(weight));
 					//part.setRefWeight(Float.parseFloat(refWeight));
 					if(!partStatus.isEmpty())

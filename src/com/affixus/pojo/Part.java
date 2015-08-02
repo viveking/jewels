@@ -10,7 +10,7 @@ public class Part implements Serializable {
 	
 	private String name;
 	private String status = Constants.PartsStatus.INPROGRESS.toString();
-	private String platFormNumber;
+	private String platformNumber;
 	private double weight;
 	private double refWeight;
 	
@@ -27,11 +27,11 @@ public class Part implements Serializable {
 		this.status = status;
 	}
 	
-	public String getPlatFormNumber() {
-		return platFormNumber;
+	public String getPlatformNumber() {
+		return platformNumber;
 	}
-	public void setPlatFormNumber(String platFormNumber) {
-		this.platFormNumber = platFormNumber;
+	public void setPlatformNumber(String platformNumber) {
+		this.platformNumber = platformNumber;
 	}
 	public double getWeight() {
 		return weight;

@@ -269,7 +269,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 				double amount = computeAmountByNewWeight(weight,rateListName);
 				
 				DBObject setQuery = new BasicDBObject();
-				setQuery.put("camGrams", weight);
+				setQuery.put("cam.weight", weight);
 				setQuery.put("cam.amount", amount);
 				DBObject updateQuery = new BasicDBObject("$set",setQuery);
 				collection.update(new BasicDBObject("_id",orderId), updateQuery);

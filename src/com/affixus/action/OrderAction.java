@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -131,7 +132,7 @@ public class OrderAction extends HttpServlet {
 					order.setOrderDate( orderDate );
 					order.setPartList( entry.getValue() );
 					
-					Boolean isSaved = orderService.create( order );
+					orderService.create( order );
 				}
 				
 				break;
@@ -174,6 +175,8 @@ public class OrderAction extends HttpServlet {
 			case VIEW:
 					String _id = request.getParameter("_id");
 					Order order = orderService.get(_id);
+					json= CommonUtil.objectToJson(order);
+						
 				break;
 			
 			case VIEW_ALL:
@@ -213,6 +216,17 @@ public class OrderAction extends HttpServlet {
 				}
 				
 				json+="]";
+				
+				break;
+			case VIEW_COMPLETED_ORDER:
+				sBy= request.getParameter("sBy");//Search By
+				value = request.getParameter("value");
+				List<Order> outputList = null;
+				if(sBy != null && sBy.equalsIgnoreCase("client")){
+					outputList = orderService.getCompletedOrderInfoByClient(value);
+				}else{
+					outputList = orderService.getCompletedOrderInfoByPlatform(value);
+				}
 				
 				break;
 			default:

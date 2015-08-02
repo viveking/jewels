@@ -22,7 +22,6 @@ public class Order extends BasePojo {
 	private Process rm;
 	private Process cast;
 	private String t_charges;
-	private double camGrams;
 	
 	public String get_id() {
 		return _id;
@@ -107,12 +106,6 @@ public class Order extends BasePojo {
 	}
 	public void setT_charges(String t_charges) {
 		this.t_charges = t_charges;
-	}
-	public double getCamGrams() {
-		return camGrams;
-	}
-	public void setCamGrams(double camGrams) {
-		this.camGrams = camGrams;
 	}
 	
 }

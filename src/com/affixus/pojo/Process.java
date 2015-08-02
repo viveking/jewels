@@ -8,7 +8,7 @@ public class Process implements Serializable {
 		super();
 	}
 	
-	public Process(boolean required, float amount) {
+	public Process(boolean required, double amount) {
 		super();
 		this.required = required;
 		this.amount = amount;
@@ -17,9 +17,10 @@ public class Process implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private boolean required;
-	private float amount;
+	private double amount;
+	private double weight;
 	
-	public float getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 	public void setAmount(float amount) {
@@ -32,6 +33,14 @@ public class Process implements Serializable {
 
 	public void setRequired(boolean required) {
 		this.required = required;
+	}
+
+	public double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
 	}
 
 }

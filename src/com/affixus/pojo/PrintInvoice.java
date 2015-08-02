@@ -13,9 +13,9 @@ public class PrintInvoice {
 	private String disclaimer;
 	private String taxString;
 	
-	private float gross;
-	private float taxAmount;
-	private float grandTotal;
+	private double gross;
+	private double taxAmount;
+	private double grandTotal;
 	
 	public Invoice getInvoice() {
 		return invoice;
@@ -65,22 +65,22 @@ public class PrintInvoice {
 	public void setTaxString(String taxString) {
 		this.taxString = taxString;
 	}
-	public float getGross() {
+	public double getGross() {
 		return gross;
 	}
-	public void setGross(float gross) {
+	public void setGross(double gross) {
 		this.gross = gross;
 	}
-	public float getTaxAmount() {
+	public double getTaxAmount() {
 		return taxAmount;
 	}
-	public void setTaxAmount(float taxAmount) {
+	public void setTaxAmount(double taxAmount) {
 		this.taxAmount = taxAmount;
 	}
-	public float getGrandTotal() {
+	public double getGrandTotal() {
 		return grandTotal;
 	}
-	public void setGrandTotal(float grandTotal) {
+	public void setGrandTotal(double grandTotal) {
 		this.grandTotal = grandTotal;
 	}
 	

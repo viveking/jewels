@@ -1,6 +1,7 @@
 package com.affixus.dao;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import com.affixus.pojo.Order;
@@ -25,4 +26,8 @@ public interface OrderDao {
 	public Set<String> getOrderInfoByClient(String clientId);
 	
 	public Set<String> getOrderInfoByPlatform(String platformNumber);
+	
+	public List<Order> getCompletedOrderInfoByClient(String clientId);
+	
+	public List<Order> getCompletedOrderInfoByPlatform(String platformNumber);
 }

@@ -94,8 +94,8 @@
 				<li><a href="#" data-href="/jsp/platform/platformOptCalc.jsp">
 						<i class="icon-double-angle-right"></i> Platform Output Calculation
 				</a></li>
-				<li><a href="#" data-href="/jsp/platform/partsUpdate.jsp">
-						<i class="icon-double-angle-right"></i> Parts Update
+				<li><a href="#" data-href="/jsp/platform/orderUpdate.jsp">
+						<i class="icon-double-angle-right"></i> Completed Order Update
 				</a></li>
 				<!-- <li><a href="#" data-href="/jsp/platform/platform_status_update.jsp">
 						<i class="icon-double-angle-right"></i> Platform Status Update

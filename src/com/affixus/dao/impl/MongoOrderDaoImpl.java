@@ -397,30 +397,10 @@ public class MongoOrderDaoImpl implements OrderDao {
 		try{
 			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
 			
-			//db.order.aggregate({$match:{"partList.platformNumber":"PF_7294"}},
-			//{$unwind:"$partList"},{$match:{"partList.platformNumber":"PF_7294"}})
-			
-			//List<BasicDBObject> queryList = new ArrayList<>();
-			
 			BasicDBObject dbQuery = new BasicDBObject();
 			
 			dbQuery.put("status",Constants.PartsStatus.COMPLETED.toString());
 			dbQuery.put("partList.platformNumber", platformNumber);
-			//queryList.add(new BasicDBObject("partList.status",new BasicDBObject("$ne",Constants.PartsStatus.COMPLETE.toString())));
-			
-			//DBObject anding = new BasicDBObject("$and",queryList);
-			
-			//DBObject match = new BasicDBObject("$match", anding);
-			//DBObject unwind = new BasicDBObject("$unwind", "$partList");
-			
-			//List<BasicDBObject> andingForMatch2 = new ArrayList<>();
-			//andingForMatch2.add(new BasicDBObject("partList.status",new BasicDBObject("$ne",Constants.PartsStatus.COMPLETED.toString())));
-			//andingForMatch2.add(new BasicDBObject("partList.status",Constants.PartsStatus.INPROGRESS.toString()));
-			//andingForMatch2.add(new BasicDBObject("partList.platformNumber", platformNumber));
-			
-			//DBObject match2 = new BasicDBObject("$match",new BasicDBObject("$and",andingForMatch2));
-			
-			//AggregationOutput aggregationOutput = collection.aggregate(match, unwind,match2);
 			
 			DBCursor dbCursor = collection.find(dbQuery);
 			

@@ -16,8 +16,11 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.affixus.pojo.Order;
 import com.affixus.pojo.Part;
 import com.affixus.pojo.Platform;
+import com.affixus.pojo.Process;
+import com.affixus.services.OrderService;
 import com.affixus.services.PlatformService;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
@@ -33,6 +36,7 @@ public class PlatformAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(PlatformAction.class);
 	private PlatformService platformService = null;
+	private OrderService orderService = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -44,6 +48,10 @@ public class PlatformAction extends HttpServlet {
 		Object object = ObjectFactory.getInstance(ObjectEnum.PLATFORM_SERVICE);
 		if (object instanceof PlatformService) {
 			platformService = (PlatformService) object;
+		}
+		object = ObjectFactory.getInstance(ObjectEnum.ORDER_SERVICE);
+		if (object instanceof OrderService) {
+			orderService = (OrderService) object;
 		}
 	}
 
@@ -164,8 +172,8 @@ public class PlatformAction extends HttpServlet {
 				}
 				//platformService.updateCAMAmountByNewWeights(orderIdList);
 				break;
-			case SAVE_PARTS_UPDATE:
-				
+			case SAVE_ORDER_UPDATE:
+
 				jsonPlatform = request.getParameter("order");
 				if( jsonPlatform == null || jsonPlatform.trim().isEmpty()){
 					break;
@@ -177,24 +185,38 @@ public class PlatformAction extends HttpServlet {
 				
 				for (JsonNode jsonNode : jn) {
 					
-					String clientId = jsonNode.get("client").get("clientId").asText();
-					String partName = jsonNode.get("partList").get("name").asText();
-					String platformNumber = jsonNode.get("partList").get("platformNumber").asText();
-					String weight = jsonNode.get("partList").get("weight").asText();
-					//String refWeight = jsonNode.get("partList").get("refWeight").asText();
-					String status = jsonNode.get("partList").get("status").asText();
 					String orderId = jsonNode.get("_id").asText();
 					
-					orderIdList.add(orderId);
-
-					Part part = new Part();
-					part.setName(partName);
-					part.setPlatformNumber(platformNumber);
-					part.setWeight(Float.parseFloat(weight));
-					//part.setRefWeight(Float.parseFloat(refWeight));
-					part.setStatus(status);
+					Order order = new Order();
+					order.set_id(orderId);
 					
-					platformService.updateParts(clientId, partName, part);
+					Process cadprocess = new Process();
+					cadprocess.setAmount(Float.parseFloat(jsonNode.get("cad").get("amount").asText()));
+					cadprocess.setRequired(Boolean.parseBoolean(jsonNode.get("cad").get("required").asText()));
+					cadprocess.setWeight(Double.parseDouble(jsonNode.get("cad").get("weight").asText()));
+					
+					Process camprocess = new Process();
+					camprocess.setAmount(Float.parseFloat(jsonNode.get("cam").get("amount").asText()));
+					camprocess.setRequired(Boolean.parseBoolean(jsonNode.get("cam").get("required").asText()));
+					camprocess.setWeight(Double.parseDouble(jsonNode.get("cam").get("weight").asText()));
+					
+					Process castprocess = new Process();
+					castprocess.setAmount(Float.parseFloat(jsonNode.get("cast").get("amount").asText()));
+					castprocess.setRequired(Boolean.parseBoolean(jsonNode.get("cast").get("required").asText()));
+					castprocess.setWeight(Double.parseDouble(jsonNode.get("cast").get("weight").asText()));
+					
+					Process rmprocess = new Process();
+					rmprocess.setAmount(Float.parseFloat(jsonNode.get("rm").get("amount").asText()));
+					rmprocess.setRequired(Boolean.parseBoolean(jsonNode.get("rm").get("required").asText()));
+					rmprocess.setWeight(Double.parseDouble(jsonNode.get("rm").get("weight").asText()));
+					
+					order.setStatus(Constants.PartsStatus.COMPLETED.toString());
+					order.setCad(cadprocess);
+					order.setCam(camprocess);
+					order.setRm(castprocess);
+					order.setCast(rmprocess);
+					
+					orderService.update(order);
 				}
 				
 				platformService.updateCAMAmountByNewWeights(orderIdList);
@@ -205,44 +227,7 @@ public class PlatformAction extends HttpServlet {
 				List<String> platformNameList = platformService.getAllPlatformByStatus(status);
 				json = CommonUtil.objectToJson(platformNameList);
 				break;
-			/*case SAVE_STATUS_UPDATE:
-
-				jsonPlatform = request.getParameter("order");
-				String statusString = request.getParameter("status");
-				String partStatus="";
-				
-				if(statusString.equalsIgnoreCase("Completed"))
-					partStatus = Constants.PartsStatus.COMPLETED.toString();
-				else if(statusString.equalsIgnoreCase("Failed"))
-					partStatus = Constants.PartsStatus.FAILED.toString();
-				
-				if( jsonPlatform == null || jsonPlatform.trim().isEmpty()){
-					break;
-				}
-				
-				mapper = new ObjectMapper();
-				jn = mapper.readTree(jsonPlatform);
-				
-				for (JsonNode jsonNode : jn) {
-					
-					String clientId = jsonNode.get("client.clientId").asText();
-					String partName = jsonNode.get("partList.name").asText();
-					String platformNumber = jsonNode.get("partList.platformNumber").asText();
-					String weight = jsonNode.get("partList.weight").asText();
-					//String refWeight = jsonNode.get("partList.refWeight").asText();
-					
-					Part part = new Part();
-					part.setName(partName);
-					part.setPlatFormNumber(platformNumber);
-					part.setWeight(Double.parseDouble(weight));
-					//part.setRefWeight(Float.parseFloat(refWeight));
-					if(!partStatus.isEmpty())
-						part.setStatus(partStatus);
-					
-					platformService.updateParts(clientId, partName, part);
-				}
-
-				break;*/
+			
 			default:
 				break;
 		}

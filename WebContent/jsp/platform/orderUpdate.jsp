@@ -15,10 +15,10 @@
 
 <div class="page-header">
 	<h1>
-		Parts Update
+		Completed Order Update
 		<small>
 			<i class="icon-double-angle-right"></i>
-			Update the parts status and price.
+			Update the order weight and price.
 		</small>
 	</h1>
 </div><!-- /.page-header -->
@@ -70,8 +70,8 @@
 		</div><!-- /.col -->
 	</div><!-- /.row -->
 	<div class="col-md-offset-1 row" id="noGridContainer">
-		<h1>Update order parts</h1>
-		<p class="lead"> Select options to update the parts. </p>
+		<h1>Update order</h1>
+		<p class="lead"> Select options to update the order. </p>
 	</div><!-- /.row -->
 	
 </div>
@@ -85,7 +85,7 @@
 		var platformList = {};
 
 		$.ajax({
-		  	url: '${pageContext.request.contextPath}/platform.action?op=ALL_PLATFORM_ID&status=INPROGRESS',
+		  	url: '${pageContext.request.contextPath}/platform.action?op=ALL_PLATFORM_ID&status=COMPLETED',
 		  	type: 'GET',
 		  	async: false
 		  })
@@ -147,7 +147,7 @@
 
 		      var param = {"sBy":$("#idSelectOption").val(),"value":$("#idSelect").val()};
 			  $.ajax({
-				  	url: '${pageContext.request.contextPath}/order.action?op=VIEW_PENDING_PARTS',
+				  	url: '${pageContext.request.contextPath}/order.action?op=VIEW_COMPLETED_ORDER',
 				  	type: 'POST',
 				  	data: param
 				  })
@@ -179,17 +179,18 @@
 			data: grid_data,
 			datatype: "local",
 			height: 320,
-			colNames:['Order No','Order Date','Client ID','Platform','Order Name','Part','Weight (KG)','Status'],
+			colNames:['Order No','Order Date','Client ID','Platform','Order Name','CAM (KG)','RM (KG)','CAD Amount','CAST Amount'],
 			colModel:[
 				{name:'_id',index:'_id', width:150,editable: false,hidden:true},
 				{name:'orderDateStr',index:'orderDateStr', width:150,editable: false},
 				{index:'client',name:'client.clientId', width:150,editable: false},
-				{index:'platform',name:'partList.platformNumber', width:150, editable: false},
+				{index:'platform',name:'partList.0.platformNumber', width:150, editable: false},
 				{index:'orderName',name:'orderName', width:150, editable: false},
-				{index:'part',name:'partList.name', width:300, editable: false},
-				{index:'partWeight',name:'partList.weight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:300, editable: true, classes: 'editCls'},
-				{index:'partStatus',name:'partList.status', width:200, editable: true, edittype:"select", editrules:{required:true, edithidden:true},editoptions:{ value:{"INPROGRESS":"INPROGRESS","COMPLETED":"COMPLETED"}},formatter:'select', classes: 'editCls'}
-			], 
+				{index:'cam.weight',name:'cam.weight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:100, editable: true, classes: 'editCls'},
+				{index:'rm.weight',name:'rm.weight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:100, editable: true, classes: 'editCls'},
+				{index:'cad.amount',name:'cad.amount',formatter:'number',formatoptions:{decimalPlaces: 4}, width:100, editable: true, classes: 'editCls'},
+				{index:'cast.amount',name:'cast.amount',formatter:'number',formatoptions:{decimalPlaces: 4}, width:100, editable: true, classes: 'editCls'}
+			],
 			hiddengrid: false,
 			viewrecords : true,
 			rowNum:100000,
@@ -198,7 +199,7 @@
 			altRows: true,
 			rownumbers: true,  
 			multiselect: false,
-			caption: "Parts Update",
+			caption: "Order Update",
 			autowidth: true
 	
 		});
@@ -207,18 +208,21 @@
 			var passedGrid = $("#grid-table");
 			var selData = passedGrid.jqGrid('getGridParam','data');
 			$.each(selData,function(i,val){
-				if(val.hasOwnProperty("partList.weight"))
-					val.partList.weight = val["partList.weight"];
-				if(val.hasOwnProperty("partList.status"))
-					val.partList.status = val["partList.status"];
-				/* if(val.hasOwnProperty("partList.refWeight"))
-					val.partList.refWeight = val["partList.refWeight"]; */
+				if(val.hasOwnProperty("cam.weight"))
+					val.cam.weight = val["cam.weight"];
+				if(val.hasOwnProperty("cad.amount"))
+					val.cad.amount = val["cad.amount"];
+				if(val.hasOwnProperty("rm.weight"))
+					val.rm.weight = val["rm.weight"];
+				if(val.hasOwnProperty("cast.amount"))
+					val.cast.amount = val["cast.amount"];
+				
 			});
 			
 			var param ={'order':JSON.stringify(selData)};
 			
 			$.ajax({
-			  	url: '${pageContext.request.contextPath}/platform.action?op=SAVE_PARTS_UPDATE',
+			  	url: '${pageContext.request.contextPath}/platform.action?op=SAVE_ORDER_UPDATE',
 			  	type: 'POST',
 			  	data: param
 			  })

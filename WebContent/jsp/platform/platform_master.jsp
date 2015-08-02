@@ -45,7 +45,7 @@
 					gridview: true,
 					datatype: "json",
 					height: 366,
-					colNames:['id','Platform Number','Printer','From Date', 'To Date', 'Prepared By','Printed By'],
+					colNames:['id','Platform Number','Printer','From Date', 'To Date'],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
 						{name:'platformNumber',index:'platformNumber', width:100, editrules:{required:true},editable: true},
@@ -53,17 +53,15 @@
 						{name:'orderFromDateStr',index:'orderFromDateStr', width:250,editable: true,editoptions:{size:20, 
 			                  dataInit:function(el){ 
 			                        //$(el).datepicker({dateFormat:'yy-mm-dd'}); 
-			                	  $(el).datetimepicker({format: 'DD-MM-YYYY h:mm:ss A'});
+			                	  $(el).datetimepicker({format: 'DD-MM-YYYY'});
 			                  } 
 			                }},
 						{name:'orderToDateStr',index:'orderToDateStr', width:250,editable: true,editoptions:{size:20, 
 			                  dataInit:function(el){ 
 			                       // $(el).datepicker({dateFormat:'yy-mm-dd'}); 
-			                	  $(el).datetimepicker({format: 'DD-MM-YYYY h:mm:ss A'});
+			                	  $(el).datetimepicker({format: 'DD-MM-YYYY'});
 			                  }
-			                }},
-						{name:'platformPreparedBy',index:'platformPreparedBy',editable: true,edittype: "select",editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"},formatter:'select'},
-						{name:'platformPrintedBy',index:'platformPrintedBy', width:150,editable: true,edittype: "select",editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"abc:qpr;axx:aaa"},formatter:'select'}
+			                }}
 					], 
 			
 					viewrecords : true,

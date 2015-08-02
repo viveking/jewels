@@ -107,8 +107,8 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 			while (dbCursor.hasNext()) {
 				DBObject dbObject = dbCursor.next();
 
-				dbObject.put("orderFromDateStr", CommonUtil.longToStringDate((Long) dbObject.get("orderFromDate"),CommonUtil.DATETIME_FORMAT_ddMMyyyyHHmmss_HYPHEN));
-				dbObject.put("orderToDateStr", CommonUtil.longToStringDate((Long) dbObject.get("orderToDate"),CommonUtil.DATETIME_FORMAT_ddMMyyyyHHmmss_HYPHEN));
+				dbObject.put("orderFromDateStr", CommonUtil.longToStringDate((Long) dbObject.get("orderFromDate"),CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
+				dbObject.put("orderToDateStr", CommonUtil.longToStringDate((Long) dbObject.get("orderToDate"),CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
 
 				String jsonString = JSON.serialize(dbObject);
 

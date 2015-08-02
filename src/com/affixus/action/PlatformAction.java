@@ -116,14 +116,12 @@ public class PlatformAction extends HttpServlet {
 
 				platform.setPlatformNumber(request.getParameter("platformNumber"));
 				platform.setPrinter(request.getParameter("printer"));
-				platform.setPlatformPreparedBy(request.getParameter("platformPreparedBy"));
-				platform.setPlatformPrintedBy(request.getParameter("platformPrintedBy"));
 				
 				
 				if(fromDate != null)
-					platform.setOrderFromDate(CommonUtil.stringToDate(fromDate, CommonUtil.DATETIME_FORMAT_ddMMyyyyHHmmss_HYPHEN));
+					platform.setOrderFromDate(CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
 				if(toDate != null)
-					platform.setOrderToDate(CommonUtil.stringToDate(toDate, CommonUtil.DATETIME_FORMAT_ddMMyyyyHHmmss_HYPHEN));
+					platform.setOrderToDate(CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
 				platformService.create(platform);
 				break;
 			case EDIT:

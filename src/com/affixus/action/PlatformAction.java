@@ -188,6 +188,7 @@ public class PlatformAction extends HttpServlet {
 					String orderId = jsonNode.get("_id").asText();
 					
 					Order order = new Order();
+					//Order order =orderService.get(orderId);
 					order.set_id(orderId);
 					
 					Process cadprocess = new Process();
@@ -213,8 +214,8 @@ public class PlatformAction extends HttpServlet {
 					order.setStatus(Constants.PartsStatus.COMPLETED.toString());
 					order.setCad(cadprocess);
 					order.setCam(camprocess);
-					order.setRm(castprocess);
-					order.setCast(rmprocess);
+					order.setRm(rmprocess);
+					order.setCast(castprocess);
 					
 					orderService.update(order);
 				}

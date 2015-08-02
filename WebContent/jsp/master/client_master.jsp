@@ -40,7 +40,7 @@
 				var PT_inversionHrData = <%= MongoAttributeList.getRateListByPrinter("invisionHR")%>;
 				var PT_viber25 = <%= MongoAttributeList.getRateListByPrinter("viper25")%>;
 				var PT_viber50 = <%= MongoAttributeList.getRateListByPrinter("viper50")%>;
-				var PT_ZNone = <%= MongoAttributeList.getRateListByPrinter("zNONE")%>;
+				//var PT_ZNone = <%= MongoAttributeList.getRateListByPrinter("zNONE")%>;
 				var PT_rubberMould = <%= MongoAttributeList.getRateListByPrinter("rubberMOULD")%>;
 				
 				var invType = {"0":"Select Inv. Type","1":"CST Invoice","2":"Estimate Sales","3":"Tax Invoice"};
@@ -65,7 +65,7 @@
 					height: 366,
 					colNames:['id','ClientId','Name','Address', 'City', 'Limit','Credit Period','VAT','CST','PAN',
 					          'Mobile 1','Mobile 2','Email 1','Email 2','Voucher Type','Invoice Type',
-					          'Invoice Percentage','Invision HR','Rubber Mould','Viper 25','Viper 50','ZNone',
+					          'Invoice Percentage','Invision HR','Rubber Mould','Viper 25','Viper 50',
 					          'Auto Approval','Send Invoice SMS','Active',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
@@ -134,9 +134,8 @@
 						
 						{name:'invisionHR',index:'invisionHr', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_inversionHrData},formatter:'select'},
 						{name:'rubberMOULD',index:'rubberMould', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_rubberMould},formatter:'select'},
-						{name:'viper25',index:'viper25', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_viber25},formoptions:{rowpos:18, colpos:2},formatter:'select'},
-						{name:'viper50',index:'viper50', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_viber50},formatter:'select'},
-						{name:'ZNONE',index:'ZNone', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_ZNone},formoptions:{rowpos:20, colpos:2},formatter:'select'},
+						{name:'viper25',index:'viper25', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_viber25},formoptions:{rowpos:17, colpos:2},formatter:'select'},
+						{name:'viper50',index:'viper50', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_viber50},formoptions:{rowpos:18, colpos:2},formatter:'select'},
 						
 						{name:'autoApproval',index:'autoApproval', sortable:false,editable: true, hidden:true, edittype:"checkbox",editrules:{required:false, edithidden:true},editoptions:{value:"true:false", defaultValue:"true"}},
 						{name:'sendInvoiceSms',index:'sendInvoiceSms', sortable:false,editable: true,hidden:true, edittype:"checkbox",editrules:{required:false, edithidden:true},editoptions:{value:"true:false", defaultValue:"true"}},

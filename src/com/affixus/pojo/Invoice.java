@@ -87,7 +87,7 @@ public class Invoice extends BasePojo{
 		this.invoiceCreationDateStr = invoiceCreationDateStr;
 	}
 	public String generateInvoiceNumber(){
-		return INVOICE_STRING + this.getInvoiceCreationDateStr() + " " + this.get_id();
+		return INVOICE_STRING+ this.get_id();
 	}
 	public String getInvoiceTaxOption() {
 		return invoiceTaxOption;

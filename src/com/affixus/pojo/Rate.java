@@ -44,6 +44,7 @@ public class Rate extends BasePojo{
 	}
 	public double getPrice(double weight) {
 		double price = 0;
+		weight = weight*1000;
 		for(RateRange rateList : getRateRangeList()){
 			if(rateList.isToValueInfinite()){
 				price = weight * rateList.getRate();

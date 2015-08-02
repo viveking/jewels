@@ -77,20 +77,20 @@
 				</select>
 			</div>
 			<div class="col-xs-2">
-				<label for="idDiscount">Discount</label>
-				<input type="number" id="idDiscount">
+				<label for="idDiscount">Discount (Rs)</label>
+				<input type="number" id="idDiscount" value="0">
 			</div>	
 			<div class="col-xs-2">
 				<label for="idCourier">Courier Charger</label>
-				<input type="number" id="idCourier">
+				<input type="number" id="idCourier" value="0">
+			</div>
+			<div class="col-xs-2">
+				<label for="idGatePassCharges">Stamp Charges</label>
+				<input type="number" id="idGatePassCharges" value="0">
 			</div>	
 			<div class="col-xs-2">
 				<label for="idOtherCharges">Other Charges</label>
-				<input type="number" id="idOtherCharges">
-			</div>
-			<div class="col-xs-2">
-				<label for="idGatePassCharges">Gate Pass Charges</label>
-				<input type="number" id="idGatePassCharges">
+				<input type="number" id="idOtherCharges" value="0">
 			</div>
 			<div class="col-xs-2" style="padding:0px">
 				<label> </label>

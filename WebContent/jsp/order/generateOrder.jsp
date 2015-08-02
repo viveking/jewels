@@ -124,7 +124,7 @@
 				{name:'_id',index:'_id', width:150,editable: false},
 				{name:'orderName',index:'orderName', width:150,editable: false},
 				{name:'cam.required',index:'cam.required', width: 70, align: "center",
-                    formatter: "checkbox", formatoptions: { disabled: false},
+                    formatter: "checkbox", formatoptions: { disabled: true,defaultValue: "true"},
                     edittype: "checkbox", editoptions: {value: "true:false", defaultValue: "true"}},
 				{name:'rm.required',index:'rm.required', width: 70, align: "center",
                         formatter: "checkbox", formatoptions: { disabled: false},

@@ -73,7 +73,7 @@
 					<option value="TI0%">Tax Invoice @ 0%</option>
 					<option value="TI1%">Tax Invoice @ 1%</option>
 					<option value="TI12.5%">Tax Invoice @ 12.5%</option>
-					
+					<option value="TI14%">Tax Invoice @ 14%</option>
 				</select>
 			</div>
 			<div class="col-xs-2">

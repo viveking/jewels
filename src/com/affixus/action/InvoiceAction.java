@@ -25,6 +25,7 @@ import com.affixus.services.ClientService;
 import com.affixus.services.InvoiceService;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
+import com.affixus.util.NumberToWord;
 import com.affixus.util.ObjectFactory;
 import com.affixus.util.ObjectFactory.ObjectEnum;
 
@@ -98,7 +99,41 @@ public class InvoiceAction extends HttpServlet {
 				PrintInvoice printInvoice = new PrintInvoice();
 				printInvoice.setInvoice(inv);
 				
+				List<Order> orderListl = inv.getOrderList();
+				float grandTotal=0,grossTotal=0,taxAmount = 0;
+				
+				for(Order ord:orderListl){
+					ord.setT_charges(
+							ord.getCad().getAmount()+
+							ord.getRm().getAmount()+
+							ord.getCam().getAmount()+
+							ord.getCast().getAmount()
+							);
+					
+					grossTotal+=ord.getT_charges();
+				}
+				
+				printInvoice.setGross(grossTotal);
+				
+				if(inv.getInvoiceTaxOption().equalsIgnoreCase("TI0%")){
+					taxAmount = 0;
+				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("TI1%")){
+					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.01);
+				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("TI12.5%")){
+					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.125);
+				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("TI14%")){
+					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.14);
+				}
+				
+				printInvoice.setTaxAmount(taxAmount);
+				
+				grandTotal = (float) (grossTotal - inv.getDiscount() + taxAmount + inv.getOtherCharges() + inv.getCourierCharges() + inv.getGatePass());
+				
+				printInvoice.setGrandTotal(grandTotal);
+				printInvoice.setAmountInWords(new NumberToWord().convertNumberToWords((int)grandTotal));
+				
 				json=CommonUtil.objectToJson(printInvoice);
+				
 				break;
 			case "GET_ALL_INFO":
 

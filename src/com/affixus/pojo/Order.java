@@ -21,7 +21,7 @@ public class Order extends BasePojo {
 	private Process cam;
 	private Process rm;
 	private Process cast;
-	private String t_charges;
+	private double t_charges;
 	
 	public String get_id() {
 		return _id;
@@ -101,11 +101,11 @@ public class Order extends BasePojo {
 	public void setCast(Process cast) {
 		this.cast = cast;
 	}
-	public String getT_charges() {
+	public double getT_charges() {
 		return t_charges;
 	}
-	public void setT_charges(String t_charges) {
-		this.t_charges = t_charges;
+	public void setT_charges(double d) {
+		this.t_charges = d;
 	}
 	
 }

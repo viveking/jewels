@@ -98,11 +98,11 @@
 			<div class="col-xs-1" style="border-right: 1px solid black;">
 				CAST
 			</div>
-			<div class="col-xs-2" style="border-right: 1px solid black;">
-				Weight(Kg)
-			</div>
 			<div class="col-xs-1" style="border-right: 1px solid black;">
-				Amount
+				CAM (Kg)
+			</div>
+			<div class="col-xs-2" style="border-right: 1px solid black;">
+				RM (Kg)
 			</div>
 			<div class="col-xs-1">
 				Total
@@ -117,7 +117,7 @@
 		
 		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;"><small>
 			<div class="col-xs-8">
-				<big>Amt (in words): One thousand and Forty-Two</big><br/>
+				<big>Amt (in words): <span id="idamtwords"></span></big><br/>
 				
 				VAT TIN: <span id="idvattin"></span><br/>
 				CST No: <span id="idcstno"></span><br/><br class="hidden-print"/>
@@ -128,17 +128,15 @@
 				Gross:<br/>
 				Discount:<br/>
 				<span id="idinvoiceTaxOption"></span>:<br/>
-				StampCharges:<br/>
 				Courier Charges:<br/>
-				Gate Pass Charges:<br/>
+				Stamp Charges:<br/>
 				Other Charges:<br/>
-				Total Amount:<br/>
+				Total Amount:<br/><br/>
 			</div>
 			<div class="col-xs-1" style="text-align: right;">
-				<span id="idgross">1032.00</span><br/>
+				<span id="idgross">0.00</span><br/>
 				<span id="iddiscount">0.00</span><br/>
 				<span id="idtaxAmount">0.00</span><br/>
-				0.00<br/>
 				<span id="idcourierCharges">0.00</span><br/>
 				<span id="idgatePass">0.00</span><br/>
 				<span id="idotherCharges">0.00</span><br/>
@@ -155,7 +153,7 @@
 				Grand Total:
 			</div>
 			<div class="col-xs-1" style="text-align: right;">
-				<span id="idgrandTotal">1042.00</span>
+				<span id="idgrandTotal"></span>
 			</div>
 			</small>
 		</div>
@@ -163,7 +161,7 @@
 		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;"><small>
 			<div class="col-xs-8" style="border-right: 1px solid black;">
 				If you have any query in the bill kindly intimate us within 24 hrs.<br/>
-				Created By: <b>Vivek Singh</b> 
+				Created By:  
 			</div>
 			<div class="col-xs-4">
 				For <span id="idswName"></span>
@@ -258,33 +256,36 @@
 			  		$("#idcstno").html(dataFromServer["cstno"]);
 			  		$("#idaddress").html(dataFromServer["address"]);
 			  		$("#iddisclaimer").html(dataFromServer["disclaimer"]);
-			  		$("#idgross").html(dataFromServer["gross"]);
+			  		$("#idgross").html(Number(dataFromServer["gross"]).toFixed(2));
 			  		$("#idinvoiceTaxOption").html(dataFromServer["invoice"]["invoiceTaxOption"]);
-			  		$("#idtaxAmount").html(dataFromServer["taxAmount"]);
-			  		$("#idgrandTotal").html(dataFromServer["grandTotal"]);
+			  		$("#idtaxAmount").html(Number(dataFromServer["taxAmount"]).toFixed(2));
+			  		$("#idgrandTotal").html(Number(dataFromServer["grandTotal"]).toFixed(2));
+			  		$("#idgrandTotal1").html(Number(dataFromServer["grandTotal"]).toFixed(2));
 			  		$("#idclientname").html(dataFromServer["invoice"]["client"]["name"]);
 			  		$("#idclientaddress").html(dataFromServer["invoice"]["client"]["address"]);
 			  		
 			  		$("#idinvoiceNumber").html(dataFromServer["invoice"]["invoiceNumber"]);
 			  		$("#idinvoiceCreationDateStr").html(dataFromServer["invoice"]["invoiceCreationDateStr"]);
 			  		
-			  		$("#idgatePass").html(dataFromServer["invoice"]["gatePass"]);
-			  		$("#iddiscount").html(dataFromServer["invoice"]["discount"]);
-			  		$("#idcourierCharges").html(dataFromServer["invoice"]["courierCharges"]);
-			  		$("#idotherCharges").html(dataFromServer["invoice"]["otherCharges"]);
+			  		$("#idgatePass").html(Number(dataFromServer["invoice"]["gatePass"]).toFixed(2));
+			  		$("#iddiscount").html(Number(dataFromServer["invoice"]["discount"]).toFixed(2));
+			  		$("#idcourierCharges").html(Number(dataFromServer["invoice"]["courierCharges"]).toFixed(2));
+			  		$("#idotherCharges").html(Number(dataFromServer["invoice"]["otherCharges"]).toFixed(2));
+			  		$("#idamtwords").html(dataFromServer["amountInWords"]);
 			  		
 			  		var ordHtml='';
 			  		$.each(dataFromServer["invoice"]["orderList"],function(ind,valOrd){
 			  			ordHtml+="<div class='col-xs-12' style='border: 1px solid black; border-top:0px;'><small> \
 							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ (ind+1) +" </div> \
-							<div class='col-xs-3' style='border-right: 1px solid black;'> "+ valOrd['_id'] +" </div> \
-							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ valOrd['cam']['amount'] + " </div> \
-							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ valOrd['rm']['amount'] +" </div> \
-							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ valOrd['cad']['amount'] +" </div> \
-							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ valOrd['cast']['amount'] +" </div> \
-							<div class='col-xs-2' style='border-right: 1px solid black;'> "+ valOrd['camGrams'] +" </div> \
-							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ valOrd['_id'] +" </div> \
-							<div class='col-xs-1' style='text-align: right;'> "+ valOrd['_id'] +" </div> </small> </div> ";
+							<div class='col-xs-3' style='border-right: 1px solid black;'> "+ valOrd['orderName']+"_"+valOrd['_id'] +" </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ Number(valOrd['cam']['amount']).toFixed(4) + " </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ Number(valOrd['rm']['amount']).toFixed(4) +" </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ Number(valOrd['cad']['amount']).toFixed(4) +" </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ Number(valOrd['cast']['amount']).toFixed(4) +" </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ Number(valOrd['cam']['weight']).toFixed(4) +" </div> \
+							<div class='col-xs-2' style='border-right: 1px solid black;'> "+ Number(valOrd['rm']['weight']).toFixed(4) +" </div> \
+							<div class='col-xs-1' style='text-align: right;'> "+ 
+							Number(eval(valOrd['rm']['amount']+valOrd['cam']['amount']+valOrd['cad']['amount']+valOrd['cast']['amount'])).toFixed(2) +" </div> </small> </div> ";
 			  		});
 
 			  		$("#idorders").html(ordHtml);

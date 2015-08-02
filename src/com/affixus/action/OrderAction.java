@@ -227,7 +227,7 @@ public class OrderAction extends HttpServlet {
 				}else{
 					outputList = orderService.getCompletedOrderInfoByPlatform(value);
 				}
-				
+				json= CommonUtil.objectToJson(outputList);
 				break;
 			default:
 				break;

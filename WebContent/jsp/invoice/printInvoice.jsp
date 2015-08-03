@@ -83,7 +83,7 @@
 			<div class="col-xs-1" style="border-right: 1px solid black;">
 				Sr.No.
 			</div>
-			<div class="col-xs-3" style="border-right: 1px solid black;">
+			<div class="col-xs-2" style="border-right: 1px solid black;">
 				Order No
 			</div>
 			<div class="col-xs-1" style="border-right: 1px solid black;">
@@ -98,7 +98,7 @@
 			<div class="col-xs-1" style="border-right: 1px solid black;">
 				CAST
 			</div>
-			<div class="col-xs-1" style="border-right: 1px solid black;">
+			<div class="col-xs-2" style="border-right: 1px solid black;">
 				CAM (Kg)
 			</div>
 			<div class="col-xs-2" style="border-right: 1px solid black;">
@@ -277,12 +277,12 @@
 			  		$.each(dataFromServer["invoice"]["orderList"],function(ind,valOrd){
 			  			ordHtml+="<div class='col-xs-12' style='border: 1px solid black; border-top:0px;'><small> \
 							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ (ind+1) +" </div> \
-							<div class='col-xs-3' style='border-right: 1px solid black;'> "+ valOrd['orderName']+"_"+valOrd['_id'] +" </div> \
+							<div class='col-xs-2' style='border-right: 1px solid black;'> "+ valOrd['orderName']+"_"+valOrd['_id'] +" </div> \
 							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ Number(valOrd['cam']['amount']).toFixed(4) + " </div> \
 							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ Number(valOrd['rm']['amount']).toFixed(4) +" </div> \
 							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ Number(valOrd['cad']['amount']).toFixed(4) +" </div> \
 							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ Number(valOrd['cast']['amount']).toFixed(4) +" </div> \
-							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ Number(valOrd['cam']['weight']).toFixed(4) +" </div> \
+							<div class='col-xs-2' style='border-right: 1px solid black;'> "+ Number(valOrd['cam']['weight']).toFixed(4) +" </div> \
 							<div class='col-xs-2' style='border-right: 1px solid black;'> "+ Number(valOrd['rm']['weight']).toFixed(4) +" </div> \
 							<div class='col-xs-1' style='text-align: right;'> "+ 
 							Number(eval(valOrd['rm']['amount']+valOrd['cam']['amount']+valOrd['cad']['amount']+valOrd['cast']['amount'])).toFixed(2) +" </div> </small> </div> ";

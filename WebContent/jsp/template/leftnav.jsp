@@ -69,11 +69,11 @@
 				<li><a href="#" data-href="/jsp/order/generateOrder.jsp">
 						<i class="icon-double-angle-right"></i> Order Generation
 				</a></li>
-
+<!-- 
 				<li><a href="#" data-href="/jsp/order/updateOrder.jsp">
 						<i class="icon-double-angle-right"></i> Update Order
 				</a></li>				
- 
+  -->
 				<li><a href="#" data-href="/jsp/order/incompleteOrder.jsp">
 						<i class="icon-double-angle-right"></i> Incomplete Order
 				</a></li>

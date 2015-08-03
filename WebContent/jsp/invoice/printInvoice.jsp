@@ -6,6 +6,10 @@
 	}
 </style>
 <div class="page-header">
+	<button class="btn btn-app btn-yellow btn-xs pull-right" onclick="window.print();">
+		<i class="icon-print bigger-160"></i>
+		Print
+	</button>
 	<h1>
 		Print Invoice
 		<small>
@@ -13,6 +17,8 @@
 			Print Order Invoice.
 		</small>
 	</h1>
+	
+	
 </div><!-- /.page-header -->
 <div class="row hidden-print">
 		<div class="col-xs-3">

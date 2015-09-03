@@ -1,3 +1,4 @@
+<%@page import="com.affixus.util.Config"%>
 <%@ page language="java" isELIgnored="false" contentType="text/html; charset=ISO-8859-1"	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
@@ -5,7 +6,7 @@
 
 	<meta charset="utf-8" />
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
-	<title>Jyoti Solutions</title>
+	<title><%=Config.getProperty("client.name") %></title>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="description" content="overview &amp; stats" />
@@ -138,7 +139,7 @@ function printMsg(message)
 					<a href="#" class="navbar-brand">
 						
 							<b class="icon-barchart" style="color:red"></b>
-						<small class='munsi_logo'>Jyoti Solutions</small>
+						<small class='munsi_logo'><%=Config.getProperty("client.name") %></small>
 						
 					</a><!-- /.brand -->
 				</div><!-- /.navbar-header -->

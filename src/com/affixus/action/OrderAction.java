@@ -28,6 +28,7 @@ import com.affixus.services.ClientService;
 import com.affixus.services.OrderService;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
+import com.affixus.util.Constants.PartsStatus;
 import com.affixus.util.Constants.UIOperations;
 import com.affixus.util.ObjectFactory;
 import com.affixus.util.ObjectFactory.ObjectEnum;
@@ -187,10 +188,25 @@ public class OrderAction extends HttpServlet {
 				if(fromDate!= null && null != toDate){
 					Date from = CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
 					Date to = CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
-					Set<Order> orderList = orderService.getAll(from,to);
+					Set<Order> orderList = orderService.getAll(null,from,to);
 					json=CommonUtil.objectToJson(orderList);
 				}else{
-					Set<Order> orderList = orderService.getAll();
+					Set<Order> orderList = orderService.getAll(null);
+					json=CommonUtil.objectToJson(orderList);
+				}
+				break;
+			case VIEW_ALL_INPROGRESS:
+				
+				fromDate = request.getParameter("fromDate");
+				toDate = request.getParameter("toDate");
+				
+				if(fromDate!= null && null != toDate){
+					Date from = CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+					Date to = CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+					Set<Order> orderList = orderService.getAll(new String[]{PartsStatus.INPROGRESS.toString()},from,to);
+					json=CommonUtil.objectToJson(orderList);
+				}else{
+					Set<Order> orderList = orderService.getAll(new String[]{PartsStatus.INPROGRESS.toString()});
 					json=CommonUtil.objectToJson(orderList);
 				}
 				break;

@@ -36,12 +36,12 @@ public class OrderService {
 	{
 		return orderDao.get(_Id);
 	}
-	public Set<Order> getAll() {
-		return orderDao.getAll();
+	public Set<Order> getAll(String status[]) {
+		return orderDao.getAll(status);
 	}
 	
-	public Set<Order> getAll(Date from, Date to) {
-		return orderDao.getAll(from,to);
+	public Set<Order> getAll(String status[],Date from, Date to) {
+		return orderDao.getAll(status,from,to);
 	}
 	
 	public Set<Order> getAllByOperation(Date from, Date to, String operation) {

@@ -185,7 +185,7 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 			DBCollection collection = mongoDB.getCollection(collInvoice );
 			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
 			if(null != from && null != to){
-				finalQuery.put("orderDate", new BasicDBObject("$gte",from.getTime()).append("$lte", to.getTime()));
+				finalQuery.put("invoiceCreationDate", new BasicDBObject("$gte",from.getTime()).append("$lte", to.getTime()));
 			}
 			//finalQuery.put("status", Constants.PartsStatus.INVOICEGENERATED.toString());
 			finalQuery.put("clientXid.$id",clientId);

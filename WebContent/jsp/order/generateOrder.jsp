@@ -155,7 +155,7 @@
 			param = {"fromDate":date[0],"toDate":date[1]};
 			console.log(param);
 			$.ajax({
-			  	url: '${pageContext.request.contextPath}/order.action?op=VIEW_ALL',
+			  	url: '${pageContext.request.contextPath}/order.action?op=VIEW_ALL_INPROGRESS',
 			  	type: 'POST',
 			  	data: param
 			  })

@@ -75,7 +75,8 @@ public class Constants {
 		VIEW_PENDING_PARTS, 
 		SAVE_ORDER_UPDATE, 
 		SAVE_STATUS_UPDATE,
-		VIEW_COMPLETED_ORDER;
+		VIEW_COMPLETED_ORDER, 
+		VIEW_ALL_INPROGRESS;
 		// @formatter:on
 	}
 

@@ -16,10 +16,6 @@ public interface OrderDao {
 	public Boolean delete(String _id);
 
 	public Order get(String _id);
-
-	public Set<Order> getAll();	
-	
-	public Set<Order> getAll(Date fromDate, Date toDate);	
 	
 	public Set<Order> getAllByOperation(Date fromDate, Date toDate, String operation);
 	
@@ -30,4 +26,8 @@ public interface OrderDao {
 	public List<Order> getCompletedOrderInfoByClient(String clientId);
 	
 	public List<Order> getCompletedOrderInfoByPlatform(String platformNumber);
+
+	Set<Order> getAll(String[] status);
+
+	Set<Order> getAll(String[] status, Date fromDate, Date toDate);
 }

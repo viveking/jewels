@@ -5,9 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.apache.log4j.Logger;
-
 import com.affixus.dao.OrderDao;
 import com.affixus.pojo.Order;
 import com.affixus.util.CommonUtil;
@@ -15,6 +13,7 @@ import com.affixus.util.Constants;
 import com.affixus.util.Constants.DBCollectionEnum;
 import com.affixus.util.MongoUtil;
 import com.mongodb.AggregationOutput;
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -75,8 +74,6 @@ public class MongoOrderDaoImpl implements OrderDao {
 		}
 		return false;
 	}
-
-	
 	
 	@Override
 	public Boolean delete(String _id) {
@@ -110,11 +107,21 @@ public class MongoOrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public Set<Order> getAll() {
+	public Set<Order> getAll(String status[]) {
 		
 		try{
 			DBCollection collection = mongoDB.getCollection( collOrder );
 			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
+			
+			if(status != null || status.length > 0){
+				
+				BasicDBList orQuery = new BasicDBList();
+				for(String stat : status){
+					orQuery.add(stat);
+				}
+				finalQuery.put("status",new BasicDBObject("$in", orQuery));
+			}
+			
 			DBCursor dbCursor = collection.find( finalQuery);
 			
 			Set<Order> orderList = new HashSet<>();
@@ -142,10 +149,20 @@ public class MongoOrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public Set<Order> getAll(Date fromDate, Date toDate) {
+	public Set<Order> getAll(String status[], Date fromDate, Date toDate) {
 		try{
 			DBCollection collection = mongoDB.getCollection( collOrder );
 			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
+
+			if(status != null || status.length > 0){
+				
+				BasicDBList orQuery = new BasicDBList();
+				for(String stat : status){
+					orQuery.add(stat);
+				}
+				finalQuery.put("status",new BasicDBObject("$in", orQuery));
+			}
+			
 			if(null != fromDate && null != toDate){
 				finalQuery.put("orderDate", new BasicDBObject("$gte",fromDate.getTime()).append("$lte", toDate.getTime()));
 			}

@@ -65,7 +65,7 @@
 					height: 366,
 					colNames:['id','ClientId','Name','Address', 'City', 'Limit','Credit Period','VAT','CST','PAN',
 					          'Mobile 1','Mobile 2','Email 1','Email 2','Voucher Type','Invoice Type',
-					          'Invoice Percentage','Invision HR','Rubber Mould','Viper 25','Viper 50',
+					          'Invoice %age','Invision HR','Rubber Mould','Viper 25','Viper 50',
 					          'Auto Approval','Send Invoice SMS','Active',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},

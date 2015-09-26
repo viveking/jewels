@@ -149,12 +149,13 @@ public class PlatformAction extends HttpServlet {
 				
 				ObjectMapper mapper = new ObjectMapper();
 				JsonNode jn = mapper.readTree(jsonPlatform);
+				String platformNumber = null;
 				for (JsonNode jsonNode : jn) {
 					
 					String clientId = jsonNode.get("client").asText();
 					//String selectCAM = jsonNode.get("cam.required").asText();
 					String partName = jsonNode.get("part").asText();
-					String platformNumber = jsonNode.get("platform").asText();
+					platformNumber = jsonNode.get("platform").asText();
 					String weight = jsonNode.get("partWeight").asText();
 					//String refWeight = jsonNode.get("supportWeight").asText();
 					String status = jsonNode.get("partStatus").asText();
@@ -168,6 +169,8 @@ public class PlatformAction extends HttpServlet {
 					
 					platformService.updateParts(clientId, partName, part);
 				}
+				if(platformNumber!=null)
+					platformService.checkPlatformCompletion(platformNumber);
 				//platformService.updateCAMAmountByNewWeights(orderIdList);
 				break;
 			case SAVE_ORDER_UPDATE:

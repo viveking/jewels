@@ -52,8 +52,8 @@ public class OrderService {
 		return orderDao.update(ord);
 	}
 
-	public Set<String> getOrderInfoByClient(String clientId) {
-		return orderDao.getOrderInfoByClient(clientId);	
+	public Set<String> getOrderInfoByClient(String clientId, Date from, Date to) {
+		return orderDao.getOrderInfoByClient(clientId,from,to);	
 	}
 	
 	public Set<String> getOrderInfoByPlatform(String platformNumber) {

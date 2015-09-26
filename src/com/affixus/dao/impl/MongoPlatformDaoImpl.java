@@ -139,6 +139,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 
 				collection = mongoDB.getCollection(DBCollectionEnum.MAST_PLATFORM.toString());
 				DBObject platformObj = new BasicDBObject("platformNumber",part.getPlatformNumber());
+				platformObj.put("status",Constants.PartsStatus.INPROGRESS.toString());
 				DBCursor dbCursor1 = collection.find(platformObj);
 
 				if (dbCursor1.hasNext()) {
@@ -184,22 +185,6 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 							updateQuery = new BasicDBObject("$set",setQuery);
 							
 							collection.update(new BasicDBObject("_id", orderId), updateQuery);
-						}
-						
-						//Check for Platform Parts Complete.
-						getQuery = new BasicDBObject();
-						getQuery.put("partList.platformNumber", part.getPlatformNumber());
-						getQuery.put("partList.status",Constants.PartsStatus.INPROGRESS.toString());
-						
-						findResult = collection.find(getQuery);
-						
-						if(!findResult.hasNext()){
-							setQuery = new BasicDBObject();
-							setQuery.put("status", Constants.PartsStatus.COMPLETED.toString());
-							updateQuery = new BasicDBObject("$set",setQuery);
-							
-							collection = mongoDB.getCollection(DBCollectionEnum.MAST_PLATFORM.toString());
-							collection.update(new BasicDBObject("_id", platformObj.get("_id")), updateQuery);
 						}
 						
 						Set<String> orderIdList = new HashSet<String>();
@@ -291,5 +276,27 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 		//List<RateRange> rateRange = rate.getRateRangeList();
 		amount = rate.getPrice(weight);
 		return amount;
+	}
+
+	@Override
+	public void checkPlatformCompletion(String pfName) {
+		DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
+		
+		//Check for Platform Parts Complete.
+		DBObject getQuery = new BasicDBObject();
+		getQuery.put("partList.platformNumber", pfName);
+		getQuery.put("partList.status",Constants.PartsStatus.INPROGRESS.toString());
+		
+		DBCursor findResult = collection.find(getQuery);
+		
+		if(!findResult.hasNext()){
+			DBObject setQuery = new BasicDBObject();
+			setQuery.put("status", Constants.PartsStatus.COMPLETED.toString());
+			DBObject updateQuery = new BasicDBObject("$set",setQuery);
+			
+			collection = mongoDB.getCollection(DBCollectionEnum.MAST_PLATFORM.toString());
+			collection.update(new BasicDBObject("platformNumber", pfName).append("status", Constants.PartsStatus.INPROGRESS.toString()), updateQuery);
+		}
+		
 	}
 }

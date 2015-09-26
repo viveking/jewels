@@ -232,61 +232,56 @@ public class MongoOrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public Set<String> getOrderInfoByClient(String clientId) {
+	public Set<String> getOrderInfoByClient(String clientId, Date fromDate, Date toDate) {
 		try{
-			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.MAST_CLIENT.toString());
-			//DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
-			DBObject clientObj = new BasicDBObject("clientId",clientId);
-			DBCursor dbCursor = collection.find(clientObj);
-			
-			if(dbCursor.hasNext()){
+			List<BasicDBObject> queryList = new ArrayList<>();
+			DBCollection collection = null;
+			if(clientId != null){
 				
-				clientObj = dbCursor.next();
-				clientId = (String) clientObj.get("_id");
-				List<BasicDBObject> queryList = new ArrayList<>();
+				collection = mongoDB.getCollection(DBCollectionEnum.MAST_CLIENT.toString());
 				
-
-				queryList.add(new BasicDBObject("status",Constants.PartsStatus.INPROGRESS.toString()));
-				queryList.add(new BasicDBObject("clientXid.$id",clientId));
-				//queryList.add(new BasicDBObject("partList.status",ew BasicDBObject("$ne",Constants.PartsStatus.COMPLETE.toString())));
+				//DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
+				DBObject clientObj = new BasicDBObject("clientId",clientId);
+				DBCursor dbCursor = collection.find(clientObj);
 				
-				DBObject anding = new BasicDBObject("$and",queryList);
-				
-				DBObject match = new BasicDBObject("$match", anding);
-				DBObject unwind = new BasicDBObject("$unwind", "$partList");
-				
-				/*
-				List<BasicDBObject> andingForMatch2 = new ArrayList<>();
-				andingForMatch2.add(new BasicDBObject("partList.status",new BasicDBObject("$ne",Constants.PartsStatus.COMPLETE.toString())));
-				andingForMatch2.add(new BasicDBObject("partList.platformNumber", platformNumber));
-				
-				DBObject match2 = new BasicDBObject("$match",new BasicDBObject("$and",andingForMatch2));
-				*/
-				
-				/*DBObject match2 = new BasicDBObject("$match",new BasicDBObject("partList.status",
-						new BasicDBObject("$ne",Constants.PartsStatus.COMPLETED.toString())));*/
-				
-				DBObject match2 = new BasicDBObject("$match",new BasicDBObject("partList.status",Constants.PartsStatus.INPROGRESS.toString()));
-				
-				
-				collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
-				AggregationOutput aggregationOutput = collection.aggregate(match, unwind,match2);
-				
-				Set<String> orderList = new HashSet<>();
-				for (DBObject orderObj : aggregationOutput.results()) {
-					//DBObject orderObj = dbCursor1.next();
-					DBObject clientDBO = ((DBRef) orderObj.get(KEY_CLIENT_XID)).fetch();
+				if(dbCursor.hasNext()){
 					
-					orderObj.put("orderDateStr", CommonUtil.longToStringDate((Long)orderObj.get("orderDate"), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
-					orderObj.put(KEY_CLIENT, clientDBO);
-					orderObj.removeField(KEY_CLIENT_XID);
-					
-					String jsonString = JSON.serialize(orderObj);
-					//Order oredr = (Order) CommonUtil.jsonToObject( jsonString, Order.class.getName() );
-					orderList.add(jsonString);
-				}				
-				return orderList;
+					clientObj = dbCursor.next();
+					clientId = (String) clientObj.get("_id");
+					queryList.add(new BasicDBObject("clientXid.$id",clientId));
+				}
 			}
+			if(null != fromDate && null != toDate){
+				queryList.add(new BasicDBObject("orderDate", new BasicDBObject("$gte",fromDate.getTime()).append("$lte", toDate.getTime())));
+			}
+			
+				
+			queryList.add(new BasicDBObject("status",Constants.PartsStatus.INPROGRESS.toString()));
+			
+			DBObject anding = new BasicDBObject("$and",queryList);
+			
+			DBObject match = new BasicDBObject("$match", anding);
+			DBObject unwind = new BasicDBObject("$unwind", "$partList");
+			
+			DBObject match2 = new BasicDBObject("$match",new BasicDBObject("partList.status",Constants.PartsStatus.INPROGRESS.toString()));
+			
+			collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
+			AggregationOutput aggregationOutput = collection.aggregate(match, unwind,match2);
+			
+			Set<String> orderList = new HashSet<>();
+			for (DBObject orderObj : aggregationOutput.results()) {
+				//DBObject orderObj = dbCursor1.next();
+				DBObject clientDBO = ((DBRef) orderObj.get(KEY_CLIENT_XID)).fetch();
+				
+				orderObj.put("orderDateStr", CommonUtil.longToStringDate((Long)orderObj.get("orderDate"), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
+				orderObj.put(KEY_CLIENT, clientDBO);
+				orderObj.removeField(KEY_CLIENT_XID);
+				
+				String jsonString = JSON.serialize(orderObj);
+				//Order oredr = (Order) CommonUtil.jsonToObject( jsonString, Order.class.getName() );
+				orderList.add(jsonString);
+			}				
+			return orderList;
 		}
 		catch( Exception exception ){
 			exception.printStackTrace();

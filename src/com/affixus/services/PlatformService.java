@@ -53,4 +53,8 @@ public class PlatformService {
 	public List<String> getAllPlatformByStatus(String status){
 		return platformDao.getAllPlatformByStatus(status);
 	}
+
+	public void checkPlatformCompletion(String pfName) {
+		 platformDao.checkPlatformCompletion(pfName);
+	}
 }

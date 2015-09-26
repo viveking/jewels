@@ -155,10 +155,10 @@
 				{name:'_id',index:'_id', width:150,editable: false},
 				{name:'client.clientId',index:'client.clientId', width:150,editable: false},
 				{name:'cam.weight',index:'cam.weight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:70,editable: false},
-				{name:'cam.amount',index:'cam.amount',formatter:'number',formatoptions:{decimalPlaces: 4}, width:70,editable: false},
-				{name:'cad.amount',index:'cad.amount',formatter:'number',formatoptions:{decimalPlaces: 4}, width: 70,editable: false},
-				{name:'rm.amount',index:'rm.amount',formatter:'number',formatoptions:{decimalPlaces: 4}, width: 70,editable: false },
-				{name:'cast.amount',index:'cast.amount',formatter:'number',formatoptions:{decimalPlaces: 4}, width: 70,editable: false }
+				{name:'cam.amount',index:'cam.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width:70,editable: false},
+				{name:'cad.amount',index:'cad.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width: 70,editable: false},
+				{name:'rm.amount',index:'rm.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width: 70,editable: false },
+				{name:'cast.amount',index:'cast.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width: 70,editable: false }
 			],
 			hiddengrid: false,
 			viewrecords : true,

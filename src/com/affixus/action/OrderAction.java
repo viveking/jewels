@@ -26,6 +26,7 @@ import com.affixus.pojo.Part;
 import com.affixus.pojo.Process;
 import com.affixus.services.ClientService;
 import com.affixus.services.OrderService;
+import com.affixus.services.PlatformService;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
 import com.affixus.util.Constants.PartsStatus;
@@ -38,6 +39,7 @@ public class OrderAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(OrderAction.class);
 	private OrderService orderService = null;
+	private PlatformService platformService = null;
 	private ClientService clientService = null;
 	
 	@Override
@@ -50,6 +52,10 @@ public class OrderAction extends HttpServlet {
 		object = ObjectFactory.getInstance(ObjectEnum.CLIENT_SERVICE);
 		if (object instanceof ClientService ) {
 			clientService = (ClientService) object;
+		}
+		object = ObjectFactory.getInstance(ObjectEnum.PLATFORM_SERVICE);
+		if (object instanceof PlatformService) {
+			platformService = (PlatformService) object;
 		}
 	}
 	/**
@@ -210,7 +216,7 @@ public class OrderAction extends HttpServlet {
 					json=CommonUtil.objectToJson(orderList);
 				}
 				break;
-			case VIEW_PENDING_PARTS:
+			/*case VIEW_PENDING_PARTS://Depricated
 				
 				String sBy= request.getParameter("sBy");//Search By
 				String value = request.getParameter("value");
@@ -233,10 +239,39 @@ public class OrderAction extends HttpServlet {
 				
 				json+="]";
 				
+				break;*/
+			case VIEW_INCOMPLETE_ORDER:
+				
+				fromDate = request.getParameter("fromDate");
+				toDate = request.getParameter("toDate");
+				
+				Set<String> outputSet = null;
+				if(fromDate!= null && null != toDate){
+					Date from = CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+					Date to = CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+					Set<Order> orderList = orderService.getAll(new String[]{PartsStatus.INPROGRESS.toString()},from,to);
+					outputSet = orderService.getOrderInfoByClient(null,from,to);
+				}else{
+					Set<Order> orderList = orderService.getAll(new String[]{PartsStatus.INPROGRESS.toString()});
+					outputSet = orderService.getOrderInfoByClient(null,null,null);
+				}
+				json="[";
+				boolean fst = true;
+				for(String pp : outputSet){
+					if(fst){
+						json+=pp;
+						fst=false;
+					}else{
+						json+=","+pp;
+					}
+				}
+				
+				json+="]";
+				
 				break;
 			case VIEW_COMPLETED_ORDER:
-				sBy= request.getParameter("sBy");//Search By
-				value = request.getParameter("value");
+				String sBy= request.getParameter("sBy");//Search By
+				String value = request.getParameter("value");
 				List<Order> outputList = null;
 				if(sBy != null && sBy.equalsIgnoreCase("client")){
 					outputList = orderService.getCompletedOrderInfoByClient(value);
@@ -244,6 +279,43 @@ public class OrderAction extends HttpServlet {
 					outputList = orderService.getCompletedOrderInfoByPlatform(value);
 				}
 				json= CommonUtil.objectToJson(outputList);
+				break;
+			case SAVE_PARTS_UPDATE:
+				
+				String orderParts = request.getParameter("order");
+				if( orderParts == null || orderParts.trim().isEmpty()){
+					break;
+				}
+				
+				mapper = new ObjectMapper();
+				jn = mapper.readTree(orderParts);
+				Set<String> orderIdList = new HashSet<>();
+				
+				for (JsonNode jsonNode : jn) {
+					
+					String clientId = jsonNode.get("client.clientId").asText();
+					String partName = jsonNode.get("partList.name").asText();
+					String platFormNumber = jsonNode.get("partList.platformNumber").asText();
+					String weight = jsonNode.get("partList.weight").asText();
+					//String refWeight = jsonNode.get("partList").get("refWeight").asText();
+					String status = jsonNode.get("partList.status").asText();
+					String orderId = jsonNode.get("_id").asText();
+					if(!status.equalsIgnoreCase(Constants.PartsStatus.INPROGRESS.toString())){
+						orderIdList.add(orderId);
+	
+						Part part = new Part();
+						part.setName(partName);
+						part.setPlatformNumber(platFormNumber);
+						part.setWeight(Float.parseFloat(weight));
+						//part.setRefWeight(Float.parseFloat(refWeight));
+						part.setStatus(status);
+						
+						platformService.updateParts(clientId, partName, part);
+					}
+				}
+				
+				platformService.updateCAMAmountByNewWeights(orderIdList);
+				
 				break;
 			default:
 				break;

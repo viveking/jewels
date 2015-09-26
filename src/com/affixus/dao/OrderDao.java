@@ -19,8 +19,6 @@ public interface OrderDao {
 	
 	public Set<Order> getAllByOperation(Date fromDate, Date toDate, String operation);
 	
-	public Set<String> getOrderInfoByClient(String clientId);
-	
 	public Set<String> getOrderInfoByPlatform(String platformNumber);
 	
 	public List<Order> getCompletedOrderInfoByClient(String clientId);
@@ -30,4 +28,6 @@ public interface OrderDao {
 	Set<Order> getAll(String[] status);
 
 	Set<Order> getAll(String[] status, Date fromDate, Date toDate);
+
+	Set<String> getOrderInfoByClient(String clientId, Date from, Date to);
 }

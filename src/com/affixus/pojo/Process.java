@@ -17,13 +17,13 @@ public class Process implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private boolean required;
-	private double amount;
-	private double weight;
+	private Double amount;
+	private Double weight;
 	
 	public double getAmount() {
 		return amount;
 	}
-	public void setAmount(float amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 
@@ -39,7 +39,7 @@ public class Process implements Serializable {
 		return weight;
 	}
 
-	public void setWeight(double weight) {
+	public void setWeight(Double weight) {
 		this.weight = weight;
 	}
 

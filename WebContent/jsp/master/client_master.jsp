@@ -43,13 +43,14 @@
 				//var PT_ZNone = <%= MongoAttributeList.getRateListByPrinter("zNONE")%>;
 				var PT_rubberMould = <%= MongoAttributeList.getRateListByPrinter("rubberMOULD")%>;
 				
-				var invType = {"0":"Select Inv. Type","1":"CST Invoice","2":"Estimate Sales","3":"Tax Invoice"};
+				var invType = {"0":"Select Inv. Type","1":"CST Invoice","2":"Estimate Sales","3":"Tax Invoice","4":"Delivery Chalan"};
 				var percent = {"CST0%":"CST @ 0%","CST1%":"CST @ 1%","CST2%":"CST @ 2%","CST4%":"CST @ 4%","ES0%":"Estimate Sales @ 0%","ES1%":"Estimate Sales @ 1%","TI0%":"Tax Invoice @ 0%","TI1%":"Tax Invoice @ 1%","TI12.5%":"Tax Invoice @ 12.5%"};
 				var cstPercent = {"CST0%":"CST @ 0%","CST1%":"CST @ 1%","CST2%":"CST @ 2%","CST4%":"CST @ 4%"};
-				var estSalesPercent = {"ES0%":"Estimate Sales @ 0%","ES1%":"Estimate Sales @ 1%"};
+				var estSalesPercent = {"ES0%":"Estimate Sales @ 0%"};
 				var tiPercent = {"TI0%":"Tax Invoice @ 0%","TI1%":"Tax Invoice @ 1%","TI12.5%":"Tax Invoice @ 12.5%"};
+				var dcPercent = {"TI12.5%":"Tax Invoice @ 12.5%"};
 				
-				var invTypePercent = {"0":{},"1":cstPercent,"2":estSalesPercent,"3":tiPercent};
+				var invTypePercent = {"0":{},"1":cstPercent,"2":estSalesPercent,"3":tiPercent,"4":dcPercent};
 				
 				var resetPercentValues = function () {
                     // set 'value' property of the editoptions to initial state

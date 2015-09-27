@@ -93,9 +93,9 @@ $(document).ready(function(){
         	format: 'DD-MM-YYYY',
         	separator: ' to '
         	}).prev().on(ace.click_event, function(){
-			$(this).next().focus();
-		});
-        
+				$(this).next().focus();
+			});
+      
         $(".chosen-select").chosen();
         
         $(".chosen-select").chosen().change(function() {
@@ -119,7 +119,7 @@ $(document).ready(function(){
 		jQuery(order_grid_selector).jqGrid({
 			data: grid_data,
 			datatype: "local",
-			height: 320,
+			height: "auto",
 			colNames:['Client ID','Order ID','Order Name','Platform','Part','Weight (KG)','Status'],
 			colModel:[
 				{name:'client.clientId',index:'client.clientId', width:150,editable: false},

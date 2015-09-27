@@ -65,7 +65,7 @@
 	</div>
 	<div class="row invoiceContainer" style="margin-top: 10px;">
 		
-		<div class="col-xs-12 text-center" style="border: 1px solid black">
+		<div class="col-xs-12 text-center" id="invoiceName" style="border: 1px solid black">
 			<b>TAX INVOICE</b>
 		</div>
 		
@@ -74,20 +74,20 @@
 			<div class="col-xs-4" style="border-right: 1px solid black;">
 				<span id="idaddress"></span>
 			</div>
-			<div class="col-xs-4" style="border-right: 1px solid black; height: 124px">
+			<div class="col-xs-3" style="border-right: 1px solid black; height: 124px">
 				<p>
 					Inv No: <span id="idinvoiceNumber"></span><br/>
 					Inv Date: <span id="idinvoiceCreationDateStr"></span>
 				</p>
 			</div>
-			<div class="col-xs-4" >
+			<div class="col-xs-5" >
 				<p><strong><span id="idclientname"></span></strong><br/>
 				<span id="idclientaddress"></span></p>
 			</div>
 		</div>
 		
 		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;">
-			<div class="" style="width:50px;float:left; border-right: 1px solid black;">
+			<div class="col-xs-1" style="border-right: 1px solid black;">
 				Sr.No.
 			</div>
 			<div class="col-xs-4" style="border-right: 1px solid black; ">
@@ -111,7 +111,7 @@
 			<div class="col-xs-1" style="border-right: 1px solid black; color:white; background-color: gray;">
 				CAST
 			</div>
-			<div class="">
+			<div class="col-xs-1">
 				Total
 			</div>
 		</div>
@@ -264,13 +264,29 @@
 			  		$("#idaddress").html(dataFromServer["address"]);
 			  		$("#iddisclaimer").html(dataFromServer["disclaimer"]);
 			  		$("#idgross").html(Number(dataFromServer["gross"]).toFixed(2));
-			  		$("#idinvoiceTaxOption").html(dataFromServer["invoice"]["invoiceTaxOption"]);
+			  		
 			  		$("#idtaxAmount").html(Number(dataFromServer["taxAmount"]).toFixed(2));
 			  		$("#idgrandTotal").html(Number(dataFromServer["grandTotal"]).toFixed(2));
 			  		$("#idgrandTotal1").html(Number(dataFromServer["grandTotal"]).toFixed(2));
 			  		$("#idclientname").html(dataFromServer["invoice"]["client"]["name"]);
 			  		$("#idclientaddress").html(dataFromServer["invoice"]["client"]["address"]);
+
+			  		var invoiceNumber = "";
+			  		var invoiceName = "";
 			  		
+			  		if(dataFromServer["invoice"]["invoiceNumber"].indexOf("TI") !== -1){
+			  			invoiceNumber = dataFromServer["invoice"]["invoiceNumber"].replace("TI","Tax @ ");
+			  			invoiceName = "<b>TAX INVOICE</b>";
+			  		} else if(dataFromServer["invoice"]["invoiceNumber"].indexOf("CST") !== -1 ){
+			  			invoiceNumber = dataFromServer["invoice"]["invoiceNumber"].replace("CST","Sales @ ");
+			  			invoiceName = "<b>CST INVOICE</b>";
+			  		} else if(dataFromServer["invoice"]["invoiceNumber"].indexOf("ES") !== -1 ){
+			  			invoiceNumber = dataFromServer["invoice"]["invoiceNumber"].replace("ES","EST @ ");
+			  			nvoiceName = "<b>ES INVOICE</b>";
+			  		}
+			  		
+			  		$("#invoiceName").html(invoiceName);
+			  		$("#idinvoiceTaxOption").html(invoiceNumber);
 			  		$("#idinvoiceNumber").html(dataFromServer["invoice"]["invoiceNumber"]);
 			  		$("#idinvoiceCreationDateStr").html(dataFromServer["invoice"]["invoiceCreationDateStr"]);
 			  		
@@ -282,16 +298,23 @@
 			  		
 			  		var ordHtml='';
 			  		$.each(dataFromServer["invoice"]["orderList"],function(ind,valOrd){
+			  			var camWeight = (valOrd['cam']['weight'] !== "" && valOrd['cam']['weight'] !== undefined) ? Number(1000*valOrd['cam']['weight']).toFixed(2) : "";
+			  			var rmWeight  = (valOrd['rm']['weight'] !== "" && valOrd['rm']['weight'] !== undefined) ? Number(1000*valOrd['rm']['weight']).toFixed(0) : "" ;
+			  			var camAmount  = (valOrd['cam']['amount'] !== "" && valOrd['cam']['amount'] !== undefined) ? Number(valOrd['cam']['amount']).toFixed(0) : "" ;
+			  			var rmAmount  = (valOrd['rm']['amount'] !== "" && valOrd['rm']['amount'] !== undefined) ? Number(valOrd['rm']['amount']).toFixed(0) : "" ;
+			  			var cadAmount  = (valOrd['cad']['amount'] !== "" && valOrd['cad']['amount'] !== undefined) ? Number(valOrd['cad']['amount']).toFixed(0) : "" ;
+			  			var castAmount  = (valOrd['cast']['amount'] !== "" && valOrd['cast']['amount'] !== undefined) ? Number(valOrd['cast']['amount']).toFixed(0) : "" ;
+			  			
 			  			ordHtml+="<div class='col-xs-12' style='border: 1px solid black; border-top:0px;'><small> \
-							<div class='' style='float:left; width:50px; border-right: 1px solid black;'> "+ (ind+1) +" </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ (ind+1) +" </div> \
 							<div class='col-xs-4' style='border-right: 1px solid black;'> "+ valOrd['orderName']+"_"+valOrd['_id'] +" </div> \
-							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ Number(valOrd['cam']['weight']).toFixed(4) +" </div> \
-							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ Number(valOrd['rm']['weight']).toFixed(4) +" </div> \
-							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ Number(valOrd['cam']['amount']).toFixed(2) + " </div> \
-							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ Number(valOrd['rm']['amount']).toFixed(2) +" </div> \
-							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ Number(valOrd['cad']['amount']).toFixed(2) +" </div> \
-							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ Number(valOrd['cast']['amount']).toFixed(2) +" </div> \
-							<div class='' style='text-align: right; left:10px;'> "+ 
+							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ camWeight +" </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ rmWeight +" </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ camAmount + " </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ rmAmount +" </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ cadAmount +" </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ castAmount +" </div> \
+							<div class='col-xs-1' style='text-align: right; left:10px;'> "+ 
 							Number(eval(valOrd['rm']['amount']+valOrd['cam']['amount']+valOrd['cad']['amount']+valOrd['cast']['amount'])).toFixed(2) +" </div> </small> </div> ";
 			  		});
 

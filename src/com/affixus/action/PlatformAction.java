@@ -193,22 +193,22 @@ public class PlatformAction extends HttpServlet {
 					order.set_id(orderId);
 					
 					Process cadprocess = new Process();
-					cadprocess.setAmount(Float.parseFloat(jsonNode.get("cad").get("amount").asText()));
+					cadprocess.setAmount(Double.parseDouble(jsonNode.get("cad").get("amount").asText()));
 					cadprocess.setRequired(Boolean.parseBoolean(jsonNode.get("cad").get("required").asText()));
 					cadprocess.setWeight(Double.parseDouble(jsonNode.get("cad").get("weight").asText()));
 					
 					Process camprocess = new Process();
-					camprocess.setAmount(Float.parseFloat(jsonNode.get("cam").get("amount").asText()));
+					camprocess.setAmount(Double.parseDouble(jsonNode.get("cam").get("amount").asText()));
 					camprocess.setRequired(Boolean.parseBoolean(jsonNode.get("cam").get("required").asText()));
 					camprocess.setWeight(Double.parseDouble(jsonNode.get("cam").get("weight").asText()));
 					
 					Process castprocess = new Process();
-					castprocess.setAmount(Float.parseFloat(jsonNode.get("cast").get("amount").asText()));
+					castprocess.setAmount(Double.parseDouble(jsonNode.get("cast").get("amount").asText()));
 					castprocess.setRequired(Boolean.parseBoolean(jsonNode.get("cast").get("required").asText()));
 					castprocess.setWeight(Double.parseDouble(jsonNode.get("cast").get("weight").asText()));
 					
 					Process rmprocess = new Process();
-					rmprocess.setAmount(Float.parseFloat(jsonNode.get("rm").get("amount").asText()));
+					rmprocess.setAmount(Double.parseDouble(jsonNode.get("rm").get("amount").asText()));
 					rmprocess.setRequired(Boolean.parseBoolean(jsonNode.get("rm").get("required").asText()));
 					rmprocess.setWeight(Double.parseDouble(jsonNode.get("rm").get("weight").asText()));
 					

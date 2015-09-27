@@ -17,8 +17,8 @@ public class Process implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private boolean required;
-	private Double amount;
-	private Double weight;
+	private double amount;
+	private double weight;
 	
 	public double getAmount() {
 		return amount;

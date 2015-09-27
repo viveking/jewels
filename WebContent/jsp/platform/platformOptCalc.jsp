@@ -54,7 +54,7 @@
 			<!-- PAGE CONTENT BEGINS -->
 
 			<table id="grid-table"></table>
-			<button class="btn btn-md btn-success" id="idSaveOrder">
+			<button style="margin:10px 0 0 0;" class="btn btn-md btn-success" id="idSaveOrder">
 				<i class="icon-ok"></i>
 				Save
 			</button>
@@ -138,7 +138,7 @@
 		        		  jsonObj.part = arrPathSplit[lenPathSplit - 1];
 		        		  jsonObj.client = arrPathSplit[lenPathSplit - 2];
 		        		  jsonObj.platform = arrPathSplit[lenPathSplit - 3];
-		        		  jsonObj.partWeight = arrEachPart[5].split(":")[1].trim();
+		        		  jsonObj.partWeight = Number(arrEachPart[5].split(":")[1].trim())*1000;
 		        		  jsonObj.supportWeight = arrEachPart[6].split(":")[1].trim();
 		          		  jsonObj.partStatus = "COMPLETED";
 		          		  
@@ -174,13 +174,13 @@
 		jQuery(passed_grid_selector).jqGrid({
 			data: grid_data,
 			datatype: "local",
-			height: 320,
-			colNames:['Client ID','Platform','Part','Weight (KG)','Status'],
+			height: "auto",
+			colNames:['Client ID','Platform','Part','Weight (Grams)','Status'],
 			colModel:[
 				{name:'client',index:'client', width:150,editable: false},
 				{name:'platform',index:'platform', width:150, editable: false},
 				{name:'part',index:'part', width:300, editable: false},
-				{name:'partWeight',index:'partWeight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:200, editable: true, classes: 'editCls'},
+				{name:'partWeight',index:'partWeight',formatter:'number',formatoptions:{decimalPlaces: 2}, width:200, editable: true, classes: 'editCls'},
 				{name:'partStatus',index:'partStatus', width:200, editable: true, edittype:"select", editrules:{required:true, edithidden:true},editoptions:{ value:{"INPROGRESS":"INPROGRESS","COMPLETED":"COMPLETED"}},formatter:'select', classes: 'editCls'}
 				/* {name:'supportWeight',index:'supportWeight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:300, editable: true, classes: 'editCls'} */
 			], 

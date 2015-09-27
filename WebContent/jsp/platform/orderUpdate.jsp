@@ -52,7 +52,7 @@
 		<div class="col-xs-12">
 			<!-- PAGE CONTENT BEGINS -->
 
-			<table id="grid-table"></table>
+			<table id="grid-table" style="margin:0 0 10px 0;"></table>
 			<button class="btn btn-md btn-success" id="idSaveParts">
 				<i class="icon-ok"></i>
 				Save
@@ -178,18 +178,18 @@
 		jQuery(passed_grid_selector).jqGrid({
 			data: grid_data,
 			datatype: "local",
-			height: 320,
-			colNames:['Client ID','Platform','Order No','Order Date','Order Name','CAM (KG)','RM (KG)','CAD Amount','CAST Amount'],
+			height: "auto",
+			colNames:['Client ID','Platform','Order No','Order Date','Order Name','CAM (Grams)','RM (Grams)','CAD Amount','CAST Amount'],
 			colModel:[
-				{index:'client',name:'client.clientId', width:150,editable: false},
-				{index:'platform',name:'partList.0.platformNumber', width:150, editable: false},
-				{name:'_id',index:'_id', width:150,editable: false},
-				{name:'orderDateStr',index:'orderDateStr', width:150,editable: false},
-				{index:'orderName',name:'orderName', width:150, editable: false},
-				{index:'cam.weight',name:'cam.weight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:100, editable: true, classes: 'editCls'},
-				{index:'rm.weight',name:'rm.weight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:100, editable: true, classes: 'editCls'},
-				{index:'cad.amount',name:'cad.amount',formatter:'number',formatoptions:{decimalPlaces: 4}, width:100, editable: true, classes: 'editCls'},
-				{index:'cast.amount',name:'cast.amount',formatter:'number',formatoptions:{decimalPlaces: 4}, width:100, editable: true, classes: 'editCls'}
+				{index:'client',name:'client.clientId', width:140,editable: false},
+				{index:'platform',name:'partList.0.platformNumber', width:90, editable: false},
+				{name:'_id',index:'_id', width:90,editable: false},
+				{name:'orderDateStr',index:'orderDateStr', width:100,editable: false},
+				{index:'orderName',name:'orderName', width:165, editable: false},
+				{index:'cam.weight',name:'cam.weight',formatter:'number',formatoptions:{decimalPlaces: 2}, width:100, editable: true, classes: 'editCls'},
+				{index:'rm.weight',name:'rm.weight',formatter:'number',formatoptions:{decimalPlaces: 2}, width:100, editable: true, classes: 'editCls'},
+				{index:'cad.amount',name:'cad.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width:100, editable: true, classes: 'editCls'},
+				{index:'cast.amount',name:'cast.amount',hidden:true, formatter:'number',formatoptions:{decimalPlaces: 2}, width:100, editable: true, classes: 'editCls'}
 			],
 			hiddengrid: false,
 			viewrecords : true,

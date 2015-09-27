@@ -4,6 +4,7 @@
 	.col-xs-1{
 		padding-left:2px;
 	}
+	
 </style>
 <div class="page-header">
 	<button class="btn btn-app btn-yellow btn-xs pull-right" onclick="window.print();">
@@ -86,10 +87,10 @@
 		</div>
 		
 		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;">
-			<div class="col-xs-1" style="border-right: 1px solid black;">
+			<div class="" style="width:50px;float:left; border-right: 1px solid black;">
 				Sr.No.
 			</div>
-			<div class="col-xs-4" style="border-right: 1px solid black;">
+			<div class="col-xs-4" style="border-right: 1px solid black; ">
 				Order No
 			</div>
 			<div class="col-xs-1" style="border-right: 1px solid black;">
@@ -110,7 +111,7 @@
 			<div class="col-xs-1" style="border-right: 1px solid black; color:white; background-color: gray;">
 				CAST
 			</div>
-			<div class="col-xs-1">
+			<div class="">
 				Total
 			</div>
 		</div>
@@ -130,7 +131,7 @@
 				<span id="iddisclaimer" style="font-size: 85%"></span>
 				
 			</div>
-			<div class="col-xs-3" style="outline: 1px solid black;">
+			<div class="col-xs-3" style=" outline: 1px solid black;">
 				Gross:<br/>
 				Discount:<br/>
 				<span id="idinvoiceTaxOption"></span>:<br/>
@@ -139,7 +140,7 @@
 				Other Charges:<br/>
 				Total Amount:<br/><br/>
 			</div>
-			<div class="col-xs-1" style="text-align: right;">
+			<div class="col-xs-1" style="left:10px; top:2px; text-align: right;">
 				<span id="idgross">0.00</span><br/>
 				<span id="iddiscount">0.00</span><br/>
 				<span id="idtaxAmount">0.00</span><br/>
@@ -158,7 +159,7 @@
 			<div class="col-xs-3" style="outline: 1px solid black;">
 				Grand Total:
 			</div>
-			<div class="col-xs-1" style="text-align: right;">
+			<div class="col-xs-1" style="left:10px; text-align: right;">
 				<span id="idgrandTotal"></span>
 			</div>
 			</small>
@@ -282,7 +283,7 @@
 			  		var ordHtml='';
 			  		$.each(dataFromServer["invoice"]["orderList"],function(ind,valOrd){
 			  			ordHtml+="<div class='col-xs-12' style='border: 1px solid black; border-top:0px;'><small> \
-							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ (ind+1) +" </div> \
+							<div class='' style='float:left; width:50px; border-right: 1px solid black;'> "+ (ind+1) +" </div> \
 							<div class='col-xs-4' style='border-right: 1px solid black;'> "+ valOrd['orderName']+"_"+valOrd['_id'] +" </div> \
 							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ Number(valOrd['cam']['weight']).toFixed(4) +" </div> \
 							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ Number(valOrd['rm']['weight']).toFixed(4) +" </div> \
@@ -290,7 +291,7 @@
 							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ Number(valOrd['rm']['amount']).toFixed(2) +" </div> \
 							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ Number(valOrd['cad']['amount']).toFixed(2) +" </div> \
 							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ Number(valOrd['cast']['amount']).toFixed(2) +" </div> \
-							<div class='col-xs-1' style='text-align: right;'> "+ 
+							<div class='' style='text-align: right; left:10px;'> "+ 
 							Number(eval(valOrd['rm']['amount']+valOrd['cam']['amount']+valOrd['cad']['amount']+valOrd['cast']['amount'])).toFixed(2) +" </div> </small> </div> ";
 			  		});
 

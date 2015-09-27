@@ -127,7 +127,7 @@ $(document).ready(function(){
 				{name:'orderName',index:'orderName', width:150,editable: false},
 				{name:'partList.platformNumber',index:'platform', width:150, editable: false},
 				{name:'partList.name',index:'part', width:300, editable: false},
-				{name:'partList.weight',index:'partWeight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:200, editable: true, classes: 'editCls'},
+				{name:'partList.weight',index:'partWeight',formatter:'number',formatoptions:{decimalPlaces: 2}, width:200, editable: true, classes: 'editCls'},
 				{name:'partList.status',index:'partStatus', width:200, editable: true, edittype:"select", editrules:{required:true, edithidden:true},editoptions:{ value:{"INPROGRESS":"INPROGRESS","COMPLETED":"COMPLETED"}},formatter:'select', classes: 'editCls'}
 				/* {name:'supportWeight',index:'supportWeight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:300, editable: true, classes: 'editCls'} */
 			], 
@@ -169,7 +169,7 @@ $(document).ready(function(){
 				  	
 				  	$.each(dataFromServer ,function(ind,val){
 				  		var clientId = val.client.clientId;
-				  			
+				  		//dataFromServer[ind].partList.weight = dataFromServer[ind].partList.weight*1000;	
 				  		if(!clientMap.hasOwnProperty(clientId)){
 							clientMap[clientId] = [];
 					  		$("#idSelectClient").append("<option value="+val.client.clientId+">"+val.client.clientId+"<option>");

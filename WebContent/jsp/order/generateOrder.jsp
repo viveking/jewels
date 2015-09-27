@@ -116,12 +116,12 @@
 			data: grid_data,
 			datatype: "local",
 			gridview: true,
-			height: 320,
+			height: "auto",
 			colNames:['Order Date','Client ID','Order No','Order Name','Select CAM','Select RM','Select CAD','Select CAST'],
 			colModel:[
 				{name:'orderDateStr',index:'orderDateStr', width:150,editable: false},
 				{name:'client.clientId',index:'client.clientId', width:150,editable: false},
-				{name:'_id',index:'_id', width:150,editable: false},
+				{name:'_id',index:'_id', width:130,editable: false},
 				{name:'orderName',index:'orderName', width:150,editable: false},
 				{name:'cam.required',index:'cam.required', width: 70, align: "center",
                     formatter: "checkbox", formatoptions: { disabled: true,defaultValue: "true"},
@@ -132,7 +132,7 @@
 				{name:'cad.required',index:'cad.required', width: 70, align: "center",
                             formatter: "checkbox", formatoptions: { disabled: false},
                             edittype: "checkbox", editoptions: {value: "true:false", defaultValue: "false"}},
-				{name:'cast.required',index:'cast.required', width: 70, align: "center",
+				{name:'cast.required',index:'cast.required', width: 70, align: "center",hidden:true,
                                 formatter: "checkbox", formatoptions: { disabled: false},
                                 edittype: "checkbox", editoptions: {value: "true:false", defaultValue: "false"} }
 			],

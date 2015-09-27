@@ -13,7 +13,7 @@
 
 <div class="form-group">
 
-	<div class="row">
+	<div class="row" style="margin:10px;">
 		<div class="col-xs-4">
 		
 			<label for="idFromToDate">Select Date</label>
@@ -64,7 +64,7 @@
 
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
-		<div  class="col-xs-12">
+		<div  class="col-xs-12" style="margin:10px;">
 			<div class="col-xs-2">
 				<label for="taxInvoiceOptionList">Invoice Tax</label>
 	
@@ -73,7 +73,6 @@
 					<option value="TI0%">Tax Invoice @ 0%</option>
 					<option value="TI1%">Tax Invoice @ 1%</option>
 					<option value="TI12.5%">Tax Invoice @ 12.5%</option>
-					<option value="TI14%">Tax Invoice @ 14%</option>
 				</select>
 			</div>
 			<div class="col-xs-2">
@@ -92,11 +91,11 @@
 				<label for="idOtherCharges">Other Charges</label>
 				<input type="number" id="idOtherCharges" value="0">
 			</div>
-			<div class="col-xs-2" style="padding:0px">
+			<div class="col-xs-2" style="left:5px; margin:15px 0 0 0;padding:0px">
 				<label> </label>
 				<button class="btn btn-md btn-success" id="idSaveOrder">
 					<i class="icon-ok"></i>
-					Generate Invoice
+					Generate
 				</button>
 			</div>
 		</div>
@@ -148,13 +147,13 @@
 			data: grid_data,
 			datatype: "local",
 			gridview: true,
-			height: 320,
+			height: "auto",
 			colNames:['Order Name','Order No','Client Id','CAM (KG)','CAM Charges','CAD Charges','RM Charges','Cast Charges'],
 			colModel:[
 				{name:'orderName',index:'orderName', width:150,editable: false},
-				{name:'_id',index:'_id', width:150,editable: false},
-				{name:'client.clientId',index:'client.clientId', width:150,editable: false},
-				{name:'cam.weight',index:'cam.weight',formatter:'number',formatoptions:{decimalPlaces: 4}, width:70,editable: false},
+				{name:'_id',index:'_id', width:130,editable: false},
+				{name:'client.clientId',index:'client.clientId', width:130,editable: false},
+				{name:'cam.weight',index:'cam.weight',formatter:'number',formatoptions:{decimalPlaces: 2}, width:70,editable: false},
 				{name:'cam.amount',index:'cam.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width:70,editable: false},
 				{name:'cad.amount',index:'cad.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width: 70,editable: false},
 				{name:'rm.amount',index:'rm.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width: 70,editable: false },

@@ -189,6 +189,7 @@ public class PlatformAction extends HttpServlet {
 					String orderId = jsonNode.get("_id").asText();
 					
 					Order order = new Order();
+					orderIdList.add(orderId);
 					//Order order =orderService.get(orderId);
 					order.set_id(orderId);
 					

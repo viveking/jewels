@@ -72,6 +72,7 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 			return true;
 		}catch( Exception exception ){
 			LOG.equals(exception);
+			exception.printStackTrace();
 		}
 		return false;
 	}

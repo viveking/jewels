@@ -376,7 +376,6 @@
 			        loadComplete : function() {
 						var table = this;
 						setTimeout(function(){
-							styleCheckbox(table);
 							updatePagerIcons(table);
 							enableTooltips(table);
 						}, 0);
@@ -452,7 +451,6 @@
 								html: "<i class='icon-save bigger-110'></i>&nbsp; Save",
 								"class" : "btn btn-success btn-xs pull-right",
 								click: function() {
-									debugger;
 									var $this = $(grid_selector_rateList), rows = $(grid_selector_rateList).jqGrid('getRowData'), l = rows.length, i, row;
 								    for (i = 0; i < l; i++) {
 								        row = rows[i];

@@ -66,7 +66,7 @@
 						<i class="icon-double-angle-right"></i> New Order
 				</a></li>
 				
-				<li><a href="#" data-href="/jsp/order/generateOrder.jsp">
+				<li id="liOrderGeneration"><a href="#" data-href="/jsp/order/generateOrder.jsp">
 						<i class="icon-double-angle-right"></i> Order Generation
 				</a></li>
 <!-- 

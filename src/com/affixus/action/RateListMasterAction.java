@@ -105,8 +105,18 @@ public class RateListMasterAction extends HttpServlet {
 					RateRange rl = new RateRange();
 					rl.setFrom(from);
 					rl.setTo(to);
-					rl.setRate(Double.parseDouble(rateValue));
-					rl.setMinAmount(Double.parseDouble(minAmount));
+					
+					if("".equals(rateValue)){
+						rl.setRate(0.0);
+					} else{
+						rl.setRate(Double.parseDouble(rateValue));
+					}
+					if("".equals(minAmount)){
+						rl.setMinAmount(0.0);
+					} else{
+						rl.setMinAmount(Double.parseDouble(minAmount));
+					}
+					
 					
 					rateRangeList.add(rl);
 				}

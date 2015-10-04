@@ -105,7 +105,9 @@
 		  });
 		  
 		
-		
+		$("#navigateOG").click(function(){
+			$("#liOrderGeneration a").click();
+		});
 		$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
 			$(this).prev().focus();
 		});
@@ -139,7 +141,7 @@
 		        	  var arrPathSplit = arrFiles[i].split("\\");
 		        	  var jsonObj = {};
 		        	  var lenPathSplit = arrPathSplit.length;
-		        	  debugger;
+		        	  
 		        	  if(arrPathSplit[lenPathSplit - 1].indexOf(".stl;") !== -1 ){
 			        	  jsonObj.fileName = arrPathSplit[lenPathSplit - 1].replace(/;/g,'');
 			        	  jsonObj.clientOrderName = arrPathSplit[lenPathSplit - 2];

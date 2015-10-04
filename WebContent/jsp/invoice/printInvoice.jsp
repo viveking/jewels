@@ -71,10 +71,10 @@
 		
 		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;">
 		
-			<div class="col-xs-4" style="border-right: 1px solid black;">
+			<div class="col-xs-5" style="border-right: 1px solid black;">
 				<span id="idaddress"></span>
 			</div>
-			<div class="col-xs-3" style="border-right: 1px solid black; height: 124px">
+			<div class="col-xs-2" style="border-right: 1px solid black; height: 124px">
 				<p>
 					Inv No: <span id="idinvoiceNumber"></span><br/>
 					Inv Date: <span id="idinvoiceCreationDateStr"></span>
@@ -271,24 +271,24 @@
 			  		$("#idgrandTotal").html(Number(dataFromServer["grandTotal"]).toFixed(2));
 			  		$("#idgrandTotal1").html(Number(dataFromServer["grandTotal"]).toFixed(2));
 			  		$("#idclientname").html(dataFromServer["invoice"]["client"]["name"]);
-			  		$("#idclientaddress").html(dataFromServer["invoice"]["client"]["address"]);
+			  		$("#idclientaddress").html(dataFromServer["invoice"]["client"]["address"] +", " + dataFromServer["invoice"]["client"]["city"]);
 
-			  		var invoiceNumber = "";
+			  		var invoiceTaxOption = "";
 			  		var invoiceName = "";
 			  		
-			  		if(dataFromServer["invoice"]["invoiceNumber"].indexOf("TI") !== -1){
-			  			invoiceNumber = dataFromServer["invoice"]["invoiceNumber"].replace("TI","Tax @ ");
+			  		if(dataFromServer["invoice"]["invoiceTaxOption"].indexOf("TI") !== -1){
+			  			invoiceTaxOption = dataFromServer["invoice"]["invoiceTaxOption"].replace("TI","Tax @ ");
 			  			invoiceName = "<b>TAX INVOICE</b>";
-			  		} else if(dataFromServer["invoice"]["invoiceNumber"].indexOf("CST") !== -1 ){
-			  			invoiceNumber = dataFromServer["invoice"]["invoiceNumber"].replace("CST","Sales @ ");
+			  		} else if(dataFromServer["invoice"]["invoiceTaxOption"].indexOf("CST") !== -1 ){
+			  			invoiceTaxOption = dataFromServer["invoice"]["invoiceTaxOption"].replace("CST","Sales @ ");
 			  			invoiceName = "<b>CST INVOICE</b>";
-			  		} else if(dataFromServer["invoice"]["invoiceNumber"].indexOf("ES") !== -1 ){
-			  			invoiceNumber = dataFromServer["invoice"]["invoiceNumber"].replace("ES","EST @ ");
+			  		} else if(dataFromServer["invoice"]["invoiceTaxOption"].indexOf("ES") !== -1 ){
+			  			invoiceTaxOption = dataFromServer["invoice"]["invoiceTaxOption"].replace("ES","EST @ ");
 			  			nvoiceName = "<b>ES INVOICE</b>";
 			  		}
 			  		
 			  		$("#invoiceName").html(invoiceName);
-			  		$("#idinvoiceTaxOption").html(invoiceNumber);
+			  		$("#idinvoiceTaxOption").html(invoiceTaxOption);
 			  		$("#idinvoiceNumber").html(dataFromServer["invoice"]["invoiceNumber"]);
 			  		$("#idinvoiceCreationDateStr").html(dataFromServer["invoice"]["invoiceCreationDateStr"]);
 			  		
@@ -307,8 +307,8 @@
 			  		
 			  		var ordHtml='';
 			  		$.each(dataFromServer["invoice"]["orderList"],function(ind,valOrd){
-			  			var camWeight = (valOrd['cam']['weight'] !== "" && valOrd['cam']['weight'] !== undefined && valOrd['cam']['weight'] !== 0) ? (Number(valOrd['cam']['weight']*1000).toFixed(2)) : "&nbsp;";
-			  			var rmWeight  = (valOrd['rm']['weight'] !== "" && valOrd['rm']['weight'] !== undefined && valOrd['rm']['weight'] !== 0) ? (Number(valOrd['rm']['weight'])*1000).toFixed(0) : "&nbsp;" ;
+			  			var camWeight = (valOrd['cam']['weight'] !== "" && valOrd['cam']['weight'] !== undefined && valOrd['cam']['weight'] !== 0) ? Number(valOrd['cam']['weight']).toFixed(2) : "&nbsp;";
+			  			var rmWeight  = (valOrd['rm']['weight'] !== "" && valOrd['rm']['weight'] !== undefined && valOrd['rm']['weight'] !== 0) ? Number(valOrd['rm']['weight']).toFixed(2) : "&nbsp;" ;
 			  			var camAmount  = (valOrd['cam']['amount'] !== "" && valOrd['cam']['amount'] !== undefined && valOrd['cam']['amount'] !== 0) ? Number(valOrd['cam']['amount']).toFixed(0) : "&nbsp;" ;
 			  			var rmAmount  = (valOrd['rm']['amount'] !== "" && valOrd['rm']['amount'] !== undefined && valOrd['rm']['amount'] !== 0) ? Number(valOrd['rm']['amount']).toFixed(0) : "&nbsp;" ;
 			  			var cadAmount  = (valOrd['cad']['amount'] !== "" && valOrd['cad']['amount'] !== undefined && valOrd['cad']['amount'] !== 0) ? Number(valOrd['cad']['amount']).toFixed(0) : "&nbsp;" ;

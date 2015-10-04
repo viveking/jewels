@@ -18,6 +18,7 @@ public class Invoice extends BasePojo{
 	private Date invoiceCreationDate;
 	private String invoiceCreationDateStr;
 	private String invoiceTaxOption;
+	private double rmCount;
 	private final String INVOICE_STRING = "TI";
 	
 	public String get_id() {
@@ -95,5 +96,11 @@ public class Invoice extends BasePojo{
 	}
 	public void setInvoiceTaxOption(String invoiceTaxOption) {
 		this.invoiceTaxOption = invoiceTaxOption;
+	}
+	public double getRmCount() {
+		return rmCount;
+	}
+	public void setRmCount(double rmCount) {
+		this.rmCount = rmCount;
 	}
 }

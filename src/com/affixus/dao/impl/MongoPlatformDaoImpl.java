@@ -264,6 +264,50 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 		}
 		return null;
 	}
+	
+	@Override
+	public Boolean updateRMAmountByNewWeights(Set<String> orderIdList) {
+		
+		DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
+		
+		DBObject unwindQuery = new BasicDBObject("$unwind", "$partList");
+		List<String> addArray = new ArrayList<>();
+		addArray.add("$partList.weight");
+		//addArray.add("$partList.refWeight");
+		
+		DBObject sumQuery = new BasicDBObject("$sum", new BasicDBObject("$add", addArray));
+		DBObject groupQuery = new BasicDBObject("_id", null);
+		groupQuery.put("weight",sumQuery);
+		
+		DBObject group = new BasicDBObject("$group",groupQuery);
+		
+		for(String orderId : orderIdList){
+			DBObject orderObject = collection.findOne(new BasicDBObject("_id",orderId));
+			DBObject clientDBO = ((DBRef) orderObject.get(KEY_CLIENT_XID)).fetch();
+			//String printer = (String)orderObject.get("printer");
+			String rateListName = "";
+			
+			rateListName =(String) clientDBO.get("rubberMOULD");
+			
+			DBObject matchQuery = new BasicDBObject("$match", new BasicDBObject("_id",orderId));
+
+			AggregationOutput aggregationOutput = collection.aggregate(matchQuery, unwindQuery, group);
+			for (DBObject orderObj : aggregationOutput.results()) {
+				
+				double weight = (double)orderObj.get("weight");
+				double amount = computeAmountByNewWeight(weight,rateListName);
+				
+				DBObject setQuery = new BasicDBObject();
+				setQuery.put("rm.weight", weight);
+				setQuery.put("rm.amount", amount);
+				DBObject updateQuery = new BasicDBObject("$set",setQuery);
+				collection.update(new BasicDBObject("_id",orderId), updateQuery);
+				
+			}
+			
+		}
+		return null;
+	}
 	private double computeAmountByNewWeight(double weight,String rateListName){
 		
 		double amount = 0;

@@ -44,12 +44,13 @@ public class Rate extends BasePojo{
 	}
 	public double getPrice(double weight) {
 		double price = 0;
-		weight = weight*1000;
 		for(RateRange rateList : getRateRangeList()){
-			if(rateList.isToValueInfinite()){
+			if(weight >= Float.parseFloat(rateList.getFrom()) && weight <= Double.parseDouble(rateList.getTo()) && rateList.getMinAmount() > 0 ){
+				price = rateList.getMinAmount();
+			}	else if(weight >= Float.parseFloat(rateList.getFrom()) && weight <= Double.parseDouble(rateList.getTo())){
 				price = weight * rateList.getRate();
-			} else if(weight >= Float.parseFloat(rateList.getFrom()) && weight <= Double.parseDouble(rateList.getTo())){
-				price = rateList.getRate();
+			}  else if(weight >= Float.parseFloat(rateList.getFrom()) && rateList.isToValueInfinite()){
+				price = weight * rateList.getRate();
 			}
 		}
 		return price;

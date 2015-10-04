@@ -100,11 +100,13 @@ public class RateListMasterAction extends HttpServlet {
 					String from = jsonNode.get("from").asText();
 					String to = jsonNode.get("to").asText();
 					String rateValue = jsonNode.get("rate").asText();
+					String minAmount = jsonNode.get("minAmount").asText();
 					
 					RateRange rl = new RateRange();
 					rl.setFrom(from);
 					rl.setTo(to);
-					rl.setRate(Float.parseFloat(rateValue));
+					rl.setRate(Double.parseDouble(rateValue));
+					rl.setMinAmount(Double.parseDouble(minAmount));
 					
 					rateRangeList.add(rl);
 				}

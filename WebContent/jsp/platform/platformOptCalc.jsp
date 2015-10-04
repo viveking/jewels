@@ -139,7 +139,7 @@
 		        		  jsonObj.client = arrPathSplit[lenPathSplit - 2];
 		        		  jsonObj.platform = arrPathSplit[lenPathSplit - 3];
 		        		  jsonObj.partWeight = Number(arrEachPart[5].split(":")[1].trim())*1000;
-		        		  jsonObj.supportWeight = arrEachPart[6].split(":")[1].trim();
+		        		  jsonObj.supportWeight = Number(arrEachPart[6].split(":")[1].trim())*1000;
 		          		  jsonObj.partStatus = "COMPLETED";
 		          		  
 		        		  console.log(JSON.stringify(jsonObj));

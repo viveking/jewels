@@ -123,8 +123,8 @@ $(document).ready(function(){
 			colNames:['Client ID','Order ID','Order Name','Platform','Part','Weight (KG)','Status'],
 			colModel:[
 				{name:'client.clientId',index:'client.clientId', width:150,editable: false},
-				{name:'_id',index:'_id', width:150,editable: false},
-				{name:'orderName',index:'orderName', width:150,editable: false},
+				{name:'_id',index:'_id', width:125,editable: false},
+				{name:'orderName',index:'orderName', width:160,editable: false},
 				{name:'partList.platformNumber',index:'platform', width:150, editable: false},
 				{name:'partList.name',index:'part', width:300, editable: false},
 				{name:'partList.weight',index:'partWeight',formatter:'number',formatoptions:{decimalPlaces: 2}, width:200, editable: true, classes: 'editCls'},

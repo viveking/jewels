@@ -138,6 +138,7 @@
 				Courier Charges:<br/>
 				Stamp Charges:<br/>
 				Other Charges:<br/>
+				RM Count:<br/>
 				Total Amount:<br/><br/>
 			</div>
 			<div class="col-xs-1" style="left:10px; top:2px; text-align: right;">
@@ -147,6 +148,7 @@
 				<span id="idcourierCharges">0.00</span><br/>
 				<span id="idgatePass">0.00</span><br/>
 				<span id="idotherCharges">0.00</span><br/>
+				<span id="idRMCount">0.00</span><br/>
 				<span id="idgrandTotal1">0.00</span><br/>
 			</div>
 			</small>
@@ -296,10 +298,17 @@
 			  		$("#idotherCharges").html(Number(dataFromServer["invoice"]["otherCharges"]).toFixed(2));
 			  		$("#idamtwords").html(dataFromServer["amountInWords"]);
 			  		
+			  		if(dataFromServer["invoice"].hasOwnProperty("rmCount")){
+			  			$("#idRMCount").html(dataFromServer["invoice"]["rmCount"]);
+			  		} else{
+			  			$("#idRMCount").html("0");
+			  		}
+			  		
+			  		
 			  		var ordHtml='';
 			  		$.each(dataFromServer["invoice"]["orderList"],function(ind,valOrd){
-			  			var camWeight = (valOrd['cam']['weight'] !== "" && valOrd['cam']['weight'] !== undefined) ? Number(1000*valOrd['cam']['weight']).toFixed(2) : "";
-			  			var rmWeight  = (valOrd['rm']['weight'] !== "" && valOrd['rm']['weight'] !== undefined) ? Number(1000*valOrd['rm']['weight']).toFixed(0) : "" ;
+			  			var camWeight = (valOrd['cam']['weight'] !== "" && valOrd['cam']['weight'] !== undefined) ? (Number(valOrd['cam']['weight']*1000).toFixed(2)) : "";
+			  			var rmWeight  = (valOrd['rm']['weight'] !== "" && valOrd['rm']['weight'] !== undefined) ? (Number(valOrd['rm']['weight'])*1000).toFixed(0) : "" ;
 			  			var camAmount  = (valOrd['cam']['amount'] !== "" && valOrd['cam']['amount'] !== undefined) ? Number(valOrd['cam']['amount']).toFixed(0) : "" ;
 			  			var rmAmount  = (valOrd['rm']['amount'] !== "" && valOrd['rm']['amount'] !== undefined) ? Number(valOrd['rm']['amount']).toFixed(0) : "" ;
 			  			var cadAmount  = (valOrd['cad']['amount'] !== "" && valOrd['cad']['amount'] !== undefined) ? Number(valOrd['cad']['amount']).toFixed(0) : "" ;

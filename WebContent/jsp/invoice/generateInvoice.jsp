@@ -13,7 +13,7 @@
 
 <div class="form-group">
 
-	<div class="row" style="margin:10px;">
+	<div class="row" style="margin:5px;">
 		<div class="col-xs-4">
 		
 			<label for="idFromToDate">Select Date</label>
@@ -46,7 +46,7 @@
 			<select class="width-80 chosen-select" id="idSelectClient" data-placeholder="Choose a Client...">
 			</select>
 		</div>
-		<div id="alertContainer" style="position: fixed; bottom:10px; right:10px; z-index:1000">
+		<div id="alertContainer" style="position: fixed; bottom:5px; right:5px; z-index:1000">
 			
 		</div>
 	</div>
@@ -64,7 +64,7 @@
 
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
-		<div  class="col-xs-12" style="margin:10px;">
+		<div  class="col-xs-12" style="margin:5px;">
 			<div class="col-xs-2">
 				<label for="taxInvoiceOptionList">Invoice Tax</label>
 	
@@ -80,7 +80,7 @@
 				<input type="number" id="idDiscount" value="0">
 			</div>	
 			<div class="col-xs-2">
-				<label for="idCourier">Courier Charger</label>
+				<label for="idCourier">Courier Charges</label>
 				<input type="number" id="idCourier" value="0">
 			</div>
 			<div class="col-xs-2">
@@ -91,11 +91,17 @@
 				<label for="idOtherCharges">Other Charges</label>
 				<input type="number" id="idOtherCharges" value="0">
 			</div>
-			<div class="col-xs-2" style="left:5px; margin:15px 0 0 0;padding:0px">
+			<div class="col-xs-2">
+				<label for="idRMCount">RM Count</label>
+				<input type="number" id="idRMCount" value="0">
+			</div>
+		</div>
+		<div  class="col-xs-12" style="margin:5px;">
+			<div class="col-xs-2" style="margin:5px 0 0 0;padding:0px">
 				<label> </label>
 				<button class="btn btn-md btn-success" id="idSaveOrder">
 					<i class="icon-ok"></i>
-					Generate
+					Generate Invoice
 				</button>
 			</div>
 		</div>
@@ -148,12 +154,13 @@
 			datatype: "local",
 			gridview: true,
 			height: "auto",
-			colNames:['Order Name','Order No','Client Id','CAM (KG)','CAM Charges','CAD Charges','RM Charges','Cast Charges'],
+			colNames:['Order Name','Order No','Client Id','CAM (Grms)','RM (Grms)','CAM Charges','CAD Charges','RM Charges','Cast Charges'],
 			colModel:[
 				{name:'orderName',index:'orderName', width:150,editable: false},
-				{name:'_id',index:'_id', width:130,editable: false},
-				{name:'client.clientId',index:'client.clientId', width:130,editable: false},
-				{name:'cam.weight',index:'cam.weight',formatter:'number',formatoptions:{decimalPlaces: 2}, width:70,editable: false},
+				{name:'_id',index:'_id', width:110,editable: false},
+				{name:'client.clientId',index:'client.clientId', width:120,editable: false},
+				{name:'cam.weight',index:'cam.weight',formatter:'number',formatoptions:{decimalPlaces: 2}, width:65,editable: false},
+				{name:'rm.weight',index:'rm.weight',formatter:'number',formatoptions:{decimalPlaces: 2}, width:65,editable: false},
 				{name:'cam.amount',index:'cam.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width:70,editable: false},
 				{name:'cad.amount',index:'cad.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width: 70,editable: false},
 				{name:'rm.amount',index:'rm.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width: 70,editable: false },
@@ -233,6 +240,7 @@
 						'courierCharges': $("#idCourier").val(),
 						'otherCharges':$("#idOtherCharges").val(),
 						'gatePassCharges': $("#idGatePassCharges").val(),
+						'rmCount': $("#idRMCount").val(),
 						'invoiceTaxOption': $("#taxInvoiceOptionList").val()
 					};
 			

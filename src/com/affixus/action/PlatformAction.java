@@ -222,7 +222,7 @@ public class PlatformAction extends HttpServlet {
 				}
 				
 				platformService.updateCAMAmountByNewWeights(orderIdList);
-				
+				platformService.updateRMAmountByNewWeights(orderIdList);
 				break;
 			case ALL_PLATFORM_ID:
 				String status = request.getParameter("status");

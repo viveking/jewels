@@ -344,12 +344,13 @@
 					loadonce: true,
 					gridview: true,
 					datatype: "json",
-					colNames:['id','From (in gms)','TO (in gms)','Rate (in INR)','Action'],
+					colNames:['id','From (in gms)','TO (in gms)','Rate (in INR)','Min Amount','Action'],
 					colModel:[
 						{name:'id',index:'id', width:30, sorttype:"int", hidden:true, editrules:{required:false, addhidden:true}, editable: false},
-						{name:'from',index:'from', width:180,editable:true, sorttype:"int"},
-						{name:'to',index:'to', width:180, editable:true, sorttype:"int"},
-						{name:'rate',index:'rate', width:100, sortable:false,editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'from',index:'from', width:150,editable:true, sorttype:"int"},
+						{name:'to',index:'to', width:150, editable:true, sorttype:"int"},
+						{name:'rate',index:'rate', width:90, sortable:false,editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'minAmount',index:'minAmount', width:90, sortable:false,editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 
 							formatoptions:{ 

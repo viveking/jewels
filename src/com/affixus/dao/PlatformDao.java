@@ -21,6 +21,8 @@ public interface PlatformDao {
 	public List<String> getAllPlatformByStatus(String status);
 	
 	public Boolean updateCAMAmountByNewWeights(Set<String> orderIdList);
-
+	
+	public Boolean updateRMAmountByNewWeights(Set<String> orderIdList);
+	
 	public void checkPlatformCompletion(String pfName);
 }

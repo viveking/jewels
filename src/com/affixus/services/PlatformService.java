@@ -50,6 +50,10 @@ public class PlatformService {
 		return platformDao.updateCAMAmountByNewWeights(orderIdList);
 	}
 	
+	public Boolean updateRMAmountByNewWeights(Set<String> orderIdList){
+		return platformDao.updateRMAmountByNewWeights(orderIdList);
+	}
+	
 	public List<String> getAllPlatformByStatus(String status){
 		return platformDao.getAllPlatformByStatus(status);
 	}

@@ -8,6 +8,7 @@ public class RateRange implements Serializable {
 
 	private String from;
 	private String to;
+	private double minAmount;
 	private double rate;
 	
 	public String getFrom() {
@@ -25,10 +26,15 @@ public class RateRange implements Serializable {
 	public double getRate() {
 		return rate;
 	}
-	public void setRate(float rate) {
+	public void setRate(double rate) {
 		this.rate = rate;
 	}
-	
+	public double getMinAmount() {
+		return minAmount;
+	}
+	public void setMinAmount(double fixedAmount) {
+		this.minAmount = fixedAmount;
+	}
 	public boolean isToValueInfinite(){
 		
 		boolean flag;
@@ -53,4 +59,5 @@ public class RateRange implements Serializable {
 		// TODO Auto-generated method stub
 		return super.hashCode();
 	}
+
 }

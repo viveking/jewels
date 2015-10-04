@@ -307,12 +307,12 @@
 			  		
 			  		var ordHtml='';
 			  		$.each(dataFromServer["invoice"]["orderList"],function(ind,valOrd){
-			  			var camWeight = (valOrd['cam']['weight'] !== "" && valOrd['cam']['weight'] !== undefined) ? (Number(valOrd['cam']['weight']*1000).toFixed(2)) : "";
-			  			var rmWeight  = (valOrd['rm']['weight'] !== "" && valOrd['rm']['weight'] !== undefined) ? (Number(valOrd['rm']['weight'])*1000).toFixed(0) : "" ;
-			  			var camAmount  = (valOrd['cam']['amount'] !== "" && valOrd['cam']['amount'] !== undefined) ? Number(valOrd['cam']['amount']).toFixed(0) : "" ;
-			  			var rmAmount  = (valOrd['rm']['amount'] !== "" && valOrd['rm']['amount'] !== undefined) ? Number(valOrd['rm']['amount']).toFixed(0) : "" ;
-			  			var cadAmount  = (valOrd['cad']['amount'] !== "" && valOrd['cad']['amount'] !== undefined) ? Number(valOrd['cad']['amount']).toFixed(0) : "" ;
-			  			var castAmount  = (valOrd['cast']['amount'] !== "" && valOrd['cast']['amount'] !== undefined) ? Number(valOrd['cast']['amount']).toFixed(0) : "" ;
+			  			var camWeight = (valOrd['cam']['weight'] !== "" && valOrd['cam']['weight'] !== undefined && valOrd['cam']['weight'] !== 0) ? (Number(valOrd['cam']['weight']*1000).toFixed(2)) : "&nbsp;";
+			  			var rmWeight  = (valOrd['rm']['weight'] !== "" && valOrd['rm']['weight'] !== undefined && valOrd['rm']['weight'] !== 0) ? (Number(valOrd['rm']['weight'])*1000).toFixed(0) : "&nbsp;" ;
+			  			var camAmount  = (valOrd['cam']['amount'] !== "" && valOrd['cam']['amount'] !== undefined && valOrd['cam']['amount'] !== 0) ? Number(valOrd['cam']['amount']).toFixed(0) : "&nbsp;" ;
+			  			var rmAmount  = (valOrd['rm']['amount'] !== "" && valOrd['rm']['amount'] !== undefined && valOrd['rm']['amount'] !== 0) ? Number(valOrd['rm']['amount']).toFixed(0) : "&nbsp;" ;
+			  			var cadAmount  = (valOrd['cad']['amount'] !== "" && valOrd['cad']['amount'] !== undefined && valOrd['cad']['amount'] !== 0) ? Number(valOrd['cad']['amount']).toFixed(0) : "&nbsp;" ;
+			  			var castAmount  = (valOrd['cast']['amount'] !== "" && valOrd['cast']['amount'] !== undefined&& valOrd['cast']['amount'] !== 0) ? Number(valOrd['cast']['amount']).toFixed(0) : "&nbsp;" ;
 			  			
 			  			ordHtml+="<div class='col-xs-12' style='border: 1px solid black; border-top:0px;'><small> \
 							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ (ind+1) +" </div> \

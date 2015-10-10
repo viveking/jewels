@@ -88,7 +88,7 @@ public class Invoice extends BasePojo{
 		this.invoiceCreationDateStr = invoiceCreationDateStr;
 	}
 	public String generateInvoiceNumber(){
-		String numberFormat = String.format("%5d", Integer.parseInt(this.get_id()));
+		String numberFormat = String.format("%05d", Integer.parseInt(this.get_id()));
 		return INVOICE_STRING+ numberFormat;
 	}
 	public String getInvoiceTaxOption() {

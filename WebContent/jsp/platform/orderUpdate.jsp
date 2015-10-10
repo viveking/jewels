@@ -179,20 +179,63 @@
 			data: grid_data,
 			datatype: "local",
 			height: "auto",
-			colNames:['Client ID','Platform','Order No','Order Date','Order Name','CAM (Grams)','RM (Grams)','CAD Amount','CAST Amount'],
+			colNames:['Client ID','Platform','Order No','Order Date','Order Name','CAM (Grams)','RM (Grams)','CAD Amount','CAST Amount','rmRequired','cadRequired'],
 			colModel:[
 				{index:'client',name:'client.clientId', width:140,editable: false},
 				{index:'platform',name:'partList.0.platformNumber', width:90, editable: false},
 				{name:'_id',index:'_id', width:90,editable: false},
 				{name:'orderDateStr',index:'orderDateStr', width:100,editable: false},
 				{index:'orderName',name:'orderName', width:165, editable: false},
-				{index:'cam.weight',name:'cam.weight',formatter:'number',formatoptions:{decimalPlaces: 2}, width:100, editable: true, classes: 'editCls'},
-				{index:'rm.weight',name:'rm.weight',formatter:'number',formatoptions:{decimalPlaces: 2}, width:100, editable: true, classes: 'editCls'},
-				{index:'cad.amount',name:'cad.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width:100, editable: true, classes: 'editCls'},
-				{index:'cast.amount',name:'cast.amount',hidden:true, formatter:'number',formatoptions:{decimalPlaces: 2}, width:100, editable: true, classes: 'editCls'}
+				{index:'cam.weight',name:'cam.weight',formatter:'number',formatoptions:{decimalPlaces: 2}, 
+					width:100, editable: true, classes: 'editCls'},
+				{index:'rm.weight',name:'rm.weight',formatter:'number',formatoptions:{decimalPlaces: 2}, 
+					width:100, editable: true,
+					cellattr: function (rowid, cellvalue, rawObject, cm, rdata) {
+					    return rawObject.rm.required  == true ? 'class="editCls"' : '';
+				}},	
+				{index:'cad.amount',name:'cad.amount',formatter:'number',formatoptions:{decimalPlaces: 2},
+					width:100, editable: true,
+					cellattr: function (rowid, cellvalue, rawObject, cm, rdata) {
+					    return rawObject.cad.required  == true ? 'class="editCls"' : '';
+				}},
+				{index:'cast.amount',name:'cast.amount',hidden:true, formatter:'number',formatoptions:{decimalPlaces: 2},
+					width:100, editable: true,
+					cellattr: function (rowid, cellvalue, rawObject, cm, rdata) {
+					    return rawObject.cast.required  == true ? 'class="editCls"' : '';
+				}},
+				{index:'rm.required',name:'rm.required',hidden: true},
+				{index:'cad.required',name:'cad.required',hidden: true}
 			],
+			beforeSelectRow: function(rowid, e){
+				var data = jQuery(passed_grid_selector).jqGrid('getRowData', rowid);
+				var $td = $(e.target).closest("td"), iCol = $.jgrid.getCellIndex($td[0]);
+				var flag = true;
+				if(iCol === 7)
+				{
+					if(data["rm.required"]  === "true"){
+						flag = true;
+					}
+					else{
+						flag = false;
+					}
+				}
+				if(iCol === 8)
+				{
+					if(data["cad.required"]  === "true"){
+						flag = true;
+					}
+					else{
+						flag = false;
+					}
+				}
+				return flag;
+			},
 			hiddengrid: false,
 			viewrecords : true,
+			cmTemplate: {
+				sortable:false
+			},
+			sortable: false,
 			rowNum:100000,
 			cellEdit:true,
 			cellsubmit:"clientArray",

@@ -289,7 +289,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 			
 			rateListName =(String) clientDBO.get("rubberMOULD");
 			
-			DBObject matchQuery = new BasicDBObject("$match", new BasicDBObject("_id",orderId));
+			DBObject matchQuery = new BasicDBObject("$match", new BasicDBObject("_id",orderId).append("rm.required", true));
 
 			AggregationOutput aggregationOutput = collection.aggregate(matchQuery, unwindQuery, group);
 			for (DBObject orderObj : aggregationOutput.results()) {

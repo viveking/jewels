@@ -3,8 +3,6 @@ package com.affixus.util.web;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
-import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -42,7 +40,7 @@ public class PortalUtil {
 			return true;
 		}
 		
-		Set<String> accessList = accessUser.getRole().getAccessList();
+		//Set<String> accessList = accessUser.getRole().getAccessList();
 		//if( accessList. )
 		return null;
 	}

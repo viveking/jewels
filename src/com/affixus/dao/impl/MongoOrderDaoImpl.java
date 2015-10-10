@@ -348,7 +348,7 @@ public class MongoOrderDaoImpl implements OrderDao {
 				
 				clientObj = dbCursor.next();
 				clientId = (String) clientObj.get("_id");
-				List<BasicDBObject> queryList = new ArrayList<>();
+				//List<BasicDBObject> queryList = new ArrayList<>();
 				
 				BasicDBObject dbQuery = new BasicDBObject();
 				

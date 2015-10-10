@@ -249,10 +249,10 @@ public class OrderAction extends HttpServlet {
 				if(fromDate!= null && null != toDate){
 					Date from = CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
 					Date to = CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
-					Set<Order> orderList = orderService.getAll(new String[]{PartsStatus.INPROGRESS.toString()},from,to);
+					//Set<Order> orderList = orderService.getAll(new String[]{PartsStatus.INPROGRESS.toString()},from,to);
 					outputSet = orderService.getOrderInfoByClient(null,from,to);
 				}else{
-					Set<Order> orderList = orderService.getAll(new String[]{PartsStatus.INPROGRESS.toString()});
+					//Set<Order> orderList = orderService.getAll(new String[]{PartsStatus.INPROGRESS.toString()});
 					outputSet = orderService.getOrderInfoByClient(null,null,null);
 				}
 				json="[";

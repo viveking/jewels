@@ -4,7 +4,6 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import org.apache.log4j.Logger;
 
 /**
  * Application Lifecycle Listener implementation class ContextListener
@@ -13,7 +12,7 @@ import org.apache.log4j.Logger;
 @WebListener
 public class ServletContextListenerImpl implements ServletContextListener {
 
-	private static final Logger LOG = Logger.getLogger(ServletContextListenerImpl.class);
+	//private static final Logger LOG = Logger.getLogger(ServletContextListenerImpl.class);
 
 	/**
 	 * @see ServletContextListener#contextInitialized(ServletContextEvent)
@@ -22,7 +21,7 @@ public class ServletContextListenerImpl implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent arg0) {
 		//=============//
 
-		String applicationPath = arg0.getServletContext().getRealPath("");
+		//String applicationPath = arg0.getServletContext().getRealPath("");
 
 	
 		//=============//

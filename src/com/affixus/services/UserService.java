@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.affixus.dao.UserDAO;
 import com.affixus.dao.impl.MongoUserDaoImpl;
-import com.affixus.pojo.Client;
-import com.affixus.pojo.auth.Role;
 import com.affixus.pojo.auth.User;
 import com.affixus.util.ObjectFactory;
 import com.affixus.util.ObjectFactory.ObjectEnum;

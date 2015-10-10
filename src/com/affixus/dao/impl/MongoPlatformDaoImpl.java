@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.bson.BasicBSONObject;
 
 import com.affixus.dao.PlatformDao;
 import com.affixus.pojo.Part;
@@ -227,11 +228,11 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 		DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
 		
 		DBObject unwindQuery = new BasicDBObject("$unwind", "$partList");
-		List<String> addArray = new ArrayList<>();
-		addArray.add("$partList.weight");
+		//List<String> addArray = new ArrayList<>();
+		//addArray.add("$partList.weight");
 		//addArray.add("$partList.refWeight");
 		
-		DBObject sumQuery = new BasicDBObject("$sum", new BasicDBObject("$add", addArray));
+		DBObject sumQuery = new BasicDBObject("$sum", "$partList.weight");
 		DBObject groupQuery = new BasicDBObject("_id", null);
 		groupQuery.put("weight",sumQuery);
 		
@@ -270,39 +271,23 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 		
 		DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
 		
-		DBObject unwindQuery = new BasicDBObject("$unwind", "$partList");
-		List<String> addArray = new ArrayList<>();
-		addArray.add("$partList.weight");
-		//addArray.add("$partList.refWeight");
-		
-		DBObject sumQuery = new BasicDBObject("$sum", new BasicDBObject("$add", addArray));
-		DBObject groupQuery = new BasicDBObject("_id", null);
-		groupQuery.put("weight",sumQuery);
-		
-		DBObject group = new BasicDBObject("$group",groupQuery);
-		
-		for(String orderId : orderIdList){
-			DBObject orderObject = collection.findOne(new BasicDBObject("_id",orderId));
-			DBObject clientDBO = ((DBRef) orderObject.get(KEY_CLIENT_XID)).fetch();
-			//String printer = (String)orderObject.get("printer");
-			String rateListName = "";
-			
-			rateListName =(String) clientDBO.get("rubberMOULD");
-			
-			DBObject matchQuery = new BasicDBObject("$match", new BasicDBObject("_id",orderId).append("rm.required", true));
-
-			AggregationOutput aggregationOutput = collection.aggregate(matchQuery, unwindQuery, group);
-			for (DBObject orderObj : aggregationOutput.results()) {
+		for(String orderId : orderIdList) {
+			DBCursor orderCursor = collection.find(new BasicDBObject("_id",orderId).append("rm.required", true));
+			if(orderCursor.hasNext()){
+				DBObject orderObject = orderCursor.next();
+				DBObject clientDBO = ((DBRef) orderObject.get(KEY_CLIENT_XID)).fetch();
+				String rateListName = (String) clientDBO.get("rubberMOULD");
 				
-				double weight = (double)orderObj.get("weight");
+				//Get RM Weight by id
+				double weight = (double)((BasicBSONObject) orderObject.get("rm")).get("weight");
 				double amount = computeAmountByNewWeight(weight,rateListName);
 				
+				//update the new amount into DB.
 				DBObject setQuery = new BasicDBObject();
 				setQuery.put("rm.weight", weight);
 				setQuery.put("rm.amount", amount);
 				DBObject updateQuery = new BasicDBObject("$set",setQuery);
 				collection.update(new BasicDBObject("_id",orderId), updateQuery);
-				
 			}
 			
 		}

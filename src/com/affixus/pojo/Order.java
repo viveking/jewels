@@ -22,6 +22,7 @@ public class Order extends BasePojo {
 	private Process rm;
 	private Process cast;
 	private double t_charges;
+	private boolean camWeightOverride = false;
 	
 	public String get_id() {
 		return _id;
@@ -106,6 +107,12 @@ public class Order extends BasePojo {
 	}
 	public void setT_charges(double d) {
 		this.t_charges = d;
+	}
+	public boolean isCAMWeightOverride() {
+		return camWeightOverride;
+	}
+	public void setCAMWeightOverride(boolean camWeightOverride) {
+		this.camWeightOverride = camWeightOverride;
 	}
 	
 }

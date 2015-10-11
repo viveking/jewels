@@ -1,5 +1,7 @@
 package com.affixus.pojo;
 
+import java.util.List;
+
 import com.affixus.util.Config;
 
 public class PrintInvoice {
@@ -16,6 +18,7 @@ public class PrintInvoice {
 	private double gross;
 	private double taxAmount;
 	private double grandTotal;
+	private List<String> totalProcessesAvail;
 	
 	public Invoice getInvoice() {
 		return invoice;
@@ -82,6 +85,12 @@ public class PrintInvoice {
 	}
 	public void setGrandTotal(double grandTotal) {
 		this.grandTotal = grandTotal;
+	}
+	public List<String> getTotalProcessesAvail() {
+		return totalProcessesAvail;
+	}
+	public void setTotalProcessesAvail(List<String> totalProcessesAvail) {
+		this.totalProcessesAvail = totalProcessesAvail;
 	}
 	
 }

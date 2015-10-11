@@ -102,6 +102,9 @@ public class InvoiceAction extends HttpServlet {
 				List<Order> orderListl = inv.getOrderList();
 				float grandTotal=0,grossTotal=0,taxAmount = 0;
 				
+				List<String> totalProcessesAvail = new ArrayList<>();
+				
+				boolean rm = false,cad= false,cam= false,cast= false;
 				for(Order ord:orderListl){
 					ord.setT_charges(
 							ord.getCad().getAmount()+
@@ -111,8 +114,14 @@ public class InvoiceAction extends HttpServlet {
 							);
 					
 					grossTotal+=ord.getT_charges();
+					
+					if(cam == false && ord.getCam().isRequired() == true){cam = true; totalProcessesAvail.add("cam");}
+					if(rm == false && ord.getRm().isRequired() == true){rm = true; totalProcessesAvail.add("rm");}
+					if(cad == false && ord.getCad().isRequired() == true){cad = true; totalProcessesAvail.add("cad");}
+					if(cast == false && ord.getCast().isRequired() == true){cast = true; totalProcessesAvail.add("cast");}
+					
 				}
-				
+				printInvoice.setTotalProcessesAvail(totalProcessesAvail);
 				printInvoice.setGross(grossTotal);
 				
 				if(inv.getInvoiceTaxOption().equalsIgnoreCase("TI0%")){

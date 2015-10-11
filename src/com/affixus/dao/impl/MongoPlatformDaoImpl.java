@@ -228,11 +228,11 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 		DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
 		
 		DBObject unwindQuery = new BasicDBObject("$unwind", "$partList");
-		//List<String> addArray = new ArrayList<>();
-		//addArray.add("$partList.weight");
+		List<String> addArray = new ArrayList<>();
+		addArray.add("$partList.weight");
 		//addArray.add("$partList.refWeight");
 		
-		DBObject sumQuery = new BasicDBObject("$sum", "$partList.weight");
+		DBObject sumQuery = new BasicDBObject("$sum", new BasicDBObject("$add",addArray));
 		DBObject groupQuery = new BasicDBObject("_id", null);
 		groupQuery.put("weight",sumQuery);
 		
@@ -240,6 +240,8 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 		
 		for(String orderId : orderIdList){
 			DBObject orderObject = collection.findOne(new BasicDBObject("_id",orderId));
+			double camWeight = (double)((BasicBSONObject) orderObject.get("cam")).get("weight");
+			
 			DBObject clientDBO = ((DBRef) orderObject.get(KEY_CLIENT_XID)).fetch();
 			String printer = (String)orderObject.get("printer");
 			String rateListName = "";
@@ -251,10 +253,20 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 			AggregationOutput aggregationOutput = collection.aggregate(matchQuery, unwindQuery, group);
 			for (DBObject orderObj : aggregationOutput.results()) {
 				
-				double weight = (double)orderObj.get("weight");
-				double amount = computeAmountByNewWeight(weight,rateListName);
+				double partWeight = (double)orderObj.get("weight");
+				double weight = partWeight;
 				
 				DBObject setQuery = new BasicDBObject();
+				
+				if(orderObject.containsField("camWeightOverride") && (boolean)orderObject.get("camWeightOverride")){
+					weight = camWeight;	
+				}else if(Double.compare(camWeight,0.0d) != 0 && Double.compare(camWeight, partWeight) != 0){
+					weight = camWeight;
+					setQuery.put("camWeightOverride", true);	
+				}
+				
+				double amount = computeAmountByNewWeight(weight,rateListName);
+				
 				setQuery.put("cam.weight", weight);
 				setQuery.put("cam.amount", amount);
 				DBObject updateQuery = new BasicDBObject("$set",setQuery);

@@ -164,7 +164,7 @@
 				{name:'cam.amount',index:'cam.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width:70,editable: false},
 				{name:'cad.amount',index:'cad.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width: 70,editable: false},
 				{name:'rm.amount',index:'rm.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width: 70,editable: false },
-				{name:'cast.amount',index:'cast.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width: 70,editable: false }
+				{name:'cast.amount',index:'cast.amount',formatter:'number',formatoptions:{decimalPlaces: 2}, width: 70,editable: false , hidden:true}
 			],
 			hiddengrid: false,
 			viewrecords : true,

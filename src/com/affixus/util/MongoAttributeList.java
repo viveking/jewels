@@ -32,11 +32,32 @@ public class MongoAttributeList {
 		//return rateName.substring(0, rateName.length() -1);
 	}
 	
+	public static String getPlatformDBNextSequence(){
+		
+		int seq = getNextDBSequenceNumber("mast_platform");
+		String numberFormat = String.format("%05d", seq);
+		return "PF_"+numberFormat;
+	}
+	
+	static int getNextDBSequenceNumber(String collectionName){
+	
+		String counters = DBCollectionEnum.COUNTERS.toString();
+		DB mongoDB = MongoUtil.getDB();
+		
+		BasicDBObject query = new BasicDBObject("_id", collectionName);
+		DBCollection collection = mongoDB.getCollection(counters);
+		DBCursor dbCursor = collection.find(query);
+		if(dbCursor.hasNext()){
+			return (int)dbCursor.next().get("seq");
+		}
+		return 0;
+		
+	}
+	
 	public static String getPrinterInfo(){
 		return "d";
 	};
 	public static void main(String[] args) {
-		System.out.println(MongoAttributeList.getRateListByPrinter("1"));	
-		System.out.println(Constants.PrinterValue.INVERSIONHR);
+		System.out.println(MongoAttributeList.getRateListByPrinter("1"));System.out.println(Constants.PrinterValue.INVERSIONHR);
 	}
 }

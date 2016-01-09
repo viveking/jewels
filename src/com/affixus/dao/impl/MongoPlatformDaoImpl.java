@@ -43,7 +43,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 			Date date = new Date();
 			platform.setCtime(date);
 			platform.setUtime(date);
-			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_CLIENT).toString();
+			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_PLATFORM).toString();
 			platform.set_id(_id);
 
 			DBCollection collection = mongoDB.getCollection(collPlatform);

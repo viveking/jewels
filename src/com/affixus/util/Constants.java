@@ -20,6 +20,7 @@ public class Constants {
 
 	public enum DBCollectionEnum {
 		// @formatter:off
+		COUNTERS("counters"),
 		MAST_CLIENT("mast_client"),
 		MAST_RATE("mast_rate"),
 		MAST_TAX("mast_tax"),

@@ -111,18 +111,7 @@ public class PlatformAction extends HttpServlet {
 
 		switch (opEnum) {
 			case ADD:
-				String fromDate = request.getParameter("orderFromDateStr");
-				String toDate = request.getParameter("orderToDateStr");
-
-				platform.setPlatformNumber(request.getParameter("platformNumber"));
-				platform.setPrinter(request.getParameter("printer"));
-				
-				
-				if(fromDate != null)
-					platform.setOrderFromDate(CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
-				if(toDate != null)
-					platform.setOrderToDate(CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
-				platformService.create(platform);
+				createPlarform(request, platform);
 				break;
 			case EDIT:
 				/*if (id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
@@ -146,6 +135,7 @@ public class PlatformAction extends HttpServlet {
 				if( jsonPlatform == null || jsonPlatform.trim().isEmpty()){
 					break;
 				}
+				createPlarform(request, platform);
 				
 				ObjectMapper mapper = new ObjectMapper();
 				JsonNode jn = mapper.readTree(jsonPlatform);
@@ -236,5 +226,19 @@ public class PlatformAction extends HttpServlet {
 		}
 		out.write(json);
 		out.close();
+	}
+
+	private void createPlarform(HttpServletRequest request, Platform platform) {
+		String fromDate = request.getParameter("orderFromDateStr");
+		String toDate = request.getParameter("orderToDateStr");
+
+		platform.setPlatformNumber(request.getParameter("platformNumber"));
+		platform.setPrinter(request.getParameter("printer"));
+	
+		if(fromDate != null && !"".equals(fromDate))
+			platform.setOrderFromDate(CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
+		if(toDate != null && !"".equals(toDate))
+			platform.setOrderToDate(CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
+		platformService.create(platform);
 	}
 }

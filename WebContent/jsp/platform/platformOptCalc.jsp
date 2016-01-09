@@ -5,6 +5,7 @@
 <%
 	pageContext.setAttribute("platformNumber", MongoAttributeList.getPlatformDBNextSequence(),PageContext.PAGE_SCOPE);
 	pageContext.setAttribute("printerList", Config.printerNames, PageContext.PAGE_SCOPE);
+	
 %>
 <STYLE>
 
@@ -35,8 +36,8 @@
 	<div class="row">
 		
 		<div class="col-xs-2">
-			<label for="plateformLabel">Platform Number</label>
-			<input type="text" id="plateformLabel" value=${platformNumber} readonly="readonly"/>
+			<label for="plateformNumber">Platform Number</label>
+			<input type="text" id="plateformNumber" value=${platformNumber} readonly="readonly"/>
 		</div>
 		<div class="col-xs-3">
 		
@@ -232,40 +233,74 @@
 	
 		});
 		
+		function isRightPlatformFileLoaded(dataArr){
+			var flag = true;
+			var platformNumber = $("#plateformNumber").val();
+			for(var i=0;i<dataArr.length;i++){
+				if(platformNumber !== dataArr[i].platform){
+					flag=false;
+					break;
+				}
+			}
+			
+			return flag;
+		}
 		$('#idSaveOrder').click(function(){
+			
+			
+			
 			var passedGrid = $("#grid-table");
 			var selData = passedGrid.jqGrid('getGridParam','data');
 			
-			var param ={'order':JSON.stringify(selData),'printer':$('#idPrinterSelect').val()};
-			
-			//param = JSON.stringify(param);
-			//console.log(param);
-			$.ajax({
-			  	url: '${pageContext.request.contextPath}/platform.action?op=SAVE',
-			  	type: 'POST',
-			  	data: param
-			  })
-			  .done(function(data) {
-			  	console.log("success "+data);
-			  	$("#alertContainer").html(' \
-			  			<div class="alert alert-block alert-success" id="alertSaved">\
-						<button type="button" class="close" data-dismiss="alert"> \
-							<i class="icon-remove"></i> \
-						</button> \
-						<p>	<strong> \
-								<i class="icon-ok"></i>\
-								Save Successful... \
-							</strong></p> \
-					</div>');
-			  	
-			  	$("#alertSaved").addClass("animated bounceInRight");
-			  })
-			  .fail(function() {
-			  	console.log("error");
-			  })
-			  .always(function() {
-			  	console.log("complete");
-			  });
+			if(isRightPlatformFileLoaded(selData)){
+				
+				var dateRange = $('#idFromToDate').val();
+				var date = dateRange.split(" to ");
+				
+				if(date[1] !== undefined) {
+						var param ={
+							'order':JSON.stringify(selData),
+							'printer':$('#idPrinterSelect').val(),
+							'orderFromDateStr':date[0] || "",
+							'orderToDateStr':date[1] || "",
+							'platformNumber':$("#plateformNumber").val()
+						};
+						
+						//param = JSON.stringify(param);
+						//console.log(param);
+						$.ajax({
+						  	url: '${pageContext.request.contextPath}/platform.action?op=SAVE',
+						  	type: 'POST',
+						  	data: param
+						  })
+						  .done(function(data) {
+						  	console.log("success "+data);
+						  	$("#alertContainer").html(' \
+						  			<div class="alert alert-block alert-success" id="alertSaved">\
+									<button type="button" class="close" data-dismiss="alert"> \
+										<i class="icon-remove"></i> \
+									</button> \
+									<p>	<strong> \
+											<i class="icon-ok"></i>\
+											Save Successful... \
+										</strong></p> \
+								</div>');
+						  	
+						  	$("#alertSaved").addClass("animated bounceInRight");
+						  })
+						  .fail(function() {
+						  	console.log("error");
+						  })
+						  .always(function() {
+						  	console.log("complete");
+						  });
+					}
+					else {	
+						alert("Please select valid date.");
+					}
+				} else {
+				alert("Platform file loaded is not matched with platform number");				
+			}
 		});
 		
 		//hidding the grid Initially.....

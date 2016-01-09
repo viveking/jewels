@@ -34,12 +34,12 @@ public class MongoAttributeList {
 	
 	public static String getPlatformDBNextSequence(){
 		
-		int seq = getNextDBSequenceNumber("mast_platform");
-		String numberFormat = String.format("%05d", seq);
+		String seq = getNextDBSequenceNumber("mast_platform");
+		String numberFormat = String.format("%04d", Integer.parseInt(seq));
 		return "PF_"+numberFormat;
 	}
 	
-	static int getNextDBSequenceNumber(String collectionName){
+	static String getNextDBSequenceNumber(String collectionName){
 	
 		String counters = DBCollectionEnum.COUNTERS.toString();
 		DB mongoDB = MongoUtil.getDB();
@@ -48,9 +48,9 @@ public class MongoAttributeList {
 		DBCollection collection = mongoDB.getCollection(counters);
 		DBCursor dbCursor = collection.find(query);
 		if(dbCursor.hasNext()){
-			return (int)dbCursor.next().get("seq");
+			return dbCursor.next().get("seq").toString();
 		}
-		return 0;
+		return "";
 		
 	}
 	

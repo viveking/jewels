@@ -69,6 +69,10 @@
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
 		<div  class="col-xs-12" style="margin:5px;">
+			<div class="col-xs-2">
+				<label for="idRMCount">RM Count</label>
+				<input placeholder="RM Count" type="number" id="idRMCount" value="0">
+			</div>
 			<div class="col-xs-2" style="margin:5px 0 0 0;padding:0px">
 				<label> </label>
 				<button class="btn btn-md btn-success" id="idSaveOrder">
@@ -80,7 +84,7 @@
 	</div><!-- /.row -->
 	<div class="col-md-offset-1 row" id="noGridContainer">
 		<h1>Select Date and Client</h1>
-		<p class="lead"> You can generate the Delivery Chalan for orders. </p>
+		<p class="lead"> You can generate the Delivery Challan for orders. </p>
 	</div><!-- /.row -->
 	
 </div>
@@ -227,7 +231,8 @@
 			
 			var param ={
 						'order':JSON.stringify(selData),
-						'clientName': $("#idSelectClient").val()
+						'clientName': $("#idSelectClient").val(),
+						'rmCount': $("#idRMCount").val()
 					};
 			
 			console.log(param);

@@ -200,6 +200,7 @@ public class DCAction extends HttpServlet {
 
 			dc = new DC();
 			String clientNo = request.getParameter("clientName");
+			double rmCount = Double.parseDouble(request.getParameter("rmCount"));
 			
 			Client client = clientService.getByClientId(clientNo);
 			Date date = new Date();
@@ -208,7 +209,8 @@ public class DCAction extends HttpServlet {
 			dc.setClient(client);
 			dc.setDcCreationDate(date);
 			dc.setDcCreationDateStr(dcCreationDateStr);
-
+			dc.setRmCount(rmCount);
+			
 			for (JsonNode jsonNode : jn) {
 				String orderNo = jsonNode.get("_id").asText();
 				orderIdList.add(orderNo);

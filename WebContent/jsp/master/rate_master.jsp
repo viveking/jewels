@@ -1,7 +1,7 @@
 <%@page import="com.affixus.util.Config"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-	pageContext.setAttribute("printerList", Config.printerNames, PageContext.PAGE_SCOPE);
+	pageContext.setAttribute("printerList", Config.printerNames, pageContext.PAGE_SCOPE);
 %>
 
 						<div class="page-header">

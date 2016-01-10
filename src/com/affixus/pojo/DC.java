@@ -14,6 +14,7 @@ public class DC extends BasePojo{
 	private String dcNumber;
 	private Date dcCreationDate;
 	private String dcCreationDateStr;
+	private double rmCount;
 	
 	private final String DC_STRING = "DC";
 	
@@ -62,6 +63,12 @@ public class DC extends BasePojo{
 	}
 	public void setDcCreationDateStr(String dcCreationDateStr) {
 		this.dcCreationDateStr = dcCreationDateStr;
+	}
+	public double getRmCount() {
+		return rmCount;
+	}
+	public void setRmCount(double rmCount) {
+		this.rmCount = rmCount;
 	}
 	
 }

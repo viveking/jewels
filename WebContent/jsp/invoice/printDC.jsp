@@ -311,11 +311,11 @@
 			  		//$("#idotherCharges").html(Number(dataFromServer["dc"]["otherCharges"]).toFixed(2));
 			  		$("#idamtwords").html(dataFromServer["amountInWords"]);
 			  		
-			  		//if(dataFromServer["dc"].hasOwnProperty("rmCount")){
-			  		//	$("#idRMCount").html(dataFromServer["dc"]["rmCount"]);
-			  		//} else{
-			  		//	$("#idRMCount").html("0");
-			  		//}
+			  		if(dataFromServer["dc"].hasOwnProperty("rmCount")){
+			  			$("#idRMCount").html(dataFromServer["dc"]["rmCount"]);
+			  		} else{
+			  			$("#idRMCount").html("0");
+			  		}
 			  		
 		  			var rmVisiblity = processArr.indexOf("rm") === -1?"hidden;":"visible;";
 		  			var camVisiblity = processArr.indexOf("cam") === -1?"hidden;":"visible;";

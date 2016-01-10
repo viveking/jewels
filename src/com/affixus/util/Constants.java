@@ -28,7 +28,8 @@ public class Constants {
 		MAST_USER("mast_user"),
 		MAST_ROLE("mast_role"),
 		MAST_PLATFORM("mast_platform"),
-		INVOICE("invoice")
+		INVOICE("invoice"),
+		DC("dc")
 		;
 		// @formatter:on
 
@@ -96,6 +97,7 @@ public class Constants {
 	public enum PartsStatus{
 		INPROGRESS,
 		COMPLETED,
+		DCGENERTED,
 		INVOICEGENERATED, 
 		FAILED;
 	}

@@ -35,7 +35,7 @@ import com.affixus.util.ObjectFactory.ObjectEnum;
 @WebServlet("/invoice.action")
 public class InvoiceAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger(OrderAction.class);
+	private static final Logger LOG = Logger.getLogger(InvoiceAction.class);
 	private InvoiceService invoiceService = null;
 	private ClientService clientService = null;
     /**

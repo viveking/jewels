@@ -1,12 +1,13 @@
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="com.affixus.util.MongoAttributeList"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="page-header">
 	<h1>
-		Invoice Generation
+		DC Generation
 		<small>
 			<i class="icon-double-angle-right"></i>
-			Order Invoice Generation.
+			Order DC Generation.
 		</small>
 	</h1>
 </div><!-- /.page-header -->
@@ -44,8 +45,11 @@
 			<label for="idSelectClient">Select Client</label>
 					
 			<select class="width-80 chosen-select" id="idSelectClient" data-placeholder="Choose a Client...">
+			
+			<option value='all'>All<option>
 			</select>
 		</div>
+		
 		<div id="alertContainer" style="position: fixed; bottom:5px; right:5px; z-index:1000">
 			
 		</div>
@@ -65,50 +69,18 @@
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
 		<div  class="col-xs-12" style="margin:5px;">
-			<div class="col-xs-2">
-				<label for="taxInvoiceOptionList">Invoice Tax</label>
-	
-				<select class="form-control" id="taxInvoiceOptionList">
-					<!-- Get this from client Info -->
-					<option value="TI0%">Tax Invoice @ 0%</option>
-					<option value="TI1%">Tax Invoice @ 1%</option>
-					<option value="TI12.5%">Tax Invoice @ 12.5%</option>
-				</select>
-			</div>
-			<div class="col-xs-2">
-				<label for="idDiscount">Discount (Rs)</label>
-				<input type="number" id="idDiscount" value="0">
-			</div>	
-			<div class="col-xs-2">
-				<label for="idCourier">Courier Charges</label>
-				<input type="number" id="idCourier" value="0">
-			</div>
-			<div class="col-xs-2">
-				<label for="idGatePassCharges">Stamp Charges</label>
-				<input type="number" id="idGatePassCharges" value="0">
-			</div>	
-			<div class="col-xs-2">
-				<label for="idOtherCharges">Other Charges</label>
-				<input type="number" id="idOtherCharges" value="0">
-			</div>
-			<div class="col-xs-2">
-				<label for="idRMCount">RM Count</label>
-				<input type="number" id="idRMCount" value="0">
-			</div>
-		</div>
-		<div  class="col-xs-12" style="margin:5px;">
 			<div class="col-xs-2" style="margin:5px 0 0 0;padding:0px">
 				<label> </label>
 				<button class="btn btn-md btn-success" id="idSaveOrder">
 					<i class="icon-ok"></i>
-					Generate Invoice
+					Generate DC
 				</button>
 			</div>
 		</div>
 	</div><!-- /.row -->
 	<div class="col-md-offset-1 row" id="noGridContainer">
 		<h1>Select Date and Client</h1>
-		<p class="lead"> You can generate the Invoice for orders. </p>
+		<p class="lead"> You can generate the Delivery Chalan for orders. </p>
 	</div><!-- /.row -->
 	
 </div>
@@ -142,6 +114,18 @@
         	}
         });
         
+        /* clientMap={};
+        $.each(clientList,function(ind,val){
+	  		var clientId = val.id;
+	  		
+	  		if(!clientMap.hasOwnProperty(clientId)){
+				clientMap[clientId] = [];
+				$("#idSelectClient").append("<option value="+val.id+">"+val.name+"<option>");
+	  		}
+		}); */
+	  	
+	  	$('.chosen-select').chosen().trigger("chosen:updated");
+	  	
 	});
 
 	var grid_data = [];//[{orderDateStr:"asas",_id:11,orderName:"asas",cam:{required:true},cad:{required:true},rm:{required:true}}];
@@ -154,7 +138,7 @@
 			datatype: "local",
 			gridview: true,
 			height: "auto",
-			colNames:['Order Name','Order No','Order Date', 'Client Id','CAM (Grms)','RM (Grms)','CAM Charges','CAD Charges','RM Charges','Cast Charges'],
+			colNames:['Order Name','Order No','Order Date','Client Id','CAM (Grms)','RM (Grms)','CAM Charges','CAD Charges','RM Charges','Cast Charges'],
 			colModel:[
 				{name:'orderName',index:'orderName', width:150,editable: false},
 				{name:'_id',index:'_id', width:110,editable: false},
@@ -187,7 +171,7 @@
 			param = {"fromDate":date[0],"toDate":date[1]};
 			console.log(param);
 			$.ajax({
-			  	url: '${pageContext.request.contextPath}/invoice.action?op=GET_ALL_INFO',
+			  	url: '${pageContext.request.contextPath}/dc.action?op=GET_ALL_INFO',
 			  	type: 'POST',
 			  	data: param
 			  })
@@ -238,24 +222,17 @@
 				return;
 			}
 			
-			
 			var passedGrid = $("#order-grid-table");
 			var selData = passedGrid.jqGrid('getRowData');
 			
 			var param ={
 						'order':JSON.stringify(selData),
-						'clientName': $("#idSelectClient").val(),
-						'discount': $("#idDiscount").val(),
-						'courierCharges': $("#idCourier").val(),
-						'otherCharges':$("#idOtherCharges").val(),
-						'gatePassCharges': $("#idGatePassCharges").val(),
-						'rmCount': $("#idRMCount").val(),
-						'invoiceTaxOption': $("#taxInvoiceOptionList").val()
+						'clientName': $("#idSelectClient").val()
 					};
 			
 			console.log(param);
 			$.ajax({
-			  	url: '${pageContext.request.contextPath}/invoice.action?op=GENERATE',
+			  	url: '${pageContext.request.contextPath}/dc.action?op=GENERATE',
 			  	type: 'POST',
 			  	data: param
 			  })

@@ -112,17 +112,52 @@
 			</a>
 			
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/invoice/generateInvoice.jsp">
-						<i class="icon-double-angle-right"></i>Generate Invoice
-				</a></li>
 				
-				<li><a href="#" data-href="/jsp/invoice/printInvoice.jsp">
-						<i class="icon-double-angle-right"></i>Print Invoice
-				</a></li>
 				
+				<li>
+					<a href="#" class="dropdown-toggle"> <i
+						class="icon-list-alt"></i> <span class="menu-text"> Invoice </span> 
+						<b class="arrow icon-angle-down"></b>
+					</a>
+			
+					<ul class="submenu">
+						<li>
+							<a href="#" data-href="/jsp/invoice/generateInvoice.jsp">
+								<i class="icon-double-angle-right"></i>Generate Invoice
+							</a>
+						</li>
+						<li>
+							<a href="#" data-href="/jsp/invoice/printInvoice.jsp">
+								<i class="icon-double-angle-right"></i>Print Invoice
+							</a>
+						</li>
+					</ul>
+				</li>
+				
+				<li>
+					<a href="#" class="dropdown-toggle"> <i
+						class="icon-list-alt"></i> <span class="menu-text"> DC </span> 
+						<b class="arrow icon-angle-down"></b>
+					</a>
+			
+					<ul class="submenu">
+						<li><a href="#" data-href="/jsp/invoice/generateDC.jsp">
+							<i class="icon-double-angle-right"></i>Generate DC
+						</a></li>
+		
+						<li><a href="#" data-href="/jsp/invoice/printDC.jsp">
+								<i class="icon-double-angle-right"></i>Print DC
+						</a></li>
+					</ul>
+				</li>
+				
+				
+
 				<li><a href="#" data-href="/jsp/invoice/receipts.jsp">
 						<i class="icon-double-angle-right"></i> Receipts
 				</a></li>
+				
+				
 			</ul>
 			
 		</li>

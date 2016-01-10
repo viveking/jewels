@@ -1,6 +1,8 @@
 package com.affixus.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.affixus.util.Constants.DBCollectionEnum;
 import com.mongodb.BasicDBObject;
@@ -57,7 +59,33 @@ public class MongoAttributeList {
 	public static String getPrinterInfo(){
 		return "d";
 	};
+	
+	public static String getListOfClientsWithDC(){
+		
+		String clientsCollection = DBCollectionEnum.MAST_CLIENT.toString();
+		DB mongoDB = MongoUtil.getDB();
+		
+		BasicDBObject query = new BasicDBObject("voucherType", "DC");
+		DBCollection collection = mongoDB.getCollection(clientsCollection);
+		DBCursor dbCursor = collection.find(query);
+		
+		List<HashMap<String,String>> clientList = new ArrayList<>();
+		
+		while(dbCursor.hasNext()){
+			DBObject dbObject = dbCursor.next();
+			HashMap<String,String> clientNameMap = new HashMap<>();
+			String name = (String) dbObject.get("name");
+			String id = (String) dbObject.get("_id");
+			clientNameMap.put("name", name);
+			clientNameMap.put("id", id);
+			clientList.add(clientNameMap);
+		}
+		return CommonUtil.objectToJson(clientList);
+		
+	}
+	
 	public static void main(String[] args) {
-		System.out.println(MongoAttributeList.getRateListByPrinter("1"));System.out.println(Constants.PrinterValue.INVERSIONHR);
+		System.out.println(getListOfClientsWithDC());
+		System.out.println(Constants.PrinterValue.INVERSIONHR);
 	}
 }

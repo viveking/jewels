@@ -11,12 +11,11 @@ import com.affixus.dao.DCDao;
 import com.affixus.dao.OrderDao;
 import com.affixus.pojo.Client;
 import com.affixus.pojo.DC;
-import com.affixus.pojo.Invoice;
 import com.affixus.pojo.Order;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
-import com.affixus.util.MongoUtil;
 import com.affixus.util.Constants.DBCollectionEnum;
+import com.affixus.util.MongoUtil;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -58,6 +57,7 @@ public class MongoDCDaoImpl implements DCDao {
 			for(String orderId : orderIdList){
 				BasicDBObject queryObj = new BasicDBObject("_id",orderId);
 				BasicDBObject setQuery = new BasicDBObject("status", Constants.PartsStatus.DCGENERTED.toString());
+				setQuery.append("dcNumber", dc.getDcNumber());
 				DBObject updateQuery = new BasicDBObject("$set",setQuery);
 				
 				collection.update(queryObj, updateQuery);

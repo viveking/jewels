@@ -3,7 +3,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-	//pageContext.setAttribute("platformNumber", MongoAttributeList.getPlatformDBNextSequence(),pageContext.PAGE_SCOPE);
+	pageContext.setAttribute("platformNumber", MongoAttributeList.getPlatformDBNextSequence(),pageContext.PAGE_SCOPE);
 	pageContext.setAttribute("printerList", Config.printerNames, pageContext.PAGE_SCOPE);
 %>
 <STYLE>
@@ -36,7 +36,7 @@
 		
 		<div class="col-xs-2">
 			<label for="plateformNumber">Platform Number</label>
-			<input type="text" id="plateformNumber" value=${platformNumber} readonly="readonly"/>
+			<input type="text" id="plateformNumber" value='${platformNumber}' readonly="readonly"/>
 		</div>
 		<div class="col-xs-3">
 		

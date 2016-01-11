@@ -20,6 +20,7 @@ public class Order extends BasePojo {
 	private Process cad;
 	private Process cam;
 	private Process rm;
+	private String dcNumber;
 	private Process cast;
 	private double t_charges;
 	private boolean camWeightOverride = false;
@@ -113,6 +114,12 @@ public class Order extends BasePojo {
 	}
 	public void setCAMWeightOverride(boolean camWeightOverride) {
 		this.camWeightOverride = camWeightOverride;
+	}
+	public String getDcNumber() {
+		return dcNumber;
+	}
+	public void setDcNumber(String dcNumber) {
+		this.dcNumber = dcNumber;
 	}
 	
 }

@@ -15,7 +15,9 @@ import com.affixus.pojo.Order;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
 import com.affixus.util.Constants.DBCollectionEnum;
+import com.affixus.util.Constants.PartsStatus;
 import com.affixus.util.MongoUtil;
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -120,7 +122,12 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 			if(null != from && null != to){
 				finalQuery.put("orderDate", new BasicDBObject("$gte",from.getTime()).append("$lte", to.getTime()));
 			}
-			finalQuery.put("status",  Constants.PartsStatus.COMPLETED.toString());
+			BasicDBList or = new BasicDBList();
+			or.add(new BasicDBObject("status", PartsStatus.COMPLETED.toString()));
+			or.add(new BasicDBObject("status", PartsStatus.DCGENERTED.toString()));
+			
+			finalQuery.put("$or",  or);
+
 			DBCursor dbCursor = collection.find( finalQuery);
 			
 			List<Order> ordertList = new ArrayList<>();

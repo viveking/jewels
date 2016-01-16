@@ -52,7 +52,7 @@ public class MongoAttributeList {
 		if(dbCursor.hasNext()){
 			return dbCursor.next().get("seq").toString();
 		}
-		return "";
+		return "0";
 		
 	}
 	

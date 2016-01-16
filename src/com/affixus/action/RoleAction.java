@@ -37,7 +37,7 @@ public class RoleAction extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 		Object object = ObjectFactory.getInstance(ObjectEnum.ROLE_SERVICE);
-		if (object instanceof UserService ) {
+		if (object instanceof RoleService ) {
 			roleService = (RoleService) object;
 		}
 	}
@@ -76,7 +76,7 @@ public class RoleAction extends HttpServlet {
 		switch (opEnum) {
 		case ADD:
 			//String id = request.getParameter("id");
-			String name = request.getParameter("name");
+			String name = request.getParameter("rolename");
 			
 			Role role = new Role();
 			role.setName(name);

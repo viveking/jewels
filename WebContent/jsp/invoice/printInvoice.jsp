@@ -90,8 +90,11 @@
 			<div class="col-xs-1" style="border-right: 1px solid black;">
 				Sr.No.
 			</div>
-			<div class="col-xs-4" style="border-right: 1px solid black; ">
+			<div class="col-xs-3" id="idOrderNoLabel" style="border-right: 1px solid black; ">
 				Order No
+			</div>
+			<div class="col-xs-1" id="idDcNoLabel" style="border-right: 1px solid black; ">
+				DC No
 			</div>
 			<div class="col-xs-1" style="border-right: 1px solid black;text-align: right;">
 				Weight
@@ -132,7 +135,7 @@
 				<br/>
 				<div style="margin-top: 4px;">RM Count: <b><span id="idRMCount">0</span></b>  <b>|</b><span> Process: </span><b><span id="idProcessString"></span></b></div>
 			</div>
-			<div class="col-xs-3" style=" outline: 1px solid black;">
+			<div class="col-xs-2" style=" outline: 1px solid black;">
 				<br/>
 				Gross:<br/>
 				Discount:<br/>
@@ -143,7 +146,7 @@
 				Total Amount:<br/>
 				<br/>
 			</div>
-			<div class="col-xs-1" style="left:10px; top:2px; text-align: right;">
+			<div class="col-xs-2" style="left:10px; top:2px; text-align: right;">
 				<br/>
 				<span id="idgross">0.00</span><br/>
 				<span id="iddiscount">0.00</span><br/>
@@ -160,10 +163,10 @@
 			<div class="col-xs-8">
 				
 			</div>
-			<div class="col-xs-3" style="outline: 1px solid black;">
+			<div class="col-xs-2" style="outline: 1px solid black;">
 				Grand Total:
 			</div>
-			<div class="col-xs-1" style="left:10px; text-align: right;">
+			<div class="col-xs-2" style="left:10px; text-align: right;">
 				<span id="idgrandTotal"></span>
 			</div>
 			</small>
@@ -342,11 +345,23 @@
 			  			var rmAmount  = (valOrd['rm']['amount'] !== "" && valOrd['rm']['amount'] !== undefined && valOrd['rm']['amount'] !== 0) ? Number(valOrd['rm']['amount']).toFixed(0) : "&nbsp;" ;
 			  			var cadAmount  = (valOrd['cad']['amount'] !== "" && valOrd['cad']['amount'] !== undefined && valOrd['cad']['amount'] !== 0) ? Number(valOrd['cad']['amount']).toFixed(0) : "&nbsp;" ;
 			  			var castAmount  = (valOrd['cast']['amount'] !== "" && valOrd['cast']['amount'] !== undefined&& valOrd['cast']['amount'] !== 0) ? Number(valOrd['cast']['amount']).toFixed(0) : "&nbsp;" ;
-			  			
+			  			var dcNumber = valOrd['dcNumber'];
 			  			ordHtml+="<div class='col-xs-12' style='border: 1px solid black; border-top:0px;'><small> \
-							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ (ind+1) +" </div> \
-							<div class='col-xs-4' style='border-right: 1px solid black;'> "+ valOrd['orderName']+"_"+valOrd['_id'] +" </div> \
-							<div class='col-xs-1' style='visibility:"+camVisiblity+" border-right: 1px solid black; text-align: right;'> "+ camWeight +" </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ (ind+1) +" </div>";
+							if(dcNumber){
+								ordHtml+="<div class='col-xs-3' style='border-right: 1px solid black;'> "+ valOrd['orderName']+"_"+valOrd['_id'] +" </div>\
+								<div class='col-xs-1' style='border-right: 1px solid black;'> "+ dcNumber +" </div>";
+								$("#idOrderNoLabel").removeClass("col-xs-4");
+								$("#idOrderNoLabel").addClass("col-xs-3");
+								$("#idDcNoLabel").css("display","block");
+							}else{
+								ordHtml+="<div class='col-xs-4' style='border-right: 1px solid black;'> "+ valOrd['orderName']+"_"+valOrd['_id'] +" </div>";
+								$("#idOrderNoLabel").removeClass("col-xs-3");
+								$("#idOrderNoLabel").addClass("col-xs-4");
+								$("#idDcNoLabel").css("display","none");
+							}
+							
+							ordHtml+="<div class='col-xs-1' style='visibility:"+camVisiblity+" border-right: 1px solid black; text-align: right;'> "+ camWeight +" </div> \
 							<div class='col-xs-1' style='visibility:"+rmVisiblity+" border-right: 1px solid black; text-align: right;'> "+ rmWeight +" </div> \
 							<div class='col-xs-1' style='visibility:"+camVisiblity+" border-right: 1px solid black; text-align: right;'> "+ camAmount + " </div> \
 							<div class='col-xs-1' style='visibility:"+rmVisiblity+" border-right: 1px solid black; text-align: right;'> "+ rmAmount +" </div> \

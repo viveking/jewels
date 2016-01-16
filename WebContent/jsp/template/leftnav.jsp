@@ -88,9 +88,9 @@
 			</a>
 			
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/platform/platform_master.jsp">
+				<!--li><a href="#" data-href="/jsp/platform/platform_master.jsp">
 						<i class="icon-double-angle-right"></i>Create Platform
-				</a></li>
+				</a></li-->
 				<li><a href="#" data-href="/jsp/platform/platformOptCalc.jsp">
 						<i class="icon-double-angle-right"></i> Platform Output Calculation
 				</a></li>

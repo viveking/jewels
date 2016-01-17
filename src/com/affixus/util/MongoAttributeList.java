@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.affixus.pojo.auth.Role;
+import com.affixus.services.RoleService;
 import com.affixus.util.Constants.DBCollectionEnum;
+import com.affixus.util.ObjectFactory.ObjectEnum;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -65,9 +68,10 @@ public class MongoAttributeList {
 		String clientsCollection = DBCollectionEnum.MAST_CLIENT.toString();
 		DB mongoDB = MongoUtil.getDB();
 		
-		BasicDBObject query = new BasicDBObject("voucherType", "DC");
+		DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
+		finalQuery.put("voucherType", "DC");
 		DBCollection collection = mongoDB.getCollection(clientsCollection);
-		DBCursor dbCursor = collection.find(query);
+		DBCursor dbCursor = collection.find(finalQuery);
 		
 		List<HashMap<String,String>> clientList = new ArrayList<>();
 		
@@ -82,6 +86,25 @@ public class MongoAttributeList {
 		}
 		return CommonUtil.objectToJson(clientList);
 		
+	}
+	
+	public static String getRoleList(){
+		
+		RoleService roleService = (RoleService) ObjectFactory.getInstance(ObjectEnum.ROLE_SERVICE);
+		
+		List<Role> roleMList = roleService.getAll();
+		HashMap<String,String> roleNameMap = new HashMap<>();
+		
+		for(Role role : roleMList){
+			
+			String name = role.getName();
+			String id = role.get_id();
+			roleNameMap.put(id, name);
+			//roleNameMap.put("id", id);
+			//roleList.add(roleNameMap);
+		}
+		
+		return CommonUtil.objectToJson(roleNameMap);
 	}
 	
 	public static void main(String[] args) {

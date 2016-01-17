@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 
 import com.affixus.pojo.auth.Role;
 import com.affixus.services.RoleService;
-import com.affixus.services.UserService;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
 import com.affixus.util.Constants.UIOperations;
@@ -71,28 +71,29 @@ public class RoleAction extends HttpServlet {
 			PortalUtil.writeAjaxResponse(response, "");
 			return;
 		}
+
+		Role role = new Role();
+		BeanUtils.populate(role, request.getParameterMap() );
 		
 		Constants.UIOperations opEnum  = UIOperations.valueOf(operation.toUpperCase());
+		String id = request.getParameter(Constants.COLLECTION_KEY);
+		
 		switch (opEnum) {
 		case ADD:
-			//String id = request.getParameter("id");
-			String name = request.getParameter("rolename");
-			
-			Role role = new Role();
-			role.setName(name);
-			Boolean b = roleService.add(role);
-			
-			if ( b == false ) {
-				PortalUtil.writeAjaxResponse(response, "");
-				return;
-			}
+	
+			roleService.add(role);
 			break;
 		case EDIT :
-				 
+			if(id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
+				role.set_id(id);
+				roleService.update(role);
+			}	 
 			break;	
 			
 		case DELETE :
-			
+			if(id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
+				roleService.delete(id);
+			}
 			break;
 
 		case VIEW :

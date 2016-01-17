@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.affixus.dao.RoleDAO;
+import com.affixus.pojo.Client;
 import com.affixus.pojo.auth.Role;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants.DBCollectionEnum;
@@ -109,6 +110,15 @@ public class MongoRoleDaoImpl implements RoleDAO {
 			LOG.equals(exception);
 		}
 		return false;
+	}
+
+	@Override
+	public Boolean delete(String _id) {
+		// TODO Auto-generated method stub
+		Role role = new Role();
+		role.set_id(_id);
+		role.setDeleted(true);
+		return update(role);
 	}
 
 	

@@ -31,11 +31,11 @@
 				var grid_selector = "#grid-table_user";
 				var pager_selector = "#grid-pager_user";
 
-				var PT_inversionHrData = <%= MongoAttributeList.getRateListByPrinter("1")%>;
-				var PT_viber25 = <%= MongoAttributeList.getRateListByPrinter("2")%>;
-				var PT_viber50 = <%= MongoAttributeList.getRateListByPrinter("3")%>;
-				var PT_rubberMould = <%= MongoAttributeList.getRateListByPrinter("4")%>;
-				
+				/* var roleValue = ;
+				roleValue = JSON.stringify(roleValue).replace(",",";");
+				debugger;
+				 */
+				 var roleValue = [];
 				jQuery(grid_selector).jqGrid({
 					url: "${pageContext.request.contextPath}/usermaster.action?op=view_all",
 					mtype: "POST",
@@ -50,7 +50,7 @@
 						{name:'email',index:'email', width:250, editrules:{required:true},editable: true},
 						{name:'password',index:'password', width:150,editable: true, hidden:true,"formatter":"password","edittype":"password", editrules:{required:true, edithidden:true},editoptions:{size:"20",maxlength:"30"}},
 						{name:'mobile',index:'mobile', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
-						{name:'role',index:'role',sortable:false,editable: true, edittype:"select", editrules:{required:true, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"Invoice:Invoice;DC:DC"},formatter:'select'},
+						{name:'role',index:'role', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:<%= MongoAttributeList.getRoleList()%>},formatter:'select'},
 						{name:'address',index:'address', sortable:false,editable:true, edittype:"textarea", hidden:true, editrules:{required:false, edithidden:true},editoptions:{rows:"2",cols:"20"}},
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 

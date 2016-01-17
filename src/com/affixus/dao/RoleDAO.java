@@ -9,5 +9,7 @@ public interface RoleDAO {
 	public List<Role> getAll();
 	public Boolean add(Role role);
 	public Boolean update(Role role);
+	public Boolean delete(String _id);
+
 	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.affixus.dao.RoleDAO;
 import com.affixus.dao.impl.MongoRoleDaoImpl;
+import com.affixus.pojo.Client;
 import com.affixus.pojo.auth.Role;
 import com.affixus.util.ObjectFactory;
 import com.affixus.util.ObjectFactory.ObjectEnum;
@@ -28,6 +29,13 @@ public class RoleService {
 	public Role get(String _id)
 	{
 		return roleDAO.get(_id);
+	}
+	public Boolean update(Role role) {
+		return roleDAO.update(role);
+	}
+
+	public Boolean delete(String _id) {
+		return roleDAO.delete(_id);
 	}
 
 	public List<Role> getAll() {

@@ -38,48 +38,24 @@
 					gridview: true,
 					datatype: "json",
 					height: 366,
-					colNames:['id','Role Name','Master Client','Master Rates', 'Master User', 'Master Role','New Order','Order Generation','Update Order',
-					          'Platform Create','Platform Output Calculation','Platform Status Update','Parts Update','Invoice',' '],
+					colNames:['id','Role Name','Client','Rates','User','Role','New Order','Order Generatation','Incomplete Order','Platform Output Calculation','Completed Order Update','Generate Invoice','Print Invoice','Generate DC','Print DC',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
-						{name:'rolename',index:'rolename', width:250, editrules:{required:true},editable: true},
-						{name: "client", width: 70, align: "center",editable: true, formatter: "checkbox", formatoptions: { disabled: true},
-				            edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "No"}, stype: "select", searchoptions: { 
-				                value: ":Any;true:Yes;false:No" } },
-				        {name: "rates", width: 70, align: "center",formoptions:{rowpos:2, colpos:2},editable: true, formatter: "checkbox", formatoptions: { disabled: true},
-						  edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "No"}, stype: "select", searchoptions: { 
-						                value: ":Any;true:Yes;false:No" } },
-					    {name: "user", width: 70, align: "center",editable: true, formatter: "checkbox", formatoptions: { disabled: true},
-											  edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "No"}, stype: "select", searchoptions: { 
-											                value: ":Any;true:Yes;false:No" } },   
-		                {name: "role", width: 70, align: "center",formoptions:{rowpos:4, colpos:2},editable: true, formatter: "checkbox", formatoptions: { disabled: true},
-							  edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "No"}, stype: "select", searchoptions: { 
-							                value: ":Any;true:Yes;false:No" } },
-		                {name: "neworder", width: 70, align: "center",editable: true, formatter: "checkbox", formatoptions: { disabled: true},
-							  edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "No"}, stype: "select", searchoptions: { 
-							                value: ":Any;true:Yes;false:No" } },
-		                {name: "ordergeneration", width: 70, align: "center",formoptions:{rowpos:6, colpos:2},editable: true, formatter: "checkbox", formatoptions: { disabled: true},
-							  edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "No"}, stype: "select", searchoptions: { 
-							                value: ":Any;true:Yes;false:No" } },
-		                {name: "updateorder", width: 70, align: "center",editable: true, formatter: "checkbox", formatoptions: { disabled: true},
-							  edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "No"}, stype: "select", searchoptions: { 
-							                value: ":Any;true:Yes;false:No" } },
-		                {name: "platformcreate", width: 70, align: "center",formoptions:{rowpos:8, colpos:2},editable: true, formatter: "checkbox", formatoptions: { disabled: true},
-							  edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "No"}, stype: "select", searchoptions: { 
-							                value: ":Any;true:Yes;false:No" } },
-		                {name: "platformoutputcalculation", width: 70, align: "center",editable: true, formatter: "checkbox", formatoptions: { disabled: true},
-							  edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "No"}, stype: "select", searchoptions: { 
-							                value: ":Any;true:Yes;false:No" } },
-		                {name: "platformstatusupdate", width: 70, align: "center",formoptions:{rowpos:10, colpos:2},editable: true, formatter: "checkbox", formatoptions: { disabled: true},
-							  edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "No"}, stype: "select", searchoptions: { 
-							                value: ":Any;true:Yes;false:No" } },
-		                {name: "partsupdate", width: 70, align: "center",editable: true, formatter: "checkbox", formatoptions: { disabled: true},
-							  edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "No"}, stype: "select", searchoptions: { 
-							                value: ":Any;true:Yes;false:No" } },
-		                {name: "invoice", width: 70, align: "center",formoptions:{rowpos:12, colpos:2},editable: true, formatter: "checkbox", formatoptions: { disabled: true},
-							  edittype: "checkbox", editoptions: {value: "Yes:No", defaultValue: "No"}, stype: "select", searchoptions: { 
-							                value: ":Any;true:Yes;false:No" } },
-		               {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
+						{name:'name',index:'name', width:250, editrules:{required:true},editable: true},
+						{name: "clientMaster", width: 70, align: "center",editable: true, formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
+						{name: "rateMaster", width: 70, align: "center",editable: true,formoptions:{rowpos:2, colpos:2}, formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
+						{name: "userMaster", width: 70, align: "center",editable: true, formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
+						{name: "roleMaster", width: 70, align: "center",editable: true,formoptions:{rowpos:4, colpos:2}, formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
+						{name: "newOrder", width: 70, align: "center",editable: true, formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
+						{name: "generateOrder", width: 70, align: "center",editable: true, formoptions:{rowpos:6, colpos:2},formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
+						{name: "incompleteOrder", width: 70, align: "center",editable: true, formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
+						{name: "platformOptCalc", width: 70, align: "center",editable: true, formoptions:{rowpos:8, colpos:2},formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
+						{name: "orderUpdate", width: 70, align: "center",editable: true, formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
+						{name: "generateInvoice", width: 70, align: "center",editable: true, formoptions:{rowpos:10, colpos:2},formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
+						{name: "printInvoice", width: 70, align: "center",editable: true, formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
+						{name: "generateDC", width: 70, align: "center",editable: true, formoptions:{rowpos:12, colpos:2},formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
+						{name: "printDC", width: 70, align: "center",editable: true, formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
+						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,

@@ -40,17 +40,17 @@
 			</a>
 
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/master/client_master.jsp">
+				<li><a href="#" data-href="/jsp/master/clientMaster.jsp">
 						<i class="icon-double-angle-right"></i> Client
 				</a></li>
 				
-				<li><a href="#" data-href="/jsp/master/rate_master.jsp">
+				<li><a href="#" data-href="/jsp/master/rateMaster.jsp">
 						<i class="icon-double-angle-right"></i> Rates
 				</a></li>
-				<li><a href="#" data-href="/jsp/master/user_master.jsp">
+				<li><a href="#" data-href="/jsp/master/userMaster.jsp">
 						<i class="icon-double-angle-right"></i> User
 				</a></li>
-				<li><a href="#" data-href="/jsp/master/role_master.jsp">
+				<li><a href="#" data-href="/jsp/master/roleMaster.jsp">
 						<i class="icon-double-angle-right"></i> Role
 				</a></li>
 			</ul>

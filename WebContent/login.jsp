@@ -50,10 +50,10 @@
 							<div class="center">
 								<h1>
 									<i class="icon-leaf green"></i>
-									<span class="red">Jewels</span>
-									<span class="white">Application</span>
+									<span class="red">Jyoti</span>
+									<span class="white">Creations</span>
 								</h1>
-								<h4 class="blue">&copy; 3D Jewels India pvt. ltd.</h4>
+								
 							</div>
 
 							<div class="space-6"></div>

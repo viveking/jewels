@@ -35,7 +35,7 @@ public class PortalUtil {
 
 	public static Boolean validateRole(String requestURI, HttpSession session) {
 		User accessUser = getLoggedUser(session);
-		if( accessUser.getUsername().equalsIgnoreCase("admin")  )
+		if( accessUser.getUsername().equalsIgnoreCase("admin"))
 		{
 			return true;
 		}
@@ -55,6 +55,4 @@ public class PortalUtil {
 			e.printStackTrace();
 		}
 	}
-
-
 }

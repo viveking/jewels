@@ -1,3 +1,13 @@
+<%@page import="com.affixus.pojo.auth.User"%>
+<%@page import="com.affixus.pojo.auth.Role"%>
+<%
+	HttpSession sesn = request.getSession(false);
+	Role role=null;
+	if(sesn!=null || sesn.getAttribute("user")!=null ){
+		User user = (User) sesn.getAttribute("user");
+		role = user.getRole();
+	}
+%>
 <div class="sidebar sidebar-fixed" id="sidebar">
 
 	<div class="sidebar-shortcuts" id="sidebar-shortcuts">
@@ -40,19 +50,26 @@
 			</a>
 
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/master/clientMaster.jsp">
+				<% if(role.isClientMaster()){ %>
+					<li><a href="#" data-href="/jsp/master/clientMaster.jsp">
 						<i class="icon-double-angle-right"></i> Client
-				</a></li>
-				
-				<li><a href="#" data-href="/jsp/master/rateMaster.jsp">
-						<i class="icon-double-angle-right"></i> Rates
-				</a></li>
-				<li><a href="#" data-href="/jsp/master/userMaster.jsp">
-						<i class="icon-double-angle-right"></i> User
-				</a></li>
-				<li><a href="#" data-href="/jsp/master/roleMaster.jsp">
-						<i class="icon-double-angle-right"></i> Role
-				</a></li>
+					</a></li>
+				<%} %>
+				<% if(role.isRateMaster()){ %>
+					<li><a href="#" data-href="/jsp/master/rateMaster.jsp">
+							<i class="icon-double-angle-right"></i> Rates
+					</a></li>
+				<%} %>
+				<% if(role.isUserMaster()){ %>
+					<li><a href="#" data-href="/jsp/master/userMaster.jsp">
+							<i class="icon-double-angle-right"></i> User
+					</a></li>
+				<%} %>
+				<% if(role.isRoleMaster()){ %>
+					<li><a href="#" data-href="/jsp/master/roleMaster.jsp">
+							<i class="icon-double-angle-right"></i> Role
+					</a></li>
+				<%} %>
 			</ul>
 		</li>
 		<li>
@@ -62,21 +79,27 @@
 			</a>
 			
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/order/newOrder.jsp">
-						<i class="icon-double-angle-right"></i> New Order
-				</a></li>
+				<% if(role.isNewOrder()){ %>
+					<li><a href="#" data-href="/jsp/order/newOrder.jsp">
+							<i class="icon-double-angle-right"></i> New Order
+					</a></li>
+				<%} %>
+				<% if(role.isGenerateOrder()){ %>
 				
-				<li id="liOrderGeneration"><a href="#" data-href="/jsp/order/generateOrder.jsp">
-						<i class="icon-double-angle-right"></i> Order Generation
-				</a></li>
-<!-- 
-				<li><a href="#" data-href="/jsp/order/updateOrder.jsp">
-						<i class="icon-double-angle-right"></i> Update Order
-				</a></li>				
-  -->
-				<li><a href="#" data-href="/jsp/order/incompleteOrder.jsp">
-						<i class="icon-double-angle-right"></i> Incomplete Order
-				</a></li>
+					<li id="liOrderGeneration"><a href="#" data-href="/jsp/order/generateOrder.jsp">
+							<i class="icon-double-angle-right"></i> Order Generation
+					</a></li>
+					<!-- 
+					<li><a href="#" data-href="/jsp/order/updateOrder.jsp">
+							<i class="icon-double-angle-right"></i> Update Order
+					</a></li>				
+	  				-->
+				<%} %>
+				<% if(role.isIncompleteOrder()){ %>
+					<li><a href="#" data-href="/jsp/order/incompleteOrder.jsp">
+							<i class="icon-double-angle-right"></i> Incomplete Order
+					</a></li>
+				<%} %>
  				
 			</ul>
 			
@@ -91,12 +114,16 @@
 				<!--li><a href="#" data-href="/jsp/platform/platform_master.jsp">
 						<i class="icon-double-angle-right"></i>Create Platform
 				</a></li-->
-				<li><a href="#" data-href="/jsp/platform/platformOptCalc.jsp">
-						<i class="icon-double-angle-right"></i> Platform Output Calculation
-				</a></li>
-				<li><a href="#" data-href="/jsp/platform/orderUpdate.jsp">
-						<i class="icon-double-angle-right"></i> Completed Order Update
-				</a></li>
+				<% if(role.isPlatformOptCalc()){ %>
+					<li><a href="#" data-href="/jsp/platform/platformOptCalc.jsp">
+							<i class="icon-double-angle-right"></i> Platform Output Calculation
+					</a></li>
+				<%} %>
+				<% if(role.isOrderUpdate()){ %>	
+					<li><a href="#" data-href="/jsp/platform/orderUpdate.jsp">
+							<i class="icon-double-angle-right"></i> Completed Order Update
+					</a></li>
+				<%} %>	
 				<!-- <li><a href="#" data-href="/jsp/platform/platform_status_update.jsp">
 						<i class="icon-double-angle-right"></i> Platform Status Update
 				</a></li> -->
@@ -121,16 +148,20 @@
 					</a>
 			
 					<ul class="submenu">
-						<li>
-							<a href="#" data-href="/jsp/invoice/generateInvoice.jsp">
-								<i class="icon-double-angle-right"></i>Generate Invoice
-							</a>
-						</li>
-						<li>
-							<a href="#" data-href="/jsp/invoice/printInvoice.jsp">
-								<i class="icon-double-angle-right"></i>Print Invoice
-							</a>
-						</li>
+						<% if(role.isGenerateInvoice()){ %>
+							<li>
+								<a href="#" data-href="/jsp/invoice/generateInvoice.jsp">
+									<i class="icon-double-angle-right"></i>Generate Invoice
+								</a>
+							</li>
+						<%} %>
+						<% if(role.isPrintInvoice()){ %>
+							<li>
+								<a href="#" data-href="/jsp/invoice/printInvoice.jsp">
+									<i class="icon-double-angle-right"></i>Print Invoice
+								</a>
+							</li>
+						<%} %>	
 					</ul>
 				</li>
 				
@@ -141,14 +172,17 @@
 					</a>
 			
 					<ul class="submenu">
+					<% if(role.isGenerateDC()){ %>
 						<li><a href="#" data-href="/jsp/invoice/generateDC.jsp">
 							<i class="icon-double-angle-right"></i>Generate DC
 						</a></li>
-		
+					<%} %>
+					<% if(role.isPrintDC()){ %>
 						<li><a href="#" data-href="/jsp/invoice/printDC.jsp">
 								<i class="icon-double-angle-right"></i>Print DC
 						</a></li>
-					</ul>
+						</ul>
+					<%} %>
 				</li>
 				
 				
@@ -168,7 +202,7 @@
 					class="icon-bar-chart"></i> <span class="menu-text"> Report </span>
 					<b class="arrow icon-angle-down"></b>
 			</a>
-<!-- 
+		<!-- 
 			<ul class="submenu">
 				<li><a href="report.action?op=REPORT_DATE"> <i
 						class="icon-double-angle-right"></i> Daily Sales
@@ -182,7 +216,8 @@
 						<i class="icon-double-angle-right"></i> Purchase Report
 				</a></li>
 			</ul>
- -->		</li>
+ 		-->
+		</li>
 	</ul>
 	<!-- /.nav-list -->
 

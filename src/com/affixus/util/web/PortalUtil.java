@@ -28,7 +28,12 @@ public class PortalUtil {
 		session.setAttribute(KEY_USER, user);
 		session.setAttribute("SESSION_SET", true);
 	}
-
+	
+	public static void invalidateSession(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		session.invalidate();
+	}
+	
 	public static Boolean isValidSession(HttpSession session) {
 		Boolean isTrue = (Boolean) session.getAttribute("SESSION_SET");
 		if (isTrue != null && isTrue) {

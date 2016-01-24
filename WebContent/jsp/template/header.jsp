@@ -1,5 +1,6 @@
 <%@page import="com.affixus.util.Config"%>
 <%@ page language="java" isELIgnored="false" contentType="text/html; charset=ISO-8859-1"	pageEncoding="ISO-8859-1"%>
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -21,6 +22,8 @@ String appPath = request.getContextPath();
 var webSocket = null;
 var url = '';
 var jsAppName = '<%=appPath%>';
+
+
 /* if(window.location.protocol == 'http:') {	
 	url  = 'ws://' + window.location.host+jsAppName+'/alert';
 }
@@ -251,7 +254,7 @@ function printMsg(message)
 							</a>
 
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-								<li>
+								<!-- <li>
 									<a href="#">
 										<i class="icon-cog"></i>
 										Settings
@@ -263,12 +266,12 @@ function printMsg(message)
 										<i class="icon-user"></i>
 										Profile
 									</a>
-								</li>
+								</li> -->
 
 								<li class="divider"></li>
 
 								<li>
-									<a href="#">
+									<a id="logoutBtn" href="logout">
 										<i class="icon-off"></i>
 										Logout
 									</a>

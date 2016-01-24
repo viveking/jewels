@@ -62,7 +62,7 @@
 								<div id="login-box" class="login-box visible widget-box no-border">
 									<div class="widget-body">
 										<div class="widget-main">
-											<h4 class="header blue lighter bigger">
+											<h4 class="header blue lighter bigger" style="font-size:18px;">
 												<i class="icon-coffee green"></i>
 												Please Enter Your Information
 											</h4>

@@ -7,10 +7,8 @@ import java.util.Map;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.Version;
-import org.codehaus.jackson.annotate.JsonSubTypes.Type;
 import org.codehaus.jackson.impl.JsonWriteContext;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;

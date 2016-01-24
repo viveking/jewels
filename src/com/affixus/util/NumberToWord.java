@@ -1,6 +1,5 @@
 package com.affixus.util;
 
-import java.util.*;
 public class NumberToWord
 {
    private static String input;
@@ -155,11 +154,11 @@ public class NumberToWord
    }
    private void inputNumber()
    {
-       Scanner in=new Scanner(System.in);
+       //Scanner in=new Scanner(System.in);
        try
        {
          System.out.print("Please enter number to Convert into Words : ");
-         num=in.nextInt();
+         //num=in.nextInt();
        }
        catch(Exception e)
        {

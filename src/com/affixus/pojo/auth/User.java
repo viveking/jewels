@@ -11,7 +11,7 @@ public class User extends BasePojo {
 	private String username;
 	private String password;
 	private String mobile;
-	private String emailId;
+	private String email;
 	private Role role;
 	private String phone;
 	private String address;
@@ -64,12 +64,12 @@ public class User extends BasePojo {
 		this.mobile = mobile;
 	}
 
-	public String getEmailId() {
-		return emailId;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Role getRole() {

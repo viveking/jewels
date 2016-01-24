@@ -50,7 +50,7 @@
 						{name:'email',index:'email', width:250, editrules:{required:true},editable: true},
 						{name:'password',index:'password', width:150,editable: true, hidden:true,"formatter":"password","edittype":"password", editrules:{required:true, edithidden:true},editoptions:{size:"20",maxlength:"30"}},
 						{name:'mobile',index:'mobile', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
-						{name:'role',index:'role', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:<%= MongoAttributeList.getRoleList()%>},formatter:'select'},
+						{name:'roleId',index:'roleId', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:<%= MongoAttributeList.getRoleList()%>},formatter:'select'},
 						{name:'address',index:'address', sortable:false,editable:true, edittype:"textarea", hidden:true, editrules:{required:false, edithidden:true},editoptions:{rows:"2",cols:"20"}},
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 

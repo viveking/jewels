@@ -10,5 +10,8 @@ public interface UserDAO {
 	public User get(String _id);
 	public Boolean add(User user);
 	public List<User> getAll();
+	public Boolean update(User user);
+	public Boolean delete(String _id);
+	public Boolean validateUser(String username);
 	
 }

@@ -30,16 +30,16 @@ public class AuthFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) res;
 		HttpSession session = request.getSession();
 		
-		Boolean isValidSession  = true;//PortalUtil.isValidSession(session);
+		Boolean isValidSession  = PortalUtil.isValidSession(session);
 		if( !isValidSession ){
 			session.setAttribute("SERVER_MESSAGE", "Session has Expired! Please login again!");
 			response.sendRedirect("login.jsp");
 			return;
 		}
 		
-		Boolean isValidRole  = true ;// PortalUtil.validateRole( request.getRequestURI(), session );
+		Boolean isValidUser  = PortalUtil.validateUser( request.getRequestURI(), session );
 		
-		if( !isValidRole ){
+		if( !isValidUser ){
 			session.setAttribute("SERVER_MESSAGE", "You are not alowed to access this action!");
 			response.sendRedirect("login.jsp");
 			return;

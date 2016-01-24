@@ -1,11 +1,13 @@
 package com.affixus.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import com.affixus.dao.UserDAO;
+import com.affixus.pojo.auth.Role;
 import com.affixus.pojo.auth.User;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants.DBCollectionEnum;
@@ -157,8 +159,50 @@ public class MongoUserDaoImpl implements UserDAO{
 		}
 		return null;
 	}
+	@Override
+	public Boolean update(User user) {
+		try{
+			Date date = new Date();
+			user.setUtime( date );
+			
+			DBCollection collection = mongoDB.getCollection( collUser );
+			String jsonString = CommonUtil.objectToJson(user);
+			
+			DBObject dbObject = (DBObject) JSON.parse( jsonString );
+			dbObject.removeField("_id");
+			DBObject query = new BasicDBObject("_id", user.get_id());
+			
+			DBObject updateObj = new BasicDBObject("$set", dbObject);
+			
+			collection.update(query, updateObj);
+			return true;
+		}
+		catch( Exception exception ){
+			LOG.equals(exception);
+		}
+		return false;
+	}
 
+	@Override
+	public Boolean delete(String _id) {
+		// TODO Auto-generated method stub
+		User user = new User();
+		user.set_id(_id);
+		user.setDeleted(true);
+		return update(user);
+	}
 
-	
+	@Override
+	public Boolean validateUser(String username) {
+		// TODO Auto-generated method stub
+		DBCollection collection = mongoDB.getCollection( collUser );
+		DBObject query = new BasicDBObject("username", username);
+		DBObject dbObject = collection.findOne(query);
+		
+		if(dbObject == null){
+			return false;
+		}
+		return true;
+	}
 }
 

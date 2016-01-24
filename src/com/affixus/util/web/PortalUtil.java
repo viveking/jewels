@@ -3,11 +3,15 @@ package com.affixus.util.web;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.affixus.pojo.auth.User;
+import com.affixus.services.UserService;
+import com.affixus.util.ObjectFactory;
+import com.affixus.util.ObjectFactory.ObjectEnum;
 
 public class PortalUtil {
 
@@ -33,16 +37,18 @@ public class PortalUtil {
 		return false;
 	}
 
-	public static Boolean validateRole(String requestURI, HttpSession session) {
+	public static Boolean validateUser(String requestURI, HttpSession session) {
 		User accessUser = getLoggedUser(session);
-		if( accessUser.getUsername().equalsIgnoreCase("admin"))
+		UserService userService=(UserService)ObjectFactory.getInstance(ObjectEnum.USER_SERVICE);
+		
+		if(userService.validateUser(accessUser.getUsername()))
 		{
 			return true;
 		}
-		
+		return false;
 		//Set<String> accessList = accessUser.getRole().getAccessList();
 		//if( accessList. )
-		return null;
+		//return null;
 	}
 	
 	public static void writeAjaxResponse(HttpServletResponse response, String string) throws IOException {

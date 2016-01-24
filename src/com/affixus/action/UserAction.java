@@ -45,7 +45,7 @@ public class UserAction extends HttpServlet {
     public void init() throws ServletException {
     	super.init();
     	Object object = ObjectFactory.getInstance(ObjectEnum.ROLE_SERVICE);
-		if (object instanceof UserService ) {
+		if (object instanceof RoleService ) {
 			roleService = (RoleService) object;
 		}
 		
@@ -81,12 +81,12 @@ public class UserAction extends HttpServlet {
 		}
 		
 		Constants.UIOperations opEnum  = UIOperations.valueOf(operation.toUpperCase());
+		String id = request.getParameter(Constants.COLLECTION_KEY);
+		User user = new User();
+		BeanUtils.populate(user, request.getParameterMap() );
 		switch (opEnum) {
 		case ADD:
-			String roleId = request.getParameter("role");
-			
-			User user = new User();
-			BeanUtils.populate(user, request.getParameterMap() );
+			String roleId = request.getParameter("roleId");
 			User oldUser = userService.get( user.getUsername() );
 			
 			if( oldUser != null) // already exist
@@ -109,11 +109,16 @@ public class UserAction extends HttpServlet {
 			}
 			break;
 		case EDIT :
-				 
+			if(id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
+				user.set_id(id);
+				userService.update(user);
+			}	 
 			break;	
 			
 		case DELETE :
-			
+			if(id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
+				userService.delete(id);
+			}
 			break;
 
 		case VIEW :

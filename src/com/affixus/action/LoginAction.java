@@ -73,7 +73,7 @@ public class LoginAction extends HttpServlet {
 		}
 		
 		PortalUtil.setLoggedUserInSession(request, user);
-		response.sendRedirect("hometmp.jsp");
+		response.sendRedirect("index.jsp");
 		return;
 	}
 }

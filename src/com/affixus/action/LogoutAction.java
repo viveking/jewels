@@ -7,14 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import com.affixus.pojo.auth.User;
-import com.affixus.services.UserService;
-import com.affixus.util.ObjectFactory;
-import com.affixus.util.ObjectFactory.ObjectEnum;
 import com.affixus.util.web.PortalUtil;
 
 @WebServlet("/logout")

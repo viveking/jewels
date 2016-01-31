@@ -36,7 +36,7 @@
 		
 		<div class="col-xs-2">
 			<label for="plateformNumber">Platform Number</label>
-			<input type="text" id="plateformNumber" value='${platformNumber}' readonly="readonly"/>
+			<input type="text" id="plateformNumber" value='${platformNumber}' />
 		</div>
 		<div class="col-xs-3">
 		

@@ -160,7 +160,7 @@
 			rowNum:100000,
 			altRows: true,
 			rownumbers: true,  
-			multiselect: false,
+			multiselect: true,
 			caption: "Order List",
 			autowidth: true,
 			sortname: '_id', 
@@ -227,8 +227,18 @@
 			}
 			
 			var passedGrid = $("#order-grid-table");
-			var selData = passedGrid.jqGrid('getRowData');
+			//var selData = passedGrid.jqGrid('getRowData');
+			var selRows = passedGrid.jqGrid('getGridParam','selarrrow');
 			
+			var selData=[];
+			$.each(selRows,function(inx,val){
+				selData.push(passedGrid.getRowData(val));
+			});
+			
+			if(selData.length==0){
+				alert("Please select atleast one completed order");
+				return;
+			}
 			var param ={
 						'order':JSON.stringify(selData),
 						'clientName': $("#idSelectClient").val(),

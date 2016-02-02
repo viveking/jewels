@@ -55,6 +55,7 @@
 						{name: "printInvoice", width: 70, align: "center",editable: true, formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
 						{name: "generateDC", width: 70, align: "center",editable: true, formoptions:{rowpos:12, colpos:2},formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
 						{name: "printDC", width: 70, align: "center",editable: true, formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
+						{name: "platformStatusReport", width: 70, align: "center",editable: true, formoptions:{rowpos:14, colpos:2},formatter: "checkbox", formatoptions: { disabled: true},edittype: "checkbox", editoptions: {value: "true:false"}, stype: "select", searchoptions: { value: ":Any;true:Yes;false:No" } },
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 
 							formatoptions:{ 

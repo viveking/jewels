@@ -22,7 +22,8 @@ public class Role extends BasePojo {
 	private boolean printInvoice;
 	private boolean generateDC;
 	private boolean printDC;
-
+	private boolean platformStatusReport;
+	
 	public String get_id() {
 		return _id;
 	}
@@ -150,6 +151,14 @@ public class Role extends BasePojo {
 
 	public void setRoleMaster(boolean roleMaster) {
 		this.roleMaster = roleMaster;
+	}
+
+	public boolean isPlatformStatusReport() {
+		return platformStatusReport;
+	}
+
+	public void setPlatformStatusReport(boolean platformStatusReport) {
+		this.platformStatusReport = platformStatusReport;
 	}
 
 }

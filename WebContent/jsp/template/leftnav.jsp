@@ -187,7 +187,7 @@
 				
 				
 
-				<li><a href="#" data-href="/jsp/invoice/receipts.jsp">
+				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
 						<i class="icon-double-angle-right"></i> Receipts
 				</a></li>
 				
@@ -202,21 +202,15 @@
 					class="icon-bar-chart"></i> <span class="menu-text"> Report </span>
 					<b class="arrow icon-angle-down"></b>
 			</a>
-		<!-- 
+		
 			<ul class="submenu">
-				<li><a href="report.action?op=REPORT_DATE"> <i
-						class="icon-double-angle-right"></i> Daily Sales
-				</a></li>
-				
-				<li><a href="#" onclick="showSalesReportDialog()"> <i
-						class="icon-double-angle-right"></i> Sales Report
-				</a></li>
-
-				<li><a href="#" onclick="showPurchaseReportDialog()">
-						<i class="icon-double-angle-right"></i> Purchase Report
-				</a></li>
+				<% if(role.isPlatformOptCalc()){ %>
+					<li><a href="#" data-href="/jsp/report/platformStatus.jsp"> 
+						<i class="icon-double-angle-right"></i> Platform Status
+					</a></li>
+				<% } %>
 			</ul>
- 		-->
+ 		
 		</li>
 	</ul>
 	<!-- /.nav-list -->

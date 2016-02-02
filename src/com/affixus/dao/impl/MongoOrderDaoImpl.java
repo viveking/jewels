@@ -113,7 +113,7 @@ public class MongoOrderDaoImpl implements OrderDao {
 			DBCollection collection = mongoDB.getCollection( collOrder );
 			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
 			
-			if(status != null || status.length > 0){
+			if(status != null && status.length > 0){
 				
 				BasicDBList orQuery = new BasicDBList();
 				for(String stat : status){
@@ -154,7 +154,7 @@ public class MongoOrderDaoImpl implements OrderDao {
 			DBCollection collection = mongoDB.getCollection( collOrder );
 			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
 
-			if(status != null || status.length > 0){
+			if(status != null && status.length > 0){
 				
 				BasicDBList orQuery = new BasicDBList();
 				for(String stat : status){

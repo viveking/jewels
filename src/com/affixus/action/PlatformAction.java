@@ -126,8 +126,8 @@ public class PlatformAction extends HttpServlet {
 				}*/
 				break;
 			case VIEW_ALL:
-				List<Platform> orderList = platformService.getAll();
-				json = CommonUtil.objectToJson(orderList);
+				List<Platform> platformList = platformService.getAll();
+				json = CommonUtil.objectToJson(platformList);
 				break;
 			case SAVE:
 				

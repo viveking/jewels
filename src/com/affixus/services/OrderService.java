@@ -68,4 +68,8 @@ public class OrderService {
 		return orderDao.getCompletedOrderInfoByPlatform(platformNumber);	
 	}
 	
+	public Set<String> getAllOrderInfoByPlatform(String platformNumber) {
+		return orderDao.getAllOrderInfoByPlatform(platformNumber);	
+	}
+	
 }

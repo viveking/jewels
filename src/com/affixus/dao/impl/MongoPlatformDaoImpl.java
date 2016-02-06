@@ -207,7 +207,10 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 		// TODO Auto-generated method stub
 		try {
 			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.MAST_PLATFORM.toString());
-			DBObject queryObj = new BasicDBObject("status", status);
+			BasicDBObject queryObj = new BasicDBObject();
+			if(!status.isEmpty()){
+				queryObj.append("status", status);
+			}
 			DBObject projObj = new BasicDBObject("platformNumber", 1);
 			DBCursor dbCursor = collection.find(queryObj, projObj);
 			List<String> lstPlatform = new ArrayList<>();

@@ -216,45 +216,12 @@ public class OrderAction extends HttpServlet {
 					json=CommonUtil.objectToJson(orderList);
 				}
 				break;
-			/*case VIEW_PENDING_PARTS://Depricated
+			case VIEW_ALL_PARTS:
 				
-				String sBy= request.getParameter("sBy");//Search By
 				String value = request.getParameter("value");
 				Set<String> outputSet = null;
-				if(sBy != null && sBy.equalsIgnoreCase("client")){
-					outputSet = orderService.getOrderInfoByClient(value);
-				}else{
-					outputSet = orderService.getOrderInfoByPlatform(value);
-				}
-				json="[";
-				boolean fst = true;
-				for(String pp : outputSet){
-					if(fst){
-						json+=pp;
-						fst=false;
-					}else{
-						json+=","+pp;
-					}
-				}
+				outputSet = orderService.getAllOrderInfoByPlatform(value);
 				
-				json+="]";
-				
-				break;*/
-			case VIEW_INCOMPLETE_ORDER:
-				
-				fromDate = request.getParameter("fromDate");
-				toDate = request.getParameter("toDate");
-				
-				Set<String> outputSet = null;
-				if(fromDate!= null && null != toDate){
-					Date from = CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
-					Date to = CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
-					//Set<Order> orderList = orderService.getAll(new String[]{PartsStatus.INPROGRESS.toString()},from,to);
-					outputSet = orderService.getOrderInfoByClient(null,from,to);
-				}else{
-					//Set<Order> orderList = orderService.getAll(new String[]{PartsStatus.INPROGRESS.toString()});
-					outputSet = orderService.getOrderInfoByClient(null,null,null);
-				}
 				json="[";
 				boolean fst = true;
 				for(String pp : outputSet){
@@ -269,9 +236,37 @@ public class OrderAction extends HttpServlet {
 				json+="]";
 				
 				break;
+			case VIEW_INCOMPLETE_ORDER:
+				
+				fromDate = request.getParameter("fromDate");
+				toDate = request.getParameter("toDate");
+				
+				if(fromDate!= null && null != toDate){
+					Date from = CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+					Date to = CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+					//Set<Order> orderList = orderService.getAll(new String[]{PartsStatus.INPROGRESS.toString()},from,to);
+					outputSet = orderService.getOrderInfoByClient(null,from,to);
+				}else{
+					//Set<Order> orderList = orderService.getAll(new String[]{PartsStatus.INPROGRESS.toString()});
+					outputSet = orderService.getOrderInfoByClient(null,null,null);
+				}
+				json="[";
+				fst = true;
+				for(String pp : outputSet){
+					if(fst){
+						json+=pp;
+						fst=false;
+					}else{
+						json+=","+pp;
+					}
+				}
+				
+				json+="]";
+				
+				break;
 			case VIEW_COMPLETED_ORDER:
 				String sBy= request.getParameter("sBy");//Search By
-				String value = request.getParameter("value");
+				value = request.getParameter("value");
 				List<Order> outputList = null;
 				if(sBy != null && sBy.equalsIgnoreCase("client")){
 					outputList = orderService.getCompletedOrderInfoByClient(value);

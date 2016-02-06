@@ -40,7 +40,7 @@
 		</div><!-- /.col -->
 	</div><!-- /.row -->
 	
-		<div class="form-group row">
+	<!-- 	<div class="form-group row">
 			<div class="col-md-5">
 				<label class="col-sm-3 control-label " for="form-field-1"> Select Status </label>
 				<select class="col-md-6 chosen-select" id="idStatus" data-placeholder="Choose Status">
@@ -55,7 +55,7 @@
 				</button>
 			</div>
 		</div>
-
+ -->
 	<div id="alertContainer" style="position: fixed; bottom:10px; right:10px; z-index:1000">		
 	</div>
 	
@@ -67,20 +67,18 @@
 				var platformList = {};
 
 				$.ajax({
-				  	url: '${pageContext.request.contextPath}/platform.action?op=ALL_PLATFORM_ID&status=INPROGRESS',
+				  	url: '${pageContext.request.contextPath}/platform.action?op=ALL_PLATFORM_ID&status=',
 				  	type: 'GET',
 				  	async: false
 				  })
 				  .done(function(data) {
 				  	console.log("success "+data);
 				  	platformList = JSON.parse(data);
-				  	//setTimeout(function(){
-				  		//alert("Called Timeout");
-					  	$.each(platformList ,function(ind,val){
-					  		$("#idSelectPlatform").append("<option value="+val+">"+val+"<option>");
+				  	  	$.each(platformList ,function(ind,val){
+						  		$("#idSelectPlatform").append("<option value="+val+">"+val+"<option>");
 					  	});
 					  	$('.chosen-select').chosen().trigger("chosen:updated");
-				  	//}, 3000);
+					  	callPlatformFunction();
 				  })
 				  .fail(function() {
 				  	console.log("error");
@@ -90,30 +88,34 @@
 				  });
 				
 				$("#idSelectPlatform").on("change",function(){
-					$(grid_selector).jqGrid("clearGridData");
-						var param = {"sBy":"platform","value":$("#idSelectPlatform").val()};
-						  $.ajax({
-							  	url: '${pageContext.request.contextPath}/order.action?op=VIEW_PENDING_PARTS',
-							  	type: 'POST',
-							  	data: param
-							  })
-							  .done(function(dat) {
-							  	
-							  	if(dat!=""){
-						  			dat = JSON.parse(dat);
-							  	}
-							  	
-					  			$(grid_selector).jqGrid('setGridParam', {data: dat }).trigger('reloadGrid');
-							    
-							  })
-							  .fail(function() {
-							  	console.log("error");
-							  })
-							  .always(function() {
-							  	console.log("complete");
-							  });
+					callPlatformFunction();
 				});
 				
+				function callPlatformFunction(){
+					$(grid_selector).jqGrid("clearGridData");
+					var param = {"value":$("#idSelectPlatform").val()};
+					  $.ajax({
+						  	url: '${pageContext.request.contextPath}/order.action?op=VIEW_ALL_PARTS',
+						  	type: 'POST',
+						  	data: param
+						  })
+						  .done(function(dat) {
+						  	
+						  	if(dat!=""){
+					  			dat = JSON.parse(dat);
+						  	}
+						  	
+				  			$(grid_selector).jqGrid('setGridParam', {data: dat }).trigger('reloadGrid');
+						    
+						  })
+						  .fail(function() {
+						  	console.log("error");
+						  })
+						  .always(function() {
+						  	console.log("complete");
+						  });
+			
+				}
 				
 				var grid_selector = "#grid-table-platform";
 				//var pager_selector = "#grid-pager-platform";
@@ -145,7 +147,7 @@
 					rowNum:1000,
 					altRows: true,
 					
-					multiselect: true,
+					multiselect: false,
 			        multiboxonly: true,
 			
 					loadComplete : function() {

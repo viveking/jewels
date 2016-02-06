@@ -334,6 +334,46 @@ public class MongoOrderDaoImpl implements OrderDao {
 	}
 
 	@Override
+	public Set<String> getAllOrderInfoByPlatform(String platformNumber) {
+		try{
+			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
+			
+			List<BasicDBObject> queryList = new ArrayList<>();
+			queryList.add(new BasicDBObject("partList.platformNumber", platformNumber));
+			
+			DBObject anding = new BasicDBObject("$and",queryList);
+			
+			DBObject match = new BasicDBObject("$match", anding);
+			DBObject unwind = new BasicDBObject("$unwind", "$partList");
+			
+			List<BasicDBObject> andingForMatch2 = new ArrayList<>();
+			andingForMatch2.add(new BasicDBObject("partList.platformNumber", platformNumber));
+			
+			DBObject match2 = new BasicDBObject("$match",new BasicDBObject("$and",andingForMatch2));
+			
+			AggregationOutput aggregationOutput = collection.aggregate(match, unwind,match2);
+			
+			Set<String> orderList = new HashSet<>();
+			for (DBObject orderObj : aggregationOutput.results()) {
+				DBObject clientDBO = ((DBRef) orderObj.get(KEY_CLIENT_XID)).fetch();
+				
+				orderObj.put("orderDateStr", CommonUtil.longToStringDate((Long)orderObj.get("orderDate"), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
+				orderObj.put(KEY_CLIENT, clientDBO);
+				orderObj.removeField(KEY_CLIENT_XID);
+				String jsonString = JSON.serialize(orderObj);
+				orderList.add(jsonString);
+			}				
+			return orderList;
+		}
+		catch( Exception exception ){
+			exception.printStackTrace();
+		}
+		return null;
+	}
+	
+
+	
+	@Override
 	public List<Order> getCompletedOrderInfoByClient(String clientId) {
 		// TODO Auto-generated method stub
 		

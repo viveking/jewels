@@ -204,8 +204,12 @@
 			</a>
 		
 			<ul class="submenu">
+				<!-- 	<li><a href="#" data-href="/jsp/report/platformStatus.jsp"> 
+						<i class="icon-double-angle-right"></i> Platform Status
+					</a></li>
+				 -->
 				<% if(role.isPlatformOptCalc()){ %>
-					<li><a href="#" data-href="/jsp/report/platformStatus.jsp"> 
+					<li><a href="#" data-href="/jsp/report/platform_status_update.jsp"> 
 						<i class="icon-double-angle-right"></i> Platform Status
 					</a></li>
 				<% } %>

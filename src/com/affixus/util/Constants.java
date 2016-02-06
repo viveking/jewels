@@ -80,7 +80,8 @@ public class Constants {
 		VIEW_COMPLETED_ORDER, 
 		VIEW_ALL_INPROGRESS, 
 		VIEW_INCOMPLETE_ORDER, 
-		SAVE_PARTS_UPDATE;
+		SAVE_PARTS_UPDATE, 
+		VIEW_ALL_PARTS;
 		// @formatter:on
 	}
 

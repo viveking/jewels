@@ -299,7 +299,10 @@
 			  		$("#idgrandTotal").html(Number(dataFromServer["grandTotal"]).toFixed(2));
 			  		$("#idgrandTotal1").html(Number(dataFromServer["grandTotal"]).toFixed(2));
 			  		$("#idclientname").html(dataFromServer["invoice"]["client"]["name"]);
-			  		var clientAddress = dataFromServer["invoice"]["client"]["address"] +", " + dataFromServer["invoice"]["client"]["city"];
+			  		var clientAddress =  "";
+			  		if(dataFromServer["invoice"]["client"]["address"] !== undefined){
+			  			var clientAddress = dataFromServer["invoice"]["client"]["address"] +", " + dataFromServer["invoice"]["client"]["city"];
+			  		}
 			  		$("#idclientaddress").html(clientAddress);
 
 			  		var invoiceTaxOption = "";

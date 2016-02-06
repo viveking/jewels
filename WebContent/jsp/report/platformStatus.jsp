@@ -121,9 +121,12 @@
 				  	if(dat!=""){
 			  			dat = JSON.parse(dat);
 				  	}
-				  	
+				  	debugger;
 		  			$(passed_grid_selector).jqGrid('setGridParam', {data: dat }).trigger('reloadGrid');
-				    
+		  		  	$('#noGridContainer').hide();
+		  		  	$('#gridContainer').show();
+			      
+		  		  
 				  })
 				  .fail(function() {
 				  	console.log("error");

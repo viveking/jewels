@@ -30,4 +30,7 @@ public interface OrderDao {
 	Set<Order> getAll(String[] status, Date fromDate, Date toDate);
 
 	Set<String> getOrderInfoByClient(String clientId, Date from, Date to);
+	
+	public Set<String> getAllOrderInfoByPlatform(String platformNumber);
+	
 }

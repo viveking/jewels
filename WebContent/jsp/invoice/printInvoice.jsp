@@ -299,7 +299,8 @@
 			  		$("#idgrandTotal").html(Number(dataFromServer["grandTotal"]).toFixed(2));
 			  		$("#idgrandTotal1").html(Number(dataFromServer["grandTotal"]).toFixed(2));
 			  		$("#idclientname").html(dataFromServer["invoice"]["client"]["name"]);
-			  		$("#idclientaddress").html(dataFromServer["invoice"]["client"]["address"] +", " + dataFromServer["invoice"]["client"]["city"]);
+			  		var clientAddress = dataFromServer["invoice"]["client"]["address"] +", " + dataFromServer["invoice"]["client"]["city"];
+			  		$("#idclientaddress").html(clientAddress);
 
 			  		var invoiceTaxOption = "";
 			  		var invoiceName = "";

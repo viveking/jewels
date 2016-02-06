@@ -191,6 +191,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 						Set<String> orderIdList = new HashSet<String>();
 						orderIdList.add(orderId);
 						updateCAMAmountByNewWeights(orderIdList);
+						updateRMAmountByNewWeights(orderIdList);
 					}
 					
 				}

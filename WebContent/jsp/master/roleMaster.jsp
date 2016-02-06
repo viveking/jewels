@@ -38,7 +38,7 @@
 					gridview: true,
 					datatype: "json",
 					height: 366,
-					colNames:['id','Role Name','Client','Rates','User','Role','New Order','Order Generatation','Incomplete Order','Platform Output Calculation','Completed Order Update','Generate Invoice','Print Invoice','Generate DC','Print DC',' '],
+					colNames:['id','Role Name','Client','Rates','User','Role','New Order','Order Generatation','Incomplete Order','Platform Output Calculation','Completed Order Update','Generate Invoice','Print Invoice','Generate DC','Print DC','Platform Status Report',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
 						{name:'name',index:'name', width:250, editrules:{required:true},editable: true},

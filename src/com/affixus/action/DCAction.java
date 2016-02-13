@@ -23,6 +23,7 @@ import com.affixus.pojo.Order;
 import com.affixus.pojo.PrintDC;
 import com.affixus.services.ClientService;
 import com.affixus.services.DCService;
+import com.affixus.services.PlatformService;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
 import com.affixus.util.NumberToWord;
@@ -106,6 +107,17 @@ public class DCAction extends HttpServlet {
 		case "GET":
 			String dcId = request.getParameter("_id");
 			DC dc = dcService.get(dcId);
+			
+			
+			List<String> orderIdList = dc.getOrderIdList();
+			
+			PlatformService platformService = (PlatformService) ObjectFactory.getInstance(ObjectEnum.PLATFORM_SERVICE);
+			platformService.updateCAMAmountByNewWeights(orderIdList);
+			platformService.updateRMAmountByNewWeights(orderIdList);
+			
+			dc = dcService.get(dcId);
+			
+			
 			PrintDC printDC = new PrintDC();
 			printDC.setDc(dc);
 			
@@ -152,6 +164,19 @@ public class DCAction extends HttpServlet {
 			}
 			
 			List<Order> orderList = dcService.getAllInfo(from, to);
+			
+			orderIdList = new ArrayList<String>();
+			for(Order order: orderList){
+				orderIdList.add(order.get_id());
+			}
+			
+			platformService = (PlatformService) ObjectFactory.getInstance(ObjectEnum.PLATFORM_SERVICE);
+			platformService.updateCAMAmountByNewWeights(orderIdList);
+			platformService.updateRMAmountByNewWeights(orderIdList);
+			
+			orderList = dcService.getAllInfo(from, to);
+			
+			
 			json=CommonUtil.objectToJson(orderList);
 			
 			break;
@@ -196,7 +221,7 @@ public class DCAction extends HttpServlet {
 			JsonNode jn = mapper.readTree(jsonOrder);
 			mapper = new ObjectMapper();
 			jn = mapper.readTree(jsonOrder);
-			List<String> orderIdList = new ArrayList<>();
+			orderIdList = new ArrayList<>();
 
 			dc = new DC();
 			String clientNo = request.getParameter("clientName");
@@ -216,7 +241,11 @@ public class DCAction extends HttpServlet {
 				orderIdList.add(orderNo);
 			}
 			dc.setOrderIdList(orderIdList);
-
+			
+			platformService = (PlatformService) ObjectFactory.getInstance(ObjectEnum.PLATFORM_SERVICE);
+			platformService.updateCAMAmountByNewWeights(orderIdList);
+			platformService.updateRMAmountByNewWeights(orderIdList);
+			
 			dcService.create(dc);
 
 			break;

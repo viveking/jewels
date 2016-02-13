@@ -2,9 +2,7 @@ package com.affixus.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.bson.BasicBSONObject;
@@ -188,7 +186,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 							collection.update(new BasicDBObject("_id", orderId), updateQuery);
 						}
 						
-						Set<String> orderIdList = new HashSet<String>();
+						List<String> orderIdList = new ArrayList<String>();
 						orderIdList.add(orderId);
 						updateCAMAmountByNewWeights(orderIdList);
 						updateRMAmountByNewWeights(orderIdList);
@@ -227,7 +225,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 	}
 
 	@Override
-	public Boolean updateCAMAmountByNewWeights(Set<String> orderIdList) {
+	public Boolean updateCAMAmountByNewWeights(List<String> orderIdList) {
 		
 		DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
 		
@@ -283,7 +281,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 	}
 	
 	@Override
-	public Boolean updateRMAmountByNewWeights(Set<String> orderIdList) {
+	public Boolean updateRMAmountByNewWeights(List<String> orderIdList) {
 		
 		DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
 		

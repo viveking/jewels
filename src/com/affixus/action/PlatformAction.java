@@ -2,9 +2,8 @@ package com.affixus.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -172,7 +171,7 @@ public class PlatformAction extends HttpServlet {
 				
 				mapper = new ObjectMapper();
 				jn = mapper.readTree(jsonPlatform);
-				Set<String> orderIdList = new HashSet<>();
+				List<String> orderIdList = new ArrayList<>();
 				
 				for (JsonNode jsonNode : jn) {
 					

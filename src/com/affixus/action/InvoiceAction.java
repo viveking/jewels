@@ -23,6 +23,7 @@ import com.affixus.pojo.Order;
 import com.affixus.pojo.PrintInvoice;
 import com.affixus.services.ClientService;
 import com.affixus.services.InvoiceService;
+import com.affixus.services.PlatformService;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
 import com.affixus.util.NumberToWord;
@@ -200,6 +201,10 @@ public class InvoiceAction extends HttpServlet {
 					orderIdList.add(orderNo);
 				}
 				invoice.setOrderIdList(orderIdList);
+				
+				PlatformService platformService = (PlatformService) ObjectFactory.getInstance(ObjectEnum.PLATFORM_SERVICE);
+				platformService.updateCAMAmountByNewWeights(orderIdList);
+				platformService.updateRMAmountByNewWeights(orderIdList);
 				
 				invoiceService.create(invoice);
 				

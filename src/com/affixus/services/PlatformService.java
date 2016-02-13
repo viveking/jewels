@@ -46,11 +46,11 @@ public class PlatformService {
 		//return platformDao.updateCAMAmountByNewWeights(clientId);
 	}
 	
-	public Boolean updateCAMAmountByNewWeights(Set<String> orderIdList){
+	public Boolean updateCAMAmountByNewWeights(List<String> orderIdList){
 		return platformDao.updateCAMAmountByNewWeights(orderIdList);
 	}
 	
-	public Boolean updateRMAmountByNewWeights(Set<String> orderIdList){
+	public Boolean updateRMAmountByNewWeights(List<String> orderIdList){
 		return platformDao.updateRMAmountByNewWeights(orderIdList);
 	}
 	

@@ -97,6 +97,14 @@ public class InvoiceAction extends HttpServlet {
 			case "GET":
 				String invoiceId = request.getParameter("_id");
 				Invoice inv = invoiceService.get(invoiceId);
+				List<String> orderIdList = inv.getOrderIdList();
+				
+				PlatformService platformService = (PlatformService) ObjectFactory.getInstance(ObjectEnum.PLATFORM_SERVICE);
+				platformService.updateCAMAmountByNewWeights(orderIdList);
+				platformService.updateRMAmountByNewWeights(orderIdList);
+				
+				inv = invoiceService.get(invoiceId);
+				
 				PrintInvoice printInvoice = new PrintInvoice();
 				printInvoice.setInvoice(inv);
 				
@@ -170,7 +178,7 @@ public class InvoiceAction extends HttpServlet {
 				JsonNode jn = mapper.readTree(jsonOrder);
 				mapper = new ObjectMapper();
 				jn = mapper.readTree(jsonOrder);
-				List<String> orderIdList = new ArrayList<>();
+				orderIdList = new ArrayList<>();
 				
 				Invoice invoice = new Invoice();
 				String clientNo = request.getParameter("clientName");
@@ -202,7 +210,7 @@ public class InvoiceAction extends HttpServlet {
 				}
 				invoice.setOrderIdList(orderIdList);
 				
-				PlatformService platformService = (PlatformService) ObjectFactory.getInstance(ObjectEnum.PLATFORM_SERVICE);
+				platformService = (PlatformService) ObjectFactory.getInstance(ObjectEnum.PLATFORM_SERVICE);
 				platformService.updateCAMAmountByNewWeights(orderIdList);
 				platformService.updateRMAmountByNewWeights(orderIdList);
 				

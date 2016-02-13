@@ -58,7 +58,10 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 			List<String> orderIdList = invoice.getOrderIdList();
 			for(String orderId : orderIdList){
 				BasicDBObject queryObj = new BasicDBObject("_id",orderId);
-				BasicDBObject setQuery = new BasicDBObject("status", Constants.PartsStatus.INVOICEGENERATED.toString());
+				BasicDBObject setQuery = new BasicDBObject();
+				setQuery.append("status", Constants.PartsStatus.INVOICEGENERATED.toString());
+				setQuery.append("invoiceNumber", invoice.getInvoiceNumber());
+				
 				DBObject updateQuery = new BasicDBObject("$set",setQuery);
 				
 				collection.update(queryObj, updateQuery);

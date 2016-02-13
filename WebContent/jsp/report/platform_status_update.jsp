@@ -7,10 +7,10 @@
 </style>
 	<div class="page-header">
 		<h1>
-			Platform Status Update
+			Platform Status View
 			<small>
 				<i class="icon-double-angle-right"></i>
-				Update the status of the platform.
+				View status of the platform.
 			</small>
 		</h1>
 	</div><!-- /.page-header -->
@@ -128,14 +128,14 @@
 					loadonce: true,
 					gridview: true,
 					height: 366,
-					colNames:['id','Client Id','Order Name','Part Name', 'Weight(KG)', 'Prepared By','Order Date','Part Status','',''],
+					colNames:['id','Client Id','Order Name','Part Name', 'Weight', 'Invoice Number','Order Date','Part Status','',''],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
 						{name:'client.clientId',index:'client.clientId', width:100,editable: false},
-						{name:'orderName',index:'orderName', width:100,editable: false},
-						{name:'partList.name',index:'partList.name', width:100,editable: false},
-						{name:'partList.weight',index:'partList.weight', width:100,editable: false},
-						{name:'preparedBy',index:'preparedBy', width:100,editable: false},
+						{name:'orderName',index:'orderName', width:125,editable: false},
+						{name:'partList.name',index:'partList.name', width:125,editable: false},
+						{name:'partList.weight',index:'partList.weight', width:90,editable: false},
+						{name:'invoiceNumber',index:'invoiceNumber', width:120,editable: false},
 						{name:'orderDateStr',index:'orderDateStr', width:100,editable: false},
 						{name:'partList.status',index:'partList.status', width:100,editable: false},
 						{name:'partList.refWeight',index:'partList.refWeight', width:100,editable: false, hidden:true},

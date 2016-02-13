@@ -24,6 +24,7 @@ public class Order extends BasePojo {
 	private Process cast;
 	private double t_charges;
 	private boolean camWeightOverride = false;
+	private String invoiceNumber;
 	
 	public String get_id() {
 		return _id;
@@ -120,6 +121,12 @@ public class Order extends BasePojo {
 	}
 	public void setDcNumber(String dcNumber) {
 		this.dcNumber = dcNumber;
+	}
+	public String getInvoiceNumber() {
+		return invoiceNumber;
+	}
+	public void setInvoiceNumber(String invoiceNumber) {
+		this.invoiceNumber = invoiceNumber;
 	}
 	
 }

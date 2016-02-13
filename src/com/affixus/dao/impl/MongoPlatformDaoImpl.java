@@ -255,7 +255,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 			AggregationOutput aggregationOutput = collection.aggregate(matchQuery, unwindQuery, group);
 			for (DBObject orderObj : aggregationOutput.results()) {
 				
-				double partWeight = (double)orderObj.get("weight");
+				double partWeight = ((BasicDBObject)orderObj).getDouble("weight");
 				double weight = partWeight;
 				
 				DBObject setQuery = new BasicDBObject();
@@ -293,7 +293,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 				String rateListName = (String) clientDBO.get("rubberMOULD");
 				
 				//Get RM Weight by id
-				double weight = (double)((BasicBSONObject) orderObject.get("rm")).get("weight");
+				double weight = ((BasicBSONObject) orderObject.get("rm")).getDouble("weight");
 				double amount = computeAmountByNewWeight(weight,rateListName);
 				
 				//update the new amount into DB.

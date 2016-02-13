@@ -163,6 +163,18 @@ public class InvoiceAction extends HttpServlet {
 					to = CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
 				}
 				List<Order> orderList = invoiceService.getAllInfo(from, to);
+				
+				orderIdList = new ArrayList<String>();
+				for(Order order: orderList){
+					orderIdList.add(order.get_id());
+				}
+				
+				platformService = (PlatformService) ObjectFactory.getInstance(ObjectEnum.PLATFORM_SERVICE);
+				platformService.updateCAMAmountByNewWeights(orderIdList);
+				platformService.updateRMAmountByNewWeights(orderIdList);
+				
+				orderList = invoiceService.getAllInfo(from, to);
+				
 				json=CommonUtil.objectToJson(orderList);
 				
 				break;

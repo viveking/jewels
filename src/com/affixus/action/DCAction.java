@@ -110,7 +110,7 @@ public class DCAction extends HttpServlet {
 			printDC.setDc(dc);
 			
 			List<Order> orderListl = dc.getOrderList();
-			float grandTotal=0,grossTotal=0,taxAmount = 0;
+			float grandTotal=0,grossTotal=0;
 			
 			List<String> totalProcessesAvail = new ArrayList<>();
 			

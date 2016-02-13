@@ -1,7 +1,6 @@
 package com.affixus.services;
 
 import java.util.List;
-import java.util.Set;
 
 import com.affixus.dao.PlatformDao;
 import com.affixus.dao.impl.MongoPlatformDaoImpl;

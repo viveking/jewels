@@ -20,7 +20,8 @@ public class JacksonDoubleArrayTest
 {
     private static DecimalFormat df = new DecimalFormat( "0.##E0" );
 
-    public static class MyDoubleSerializer extends org.codehaus.jackson.map.ser.ScalarSerializerBase<Double>
+    @SuppressWarnings("deprecation")
+	public static class MyDoubleSerializer extends org.codehaus.jackson.map.ser.ScalarSerializerBase<Double>
     {
         protected MyDoubleSerializer()
         {
@@ -88,6 +89,6 @@ public class JacksonDoubleArrayTest
         module.addSerializer( Double.class, new MyDoubleSerializer() );
         mapper.registerModule( module );
         String out = mapper.writeValueAsString( load() );
-        // System.out.println( out.length() );
+        System.out.println( out.length() );
     }
 }

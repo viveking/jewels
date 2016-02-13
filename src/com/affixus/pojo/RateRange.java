@@ -39,7 +39,7 @@ public class RateRange implements Serializable {
 		
 		boolean flag;
 		try{
-			Float f = Float.parseFloat(this.getTo());
+			Float.parseFloat(this.getTo());
 			flag = false;
 		}
 		catch(Exception e){

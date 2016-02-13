@@ -7,7 +7,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.affixus.dao.RoleDAO;
-import com.affixus.pojo.Client;
 import com.affixus.pojo.auth.Role;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants.DBCollectionEnum;

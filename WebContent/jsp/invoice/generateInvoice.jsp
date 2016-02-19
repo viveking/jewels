@@ -252,6 +252,9 @@
 				alert("Please select atleast one completed order");
 				return;
 			}
+			
+			async.loadingDialog.showPleaseWait();
+			
 			var param ={
 						'order':JSON.stringify(selData),
 						'clientName': $("#idSelectClient").val(),
@@ -290,7 +293,8 @@
 			  	
 			  })
 			  .always(function() {
-			  	console.log("complete");
+				  async.loadingDialog.hidePleaseWait();
+				  console.log("complete");
 			  });
 		});
 		

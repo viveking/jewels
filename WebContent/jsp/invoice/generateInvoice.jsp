@@ -239,7 +239,6 @@
 				return;
 			}
 			
-			
 			var passedGrid = $("#order-grid-table");
 			//var selData = passedGrid.jqGrid('getRowData');
 			var selRows = passedGrid.jqGrid('getGridParam','selarrrow');
@@ -282,12 +281,13 @@
 								Save Successful... \
 							</strong></p> \
 					</div>');
-			  	
+			  		
 			  	$("#alertSaved").addClass("animated bounceInRight");
 			  	
 			  })
 			  .fail(function() {
 			  	console.log("error");
+			  	
 			  })
 			  .always(function() {
 			  	console.log("complete");

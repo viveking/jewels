@@ -77,7 +77,11 @@
 </div>
 
 <script>
-
+var rowUpdateMethod = function (id){
+	var p =  jQuery("#txt_"+ id ).val();
+	jQuery("#grid-table").jqGrid('setCell', id, 'rm.weight', p);
+	console.log(p);
+};
 	$(document).ready(function(){
 		$(".chosen-select").chosen();
 		
@@ -175,11 +179,13 @@
 		
 		var passed_grid_selector = "#grid-table";
 		
+		
+		
 		jQuery(passed_grid_selector).jqGrid({
 			data: grid_data,
 			datatype: "local",
 			height: "auto",
-			colNames:['Client ID','Platform','Order No','Order Date','Order Name','CAM (Grams)','RM (Grams)','CAD Amount','CAST Amount','rmRequired','cadRequired'],
+			colNames:['Client ID','Platform','Order No','Order Date','Order Name','CAM (Grams)','RM (Grams)','CAD Amount','CAST Amount','temp','rmRequired','cadRequired'],
 			colModel:[
 				{index:'client',name:'client.clientId', width:140,editable: false},
 				{index:'platform',name:'partList.0.platformNumber', width:90, editable: false},
@@ -203,6 +209,16 @@
 					cellattr: function (rowid, cellvalue, rawObject, cm, rdata) {
 					    return rawObject.cast.required  == true ? 'class="editCls"' : '';
 				}},
+				{
+				    name: 'rm.weight',
+				    index: 'rm.weight',
+				    width: 40,
+				    align: 'center',
+				    formatter: function (cellValue, option) {
+				        	return '<input type="text" size="7" name="txtBox" id="txt_' + option.rowId + '" value="' + cellValue +
+				        	'"onchange="rowUpdateMethod('+ option.rowId +')" />';
+				    }
+				},
 				{index:'rm.required',name:'rm.required',hidden: true},
 				{index:'cad.required',name:'cad.required',hidden: true}
 			],

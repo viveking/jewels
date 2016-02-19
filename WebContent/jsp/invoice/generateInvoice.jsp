@@ -140,6 +140,8 @@
 	        	$("#order-grid-table").jqGrid("clearGridData");
 	        	$('#order-grid-table').jqGrid('setGridParam', {data: clientGridData}).trigger('reloadGrid');        		
         	}
+        	$('#noGridContainer').hide();
+	        $('#gridContainer').show(); 
         });
         
 	});
@@ -180,56 +182,58 @@
 			sortorder: 'asc'
 		});
 		
+		function getData(){
+				var dateRange = $('#idFromToDate').val();
+				var date = dateRange.split(" to ");
+				clientMap = {};
+				param = {"fromDate":date[0],"toDate":date[1]};
+				console.log(param);
+				$.ajax({
+				  	url: '${pageContext.request.contextPath}/invoice.action?op=GET_ALL_INFO',
+				  	type: 'POST',
+				  	data: param
+				  })
+				  .done(function(data) {
+				  	console.log("success "+data);
+				  	dataFromServer = [];
+				  	dataFromServer = JSON.parse(data);
+				  	
+				  	if(dataFromServer){
+				  		
+					  	$("#idSelectClient").empty();
+					  	$("#order-grid-table").jqGrid("clearGridData");
+					  	
+					  	$("#idSelectClient").append("<option value='all'>All<option>");
+					  	
+					  	$.each(dataFromServer ,function(ind,val){
+					  		var clientId = val.client.clientId;
+					  			
+					  		if(!clientMap.hasOwnProperty(clientId)){
+								clientMap[clientId] = [];
+						  		$("#idSelectClient").append("<option value="+val.client.clientId+">"+val.client.clientId+"<option>");
+					  		}
+							clientMap[clientId].push(val);
+					  	});
+					  	
+					  	$('.chosen-select').chosen().trigger("chosen:updated");
+					  	
+					  	$('#order-grid-table').jqGrid('setGridParam', {data: dataFromServer }).trigger('reloadGrid');
+					  	
+				  	}
+				  	
+				  	//$('#noGridContainer').hide();
+			        //$('#gridContainer').show(); 
+				  })
+				  .fail(function() {
+				  	console.log("error]");
+				  })
+				  .always(function() {
+				  	console.log("complete");
+				  });
+			
+		}
 		
-		$('#btnGenerateOrderGetCLient').click(function(){
-			var dateRange = $('#idFromToDate').val();
-			var date = dateRange.split(" to ");
-			clientMap = {};
-			param = {"fromDate":date[0],"toDate":date[1]};
-			console.log(param);
-			$.ajax({
-			  	url: '${pageContext.request.contextPath}/invoice.action?op=GET_ALL_INFO',
-			  	type: 'POST',
-			  	data: param
-			  })
-			  .done(function(data) {
-			  	console.log("success "+data);
-			  	dataFromServer = [];
-			  	dataFromServer = JSON.parse(data);
-			  	
-			  	if(dataFromServer){
-			  		
-				  	$("#idSelectClient").empty();
-				  	$("#order-grid-table").jqGrid("clearGridData");
-				  	
-				  	$("#idSelectClient").append("<option value='all'>All<option>");
-				  	
-				  	$.each(dataFromServer ,function(ind,val){
-				  		var clientId = val.client.clientId;
-				  			
-				  		if(!clientMap.hasOwnProperty(clientId)){
-							clientMap[clientId] = [];
-					  		$("#idSelectClient").append("<option value="+val.client.clientId+">"+val.client.clientId+"<option>");
-				  		}
-						clientMap[clientId].push(val);
-				  	});
-				  	
-				  	$('.chosen-select').chosen().trigger("chosen:updated");
-				  	
-				  	$('#order-grid-table').jqGrid('setGridParam', {data: dataFromServer }).trigger('reloadGrid');
-				  	
-			  	}
-			  	
-			  	$('#noGridContainer').hide();
-		        $('#gridContainer').show(); 
-			  })
-			  .fail(function() {
-			  	console.log("error]");
-			  })
-			  .always(function() {
-			  	console.log("complete");
-			  });
-		});
+		$('#btnGenerateOrderGetCLient').click(getData);
 		
 		$('#idSaveOrder').click(function(){
 			
@@ -273,7 +277,8 @@
 			  	data: param
 			  })
 			  .done(function(data) {
-			  	console.log("success "+data);
+				  getData();
+				  console.log("success "+data);
 			  	$("#alertContainer").html(' \
 			  			<div class="alert alert-block alert-success" id="alertSaved">\
 						<button type="button" class="close" data-dismiss="alert"> \

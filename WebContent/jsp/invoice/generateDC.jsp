@@ -116,6 +116,10 @@
 	        	$("#order-grid-table").jqGrid("clearGridData");
 	        	$('#order-grid-table').jqGrid('setGridParam', {data: clientGridData}).trigger('reloadGrid');        		
         	}
+        	
+        	$('#noGridContainer').hide();
+	        $('#gridContainer').show(); 
+	        
         });
         
         /* clientMap={};
@@ -167,56 +171,57 @@
 			sortorder: 'asc'
 		});
 		
-		
-		$('#btnGenerateOrderGetCLient').click(function(){
-			var dateRange = $('#idFromToDate').val();
-			var date = dateRange.split(" to ");
-			clientMap = {};
-			param = {"fromDate":date[0],"toDate":date[1]};
-			console.log(param);
-			$.ajax({
-			  	url: '${pageContext.request.contextPath}/dc.action?op=GET_ALL_INFO',
-			  	type: 'POST',
-			  	data: param
-			  })
-			  .done(function(data) {
-			  	console.log("success "+data);
-			  	dataFromServer = [];
-			  	dataFromServer = JSON.parse(data);
-			  	
-			  	if(dataFromServer){
-			  		
-				  	$("#idSelectClient").empty();
-				  	$("#order-grid-table").jqGrid("clearGridData");
+		function getData(){
+				var dateRange = $('#idFromToDate').val();
+				var date = dateRange.split(" to ");
+				clientMap = {};
+				param = {"fromDate":date[0],"toDate":date[1]};
+				console.log(param);
+				$.ajax({
+				  	url: '${pageContext.request.contextPath}/dc.action?op=GET_ALL_INFO',
+				  	type: 'POST',
+				  	data: param
+				  })
+				  .done(function(data) {
+				  	console.log("success "+data);
+				  	dataFromServer = [];
+				  	dataFromServer = JSON.parse(data);
 				  	
-				  	$("#idSelectClient").append("<option value='all'>All<option>");
+				  	if(dataFromServer){
+				  		
+					  	$("#idSelectClient").empty();
+					  	$("#order-grid-table").jqGrid("clearGridData");
+					  	
+					  	$("#idSelectClient").append("<option value='all'>All<option>");
+					  	
+					  	$.each(dataFromServer ,function(ind,val){
+					  		var clientId = val.client.clientId;
+					  			
+					  		if(!clientMap.hasOwnProperty(clientId)){
+								clientMap[clientId] = [];
+						  		$("#idSelectClient").append("<option value="+val.client.clientId+">"+val.client.clientId+"<option>");
+					  		}
+							clientMap[clientId].push(val);
+					  	});
+					  	
+					  	$('.chosen-select').chosen().trigger("chosen:updated");
+					  	
+					  	$('#order-grid-table').jqGrid('setGridParam', {data: dataFromServer }).trigger('reloadGrid');
+					  	
+				  	}
 				  	
-				  	$.each(dataFromServer ,function(ind,val){
-				  		var clientId = val.client.clientId;
-				  			
-				  		if(!clientMap.hasOwnProperty(clientId)){
-							clientMap[clientId] = [];
-					  		$("#idSelectClient").append("<option value="+val.client.clientId+">"+val.client.clientId+"<option>");
-				  		}
-						clientMap[clientId].push(val);
-				  	});
-				  	
-				  	$('.chosen-select').chosen().trigger("chosen:updated");
-				  	
-				  	$('#order-grid-table').jqGrid('setGridParam', {data: dataFromServer }).trigger('reloadGrid');
-				  	
-			  	}
-			  	
-			  	$('#noGridContainer').hide();
-		        $('#gridContainer').show(); 
-			  })
-			  .fail(function() {
-			  	console.log("error]");
-			  })
-			  .always(function() {
-			  	console.log("complete");
-			  });
-		});
+				  	//$('#noGridContainer').hide();
+			        //$('#gridContainer').show(); 
+				  })
+				  .fail(function() {
+				  	console.log("error]");
+				  })
+				  .always(function() {
+				  	console.log("complete");
+				  });
+			
+		}
+		$('#btnGenerateOrderGetCLient').click(getData);
 		
 		$('#idSaveOrder').click(function(){
 			
@@ -244,6 +249,7 @@
 						'clientName': $("#idSelectClient").val(),
 						'rmCount': $("#idRMCount").val()
 					};
+			async.loadingDialog.showPleaseWait();
 			
 			console.log(param);
 			$.ajax({
@@ -252,6 +258,7 @@
 			  	data: param
 			  })
 			  .done(function(data) {
+				  getData();
 			  	console.log("success "+data);
 			  	$("#alertContainer").html(' \
 			  			<div class="alert alert-block alert-success" id="alertSaved">\
@@ -271,6 +278,7 @@
 			  	console.log("error");
 			  })
 			  .always(function() {
+				  async.loadingDialog.hidePleaseWait();
 			  	console.log("complete");
 			  });
 		});

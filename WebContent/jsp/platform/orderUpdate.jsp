@@ -78,7 +78,7 @@
 
 <script>
 var rowUpdateMethod = function (id){
-	var p =  jQuery("#txt_"+ id ).val();
+	var p =  jQuery("#txt_rm_"+ id ).val();
 	jQuery("#grid-table").jqGrid('setCell', id, 'rm.weight', p);
 	console.log(p);
 };
@@ -215,7 +215,7 @@ var rowUpdateMethod = function (id){
 				    width: 40,
 				    align: 'center',
 				    formatter: function (cellValue, option) {
-				        	return '<input type="text" size="7" name="txtBox" id="txt_' + option.rowId + '" value="' + cellValue +
+				        	return '<input type="text" size="7" name="txtBox" id="txt_rm_' + option.rowId + '" value="' + cellValue +
 				        	'"onchange="rowUpdateMethod('+ option.rowId +')" />';
 				    }
 				},

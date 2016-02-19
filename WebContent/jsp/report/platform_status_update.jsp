@@ -127,7 +127,7 @@
 					mtype: "POST",
 					loadonce: true,
 					gridview: true,
-					height: 366,
+					height:'100%',
 					colNames:['id','Client Id','Order Name','Part Name', 'Weight', 'Invoice Number','Order Date','Part Status','',''],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},

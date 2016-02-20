@@ -81,6 +81,7 @@ var rowCAMUpdateMethod = function (id){
 	var p =  jQuery("#txt_cam_"+ id ).val();
 	p = Number(p).toFixed(2);
 	jQuery("#grid-table").jqGrid('setCell', id, 'cam.weight', p);
+};
 
 var rowRMUpdateMethod = function (id){
 	var p =  jQuery("#txt_rm_"+ id ).val();
@@ -241,16 +242,7 @@ var rowRMUpdateMethod = function (id){
 					cellattr: function (rowid, cellvalue, rawObject, cm, rdata) {
 					    return rawObject.cast.required  == true ? 'class="editCls"' : '';
 				}},
-				{
-				    name: 'rm.weight',
-				    index: 'rm.weight',
-				    width: 40,
-				    align: 'center',
-				    formatter: function (cellValue, option) {
-				        	return '<input type="text" size="7" name="txtBox" id="txt_rm_' + option.rowId + '" value="' + cellValue +
-				        	'"onchange="rowUpdateMethod('+ option.rowId +')" />';
-				    }
-				},
+				
 				{index:'rm.required',name:'rm.required',hidden: true},
 				{index:'cad.required',name:'cad.required',hidden: true}
 			],

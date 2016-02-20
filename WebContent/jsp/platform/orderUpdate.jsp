@@ -48,7 +48,7 @@
 		</div>
 	</div>
 	
-	<div class="row" id="gridContainer">
+	<div class="row" id="gridContainer" style="margin-top: 10px;">
 		<div class="col-xs-12">
 			<!-- PAGE CONTENT BEGINS -->
 
@@ -77,11 +77,19 @@
 </div>
 
 <script>
-var rowUpdateMethod = function (id){
+var rowCAMUpdateMethod = function (id){
+	var p =  jQuery("#txt_cam_"+ id ).val();
+	p = Number(p).toFixed(2);
+	jQuery("#grid-table").jqGrid('setCell', id, 'cam.weight', p);
+
+var rowRMUpdateMethod = function (id){
 	var p =  jQuery("#txt_rm_"+ id ).val();
+	p = Number(p).toFixed(2);
 	jQuery("#grid-table").jqGrid('setCell', id, 'rm.weight', p);
+	
 	console.log(p);
 };
+
 	$(document).ready(function(){
 		$(".chosen-select").chosen();
 		
@@ -179,26 +187,50 @@ var rowUpdateMethod = function (id){
 		
 		var passed_grid_selector = "#grid-table";
 		
-		
-		
 		jQuery(passed_grid_selector).jqGrid({
 			data: grid_data,
 			datatype: "local",
 			height: "auto",
-			colNames:['Client ID','Platform','Order No','Order Date','Order Name','CAM (Grams)','RM (Grams)','CAD Amount','CAST Amount','temp','rmRequired','cadRequired'],
+			colNames:['Client ID','Platform','Order No','Order Date','Order Name','f','d','CAM (Grams)','RM (Grams)','CAD Amount','CAST Amount','rmRequired','cadRequired'],
 			colModel:[
 				{index:'client',name:'client.clientId', width:140,editable: false},
 				{index:'platform',name:'partList.0.platformNumber', width:90, editable: false},
 				{name:'_id',index:'_id', width:90,editable: false},
 				{name:'orderDateStr',index:'orderDateStr', width:100,editable: false},
 				{index:'orderName',name:'orderName', width:165, editable: false},
-				{index:'cam.weight',name:'cam.weight',formatter:'number',formatoptions:{decimalPlaces: 2}, 
-					width:100, editable: true, classes: 'editCls'},
-				{index:'rm.weight',name:'rm.weight',formatter:'number',formatoptions:{decimalPlaces: 2}, 
-					width:100, editable: true,
-					cellattr: function (rowid, cellvalue, rawObject, cm, rdata) {
+				{index:'cam.weight',name:'cam.weight',hidden: true},
+				{index:'rm.weight',name:'rm.weight',hidden: true},
+				{
+				    name: 'cam.weight',
+				    index: 'cam.weight',
+				    width: 100,
+				    formatter: function (cellValue, option, rawObject) {
+				    		
+			    		return '<input type="number" name="txtBox" id="txt_cam_' + option.rowId + '" value="' + cellValue +
+					        	'"onchange="rowCAMUpdateMethod('+ option.rowId +')" />';
+				    },
+				    cellattr: function (rowid, cellvalue, rawObject, cm, rdata) {
+					    return rawObject.cam.required  == true ? 'class="editCls"' : '';
+					}
+				},
+				{
+				    name: 'rm.weight',
+				    index: 'rm.weight',
+				    width: 100,
+				    formatter: function (cellValue, option, rawObject) {
+				    		if(rawObject.rm.required){
+				    			return '<input type="number" name="txtBox" id="txt_rm_' + option.rowId + '" value="' + cellValue +
+					        	'"onchange="rowRMUpdateMethod('+ option.rowId +')" />';
+				    		} else {
+				    			return cellValue;
+				    		}
+				        	
+				    },
+				    cellattr: function (rowid, cellvalue, rawObject, cm, rdata) {
 					    return rawObject.rm.required  == true ? 'class="editCls"' : '';
-				}},	
+				}
+				},
+				
 				{index:'cad.amount',name:'cad.amount',formatter:'number',formatoptions:{decimalPlaces: 2},
 					width:100, editable: true,
 					cellattr: function (rowid, cellvalue, rawObject, cm, rdata) {
@@ -277,6 +309,7 @@ var rowUpdateMethod = function (id){
 					val.cast.amount = val["cast.amount"];
 				
 			});
+			async.loadingDialog.showPleaseWait();
 			
 			var param ={'order':JSON.stringify(selData)};
 			
@@ -304,6 +337,7 @@ var rowUpdateMethod = function (id){
 			  	console.log("error");
 			  })
 			  .always(function() {
+				  async.loadingDialog.hidePleaseWait();
 			  	console.log("complete");
 			  });
 		});

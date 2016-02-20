@@ -129,16 +129,15 @@
 				{name:'createdBy',index:'createdBy', width:100, editable: false},
 				{name:'orderDateStr',index:'orderDateStr', width:135, editable: false},
 				{name:'t_charges',index:'t_charges', width:150, editable: true, classes: 'editCls'}
-			], 
+			],
 			viewrecords : true,
 			altRows: true,
-			rownumbers: true,  
+			rownumbers: true,
 			multiselect: true,
 			caption: "Order Details",
 			autowidth: true,
 			cellEdit : true,
 			cellsubmit :"clientArray"
-	
 		});
 		
 

@@ -116,10 +116,9 @@
 	        	$("#order-grid-table").jqGrid("clearGridData");
 	        	$('#order-grid-table').jqGrid('setGridParam', {data: clientGridData}).trigger('reloadGrid');        		
         	}
-        	
-        	$('#noGridContainer').hide();
+
+		  	$('#noGridContainer').hide();
 	        $('#gridContainer').show(); 
-	        
         });
         
         /* clientMap={};

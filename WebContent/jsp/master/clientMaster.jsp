@@ -42,7 +42,7 @@
 				var PT_viber50 = <%= MongoAttributeList.getRateListByPrinter("viper50")%>;
 				//var PT_ZNone = <%= MongoAttributeList.getRateListByPrinter("zNONE")%>;
 				var PT_rubberMould = <%= MongoAttributeList.getRateListByPrinter("rubberMOULD")%>;
-				debugger;
+				
 				var invType = {"0":"Select Inv. Type","1":"CST Invoice","2":"Estimate Sales","3":"Tax Invoice","4":"Delivery Challan"};
 				var percent = {"CST0%":"CST @ 0%","CST1%":"CST @ 1%","CST2%":"CST @ 2%","CST4%":"CST @ 4%","ES0%":"Estimate Sales @ 0%","ES1%":"Estimate Sales @ 1%","TI0%":"Tax Invoice @ 0%","TI1%":"Tax Invoice @ 1%","TI12.5%":"Tax Invoice @ 12.5%"};
 				var cstPercent = {"CST0%":"CST @ 0%","CST1%":"CST @ 1%","CST2%":"CST @ 2%","CST4%":"CST @ 4%"};
@@ -146,6 +146,7 @@
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,
+								delbutton:false,
 								delOptions:{top:45 , url: "${pageContext.request.contextPath}/clientmaster.action?op=delete", left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true, beforeShowForm:beforeDeleteCallback},
 								editformbutton:true, editOptions:{top:45, left:((($(window).width() - 600) / 2) + $(window).scrollLeft()), width:600, recreateForm: true, closeOnEscape:true, beforeShowForm:beforeEditCallback}
 							}

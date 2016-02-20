@@ -60,6 +60,7 @@
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,
+								delbutton:false,
 								delOptions:{top:45 , url: "${pageContext.request.contextPath}/rolemaster.action?op=delete", left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true, beforeShowForm:beforeDeleteCallback},
 								editformbutton:true, editOptions:{top:45, left:((($(window).width() - 600) / 2) + $(window).scrollLeft()), recreateForm: true,width:600, closeOnEscape:true, beforeShowForm:beforeEditCallback}
 							}

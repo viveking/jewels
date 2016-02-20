@@ -99,7 +99,7 @@ public class MongoUtil {
 			if (dbObject == null) {
 				throw new MongoException("Problem to find next sequence");
 			}
-			return (String) dbObject.get("seq");
+			return ((Integer) dbObject.get("seq")).toString();
 		}
 	}
 }

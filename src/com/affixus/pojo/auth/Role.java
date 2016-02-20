@@ -8,6 +8,7 @@ public class Role extends BasePojo {
 
 	private String _id;
 	private String name;
+	private String a;
 	private boolean clientMaster;
 	private boolean rateMaster;
 	private boolean userMaster;

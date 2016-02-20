@@ -40,6 +40,7 @@ public class MongoAttributeList {
 	public static String getPlatformDBNextSequence(){
 		
 		String seq = getNextDBSequenceNumber("mast_platform");
+		//String seq = MongoUtil.getNextSequenceByType("PLATFORM");
 		String numberFormat = String.format("%04d", Integer.parseInt(seq));
 		return "PF_"+numberFormat;
 	}

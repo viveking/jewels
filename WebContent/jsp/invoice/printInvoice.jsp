@@ -250,8 +250,7 @@
         });
 	    
 	    $("#idSelectInvoice").chosen().change(function() {
-	    	
-			param = {"_id":$('#idSelectInvoice').val()};
+	    	param = {"_id":$('#idSelectInvoice').val()};
 			console.log(param);
 			$.ajax({
 			  	url: '${pageContext.request.contextPath}/invoice.action?op=GET',

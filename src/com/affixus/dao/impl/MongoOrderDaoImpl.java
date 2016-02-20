@@ -39,6 +39,9 @@ public class MongoOrderDaoImpl implements OrderDao {
 			String _id = MongoUtil.getNextSequence(DBCollectionEnum.ORDER).toString();
 			order.set_id( _id );
 			
+			String counter = MongoUtil.getNextSequenceByType("ORDER");
+			order.setDisplayOrderNumber(counter);
+			
 			DBCollection collection = mongoDB.getCollection( collOrder );
 			String jsonString = CommonUtil.objectToJson(order);
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );

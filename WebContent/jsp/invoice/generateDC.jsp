@@ -45,8 +45,6 @@
 			<label for="idSelectClient">Select Client</label>
 					
 			<select class="width-80 chosen-select" id="idSelectClient" data-placeholder="Choose a Client...">
-			
-			<option value='all'>All<option>
 			</select>
 		</div>
 		
@@ -145,10 +143,11 @@
 			datatype: "local",
 			gridview: true,
 			height: "auto",
-			colNames:['Order Name','Order No','Order Date','Client Id','CAM (Grms)','RM (Grms)','CAM Charges','CAD Charges','RM Charges','Cast Charges'],
+			colNames:['Order Name','id','Order No','Order Date','Client Id','CAM (Grms)','RM (Grms)','CAM Charges','CAD Charges','RM Charges','Cast Charges'],
 			colModel:[
 				{name:'orderName',index:'orderName', width:150,editable: false},
-				{name:'_id',index:'_id', width:110,editable: false},
+				{name:'_id',index:'_id', width:110,editable: false,hidden:true},
+				{name:'displayOrderNumber',index:'displayOrderNumber', width:110,editable: false},
 				{name:'orderDateStr',index:'orderDateStr', width:120,editable: false},
 				{name:'client.clientId',index:'client.clientId', width:120,editable: false},
 				{name:'cam.weight',index:'cam.weight',formatter:'number',formatoptions:{decimalPlaces: 2}, width:65,editable: false},

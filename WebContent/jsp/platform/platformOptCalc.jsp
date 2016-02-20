@@ -38,6 +38,7 @@
 			<label for="plateformNumber">Platform Number</label>
 			<input type="text" id="plateformNumber" value='${platformNumber}' />
 		</div>
+		<div class="col-xs-1"></div>
 		<div class="col-xs-3">
 		
 			<label for="idFromToDate">Select Date</label>

@@ -156,10 +156,11 @@
 			datatype: "local",
 			gridview: true,
 			height: "auto",
-			colNames:['Order Name','Order No','DC No','Order Date', 'Client Id','CAM (Grms)','RM (Grms)','CAM Charges','CAD Charges','RM Charges','Cast Charges'],
+			colNames:['Order Name','id','Order No','DC No','Order Date', 'Client Id','CAM (Grms)','RM (Grms)','CAM Charges','CAD Charges','RM Charges','Cast Charges'],
 			colModel:[
 				{name:'orderName',index:'orderName', width:150,editable: false},
-				{name:'_id',index:'_id', width:110,editable: false},
+				{name:'_id',index:'_id', width:110,editable: false,hidden:true},
+				{name:'displayOrderNumber',index:'displayOrderNumber', width:110,editable: false},
 				{name:'dcNumber',index:'dcNumber', width:90,editable: false},
 				{name:'orderDateStr',index:'orderDateStr', width:120,editable: false},
 				{name:'client.clientId',index:'client.clientId', width:120,editable: false},

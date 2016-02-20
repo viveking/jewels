@@ -25,6 +25,7 @@ public class Order extends BasePojo {
 	private double t_charges;
 	private boolean camWeightOverride = false;
 	private String invoiceNumber;
+	private String displayOrderNumber;
 	
 	public String get_id() {
 		return _id;
@@ -127,6 +128,12 @@ public class Order extends BasePojo {
 	}
 	public void setInvoiceNumber(String invoiceNumber) {
 		this.invoiceNumber = invoiceNumber;
+	}
+	public String getDisplayOrderNumber() {
+		return displayOrderNumber;
+	}
+	public void setDisplayOrderNumber(String displayOrderNumber) {
+		this.displayOrderNumber = displayOrderNumber;
 	}
 	
 }

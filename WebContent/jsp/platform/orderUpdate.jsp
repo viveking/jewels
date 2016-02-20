@@ -90,6 +90,13 @@ var rowRMUpdateMethod = function (id){
 	
 	console.log(p);
 };
+var rowCADUpdateMethod = function (id){
+	var p =  jQuery("#txt_cad_"+ id ).val();
+	p = Number(p).toFixed(2);
+	jQuery("#grid-table").jqGrid('setCell', id, 'cad.amount', p);
+	
+	console.log(p);
+};
 
 	$(document).ready(function(){
 		$(".chosen-select").chosen();
@@ -192,7 +199,7 @@ var rowRMUpdateMethod = function (id){
 			data: grid_data,
 			datatype: "local",
 			height: "auto",
-			colNames:['Client ID','Platform','id','Order No','Order Date','Order Name','f','d','CAM (Grams)','RM (Grams)','CAD Amount','CAST Amount','rmRequired','cadRequired'],
+			colNames:['Client ID','Platform','id','Order No','Order Date','Order Name','cm','r','c','CAM (Grams)','RM (Grams)','CAD Amount','CAST Amount','rmRequired','cadRequired'],
 			colModel:[
 				{index:'client',name:'client.clientId', width:140,editable: false},
 				{index:'platform',name:'partList.0.platformNumber', width:90, editable: false},
@@ -202,13 +209,14 @@ var rowRMUpdateMethod = function (id){
 				{index:'orderName',name:'orderName', width:165, editable: false},
 				{index:'cam.weight',name:'cam.weight',hidden: true},
 				{index:'rm.weight',name:'rm.weight',hidden: true},
+				{index:'cad.amount',name:'cad.amount',hidden: true},
 				{
 				    name: 'cam.weight',
 				    index: 'cam.weight',
 				    width: 100,
 				    formatter: function (cellValue, option, rawObject) {
 				    		
-			    		return '<input type="number" name="txtBox" id="txt_cam_' + option.rowId + '" value="' + cellValue +
+			    		return '<input type="text" name="txtBox" id="txt_cam_' + option.rowId + '" value="' + cellValue +
 					        	'"onchange="rowCAMUpdateMethod('+ option.rowId +')" />';
 				    },
 				    cellattr: function (rowid, cellvalue, rawObject, cm, rdata) {
@@ -221,7 +229,7 @@ var rowRMUpdateMethod = function (id){
 				    width: 100,
 				    formatter: function (cellValue, option, rawObject) {
 				    		if(rawObject.rm.required){
-				    			return '<input type="number" name="txtBox" id="txt_rm_' + option.rowId + '" value="' + cellValue +
+				    			return '<input type="text" name="txtBox" id="txt_rm_' + option.rowId + '" value="' + cellValue +
 					        	'"onchange="rowRMUpdateMethod('+ option.rowId +')" />';
 				    		} else {
 				    			return cellValue;
@@ -235,6 +243,14 @@ var rowRMUpdateMethod = function (id){
 				
 				{index:'cad.amount',name:'cad.amount',formatter:'number',formatoptions:{decimalPlaces: 2},
 					width:100, editable: true,
+					formatter: function (cellValue, option, rawObject) {
+			    		if(rawObject.cad.required){
+			    			return '<input type="text" name="txtBox" id="txt_cad_' + option.rowId + '" value="' + cellValue +
+				        	'"onchange="rowCADUpdateMethod('+ option.rowId +')" />';
+			    		} else {
+			    			return cellValue;
+			    		}
+			    },
 					cellattr: function (rowid, cellvalue, rawObject, cm, rdata) {
 					    return rawObject.cad.required  == true ? 'class="editCls"' : '';
 				}},

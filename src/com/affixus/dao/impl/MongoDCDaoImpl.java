@@ -47,7 +47,11 @@ public class MongoDCDaoImpl implements DCDao {
 			String _id = MongoUtil.getNextSequence(DBCollectionEnum.DC).toString();
 			dc.set_id( _id );
 			
-			dc.setDcNumber(dc.generateDCNumber());
+			//check client voucher type
+			String clientType = dc.getClient().getVoucherType();
+			String counter = MongoUtil.getNextSequenceByType("DC");
+			String dcNumber = dc.generateDCNumber(clientType,counter);
+			dc.setDcNumber(dcNumber);
 		
 			DBCollection collection = mongoDB.getCollection( collOrder );
 			String jsonString = CommonUtil.objectToJson(dc);

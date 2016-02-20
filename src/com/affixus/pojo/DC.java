@@ -16,7 +16,7 @@ public class DC extends BasePojo{
 	private String dcCreationDateStr;
 	private double rmCount;
 	
-	private final String DC_STRING = "DC";
+	//private final String DC_STRING = "DC";
 	
 	public String get_id() {
 		return _id;
@@ -48,9 +48,9 @@ public class DC extends BasePojo{
 	public void setDcNumber(String dcNumber) {
 		this.dcNumber = dcNumber;
 	}
-	public String generateDCNumber(){
-		String numberFormat = String.format("%05d", Integer.parseInt(this.get_id()));
-		return DC_STRING+ numberFormat;
+	public String generateDCNumber(String prefixString, String counter){
+		String numberFormat = String.format("%05d", Integer.parseInt(counter));
+		return prefixString + numberFormat;
 	}
 	public Date getDcCreationDate() {
 		return dcCreationDate;

@@ -49,7 +49,20 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 			String _id = MongoUtil.getNextSequence(DBCollectionEnum.INVOICE).toString();
 			invoice.set_id( _id );
 			
-			invoice.setInvoiceNumber(invoice.generateInvoiceNumber());
+			//check client voucher type
+//			//String clientType = invoice.getClient().getVoucherType();
+			String invoiceType = invoice.getClient().getInvoiceType();
+			String clientType= "TI";
+			if(("1").equals(invoiceType)){
+				clientType = "CST";
+			}
+			if(("2").equals(invoiceType)){
+				clientType = "EST";
+			}
+			String counter = MongoUtil.getNextSequenceByType(clientType);
+			String invoiceNumber = invoice.generateInvoiceNumber(clientType,counter);
+			invoice.setInvoiceNumber(invoiceNumber);
+			//invoice.setInvoiceNumber(invoice.generateInvoiceNumber());
 			
 			DBCollection collection = mongoDB.getCollection( collOrder );
 			String jsonString = CommonUtil.objectToJson(invoice);

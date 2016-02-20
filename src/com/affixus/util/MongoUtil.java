@@ -76,4 +76,30 @@ public class MongoUtil {
 		DBObject finalQuery = new BasicDBObject("$or", orQuery);
 		return finalQuery;
 	}
+
+	public static String getNextSequenceByType(String voucherType) {
+		// TODO Auto-generated method stub
+		String collectionName = voucherType;
+
+		DB db = getDB();
+		DBCollection collection = db.getCollection("dynamicCounters");
+		DBObject query = new BasicDBObject("_id", collectionName);
+		DBObject update = (DBObject) JSON.parse("{ $inc: { seq: 1 } }");
+
+		synchronized (query) {
+
+			DBObject dbObject = collection.findAndModify(query, update);
+
+			if (dbObject == null) {
+				dbObject = new BasicDBObject("_id", collectionName).append("seq", 1);
+				collection.insert(dbObject);
+			}
+
+			dbObject = collection.findOne(query);
+			if (dbObject == null) {
+				throw new MongoException("Problem to find next sequence");
+			}
+			return (String) dbObject.get("seq");
+		}
+	}
 }

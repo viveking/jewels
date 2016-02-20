@@ -19,7 +19,7 @@ public class Invoice extends BasePojo{
 	private String invoiceCreationDateStr;
 	private String invoiceTaxOption;
 	private double rmCount;
-	private final String INVOICE_STRING = "TI";
+	//private final String INVOICE_STRING = "TI";
 	
 	public String get_id() {
 		return _id;
@@ -87,9 +87,9 @@ public class Invoice extends BasePojo{
 	public void setInvoiceCreationDateStr(String invoiceCreationDateStr) {
 		this.invoiceCreationDateStr = invoiceCreationDateStr;
 	}
-	public String generateInvoiceNumber(){
-		String numberFormat = String.format("%05d", Integer.parseInt(this.get_id()));
-		return INVOICE_STRING+ numberFormat;
+	public String generateInvoiceNumber(String prefixString, String counter){
+		String numberFormat = String.format("%05d", Integer.parseInt(counter));
+		return prefixString + numberFormat;
 	}
 	public String getInvoiceTaxOption() {
 		return invoiceTaxOption;

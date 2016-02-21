@@ -141,6 +141,16 @@ public class InvoiceAction extends HttpServlet {
 					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.125);
 				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("TI14%")){
 					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.14);
+				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("ES0%")){
+					taxAmount = 0;
+				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("CST0%")){
+					taxAmount = 0;
+				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("CST1%")){
+					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.01);
+				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("CST2%")){
+					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.02);
+				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("CST4%")){
+					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.04);
 				}
 				
 				printInvoice.setTaxAmount(taxAmount);

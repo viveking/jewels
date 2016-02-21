@@ -275,10 +275,10 @@
 			  		
 			  		if(processArr.indexOf("rm") === -1){
 			  			$("#idHeaderLblRMWeight").css("visibility","hidden");
-			  			$("idHeaderLblRMAmount").css("visibility","hidden");
+			  			$("#idHeaderLblRMAmount").css("visibility","hidden");
 			  		} else{
 			  			$("#idHeaderLblRMWeight").css("visibility","visible");
-			  			$("idHeaderLblRMAmount").css("visibility","visible");
+			  			$("#idHeaderLblRMAmount").css("visibility","visible");
 			  		}
 			  		if(processArr.indexOf("cad") === -1){
 			  			$("#idHeaderLblCADAmount").css("visibility","hidden");
@@ -297,8 +297,12 @@
 			  		$("#idgrandTotal").html(Number(dataFromServer["grandTotal"]).toFixed(2));
 			  		$("#idgrandTotal1").html(Number(dataFromServer["grandTotal"]).toFixed(2));
 			  		$("#idclientname").html(dataFromServer["dc"]["client"]["name"]);
-			  		$("#idclientaddress").html(dataFromServer["dc"]["client"]["address"] +", " + dataFromServer["dc"]["client"]["city"]);
-
+			  		
+			  		var clientAddress =  "";
+			  		if(dataFromServer["dc"]["client"]["address"] !== undefined){
+			  			clientAddress = dataFromServer["dc"]["client"]["address"] +", " + dataFromServer["dc"]["client"]["city"];
+			  		}
+			  		$("#idclientaddress").html(clientAddress);
 			  		
 			  		//$("#DCName").html(DCName);
 			  		//$("#idDCTaxOption").html(DCTaxOption);

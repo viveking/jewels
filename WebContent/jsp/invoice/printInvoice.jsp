@@ -177,7 +177,7 @@
 				If you have any query in the bill kindly intimate us within 24 hrs.<br/>
 				Created By:  
 			</div>
-			<div class="col-xs-4">
+			<div class="col-xs-4" id="ownerSmallName">
 				For <span id="idswName"></span>
 			</div>
 			</small>
@@ -274,12 +274,13 @@
 			  		var processString = processArr.join(", ").toUpperCase();
 			  		$("#idProcessString").html(processString);
 			  		
+			  		debugger;
 			  		if(processArr.indexOf("rm") === -1){
 			  			$("#idHeaderLblRMWeight").css("visibility","hidden");
-			  			$("idHeaderLblRMAmount").css("visibility","hidden");
+			  			$("#idHeaderLblRMAmount").css("visibility","hidden");
 			  		} else{
 			  			$("#idHeaderLblRMWeight").css("visibility","visible");
-			  			$("idHeaderLblRMAmount").css("visibility","visible");
+			  			$("#idHeaderLblRMAmount").css("visibility","visible");
 			  		}
 			  		if(processArr.indexOf("cad") === -1){
 			  			$("#idHeaderLblCADAmount").css("visibility","hidden");
@@ -303,10 +304,10 @@
 			  			var clientAddress = dataFromServer["invoice"]["client"]["address"] +", " + dataFromServer["invoice"]["client"]["city"];
 			  		}
 			  		$("#idclientaddress").html(clientAddress);
-
-			  		var invoiceTaxOption = "";
-			  		var invoiceName = "";
 			  		
+			  		var invoiceTaxOption = "";
+			  		var invoiceName = "", clsValue = "Visible";
+			  		debugger;
 			  		if(dataFromServer["invoice"]["invoiceTaxOption"].indexOf("TI") !== -1){
 			  			invoiceTaxOption = dataFromServer["invoice"]["invoiceTaxOption"].replace("TI","Tax @ ");
 			  			invoiceName = "<b>TAX INVOICE</b>";
@@ -315,8 +316,12 @@
 			  			invoiceName = "<b>CST INVOICE</b>";
 			  		} else if(dataFromServer["invoice"]["invoiceTaxOption"].indexOf("ES") !== -1 ){
 			  			invoiceTaxOption = dataFromServer["invoice"]["invoiceTaxOption"].replace("ES","EST @ ");
-			  			nvoiceName = "<b>ES INVOICE</b>";
+			  			clsValue = "hidden";
+			  			invoiceName = "<b>ES INVOICE</b>";
 			  		}
+			  		
+			  		$("#idaddress").css("visibility",clsValue);
+			  		$("#ownerSmallName").css("visibility",clsValue);
 			  		
 			  		$("#invoiceName").html(invoiceName);
 			  		$("#idinvoiceTaxOption").html(invoiceTaxOption);
@@ -376,7 +381,7 @@
 
 			  		$("#idorders").html(ordHtml);
 					
-			  		$(".noInvoiceContainer").hide();
+			  		$(".noIn-voiceContainer").hide();
 			  		$(".invoiceContainer").show();
 			  	}
 			  	

@@ -36,7 +36,6 @@
 				var grid_selector = "#grid-table_area";
 				var pager_selector = "#grid-pager_area";
 				
-				
 				var PT_inversionHrData = <%= MongoAttributeList.getRateListByPrinter("invisionHR")%>;
 				var PT_viber25 = <%= MongoAttributeList.getRateListByPrinter("viper25")%>;
 				var PT_viber50 = <%= MongoAttributeList.getRateListByPrinter("viper50")%>;

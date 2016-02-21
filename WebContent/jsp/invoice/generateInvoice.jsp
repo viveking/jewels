@@ -69,11 +69,9 @@
 				<label for="taxInvoiceOptionList">Invoice Tax</label>
 	
 				<select class="form-control" id="taxInvoiceOptionList">
-					<!-- Get this from client Info -->
-					<option value="TI0%">Tax Invoice @ 0%</option>
-					<option value="TI1%">Tax Invoice @ 1%</option>
-					<option value="TI12.5%">Tax Invoice @ 12.5%</option>
+					
 				</select>
+				
 			</div>
 			<div class="col-xs-2">
 				<label for="idDiscount">Discount (Rs)</label>
@@ -133,20 +131,67 @@
         
         $(".chosen-select").chosen().change(function() {
         	var clientGridData = clientMap[$(this).val()];
+        	debugger;
         	if(!clientGridData){
-			  	$('#order-grid-table').jqGrid('setGridParam', {data: dataFromServer }).trigger('reloadGrid');
+        		$('#order-grid-table').jqGrid('setGridParam', {data: dataFromServer }).trigger('reloadGrid');
         	}else{
 	        	console.log(clientGridData);
 	        	$("#order-grid-table").jqGrid("clearGridData");
 	        	$('#order-grid-table').jqGrid('setGridParam', {data: clientGridData}).trigger('reloadGrid');        		
         	}
+        	if(clientGridData != undefined && clientGridData.length > 0){
+        		var invoiceType = clientGridData[0].client.invoiceType;
+        		changeTaxDropDownByInvoiceType(invoiceType);
+        		var invoicePerc = clientGridData[0].client.invoicePercentage;
+        		$("#taxInvoiceOptionList").val(invoicePerc);
+        	} else{
+        		changeTaxDropDownByInvoiceType(5);
+        	}
         	$('#noGridContainer').hide();
-	        $('#gridContainer').show(); 
+	        $('#gridContainer').show();
         });
         
 	});
 
 	var grid_data = [];//[{orderDateStr:"asas",_id:11,orderName:"asas",cam:{required:true},cad:{required:true},rm:{required:true}}];
+	
+	function changeTaxDropDownByInvoiceType(invoiceType){
+		if(invoiceType == 1){
+			
+			var str = '<option role="option" value="CST0%">CST @ 0%</option>';
+				str += '<option role="option" value="CST1%">CST @ 1%</option>';
+				str += '<option role="option" value="CST2%">CST @ 2%</option>';
+				str += '<option role="option" value="CST4%">CST @ 4%</option>';
+			$("#taxInvoiceOptionList").html(str);
+			
+		} else if(invoiceType == 2){
+			
+			var str = '<option role="option" value="ES0%">Estimate Sales @ 0%</option>';
+			$("#taxInvoiceOptionList").html(str);
+			
+		} else if(invoiceType == 3){
+			
+			var str = '<option role="option" value="TI0%">Tax Invoice @ 0%</option>';
+				str += '<option role="option" value="TI1%">Tax Invoice @ 1%</option>';
+				str += '<option role="option" value="TI12.5%">Tax Invoice @ 12.5%</option>';
+			$("#taxInvoiceOptionList").html(str);
+			
+		} else if(invoiceType == 4){
+			
+			var str = '<option role="option" value="TI12.5%">Tax Invoice @ 12.5%</option>';
+			$("#taxInvoiceOptionList").html(str);
+		} else {
+			var str = '<option role="option" value="TI0%">Tax Invoice @ 0%</option>';
+				str += '<option role="option" value="TI1%">Tax Invoice @ 1%</option>';
+				str += '<option role="option" value="TI12.5%">Tax Invoice @ 12.5%</option>';
+				str += '<option role="option" value="ES0%">Estimate Sales @ 0%</option>';
+				str += '<option role="option" value="CST0%">CST @ 0%</option>';
+				str += '<option role="option" value="CST1%">CST @ 1%</option>';
+				str += '<option role="option" value="CST2%">CST @ 2%</option>';
+				str += '<option role="option" value="CST4%">CST @ 4%</option>';
+			$("#taxInvoiceOptionList").html(str);
+		}
+	}
 	
 	jQuery(function($) {
 		var order_grid_selector = "#order-grid-table";

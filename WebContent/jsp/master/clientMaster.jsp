@@ -128,7 +128,6 @@
 	                                        }
 	
 	                                        resetInvoiceType();
-	debugger;
 	                                        // populate the subset of contries
 	                                        if ($(e.target).is('.FormElement')) {
 	                                            // form editing

@@ -43,7 +43,9 @@
 				var PT_rubberMould = <%= MongoAttributeList.getRateListByPrinter("rubberMOULD")%>;
 				
 				var voucherType = {"Invoice":"Invoice","DC":"DC"};
-				
+				var InvoiceType = {"1":"CST Invoice","2":"Estimate Sales","3":"Tax Invoice"};
+				var dcType = { "4":"Delivery Challan"};
+				var voucherTypeSelector = {"Invoice":InvoiceType,"DC":dcType};
 				var invType = {"0":"Select Inv. Type","1":"CST Invoice","2":"Estimate Sales","3":"Tax Invoice","4":"Delivery Challan"};
 				var percent = {"CST0%":"CST @ 0%","CST1%":"CST @ 1%","CST2%":"CST @ 2%","CST4%":"CST @ 4%","ES0%":"Estimate Sales @ 0%","ES1%":"Estimate Sales @ 1%","TI0%":"Tax Invoice @ 0%","TI1%":"Tax Invoice @ 1%","TI12.5%":"Tax Invoice @ 12.5%"};
 				var cstPercent = {"CST0%":"CST @ 0%","CST1%":"CST @ 1%","CST2%":"CST @ 2%","CST4%":"CST @ 4%"};
@@ -51,12 +53,21 @@
 				var tiPercent = {"TI0%":"Tax Invoice @ 0%","TI1%":"Tax Invoice @ 1%","TI12.5%":"Tax Invoice @ 12.5%"};
 				var dcPercent = {"TI12.5%":"Tax Invoice @ 12.5%"};
 				
+				var dcHTML = '<option role="option" value="TI12.5%">Tax Invoice @ 12.5%</option>';
+				var cstHTML = '<option role="option" value="CST0%">CST @ 0%</option>';
+				cstHTML += '<option role="option" value="CST1%">CST @ 1%</option>';
+				cstHTML += '<option role="option" value="CST2%">CST @ 2%</option>';
+				cstHTML += '<option role="option" value="CST4%">CST @ 4%</option>';
+				
 				var invTypePercent = {"0":{},"1":cstPercent,"2":estSalesPercent,"3":tiPercent,"4":dcPercent};
 				var resetPercentValues = function () {
                     // set 'value' property of the editoptions to initial state
                     jQuery(grid_selector).jqGrid('setColProp', 'invoicePercentage', { editoptions: { value: percent} });
                 };
-
+                var resetInvoiceType = function () {
+                    // set 'value' property of the editoptions to initial state
+                    jQuery(grid_selector).jqGrid('setColProp', 'invoiceType', { editoptions: { value: invType} });
+                };
 				jQuery(grid_selector).jqGrid({
 					url: "${pageContext.request.contextPath}/clientmaster.action?op=view_all",
 					mtype: "POST",
@@ -94,15 +105,17 @@
 	                                var v = $(elem).val();
 	                                // to have short list of options which corresponds to the country
 	                                // from the row we have to change temporary the column property
-	                                jQuery(grid_selector).jqGrid('setColProp', 'invoiceType', { editoptions: { value: invType[v]} });
+	                                jQuery(grid_selector).jqGrid('setColProp', 'invoiceType', { editoptions: { value: voucherTypeSelector[v]} });
+	                                
 	                            },
 	                            dataEvents: [
 	                                {
 	                                    type: 'change',
+	                                    
 	                                    fn: function (e) {
 	                                        // build 'State' options based on the selected 'Country' value
 	                                        var v = $(e.target).val(),
-	                                            sc = invType[v],
+	                                            sc = voucherTypeSelector[v],
 	                                            newOptions = '',
 	                                            stateId,
 	                                            form,
@@ -110,17 +123,25 @@
 	                                        for (stateId in sc) {
 	                                            if (sc.hasOwnProperty(stateId)) {
 	                                                newOptions += '<option role="option" value="' + stateId + '">' +
-	                                                    percent[stateId] + '</option>';
+	                                                invType[stateId] + '</option>';
 	                                            }
 	                                        }
 	
-	                                        resetPercentValues();
-	
+	                                        resetInvoiceType();
+	debugger;
 	                                        // populate the subset of contries
 	                                        if ($(e.target).is('.FormElement')) {
 	                                            // form editing
 	                                            form = $(e.target).closest('form.FormGrid');
 	                                            $("select#invoiceType.FormElement", form[0]).html(newOptions);
+	                                           if(v=="DC"){
+	                                        	   $("select#invoicePercentage.FormElement", form[0]).html(dcHTML);
+	                                           }
+	                                           if(v=="Invoice"){
+	                                        	   $("select#invoicePercentage.FormElement", form[0]).html(cstHTML);
+	                                           }
+	                                            
+	                                            
 	                                        } else {
 	                                            // inline editing
 	                                            row = $(e.target).closest('tr.jqgrow');
@@ -134,13 +155,13 @@
 							name:'invoiceType',index:'invoiceType',width: 100, editable: true,
 	                        formatter: 'select', edittype: 'select',
 	                        editoptions: {
-	                            value: invType,
-	                            dataInit: function (elem) {
-	                                var v = $(elem).val();
+	                            //value: invType,
+	                            //dataInit: function (elem) {
+	                                //var v = $(elem).val();
 	                                // to have short list of options which corresponds to the country
 	                                // from the row we have to change temporary the column property
-	                                jQuery(grid_selector).jqGrid('setColProp', 'invoicePercentage', { editoptions: { value: invTypePercent[v]} });
-	                            },
+	                                //jQuery(grid_selector).jqGrid('setColProp', 'invoicePercentage', { editoptions: { value: invTypePercent[v]} });
+	                            //},
 	                            dataEvents: [
 	                                {
 	                                    type: 'change',
@@ -176,7 +197,7 @@
 	                            ]
 	                        }
 	                    },
-						{name:'invoicePercentage',index:'invoicePercentage', sortable:false,editable: true,hidden:true, edittype:"select",formoptions:{rowpos:15, colpos:2},hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:percent},formatter:'select'},
+						{name:'invoicePercentage',index:'invoicePercentage', sortable:false,editable: true,hidden:true, edittype:"select",formoptions:{rowpos:15, colpos:2},hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:cstPercent},formatter:'select'},
 						
 						{name:'invisionHR',index:'invisionHr', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_inversionHrData},formatter:'select'},
 						{name:'rubberMOULD',index:'rubberMould', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_rubberMould},formatter:'select'},

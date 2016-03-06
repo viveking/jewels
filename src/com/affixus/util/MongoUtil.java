@@ -102,4 +102,25 @@ public class MongoUtil {
 			return ((Integer) dbObject.get("seq")).toString();
 		}
 	}
+	
+	public static String fetchNextSequenceByType(String voucherType) {
+		// TODO Auto-generated method stub
+		String collectionName = voucherType;
+
+		DB db = getDB();
+		DBCollection collection = db.getCollection("dynamicCounters");
+		DBObject query = new BasicDBObject("_id", collectionName);
+		DBObject dbObject = collection.findOne(query);
+		if(dbObject == null){
+			return "0";
+		}
+		return ((Integer) dbObject.get("seq")).toString();
+	}
+	
+	public static String fetchPlatformNextSequence(){
+		String seq = fetchNextSequenceByType("PLATFORM");
+		String numberFormat = String.format("%04d", Integer.parseInt(seq) + 1);
+		return "PF_"+numberFormat;
+	}
+	
 }

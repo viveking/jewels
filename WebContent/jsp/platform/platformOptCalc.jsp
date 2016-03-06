@@ -1,9 +1,11 @@
+<%@page import="com.affixus.util.MongoUtil"%>
 <%@page import="com.affixus.util.Config"%>
 <%@page import="com.affixus.util.MongoAttributeList"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-	pageContext.setAttribute("platformNumber", MongoAttributeList.getPlatformDBNextSequence(),pageContext.PAGE_SCOPE);
+	//pageContext.setAttribute("platformNumber", MongoAttributeList.getPlatformDBNextSequence(),pageContext.PAGE_SCOPE);
+	pageContext.setAttribute("platformNumber", MongoUtil.fetchPlatformNextSequence(),pageContext.PAGE_SCOPE);
 	pageContext.setAttribute("printerList", Config.printerNames, pageContext.PAGE_SCOPE);
 %>
 <STYLE>

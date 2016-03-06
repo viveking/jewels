@@ -1,13 +1,14 @@
 package com.affixus.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.affixus.pojo.Part;
 import com.affixus.pojo.Platform;
 
 public interface PlatformDao {
 
-	public Boolean create(Platform platform);
+	public String create(Platform platform);
 
 	public Boolean update(Platform platform);
 
@@ -17,7 +18,7 @@ public interface PlatformDao {
 	
 	public Boolean updateParts(String clientId, String partName, Part part);
 	
-	public List<String> getAllPlatformByStatus(String status);
+	public Map<String, String> getAllPlatformByStatus(String status);
 	
 	public Boolean updateCAMAmountByNewWeights(List<String> orderIdList);
 	

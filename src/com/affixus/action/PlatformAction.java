@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +25,7 @@ import com.affixus.services.PlatformService;
 import com.affixus.util.CommonUtil;
 import com.affixus.util.Constants;
 import com.affixus.util.Constants.UIOperations;
+import com.affixus.util.MongoUtil;
 import com.affixus.util.ObjectFactory;
 import com.affixus.util.ObjectFactory.ObjectEnum;
 
@@ -110,7 +112,7 @@ public class PlatformAction extends HttpServlet {
 
 		switch (opEnum) {
 			case ADD:
-				createPlarform(request, platform);
+				createPlatform(request, platform);
 				break;
 			case EDIT:
 				/*if (id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
@@ -134,32 +136,34 @@ public class PlatformAction extends HttpServlet {
 				if( jsonPlatform == null || jsonPlatform.trim().isEmpty()){
 					break;
 				}
-				createPlarform(request, platform);
-				
+				String platformId = createPlatform(request, platform);
+				if(platformId != ""){
+					MongoUtil.getNextSequenceByType("PLATFORM");
+				}
 				ObjectMapper mapper = new ObjectMapper();
 				JsonNode jn = mapper.readTree(jsonPlatform);
-				String platformNumber = null;
+				//String platformNumber = null;
 				for (JsonNode jsonNode : jn) {
 					
 					String clientId = jsonNode.get("client").asText();
 					//String selectCAM = jsonNode.get("cam.required").asText();
 					String partName = jsonNode.get("part").asText();
-					platformNumber = jsonNode.get("platform").asText();
+					//platformNumber = jsonNode.get("platform").asText();
 					String weight = jsonNode.get("partWeight").asText();
 					//String refWeight = jsonNode.get("supportWeight").asText();
 					String status = jsonNode.get("partStatus").asText();
 					
 					Part part = new Part();
 					part.setName(partName);
-					part.setPlatformNumber(platformNumber);
+					part.setPlatformNumber(platformId);
 					part.setWeight(Double.parseDouble(weight));
 					//part.setRefWeight(Float.parseFloat(refWeight));
 					part.setStatus(status);
 					
 					platformService.updateParts(clientId, partName, part);
 				}
-				if(platformNumber!=null)
-					platformService.checkPlatformCompletion(platformNumber);
+				if(platformId != "")
+					platformService.checkPlatformCompletion(platformId);
 				//platformService.updateCAMAmountByNewWeights(orderIdList);
 				break;
 			case SAVE_ORDER_UPDATE:
@@ -216,8 +220,8 @@ public class PlatformAction extends HttpServlet {
 				break;
 			case ALL_PLATFORM_ID:
 				String status = request.getParameter("status");
-				List<String> platformNameList = platformService.getAllPlatformByStatus(status);
-				json = CommonUtil.objectToJson(platformNameList);
+				Map<String,String> platformNameMap = platformService.getAllPlatformByStatus(status);
+				json = CommonUtil.objectToJson(platformNameMap);
 				break;
 			
 			default:
@@ -227,7 +231,7 @@ public class PlatformAction extends HttpServlet {
 		out.close();
 	}
 
-	private void createPlarform(HttpServletRequest request, Platform platform) {
+	private String createPlatform(HttpServletRequest request, Platform platform) {
 		String fromDate = request.getParameter("orderFromDateStr");
 		String toDate = request.getParameter("orderToDateStr");
 
@@ -238,6 +242,7 @@ public class PlatformAction extends HttpServlet {
 			platform.setOrderFromDate(CommonUtil.stringToDate(fromDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
 		if(toDate != null && !"".equals(toDate))
 			platform.setOrderToDate(CommonUtil.stringToDate(toDate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN));
-		platformService.create(platform);
+		String platformId = platformService.create(platform);
+		return platformId;
 	}
 }

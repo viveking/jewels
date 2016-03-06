@@ -2,7 +2,9 @@ package com.affixus.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.bson.BasicBSONObject;
@@ -33,7 +35,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 	public static final String KEY_CLIENT = "client";
 
 	@Override
-	public Boolean create(Platform platform) {
+	public String create(Platform platform) {
 		// TODO Auto-generated method stub
 
 		try {
@@ -50,11 +52,11 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 
 			collection.insert(dbObject);
 
-			return true;
+			return _id;
 		} catch (Exception exception) {
 			LOG.equals(exception);
 		}
-		return false;
+		return "";
 
 	}
 
@@ -137,7 +139,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 				clientId = (String) clientObj.get("_id");
 
 				collection = mongoDB.getCollection(DBCollectionEnum.MAST_PLATFORM.toString());
-				DBObject platformObj = new BasicDBObject("platformNumber",part.getPlatformNumber());
+				DBObject platformObj = new BasicDBObject("_id",part.getPlatformNumber());
 				platformObj.put("status",Constants.PartsStatus.INPROGRESS.toString());
 				DBCursor dbCursor1 = collection.find(platformObj);
 
@@ -202,7 +204,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 	
 	
 	@Override
-	public List<String> getAllPlatformByStatus(String status) {
+	public Map<String,String> getAllPlatformByStatus(String status) {
 		// TODO Auto-generated method stub
 		try {
 			DBCollection collection = mongoDB.getCollection(DBCollectionEnum.MAST_PLATFORM.toString());
@@ -212,12 +214,13 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 			}
 			DBObject projObj = new BasicDBObject("platformNumber", 1);
 			DBCursor dbCursor = collection.find(queryObj, projObj);
-			List<String> lstPlatform = new ArrayList<>();
+			Map<String,String> mapPlatform = new HashMap<String,String>();
 			while (dbCursor.hasNext()) {
 				DBObject dbObject = dbCursor.next();
-				lstPlatform.add((String) dbObject.get("platformNumber"));
+				//lstPlatform.add((String) dbObject.get("platformNumber"));
+				mapPlatform.put((String) dbObject.get("_id"), (String) dbObject.get("platformNumber")); 
 			}
-			return lstPlatform;
+			return mapPlatform;
 		} catch (Exception exception) {
 			LOG.equals(exception);
 		}
@@ -322,12 +325,12 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 	}
 
 	@Override
-	public void checkPlatformCompletion(String pfName) {
+	public void checkPlatformCompletion(String pfId) {
 		DBCollection collection = mongoDB.getCollection(DBCollectionEnum.ORDER.toString());
 		
 		//Check for Platform Parts Complete.
 		DBObject getQuery = new BasicDBObject();
-		getQuery.put("partList.platformNumber", pfName);
+		getQuery.put("partList.platformNumber", pfId);
 		getQuery.put("partList.status",Constants.PartsStatus.INPROGRESS.toString());
 		
 		DBCursor findResult = collection.find(getQuery);
@@ -338,7 +341,7 @@ public class MongoPlatformDaoImpl implements PlatformDao {
 			DBObject updateQuery = new BasicDBObject("$set",setQuery);
 			
 			collection = mongoDB.getCollection(DBCollectionEnum.MAST_PLATFORM.toString());
-			collection.update(new BasicDBObject("platformNumber", pfName).append("status", Constants.PartsStatus.INPROGRESS.toString()), updateQuery);
+			collection.update(new BasicDBObject("_id", pfId).append("status", Constants.PartsStatus.INPROGRESS.toString()), updateQuery);
 		}
 		
 	}

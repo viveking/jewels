@@ -1,6 +1,7 @@
 package com.affixus.services;
 
 import java.util.List;
+import java.util.Map;
 
 import com.affixus.dao.PlatformDao;
 import com.affixus.dao.impl.MongoPlatformDaoImpl;
@@ -27,7 +28,7 @@ public class PlatformService {
 		}
 	}
 	
-	public Boolean create(Platform platform) {
+	public String create(Platform platform) {
 		return platformDao.create(platform);
 	}
 	public Boolean delete(String _id) {
@@ -53,7 +54,7 @@ public class PlatformService {
 		return platformDao.updateRMAmountByNewWeights(orderIdList);
 	}
 	
-	public List<String> getAllPlatformByStatus(String status){
+	public Map<String, String> getAllPlatformByStatus(String status){
 		return platformDao.getAllPlatformByStatus(status);
 	}
 

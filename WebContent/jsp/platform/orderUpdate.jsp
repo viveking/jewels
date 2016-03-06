@@ -146,13 +146,17 @@ var rowCADUpdateMethod = function (id){
 
 		  	if (f == "platform") {
 		    	dataPopulate=platformList;
+				 for(var keyss in dataPopulate){
+					$("#idSelect").append("<option value="+keyss+">"+dataPopulate[keyss]+"<option>");
+				 }
 		    } else if (f == "client") { 
 		    	dataPopulate=clientNameJson;
+				 $.each(dataPopulate ,function(ind,val){
+					$("#idSelect").append("<option value="+val+">"+val+"<option>");
+				});
 		    }
 		    
-		    $.each(dataPopulate ,function(ind,val){
-		  		$("#idSelect").append("<option value="+val+">"+val+"<option>");
-		  	});
+		   
 
 		  	$('.chosen-select').chosen().trigger("chosen:updated");
 		  	populateGrid();

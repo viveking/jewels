@@ -74,13 +74,13 @@
 			<div class="col-xs-5" style="border-right: 1px solid black;">
 				<span id="idaddress"></span>
 			</div>
-			<div class="col-xs-2" style="border-right: 1px solid black; height: 124px">
+			<div class="col-xs-3" style="border-right: 1px solid black; height: 124px">
 				<p>
 					Inv No: <span id="idinvoiceNumber"></span><br/>
 					Inv Date: <span id="idinvoiceCreationDateStr"></span>
 				</p>
 			</div>
-			<div class="col-xs-5" >
+			<div class="col-xs-4" >
 				<p><strong><span id="idclientname"></span></strong><br/>
 				<span id="idclientaddress"></span></p>
 			</div>
@@ -102,16 +102,16 @@
 			<div id="idHeaderLblRMWeight" class="col-xs-1" style="border-right: 1px solid black;text-align: right;">
 				RM
 			</div>
-			<div class="col-xs-1" style="border-right: 1px solid black; color:white; background-color: gray;text-align: right;">
+			<div class="col-xs-1" style="border-right: 1px solid black; text-align: right;">
 				CAM
 			</div>
-			<div id="idHeaderLblRMAmount" class="col-xs-1" style="border-right: 1px solid black; color:white; background-color: gray;text-align: right;">
+			<div id="idHeaderLblRMAmount" class="col-xs-1" style="border-right: 1px solid black; text-align: right;">
 				RM
 			</div>
-			<div id="idHeaderLblCADAmount" class="col-xs-1" style="border-right: 1px solid black; color:white; background-color: gray;text-align: right;">
+			<div id="idHeaderLblCADAmount" class="col-xs-1" style="border-right: 1px solid black;text-align: right;">
 				CAD
 			</div>
-			<div id="idHeaderLblCASTAmount" class="col-xs-1" style="border-right: 1px solid black; color:white; background-color: gray;text-align: right;">
+			<div id="idHeaderLblCASTAmount" class="col-xs-1" style="border-right: 1px solid black;text-align: right;">
 				CAST
 			</div>
 			<div class="col-xs-1" style="text-align: right;">
@@ -128,9 +128,10 @@
 		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;"><small>
 			<div class="col-xs-8">
 				<big>Amt (in words): <span id="idamtwords"></span></big><br/>
-				
-				VAT TIN: <span id="idvattin"></span><br/>
-				CST No: <span id="idcstno"></span><br/><br class="hidden-print"/>
+				<div id="idVatTin">
+					VAT TIN: <span id="idvattin"></span><br/>
+					CST No: <span id="idcstno"></span><br/><br class="hidden-print"/>
+				</div>
 				<span id="iddisclaimer" style="font-size: 85%"></span>
 				<br/>
 				<div style="margin-top: 4px;">RM Count: <b><span id="idRMCount">0</span></b>  <b>|</b><span> Process: </span><b><span id="idProcessString"></span></b></div>
@@ -320,7 +321,7 @@
 			  			invoiceName = "<b>ES INVOICE</b>";
 			  		}
 			  		
-			  		$("#idaddress").css("visibility",clsValue);
+			  		$("#idaddress,#idVatTin,#iddisclaimer").css("visibility",clsValue);
 			  		$("#ownerSmallName").css("visibility",clsValue);
 			  		
 			  		$("#invoiceName").html(invoiceName);

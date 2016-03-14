@@ -81,41 +81,41 @@
 				</p>
 			</div>
 			<div class="col-xs-4" >
-				<p><strong><span id="idclientname"></span></strong><br/>
+				<p><b><span id="idclientname"></span></b><br/>
 				<span id="idclientaddress"></span></p>
 			</div>
 		</div>
 		
 		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;">
 			<div class="col-xs-1" style="border-right: 1px solid black;">
-				Sr.No.
+				<b>Sr.No.</b>
 			</div>
 			<div class="col-xs-3" id="idOrderNoLabel" style="border-right: 1px solid black; ">
-				Order No
+				<b>Order No</b>
 			</div>
 			<div class="col-xs-1" id="idDcNoLabel" style="border-right: 1px solid black; ">
-				DC No
+				<b>DC No</b>
 			</div>
 			<div class="col-xs-1" style="border-right: 1px solid black;text-align: right;">
-				Weight
+				<b>Weight</b>
 			</div>
 			<div id="idHeaderLblRMWeight" class="col-xs-1" style="border-right: 1px solid black;text-align: right;">
-				RM
+				<b>RM</b>
 			</div>
 			<div class="col-xs-1" style="border-right: 1px solid black; text-align: right;">
-				CAM
+				<b>CAM</b>
 			</div>
 			<div id="idHeaderLblRMAmount" class="col-xs-1" style="border-right: 1px solid black; text-align: right;">
-				RM
+				<b>RM</b>
 			</div>
 			<div id="idHeaderLblCADAmount" class="col-xs-1" style="border-right: 1px solid black;text-align: right;">
-				CAD
+				<b>CAD</b>
 			</div>
 			<div id="idHeaderLblCASTAmount" class="col-xs-1" style="border-right: 1px solid black;text-align: right;">
-				CAST
+				<b>CAST</b>
 			</div>
 			<div class="col-xs-1" style="text-align: right;">
-				Total
+				<b>Total</b>
 			</div>
 		</div>
 		
@@ -179,7 +179,7 @@
 				Created By:  
 			</div>
 			<div class="col-xs-4" id="ownerSmallName">
-				For <span id="idswName"></span>
+				For, <span id="idswName"></span>
 			</div>
 			</small>
 		</div>
@@ -382,7 +382,7 @@
 
 			  		$("#idorders").html(ordHtml);
 					
-			  		$(".noIn-voiceContainer").hide();
+			  		$(".noInvoiceContainer").hide();
 			  		$(".invoiceContainer").show();
 			  	}
 			  	

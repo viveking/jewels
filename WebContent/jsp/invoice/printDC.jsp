@@ -88,31 +88,31 @@
 		
 		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;">
 			<div class="col-xs-1" style="border-right: 1px solid black;">
-				Sr.No.
+				<b>Sr.No.</b>
 			</div>
 			<div class="col-xs-4" style="border-right: 1px solid black; ">
-				Order No
+				<b>Order No</b>
 			</div>
 			<div class="col-xs-1" style="border-right: 1px solid black;text-align: right;">
-				Weight
+				<b>Weight</b>
 			</div>
 			<div id="idHeaderLblRMWeight" class="col-xs-1" style="border-right: 1px solid black;text-align: right;">
-				RM
+				<b>RM</b>
 			</div>
-			<div class="col-xs-1" style="border-right: 1px solid black; color:white; background-color: gray;text-align: right;">
-				CAM
+			<div class="col-xs-1" style="border-right: 1px solid black; text-align: right;">
+				<b>CAM</b>
 			</div>
-			<div id="idHeaderLblRMAmount" class="col-xs-1" style="border-right: 1px solid black; color:white; background-color: gray;text-align: right;">
-				RM
+			<div id="idHeaderLblRMAmount" class="col-xs-1" style="border-right: 1px solid black; text-align: right;">
+				<b>RM</b>
 			</div>
-			<div id="idHeaderLblCADAmount" class="col-xs-1" style="border-right: 1px solid black; color:white; background-color: gray;text-align: right;">
-				CAD
+			<div id="idHeaderLblCADAmount" class="col-xs-1" style="border-right: 1px solid black; text-align: right;">
+				<b>CAD</b>
 			</div>
-			<div id="idHeaderLblCASTAmount" class="col-xs-1" style="border-right: 1px solid black; color:white; background-color: gray;text-align: right;">
-				CAST
+			<div id="idHeaderLblCASTAmount" class="col-xs-1" style="border-right: 1px solid black; text-align: right;">
+				<b>CAST</b>
 			</div>
 			<div class="col-xs-1" style="text-align: right;">
-				Total
+				<b>Total</b>
 			</div>
 		</div>
 		
@@ -176,7 +176,7 @@
 				Created By:  
 			</div>
 			<div class="col-xs-4">
-				For <span id="idswName"></span>
+				For, <span id="idswName"></span>
 			</div>
 			</small>
 		</div>

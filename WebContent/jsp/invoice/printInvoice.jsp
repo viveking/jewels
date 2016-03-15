@@ -318,7 +318,7 @@
 			  		} else if(dataFromServer["invoice"]["invoiceTaxOption"].indexOf("ES") !== -1 ){
 			  			invoiceTaxOption = dataFromServer["invoice"]["invoiceTaxOption"].replace("ES","EST @ ");
 			  			clsValue = "hidden";
-			  			invoiceName = "<b>ES INVOICE</b>";
+			  			invoiceName = "<b>EST INVOICE</b>";
 			  		}
 			  		
 			  		$("#idaddress,#idVatTin,#iddisclaimer").css("visibility",clsValue);

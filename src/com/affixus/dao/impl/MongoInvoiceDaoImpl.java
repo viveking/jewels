@@ -57,7 +57,7 @@ public class MongoInvoiceDaoImpl implements InvoiceDao {
 				clientType = "CST";
 			}
 			if(("2").equals(invoiceType)){
-				clientType = "EST";
+				clientType = "ES";
 			}
 			String counter = MongoUtil.getNextSequenceByType(clientType);
 			String invoiceNumber = invoice.generateInvoiceNumber(clientType,counter);

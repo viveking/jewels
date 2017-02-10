@@ -47,17 +47,20 @@
 				var dcType = { "4":"Delivery Challan"};
 				var voucherTypeSelector = {"Invoice":InvoiceType,"DC":dcType};
 				var invType = {"0":"Select Inv. Type","1":"CST Invoice","2":"Estimate Sales","3":"Tax Invoice","4":"Delivery Challan"};
-				var percent = {"CST0%":"CST @ 0%","CST1%":"CST @ 1%","CST2%":"CST @ 2%","CST4%":"CST @ 4%","ES0%":"Estimate Sales @ 0%","ES1%":"Estimate Sales @ 1%","TI0%":"Tax Invoice @ 0%","TI1%":"Tax Invoice @ 1%","TI12.5%":"Tax Invoice @ 12.5%"};
-				var cstPercent = {"CST0%":"CST @ 0%","CST1%":"CST @ 1%","CST2%":"CST @ 2%","CST4%":"CST @ 4%"};
+				var percent = {"CST0%":"CST @ 0%","CST1%":"CST @ 1%","CST2%":"CST @ 2%","CST4%":"CST @ 4%","CST5%":"CST @ 5%","CST5.5%":"CST @ 5.5%","CST6%":"CST @ 6%","ES0%":"Estimate Sales @ 0%","ES1%":"Estimate Sales @ 1%","TI0%":"Tax Invoice @ 0%","TI1%":"Tax Invoice @ 1%","TI12.5%":"Tax Invoice @ 12.5%","TI13.5%":"Tax Invoice @ 13.5%"};
+				var cstPercent = {"CST0%":"CST @ 0%","CST1%":"CST @ 1%","CST2%":"CST @ 2%","CST4%":"CST @ 4%", "CST5%":"CST @ 5%", "CST5.5%":"CST @ 5.5%", "CST6%":"CST @ 6%" };
 				var estSalesPercent = {"ES0%":"Estimate Sales @ 0%"};
-				var tiPercent = {"TI0%":"Tax Invoice @ 0%","TI1%":"Tax Invoice @ 1%","TI12.5%":"Tax Invoice @ 12.5%"};
-				var dcPercent = {"TI12.5%":"Tax Invoice @ 12.5%"};
+				var tiPercent = {"TI0%":"Tax Invoice @ 0%","TI1%":"Tax Invoice @ 1%","TI12.5%":"Tax Invoice @ 12.5%", "TI13.5%":"Tax Invoice @ 13.5%"};
+				var dcPercent = {"TI12.5%":"Tax Invoice @ 12.5%", "TI13.5%":"Tax Invoice @ 13.5%"};
 				
-				var dcHTML = '<option role="option" value="TI12.5%">Tax Invoice @ 12.5%</option>';
+				var dcHTML = '<option role="option" value="TI13.5%">Tax Invoice @ 13.5%</option>';
 				var cstHTML = '<option role="option" value="CST0%">CST @ 0%</option>';
 				cstHTML += '<option role="option" value="CST1%">CST @ 1%</option>';
 				cstHTML += '<option role="option" value="CST2%">CST @ 2%</option>';
 				cstHTML += '<option role="option" value="CST4%">CST @ 4%</option>';
+				cstHTML += '<option role="option" value="CST5%">CST @ 5%</option>';
+				cstHTML += '<option role="option" value="CST5.5%">CST @ 5.5%</option>';
+				cstHTML += '<option role="option" value="CST6%">CST @ 6%</option>';
 				
 				var invTypePercent = {"0":{},"1":cstPercent,"2":estSalesPercent,"3":tiPercent,"4":dcPercent};
 				var resetPercentValues = function () {

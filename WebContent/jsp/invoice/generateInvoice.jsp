@@ -131,7 +131,6 @@
         
         $(".chosen-select").chosen().change(function() {
         	var clientGridData = clientMap[$(this).val()];
-        	debugger;
         	if(!clientGridData){
         		$('#order-grid-table').jqGrid('setGridParam', {data: dataFromServer }).trigger('reloadGrid');
         	}else{
@@ -162,6 +161,9 @@
 				str += '<option role="option" value="CST1%">CST @ 1%</option>';
 				str += '<option role="option" value="CST2%">CST @ 2%</option>';
 				str += '<option role="option" value="CST4%">CST @ 4%</option>';
+				str += '<option role="option" value="CST5%">CST @ 5%</option>';
+				str += '<option role="option" value="CST5.5%">CST @ 5.5%</option>';
+				str += '<option role="option" value="CST6%">CST @ 6%</option>';
 			$("#taxInvoiceOptionList").html(str);
 			
 		} else if(invoiceType == 2){
@@ -174,21 +176,26 @@
 			var str = '<option role="option" value="TI0%">Tax Invoice @ 0%</option>';
 				str += '<option role="option" value="TI1%">Tax Invoice @ 1%</option>';
 				str += '<option role="option" value="TI12.5%">Tax Invoice @ 12.5%</option>';
+				str += '<option role="option" value="TI13.5%">Tax Invoice @ 13.5%</option>';
 			$("#taxInvoiceOptionList").html(str);
 			
 		} else if(invoiceType == 4){
-			
 			var str = '<option role="option" value="TI12.5%">Tax Invoice @ 12.5%</option>';
+			str += '<option role="option" value="TI13.5%">Tax Invoice @ 13.5%</option>';
 			$("#taxInvoiceOptionList").html(str);
 		} else {
 			var str = '<option role="option" value="TI0%">Tax Invoice @ 0%</option>';
 				str += '<option role="option" value="TI1%">Tax Invoice @ 1%</option>';
 				str += '<option role="option" value="TI12.5%">Tax Invoice @ 12.5%</option>';
+				str += '<option role="option" value="TI13.5%">Tax Invoice @ 13.5%</option>';
 				str += '<option role="option" value="ES0%">Estimate Sales @ 0%</option>';
 				str += '<option role="option" value="CST0%">CST @ 0%</option>';
 				str += '<option role="option" value="CST1%">CST @ 1%</option>';
 				str += '<option role="option" value="CST2%">CST @ 2%</option>';
 				str += '<option role="option" value="CST4%">CST @ 4%</option>';
+				str += '<option role="option" value="CST5%">CST @ 5%</option>';
+				str += '<option role="option" value="CST5.5%">CST @ 5.5%</option>';
+				str += '<option role="option" value="CST6%">CST @ 6%</option>';
 			$("#taxInvoiceOptionList").html(str);
 		}
 	}

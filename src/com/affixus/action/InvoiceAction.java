@@ -139,6 +139,8 @@ public class InvoiceAction extends HttpServlet {
 					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.01);
 				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("TI12.5%")){
 					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.125);
+				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("TI13.5%")){
+					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.135);
 				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("TI14%")){
 					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.14);
 				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("ES0%")){
@@ -151,6 +153,12 @@ public class InvoiceAction extends HttpServlet {
 					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.02);
 				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("CST4%")){
 					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.04);
+				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("CST5%")){
+					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.05);
+				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("CST5.5%")){
+					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.055);
+				}else if(inv.getInvoiceTaxOption().equalsIgnoreCase("CST6%")){
+					taxAmount = (float) ((grossTotal- inv.getDiscount()) * 0.06);
 				}
 				
 				printInvoice.setTaxAmount(taxAmount);

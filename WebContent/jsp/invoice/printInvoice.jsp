@@ -63,24 +63,26 @@
 		<div id="alertContainer" style="position: fixed; bottom:10px; right:10px; z-index:1000">
 		</div>
 	</div>
-	<div class="row invoiceContainer" style="margin-top: 10px;">
+	<div class="row invoiceContainer" style="margin-top: 10px; font-family:'segoe ui'">
 		
-		<div class="col-xs-12 text-center" id="invoiceName" style="border: 1px solid black">
+		<div class="col-xs-12 text-center" id="invoiceName" style="border-bottom: 1px solid black">
 			<b>TAX INVOICE</b>
 		</div>
 		
 		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;">
 		
-			<div class="col-xs-5" style="border-right: 1px solid black;">
+			<div>
 				<span id="idaddress"></span>
 			</div>
-			<div class="col-xs-3" style="border-right: 1px solid black; height: 124px">
+		</div>
+		<div class="col-xs-12"  style="border: 1px solid black; border-top:none;">
+			<div class="col-xs-6" style="border-right: 1px solid black; height: 100px; max-height:124px; padding-top: 10px;">
 				<p>
 					Inv No: <span id="idinvoiceNumber"></span><br/>
 					Inv Date: <span id="idinvoiceCreationDateStr"></span>
 				</p>
 			</div>
-			<div class="col-xs-4" >
+			<div class="col-xs-6" style="padding-top:10px;">
 				<p><b><span id="idclientname"></span></b><br/>
 				<span id="idclientaddress"></span></p>
 			</div>
@@ -90,11 +92,14 @@
 			<div class="col-xs-1" style="border-right: 1px solid black;">
 				<b>Sr.No.</b>
 			</div>
-			<div class="col-xs-3" id="idOrderNoLabel" style="border-right: 1px solid black; ">
+			<div class="col-xs-2" id="idOrderNoLabel" style="border-right: 1px solid black; ">
 				<b>Order No</b>
 			</div>
 			<div class="col-xs-1" id="idDcNoLabel" style="border-right: 1px solid black; ">
 				<b>DC No</b>
+			</div>
+			<div class="col-xs-1" style="border-right: 1px solid black; text-align: right;">
+				<b>Quantity</b>
 			</div>
 			<div class="col-xs-1" style="border-right: 1px solid black;text-align: right;">
 				<b>Weight</b>
@@ -167,27 +172,38 @@
 			<div class="col-xs-2" style="outline: 1px solid black;">
 				Grand Total:
 			</div>
-			<div class="col-xs-2" style="left:10px; text-align: right;">
+			<div class="col-xs-2" style="left:10px; text-align:right;">
 				<span id="idgrandTotal"></span>
 			</div>
 			</small>
 		</div>
-		
-		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;"><small>
-			<div class="col-xs-8" style="border-right: 1px solid black; height:80px;">
-				If you have any query in the bill kindly intimate us within 24 hrs.<br/>
-				Created By:  
-			</div>
-			<div class="col-xs-4" id="ownerSmallName">
-				For, <span id="idswName"></span>
-			</div>
+		<div class="col-xs-12" style="border: 1px solid black; border-top:0px; text-align:right;">
+			<small style="text-align:left; float: right; padding: 5px;">
+				<span>1. Claim of any material whatsoever lapse unless raised in writing 8 days of this Bill.</span><br/>
+				<span>2. Payment should be cross-checked and Made payable to the Company only.</span><br/>
+				<span>3. Interest will be charged at 18% on unpaid accounts 15 days after delivery.</span><br/>
+				<span>4. Subject to Mumbai Jurisdiction only.</span>
+			</small>
+		</div>
+		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;">
+			<small>
+				<div class="col-xs-8" style="border-right: 1px solid black; padding: 5px;">
+					I/We hereby certify that my/our registration certificate  under the Maharashtra Value Added Tax Act, 
+					2002 is in force on the date on which the sale of the goods specified in this tax 
+					invoice is made by me/us and that the transaction of sale covered by this tax invoice 
+					has been effected by me/us and it shall be accounted for in the turnover of sales while 
+					filing of return  and the due tax, if any, payable on the sale has been paid or shall be paid.  
+				</div>
+				<div class="col-xs-4" id="ownerSmallName" style="padding: 5px;">
+					For, <span id="idswName"></span>
+				</div>
 			</small>
 		</div>
 		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;"><small>
-			<div class="col-xs-8" style="border-right: 1px solid black;">
+			<div class="col-xs-8" style="border-right: 1px solid black; padding: 5px;">
 				Receivers Signature
 			</div>
-			<div class="col-xs-4">
+			<div class="col-xs-4" style="padding: 5px;">
 				Authorised Signatory
 			</div>
 			</small>
@@ -275,7 +291,6 @@
 			  		var processString = processArr.join(", ").toUpperCase();
 			  		$("#idProcessString").html(processString);
 			  		
-			  		debugger;
 			  		if(processArr.indexOf("rm") === -1){
 			  			$("#idHeaderLblRMWeight").css("visibility","hidden");
 			  			$("#idHeaderLblRMAmount").css("visibility","hidden");
@@ -308,7 +323,7 @@
 			  		
 			  		var invoiceTaxOption = "";
 			  		var invoiceName = "", clsValue = "Visible";
-			  		debugger;
+			  		
 			  		if(dataFromServer["invoice"]["invoiceTaxOption"].indexOf("TI") !== -1){
 			  			invoiceTaxOption = dataFromServer["invoice"]["invoiceTaxOption"].replace("TI","Tax @ ");
 			  			invoiceName = "<b>TAX INVOICE</b>";
@@ -358,18 +373,18 @@
 			  			ordHtml+="<div class='col-xs-12' style='border: 1px solid black; border-top:0px;'><small> \
 							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ (ind+1) +" </div>";
 							if(dcNumber){
-								ordHtml+="<div class='col-xs-3' style='border-right: 1px solid black;'> "+ valOrd['orderName'] +" </div>\
+								ordHtml+="<div class='col-xs-2' style='border-right: 1px solid black;'> "+ valOrd['orderName'] +" </div>\
 								<div class='col-xs-1' style='border-right: 1px solid black;'> "+ dcNumber +" </div>";
-								$("#idOrderNoLabel").removeClass("col-xs-4");
-								$("#idOrderNoLabel").addClass("col-xs-3");
+								$("#idOrderNoLabel").removeClass("col-xs-3");
+								$("#idOrderNoLabel").addClass("col-xs-2");
 								$("#idDcNoLabel").css("display","block");
 							}else{
-								ordHtml+="<div class='col-xs-4' style='border-right: 1px solid black;'> "+ valOrd['orderName'] +" </div>";
-								$("#idOrderNoLabel").removeClass("col-xs-3");
-								$("#idOrderNoLabel").addClass("col-xs-4");
+								ordHtml+="<div class='col-xs-3' style='border-right: 1px solid black;'> "+ valOrd['orderName'] +" </div>";
+								$("#idOrderNoLabel").removeClass("col-xs-2");
+								$("#idOrderNoLabel").addClass("col-xs-3");
 								$("#idDcNoLabel").css("display","none");
 							}
-							
+							ordHtml+="<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ 1 +" </div>";
 							ordHtml+="<div class='col-xs-1' style='visibility:"+camVisiblity+" border-right: 1px solid black; text-align: right;'> "+ camWeight +" </div> \
 							<div class='col-xs-1' style='visibility:"+rmVisiblity+" border-right: 1px solid black; text-align: right;'> "+ rmWeight +" </div> \
 							<div class='col-xs-1' style='visibility:"+camVisiblity+" border-right: 1px solid black; text-align: right;'> "+ camAmount + " </div> \

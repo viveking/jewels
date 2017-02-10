@@ -157,8 +157,9 @@
 							name:'invoiceType',index:'invoiceType',width: 100, editable: true,
 	                        formatter: 'select', edittype: 'select',
 	                        editoptions: {
-	                            //value: invType,
-	                            //dataInit: function (elem) {
+	                            value: invType,
+	                           // dataInit: function (elem) {
+	                           // 	jQuery(grid_selector).jqGrid('setColProp', 'invoiceType', { editoptions: { value: voucherTypeSelector[v]} });
 	                                //var v = $(elem).val();
 	                                // to have short list of options which corresponds to the country
 	                                // from the row we have to change temporary the column property
@@ -168,6 +169,7 @@
 	                                {
 	                                    type: 'change',
 	                                    fn: function (e) {
+	                                    	
 	                                        // build 'State' options based on the selected 'Country' value
 	                                        var v = $(e.target).val(),
 	                                            sc = invTypePercent[v],
@@ -181,7 +183,7 @@
 	                                                    percent[stateId] + '</option>';
 	                                            }
 	                                        }
-	
+											
 	                                        resetPercentValues();
 	
 	                                        // populate the subset of contries
@@ -199,7 +201,7 @@
 	                            ]
 	                        }
 	                    },
-						{name:'invoicePercentage',index:'invoicePercentage', sortable:false,editable: true,hidden:true, edittype:"select",formoptions:{rowpos:15, colpos:2},hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:cstPercent},formatter:'select'},
+						{name:'invoicePercentage',index:'invoicePercentage', sortable:false,editable: true,hidden:true, edittype:"select",formoptions:{rowpos:15, colpos:2},hidden:true, editrules:{required:false, edithidden:true}, editoptions:{ dataInit: function(elem) {$(elem).width(160);}},formatter:'select'},
 						
 						{name:'invisionHR',index:'invisionHr', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_inversionHrData},formatter:'select'},
 						{name:'rubberMOULD',index:'rubberMould', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_rubberMould},formatter:'select'},

@@ -317,7 +317,7 @@
 			  		$("#idclientname").html(dataFromServer["invoice"]["client"]["name"]);
 			  		var clientAddress =  "";
 			  		if(dataFromServer["invoice"]["client"]["address"] !== undefined){
-			  			var clientAddress = dataFromServer["invoice"]["client"]["address"] +", " + dataFromServer["invoice"]["client"]["city"];
+			  			var clientAddress = dataFromServer["invoice"]["client"]["address"] +", " + dataFromServer["invoice"]["client"]["city"] || "";
 			  		}
 			  		$("#idclientaddress").html(clientAddress);
 			  		
@@ -337,6 +337,10 @@
 			  		}
 			  		
 			  		$("#idaddress,#idVatTin,#iddisclaimer").css("visibility",clsValue);
+			  		
+			  		if(clsValue == "hidden") {
+			  			$("#idaddress").css("display","none");
+			  		}
 			  		$("#ownerSmallName").css("visibility",clsValue);
 			  		
 			  		$("#invoiceName").html(invoiceName);

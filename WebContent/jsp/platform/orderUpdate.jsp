@@ -219,12 +219,16 @@ var rowCADUpdateMethod = function (id){
 				    index: 'cam.weight',
 				    width: 100,
 				    formatter: function (cellValue, option, rawObject) {
-				    		
 			    		return '<input type="text" name="txtBox" id="txt_cam_' + option.rowId + '" value="' + cellValue +
 					        	'"onchange="rowCAMUpdateMethod('+ option.rowId +')" />';
 				    },
 				    cellattr: function (rowid, cellvalue, rawObject, cm, rdata) {
-					    return rawObject.cam.required  == true ? 'class="editCls"' : '';
+				    	if(rawObject.hasOwnProperty("cam")) {
+				    		return rawObject.cam.required  == true ? 'class="editCls"' : '';	
+				    	 }
+				    	else {
+				    		return '';
+				    	} 
 					}
 				},
 				{
@@ -232,23 +236,31 @@ var rowCADUpdateMethod = function (id){
 				    index: 'rm.weight',
 				    width: 100,
 				    formatter: function (cellValue, option, rawObject) {
-				    		if(rawObject.rm.required){
+				    	//debugger;
+				    		if(rawObject.hasOwnProperty("rm") && rawObject.rm.required){
 				    			return '<input type="text" name="txtBox" id="txt_rm_' + option.rowId + '" value="' + cellValue +
 					        	'"onchange="rowRMUpdateMethod('+ option.rowId +')" />';
-				    		} else {
+				    		 } else {
 				    			return cellValue;
-				    		}
+				    		} 
 				        	
 				    },
 				    cellattr: function (rowid, cellvalue, rawObject, cm, rdata) {
-					    return rawObject.rm.required  == true ? 'class="editCls"' : '';
+				    	//debugger;
+				    	if(rawObject.hasOwnProperty("rm")) {
+					    	return rawObject.rm.required  == true ? 'class="editCls"' : '';
+				    	 }
+				    	else {
+				    		return '';
+				    	} 
 				}
 				},
 				
 				{index:'cad.amount',name:'cad.amount',formatter:'number',formatoptions:{decimalPlaces: 2},
 					width:100, editable: true,
 					formatter: function (cellValue, option, rawObject) {
-			    		if(rawObject.cad.required){
+						//debugger;
+			    		if(rawObject.hasOwnProperty("cad") && rawObject.cad.required){
 			    			return '<input type="text" name="txtBox" id="txt_cad_' + option.rowId + '" value="' + cellValue +
 				        	'"onchange="rowCADUpdateMethod('+ option.rowId +')" />';
 			    		} else {
@@ -256,22 +268,34 @@ var rowCADUpdateMethod = function (id){
 			    		}
 			    },
 					cellattr: function (rowid, cellvalue, rawObject, cm, rdata) {
-					    return rawObject.cad.required  == true ? 'class="editCls"' : '';
+						//debugger;
+						if(rawObject.hasOwnProperty("cad")) {
+					    	return rawObject.cad.required  == true ? 'class="editCls"' : '';
+						 }
+				    	else {
+				    		return '';
+				    	} 
 				}},
 				{index:'cast.amount',name:'cast.amount',hidden:true, formatter:'number',formatoptions:{decimalPlaces: 2},
 					width:100, editable: true,
 					cellattr: function (rowid, cellvalue, rawObject, cm, rdata) {
-					    return rawObject.cast.required  == true ? 'class="editCls"' : '';
+						if(rawObject.hasOwnProperty("cast")) {
+					    	return rawObject.cast.required  == true ? 'class="editCls"' : '';
+						 }
+				    	else {
+				    		return '';
+				    	} 
 				}},
 				
 				{index:'rm.required',name:'rm.required',hidden: true},
 				{index:'cad.required',name:'cad.required',hidden: true}
 			],
 			beforeSelectRow: function(rowid, e){
+				//debugger;
 				var data = jQuery(passed_grid_selector).jqGrid('getRowData', rowid);
 				var $td = $(e.target).closest("td"), iCol = $.jgrid.getCellIndex($td[0]);
 				var flag = true;
-				if(iCol === 7)
+				if(iCol === 11)
 				{
 					if(data["rm.required"]  === "true"){
 						flag = true;
@@ -280,7 +304,7 @@ var rowCADUpdateMethod = function (id){
 						flag = false;
 					}
 				}
-				if(iCol === 8)
+				if(iCol === 12)
 				{
 					if(data["cad.required"]  === "true"){
 						flag = true;

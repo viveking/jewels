@@ -134,6 +134,5 @@ public class Order extends BasePojo {
 	}
 	public void setDisplayOrderNumber(String displayOrderNumber) {
 		this.displayOrderNumber = displayOrderNumber;
-	}
-	
+	}	
 }

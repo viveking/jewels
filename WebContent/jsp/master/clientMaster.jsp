@@ -201,7 +201,7 @@
 	                            ]
 	                        }
 	                    },
-						{name:'invoicePercentage',index:'invoicePercentage', sortable:false,editable: true,hidden:true, edittype:"select",formoptions:{rowpos:15, colpos:2},hidden:true, editrules:{required:false, edithidden:true}, editoptions:{ dataInit: function(elem) {$(elem).width(160);}},formatter:'select'},
+						{name:'invoicePercentage',index:'invoicePercentage', sortable:false,editable: true,hidden:true, edittype:"select",formoptions:{rowpos:15, colpos:2},hidden:true, editrules:{required:false, edithidden:true}, editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value: percent},formatter:'select'},
 						
 						{name:'invisionHR',index:'invisionHr', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_inversionHrData},formatter:'select'},
 						{name:'rubberMOULD',index:'rubberMould', sortable:false,editable: true,hidden:true, edittype:"select",hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:PT_rubberMould},formatter:'select'},

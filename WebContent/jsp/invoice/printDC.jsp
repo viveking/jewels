@@ -352,7 +352,7 @@
 			  			ordHtml+="<div class='col-xs-12' style='border: 1px solid black; border-top:0px;'><small> \
 							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ (ind+1) +" </div> \
 							<div class='col-xs-3' style='border-right: 1px solid black;'> "+ valOrd['orderName'] +" </div> \
-							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> 1 </div> \
+							<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ valOrd['partList'].length +" </div> \
 							<div class='col-xs-1' style='visibility:"+camVisiblity+" border-right: 1px solid black; text-align: right;'> "+ camWeight +" </div> \
 							<div class='col-xs-1' style='visibility:"+rmVisiblity+" border-right: 1px solid black; text-align: right;'> "+ rmWeight +" </div> \
 							<div class='col-xs-1' style='visibility:"+camVisiblity+" border-right: 1px solid black; text-align: right;'> "+ camAmount + " </div> \

@@ -388,7 +388,7 @@
 								$("#idOrderNoLabel").addClass("col-xs-3");
 								$("#idDcNoLabel").css("display","none");
 							}
-							ordHtml+="<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ 1 +" </div>";
+							ordHtml+="<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ valOrd['partList'].length +" </div>";
 							ordHtml+="<div class='col-xs-1' style='visibility:"+camVisiblity+" border-right: 1px solid black; text-align: right;'> "+ camWeight +" </div> \
 							<div class='col-xs-1' style='visibility:"+rmVisiblity+" border-right: 1px solid black; text-align: right;'> "+ rmWeight +" </div> \
 							<div class='col-xs-1' style='visibility:"+camVisiblity+" border-right: 1px solid black; text-align: right;'> "+ camAmount + " </div> \

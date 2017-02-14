@@ -20,6 +20,8 @@ public class PrintInvoice {
 	private double grandTotal;
 	private List<String> totalProcessesAvail;
 	
+	private String quantity;
+	
 	public Invoice getInvoice() {
 		return invoice;
 	}
@@ -92,5 +94,5 @@ public class PrintInvoice {
 	public void setTotalProcessesAvail(List<String> totalProcessesAvail) {
 		this.totalProcessesAvail = totalProcessesAvail;
 	}
-	
+
 }

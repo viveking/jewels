@@ -77,7 +77,7 @@
 					loadonce: true,
 					gridview: true,
 					datatype: "json",
-					height: 366,
+					height: "auto",
 					colNames:['id','ClientId','Name','Address', 'City', 'Limit','Credit Period','VAT','CST','PAN',
 					          'Mobile 1','Mobile 2','Email 1','Email 2','Voucher Type','Invoice Type',
 					          'Invoice %age','Invision HR','Rubber Mould','Viper 25','Viper 50',
@@ -217,25 +217,37 @@
 							formatoptions:{ 
 								keys:true,
 								delbutton:false,
-								delOptions:{top:45 , url: "${pageContext.request.contextPath}/clientmaster.action?op=delete", left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true, beforeShowForm:beforeDeleteCallback},
-								editformbutton:true, editOptions:{top:45, left:((($(window).width() - 600) / 2) + $(window).scrollLeft()), width:600, recreateForm: true, closeOnEscape:true, beforeShowForm:beforeEditCallback}
+								delOptions:{top:45 , 
+									url: "${pageContext.request.contextPath}/clientmaster.action?op=delete", 
+											left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), 
+											recreateForm: true, 
+											closeOnEscape:true, 
+											beforeShowForm:beforeDeleteCallback
+											},
+								editformbutton:true, 
+								editOptions:{top:45, left:((($(window).width() - 600) / 2) + $(window).scrollLeft()), 
+									width:600, 
+									recreateForm: true, 
+									closeOnEscape:true, 
+									beforeShowForm:beforeEditCallback
+									}
 							}
 						}
 					], 
 			
 					viewrecords : true,
 					rownumbers:true,
-					rowNum:10,
-					rowList:[10,20,30],
+					rowNum:50,
+					rowList:[50,100,150],
 					pager : pager_selector,
 					altRows: true,
-					
 					multiselect: false,
 			        multiboxonly: true,
 			
 					loadComplete : function() {
 						var table = this;
 						setTimeout(function(){
+							$("#grid-table_area").jqGrid('sortGrid','clientId', false, 'asc');
 							updatePagerIcons(table);
 							enableTooltips(table);
 						}, 0);
@@ -247,6 +259,7 @@
 					//caption: "List of areas",
 					scrollOffset: 18,
 					autowidth: true
+					
 				});
 
 				jQuery(grid_selector).jqGrid('bindKeys', {"onEnter":function( rowid ) {  
@@ -462,3 +475,31 @@
 			});
 				
 		</script>
+
+		
+		
+		
+		
+									<!-- 
+									beforeSubmit: function(postdata, formid){ 
+										
+										var allData = $("#grid-table_area").jqGrid('getGridParam', 'data');
+										var flag = true;
+										for(var index=0; index<allData.length;index++) {
+											if (allData[index].clientId===postdata.clientId){
+										    	   flag= false;		
+										    	   break;
+										      }	
+										}
+										
+										if(flag) {
+											$("#FormError").css("display", "none")
+										      return [true,'']; // no error
+										} else {
+											$("#FormError").css("display", "table-row");
+									    	$("#FormError .ui-state-error").html("Client already exist. Please give some another name");
+									    	return [false,'Client already exist. Please give some another name']; //error
+										}
+										
+									 } 
+									 -->

@@ -231,7 +231,7 @@
 			multiselect: true,
 			caption: "Order List",
 			autowidth: true,
-			sortname: '_id', 
+			sortname: 'client.clientId', 
 			sortorder: 'asc'
 		});
 		
@@ -271,7 +271,7 @@
 					  	$('.chosen-select').chosen().trigger("chosen:updated");
 					  	
 					  	$('#order-grid-table').jqGrid('setGridParam', {data: dataFromServer }).trigger('reloadGrid');
-					  	
+					  	$("#idSaveOrder").show();
 				  	}
 				  	
 				  	//$('#noGridContainer').hide();
@@ -330,7 +330,7 @@
 			  	data: param
 			  })
 			  .done(function(data) {
-				  getData();
+				  //getData();
 				  console.log("success "+data);
 			  	$("#alertContainer").html(' \
 			  			<div class="alert alert-block alert-success" id="alertSaved">\
@@ -351,6 +351,7 @@
 			  	
 			  })
 			  .always(function() {
+				  $("#idSaveOrder").hide();
 				  async.loadingDialog.hidePleaseWait();
 				  console.log("complete");
 			  });

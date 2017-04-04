@@ -65,7 +65,7 @@
 	</div>
 	<div class="row DCContainer" style="margin-top: 10px; font-family:'segoe ui'">
 		
-		<div class="col-xs-12 text-center" id="DCName">
+		<div class="col-xs-12 text-center" id="DCName" style="font-size:16px;">
 			<b>Delivery Challan</b>
 		</div>
 		
@@ -128,7 +128,7 @@
 		
 		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;"><small>
 			<div class="col-xs-8">
-				<big>Amt (in words): <span id="idamtwords"></span></big><br/>
+				<div>Amt (in words): <span id="idamtwords"></span></div><br/>
 				
 				VAT TIN: <span id="idvattin"></span><br/>
 				CST No: <span id="idcstno"></span><br/><br class="hidden-print"/>
@@ -138,6 +138,7 @@
 			</div>
 			<div class="col-xs-3" style=" outline: 1px solid black;">
 				<br/>
+				Total Quantities:<br/>
 				Total Amount:<br/>
 				<div style="visibility: hidden;">Gross:<br/>
 				Discount:<br/>
@@ -150,6 +151,7 @@
 			</div>
 			<div class="col-xs-1" style="left:10px; top:2px; text-align: right;">
 				<br/>
+				<span id="idtotalquantities">0.00</span><br/>
 				<!-- <span id="idgross">0.00</span><br/>
 				<span id="iddiscount">0.00</span><br/>
 				<span id="idtaxAmount">0.00</span><br/>
@@ -339,16 +341,18 @@
 		  			var camVisiblity = processArr.indexOf("cam") === -1?"hidden;":"visible;";
 		  			var cadVisiblity = processArr.indexOf("cad") === -1?"hidden;":"visible;";
 		  			var castVisiblity = processArr.indexOf("cast") === -1?"hidden;":"visible;";
-			  				
+		  			var quantityTotal = 0;
 			  		var ordHtml='';
 			  		$.each(dataFromServer["dc"]["orderList"],function(ind,valOrd){
 			  			var camWeight = (valOrd['cam']['weight'] !== "" && valOrd['cam']['weight'] !== undefined && valOrd['cam']['weight'] !== 0) ? Number(valOrd['cam']['weight']).toFixed(2) : "&nbsp;";
 			  			var rmWeight  = (valOrd['rm']['weight'] !== "" && valOrd['rm']['weight'] !== undefined && valOrd['rm']['weight'] !== 0) ? Number(valOrd['rm']['weight']).toFixed(2) : "&nbsp;" ;
-			  			var camAmount  = (valOrd['cam']['amount'] !== "" && valOrd['cam']['amount'] !== undefined && valOrd['cam']['amount'] !== 0) ? Number(valOrd['cam']['amount']).toFixed(0) : "&nbsp;" ;
-			  			var rmAmount  = (valOrd['rm']['amount'] !== "" && valOrd['rm']['amount'] !== undefined && valOrd['rm']['amount'] !== 0) ? Number(valOrd['rm']['amount']).toFixed(0) : "&nbsp;" ;
-			  			var cadAmount  = (valOrd['cad']['amount'] !== "" && valOrd['cad']['amount'] !== undefined && valOrd['cad']['amount'] !== 0) ? Number(valOrd['cad']['amount']).toFixed(0) : "&nbsp;" ;
-			  			var castAmount  = (valOrd['cast']['amount'] !== "" && valOrd['cast']['amount'] !== undefined&& valOrd['cast']['amount'] !== 0) ? Number(valOrd['cast']['amount']).toFixed(0) : "&nbsp;" ;
-			  			
+			  			var camAmount  = (valOrd['cam']['amount'] !== "" && valOrd['cam']['amount'] !== undefined && valOrd['cam']['amount'] !== 0) ? Number(valOrd['cam']['amount']).toFixed(2) : "&nbsp;" ;
+			  			var rmAmount  = (valOrd['rm']['amount'] !== "" && valOrd['rm']['amount'] !== undefined && valOrd['rm']['amount'] !== 0) ? Number(valOrd['rm']['amount']).toFixed(2) : "&nbsp;" ;
+			  			var cadAmount  = (valOrd['cad']['amount'] !== "" && valOrd['cad']['amount'] !== undefined && valOrd['cad']['amount'] !== 0) ? Number(valOrd['cad']['amount']).toFixed(2) : "&nbsp;" ;
+			  			var castAmount  = (valOrd['cast']['amount'] !== "" && valOrd['cast']['amount'] !== undefined&& valOrd['cast']['amount'] !== 0) ? Number(valOrd['cast']['amount']).toFixed(2) : "&nbsp;" ;
+			  			if(valOrd.hasOwnProperty("partList")) {
+							quantityTotal = quantityTotal + valOrd['partList'].length;	
+						}
 			  			ordHtml+="<div class='col-xs-12' style='border: 1px solid black; border-top:0px;'><small> \
 							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ (ind+1) +" </div> \
 							<div class='col-xs-3' style='border-right: 1px solid black;'> "+ valOrd['orderName'] +" </div> \
@@ -362,7 +366,7 @@
 							<div class='col-xs-1' style='text-align: right; left:10px;'> "+ 
 							Number(eval(valOrd['rm']['amount']+valOrd['cam']['amount']+valOrd['cad']['amount']+valOrd['cast']['amount'])).toFixed(2) +" </div> </small> </div> ";
 			  		});
-
+			  		$("#idtotalquantities").html(quantityTotal);
 			  		$("#idorders").html(ordHtml);
 					
 			  		$(".noDCContainer").hide();

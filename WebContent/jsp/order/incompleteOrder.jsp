@@ -141,7 +141,8 @@ $(document).ready(function(){
 			rownumbers: true,  
 			multiselect: false,
 			caption: "Incomplete Order Details",
-			autowidth: true
+			autowidth: true,
+			sortname: 'client.clientId', sortorder: 'asc'
 	
 		});
 		

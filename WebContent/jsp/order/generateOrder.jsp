@@ -145,7 +145,7 @@
 			multiselect: false,
 			caption: "Order Details",
 			autowidth: true,
-			sortname: '_id', sortorder: 'asc'
+			sortname: 'client.clientId', sortorder: 'asc'
 		});
 		
 		

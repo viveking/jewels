@@ -231,7 +231,8 @@
 			rownumbers: true,  
 			multiselect: false,
 			caption: "Platform Output Details",
-			autowidth: true
+			autowidth: true,
+			sortname: 'client', sortorder: 'asc'
 	
 		});
 		

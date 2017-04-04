@@ -165,7 +165,7 @@
 			multiselect: true,
 			caption: "Order List",
 			autowidth: true,
-			sortname: '_id', 
+			sortname: 'client.clientId', 
 			sortorder: 'asc'
 		});
 		

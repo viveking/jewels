@@ -201,7 +201,7 @@
 			rownumbers: true,  
 			multiselect: true,
 	        //multiboxonly: true,
-			
+			sortname: 'clientName', sortorder: 'asc',
 			caption: "Passed Order Details",
 	
 			autowidth: true	

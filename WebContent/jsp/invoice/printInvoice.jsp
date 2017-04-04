@@ -65,7 +65,7 @@
 	</div>
 	<div class="row invoiceContainer" style="margin-top: 10px; font-family:'segoe ui'">
 		
-		<div class="col-xs-12 text-center" id="invoiceName" style="border-bottom: 1px solid black">
+		<div class="col-xs-12 text-center" id="invoiceName" style="font-size:16px; border-bottom: 1px solid black">
 			<b>TAX INVOICE</b>
 		</div>
 		
@@ -92,7 +92,7 @@
 			<div class="col-xs-1" style="border-right: 1px solid black;">
 				<b>Sr.No.</b>
 			</div>
-			<div class="col-xs-2" id="idOrderNoLabel" style="border-right: 1px solid black; ">
+			<div class="col-xs-3" id="idOrderNoLabel" style="border-right: 1px solid black; ">
 				<b>Order No</b>
 			</div>
 			<div class="col-xs-1" id="idDcNoLabel" style="border-right: 1px solid black; ">
@@ -113,9 +113,9 @@
 			<div id="idHeaderLblRMAmount" class="col-xs-1" style="border-right: 1px solid black; text-align: right;">
 				<b>RM</b>
 			</div>
-			<div id="idHeaderLblCADAmount" class="col-xs-1" style="border-right: 1px solid black;text-align: right;">
+			<!-- <div id="idHeaderLblCADAmount" class="col-xs-1" style="border-right: 1px solid black;text-align: right;">
 				<b>CAD</b>
-			</div>
+			</div> -->
 			<div id="idHeaderLblCASTAmount" class="col-xs-1" style="border-right: 1px solid black;text-align: right;">
 				<b>CAST</b>
 			</div>
@@ -132,7 +132,7 @@
 		
 		<div class="col-xs-12" style="border: 1px solid black; border-top:0px;"><small>
 			<div class="col-xs-8">
-				<big>Amt (in words): <span id="idamtwords"></span></big><br/>
+				<div>Amt (in words): <span id="idamtwords"></span></div><br/>
 				<div id="idVatTin">
 					VAT TIN: <span id="idvattin"></span><br/>
 					CST No: <span id="idcstno"></span><br/><br class="hidden-print"/>
@@ -143,6 +143,7 @@
 			</div>
 			<div class="col-xs-2" style=" outline: 1px solid black;">
 				<br/>
+				Total Quantities:<br/>
 				Gross:<br/>
 				Discount:<br/>
 				<span id="idinvoiceTaxOption"></span>:<br/>
@@ -154,6 +155,7 @@
 			</div>
 			<div class="col-xs-2" style="left:10px; top:2px; text-align: right;">
 				<br/>
+				<span id="idtotalquantities">0.00</span><br/>
 				<span id="idgross">0.00</span><br/>
 				<span id="iddiscount">0.00</span><br/>
 				<span id="idtaxAmount">0.00</span><br/>
@@ -364,41 +366,45 @@
 		  			var camVisiblity = processArr.indexOf("cam") === -1?"hidden;":"visible;";
 		  			var cadVisiblity = processArr.indexOf("cad") === -1?"hidden;":"visible;";
 		  			var castVisiblity = processArr.indexOf("cast") === -1?"hidden;":"visible;";
-			  				
+		  			var quantityTotal = 0;		
 			  		var ordHtml='';
 			  		$.each(dataFromServer["invoice"]["orderList"],function(ind,valOrd){
 			  			var camWeight = (valOrd['cam']['weight'] !== "" && valOrd['cam']['weight'] !== undefined && valOrd['cam']['weight'] !== 0) ? Number(valOrd['cam']['weight']).toFixed(2) : "&nbsp;";
 			  			var rmWeight  = (valOrd['rm']['weight'] !== "" && valOrd['rm']['weight'] !== undefined && valOrd['rm']['weight'] !== 0) ? Number(valOrd['rm']['weight']).toFixed(2) : "&nbsp;" ;
-			  			var camAmount  = (valOrd['cam']['amount'] !== "" && valOrd['cam']['amount'] !== undefined && valOrd['cam']['amount'] !== 0) ? Number(valOrd['cam']['amount']).toFixed(0) : "&nbsp;" ;
-			  			var rmAmount  = (valOrd['rm']['amount'] !== "" && valOrd['rm']['amount'] !== undefined && valOrd['rm']['amount'] !== 0) ? Number(valOrd['rm']['amount']).toFixed(0) : "&nbsp;" ;
-			  			var cadAmount  = (valOrd['cad']['amount'] !== "" && valOrd['cad']['amount'] !== undefined && valOrd['cad']['amount'] !== 0) ? Number(valOrd['cad']['amount']).toFixed(0) : "&nbsp;" ;
-			  			var castAmount  = (valOrd['cast']['amount'] !== "" && valOrd['cast']['amount'] !== undefined&& valOrd['cast']['amount'] !== 0) ? Number(valOrd['cast']['amount']).toFixed(0) : "&nbsp;" ;
+			  			var camAmount  = (valOrd['cam']['amount'] !== "" && valOrd['cam']['amount'] !== undefined && valOrd['cam']['amount'] !== 0) ? Number(valOrd['cam']['amount']).toFixed(2) : "&nbsp;" ;
+			  			var rmAmount  = (valOrd['rm']['amount'] !== "" && valOrd['rm']['amount'] !== undefined && valOrd['rm']['amount'] !== 0) ? Number(valOrd['rm']['amount']).toFixed(2) : "&nbsp;" ;
+			  			var cadAmount  = (valOrd['cad']['amount'] !== "" && valOrd['cad']['amount'] !== undefined && valOrd['cad']['amount'] !== 0) ? Number(valOrd['cad']['amount']).toFixed(2) : "&nbsp;" ;
+			  			var castAmount  = (valOrd['cast']['amount'] !== "" && valOrd['cast']['amount'] !== undefined&& valOrd['cast']['amount'] !== 0) ? Number(valOrd['cast']['amount']).toFixed(2) : "&nbsp;" ;
 			  			var dcNumber = valOrd['dcNumber'];
+			  			
 			  			ordHtml+="<div class='col-xs-12' style='border: 1px solid black; border-top:0px;'><small> \
 							<div class='col-xs-1' style='border-right: 1px solid black;'> "+ (ind+1) +" </div>";
 							if(dcNumber){
-								ordHtml+="<div class='col-xs-2' style='border-right: 1px solid black;'> "+ valOrd['orderName'] +" </div>\
+								ordHtml+="<div class='col-xs-3' style='border-right: 1px solid black;'> "+ valOrd['orderName'] +" </div>\
 								<div class='col-xs-1' style='border-right: 1px solid black;'> "+ dcNumber +" </div>";
-								$("#idOrderNoLabel").removeClass("col-xs-3");
-								$("#idOrderNoLabel").addClass("col-xs-2");
+								$("#idOrderNoLabel").removeClass("col-xs-4");
+								$("#idOrderNoLabel").addClass("col-xs-3");
 								$("#idDcNoLabel").css("display","block");
 							}else{
-								ordHtml+="<div class='col-xs-3' style='border-right: 1px solid black;'> "+ valOrd['orderName'] +" </div>";
-								$("#idOrderNoLabel").removeClass("col-xs-2");
-								$("#idOrderNoLabel").addClass("col-xs-3");
+								ordHtml+="<div class='col-xs-4' style='border-right: 1px solid black;'> "+ valOrd['orderName'] +" </div>";
+								$("#idOrderNoLabel").removeClass("col-xs-3");
+								$("#idOrderNoLabel").addClass("col-xs-4");
 								$("#idDcNoLabel").css("display","none");
+							}
+							if(valOrd.hasOwnProperty("partList")) {
+								quantityTotal = quantityTotal + valOrd['partList'].length;	
 							}
 							ordHtml+="<div class='col-xs-1' style='border-right: 1px solid black; text-align: right;'> "+ valOrd['partList'].length +" </div>";
 							ordHtml+="<div class='col-xs-1' style='visibility:"+camVisiblity+" border-right: 1px solid black; text-align: right;'> "+ camWeight +" </div> \
 							<div class='col-xs-1' style='visibility:"+rmVisiblity+" border-right: 1px solid black; text-align: right;'> "+ rmWeight +" </div> \
 							<div class='col-xs-1' style='visibility:"+camVisiblity+" border-right: 1px solid black; text-align: right;'> "+ camAmount + " </div> \
 							<div class='col-xs-1' style='visibility:"+rmVisiblity+" border-right: 1px solid black; text-align: right;'> "+ rmAmount +" </div> \
-							<div class='col-xs-1' style='visibility:"+cadVisiblity+" border-right: 1px solid black; text-align: right;'> "+ cadAmount +" </div> \
 							<div class='col-xs-1' style='visibility:"+castVisiblity+" border-right: 1px solid black; text-align: right;'> "+ castAmount +" </div> \
 							<div class='col-xs-1' style='text-align: right; left:10px;'> "+ 
 							Number(eval(valOrd['rm']['amount']+valOrd['cam']['amount']+valOrd['cad']['amount']+valOrd['cast']['amount'])).toFixed(2) +" </div> </small> </div> ";
 			  		});
-
+			  	//<div class='col-xs-1' style='visibility:"+cadVisiblity+" border-right: 1px solid black; text-align: right;'> "+ cadAmount +" </div> \
+			  		$("#idtotalquantities").html(quantityTotal);
 			  		$("#idorders").html(ordHtml);
 					
 			  		$(".noInvoiceContainer").hide();

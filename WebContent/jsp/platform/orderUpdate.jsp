@@ -328,7 +328,8 @@ var rowCADUpdateMethod = function (id){
 			rownumbers: true,  
 			multiselect: false,
 			caption: "Order Update",
-			autowidth: true
+			autowidth: true,
+			sortname: 'client.clientId', sortorder: 'asc'
 	
 		});
 		

@@ -137,7 +137,8 @@
 			caption: "Order Details",
 			autowidth: true,
 			cellEdit : true,
-			cellsubmit :"clientArray"
+			cellsubmit :"clientArray",
+			sortname: 'client.name', sortorder: 'asc'
 		});
 		
 
